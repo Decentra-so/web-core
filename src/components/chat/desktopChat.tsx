@@ -68,7 +68,8 @@ export const DesktopChat: React.FC<{
                   if (chat.type === 'message' && chat?.data?.sender) {
                     return (
                       <ListItem
-                        sx={{ display: 'flex', alignItems: 'center' }}
+                        sx={{ bgcolor: 'background.paper', p: 2, width: '100%', display: 'flex', alignItems: 'center' }}
+                        style={{ borderRadius: '8px' }}
                         key={index}
                         alignItems="flex-start"
                         disableGutters
@@ -77,8 +78,6 @@ export const DesktopChat: React.FC<{
                           <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
                         </ListItemAvatar>
                         <ListItemText
-                          sx={{ bgcolor: 'background.paper', p: 2, width: '100%' }}
-                          style={{ borderRadius: '8px' }}
                           primary={
                             <React.Fragment>
                               <Typography
