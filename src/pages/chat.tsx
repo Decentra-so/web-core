@@ -398,7 +398,7 @@ const Chat = () => {
                 </IconButton>
               </Link>
               <Avatar alt="Decentra" />
-              <Typography variant="h6" component="h6">
+              <Typography variant="h8" component="h8">
                 Treasury Chat
               </Typography>
             </Box>
