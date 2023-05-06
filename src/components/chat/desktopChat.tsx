@@ -100,9 +100,6 @@ export const DesktopChat: React.FC<{
                   } else {
                     return (
                       <ListItem key={index} alignItems="flex-start" disableGutters>
-                        <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
-                          <Avatar sx={{ width: 32, height: 32 }} alt={chat.name} />
-                        </ListItemAvatar>
                         <TxListItem key={`${index}-tx`} item={chat?.data} />
                         <ListItemText
                           primary={
