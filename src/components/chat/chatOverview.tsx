@@ -82,7 +82,7 @@ export const ChatOverview: React.FC<{
       >
         <Link href={{ pathname: AppRoutes.balances.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
           <Button variant="outlined" fullWidth>
-            Send Tokens
+            Send tokens
           </Button>
         </Link>
         <Link href={{ pathname: AppRoutes.balances.nfts, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
