@@ -101,7 +101,7 @@ export const ChatSection: React.FC<{
                             </Typography>
                           </React.Fragment>
                         }
-                        secondary={chat.message}
+                        primary={chat.message}
                       />
                     </ListItem>
                   )
