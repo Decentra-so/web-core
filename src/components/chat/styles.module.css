@@ -79,3 +79,8 @@
   border-radius: 4px;
   font-size: inherit;
 }
+
+.buttonstyled:hover {
+  border: 1px solid var(--color-border-light);
+  background: transparent;
+}
