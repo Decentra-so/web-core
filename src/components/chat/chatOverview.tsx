@@ -84,7 +84,7 @@ export const ChatOverview: React.FC<{
         }}
       >
         <Link href={{ pathname: AppRoutes.balances.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button variant="outlined" sx={{ border: 1px solid var(--color-border-light) }} fullWidth>
+          <Button variant="outlined" sx={{ '& svg path': { border: '1px solid var(--color-border-light)' }, ...sx }} fullWidth>
             Send tokens
           </Button>
         </Link>
