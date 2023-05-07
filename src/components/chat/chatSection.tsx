@@ -78,7 +78,7 @@ export const ChatSection: React.FC<{
                             </Typography>
                           </React.Fragment>
                         }
-                        {chat.data.text}
+                        secondary={chat.data.text}
                       />
                     </ListItem>
                   )
