@@ -53,9 +53,7 @@ export const ChatSection: React.FC<{
                       sx={{
                         display: 'flex',
                         alignItems: 'start',
-                        bgcolor: 'background.paper',
-                        borderRadius: '8px',
-                        p: 2,
+                        borderRadius: '4px',
                         mb: 2,
                         width: '100%',
                       }}
@@ -122,7 +120,6 @@ export const ChatSection: React.FC<{
           bottom: 0,
         }}
       >
-        <Divider />
         <Box sx={{ width: '100%', display: 'flex', gap: '16px', p: 3 }}>
           <TextField
             sx={{ flexGrow: 1 }}
