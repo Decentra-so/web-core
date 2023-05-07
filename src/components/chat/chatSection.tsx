@@ -39,7 +39,7 @@ export const ChatSection: React.FC<{
             alignItems: 'start',
             gap: '16px',
             p: 3,
-            bgcolor: 'background.default',
+            bgcolor: 'background.paper',
           }}
         >
           <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
@@ -115,7 +115,7 @@ export const ChatSection: React.FC<{
       <Box
         sx={{
           flexShrink: 0,
-          bgcolor: 'background.default',
+          bgcolor: 'background.paper',
           position: 'sticky',
           bottom: 0,
         }}
