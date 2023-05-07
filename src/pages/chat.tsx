@@ -49,7 +49,7 @@ const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false }
 
 const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
 
-const drawerWidth = 300
+const drawerWidth = 360
 
 const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean
