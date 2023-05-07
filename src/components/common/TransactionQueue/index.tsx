@@ -2,7 +2,6 @@ import AddNewTxIconButton from '@/components/chat/AddNewTxIconButton'
 import NewTxButton from '@/components/chat/NewTxButton'
 import useTxQueue from '@/hooks/useTxQueue'
 import { Box, List, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
 import { useEffect, useState } from 'react'
 import PendingTxListItem from '../../dashboard/PendingTxs/PendingTxListItem'
 
