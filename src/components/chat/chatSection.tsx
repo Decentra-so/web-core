@@ -53,6 +53,7 @@ export const ChatSection: React.FC<{
                         display: 'flex',
                         alignItems: 'start',
                         borderRadius: '4px',
+                        p: 0,
                         mb: 2,
                         width: '100%',
                       }}
