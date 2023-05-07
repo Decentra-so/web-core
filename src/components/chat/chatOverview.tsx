@@ -74,10 +74,13 @@ export const ChatOverview: React.FC<{
           position: 'sticky',
           bottom: 0,
           p: 2,
+          pl: 3,
+          pr: 3,
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
           bgcolor: 'background.paper',
+          borderTop: '1px solid var(--color-border-light)'
         }}
       >
         <Link href={{ pathname: AppRoutes.balances.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
