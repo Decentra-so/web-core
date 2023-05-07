@@ -73,7 +73,7 @@
 }
 
 /* styling various buttons wip*/
-.buttonfullwidth {
+.buttonstyled {
   border: 1px solid var(--color-border-light);
   padding: 8 16px;
   border-radius: 4px;
