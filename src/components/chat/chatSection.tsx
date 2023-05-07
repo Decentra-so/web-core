@@ -86,8 +86,7 @@ export const ChatSection: React.FC<{
                   return (
                     <ListItem key={index} sx={{ mb: 1 }} alignItems="flex-start" disableGutters>
                       <TxListItem key={`${index}-tx`} item={chat?.data} />
-                    </ListItem>
-                    <ListItemText
+                      <ListItemText
                          primary={
                            <React.Fragment>
                              <Typography
@@ -103,7 +102,8 @@ export const ChatSection: React.FC<{
                            </React.Fragment>
                          }
                          secondary={chat.message}
-                       />
+                    />
+                    </ListItem>
                   )
                 }
               })}
