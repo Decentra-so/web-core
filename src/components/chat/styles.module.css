@@ -75,6 +75,7 @@
 /* styling various buttons wip*/
 .buttonfullwidth {
   border: 1px solid var(--color-border-light);
-  padding: 8 24px;
+  padding: 8 16px;
   border-radius: 4px;
+  font-size: inherit;
 }
