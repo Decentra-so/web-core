@@ -3,7 +3,6 @@ import useWallet from '@/hooks/wallets/useWallet'
 import {
   Avatar,
   Box,
-  Divider,
   List,
   ListItem,
   ListItemAvatar,
