@@ -17,7 +17,7 @@ const TransactionQueue = () => {
   }, [txQueue?.page?.results])
   return (
     <>
-      <Box sx={{ pt: 2, pl: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box sx={{ pt: 2, pl: 3, pr: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 600 }}>Transaction queue</Typography>
         <AddNewTxIconButton />
       </Box>
@@ -27,7 +27,7 @@ const TransactionQueue = () => {
             return <PendingTxListItem transaction={transaction.transaction} key={transaction.transaction.id} />
           })
         ) : (
-          <Box sx={{ border: '1px solid #dcdee0', borderRadius: '4px', pt: 2, pb: 2, pl: 2, color: grey[700] }}>
+          <Box sx={{ border: '1px solid #dcdee0', borderRadius: '4px', pt: 2, pb: 2, pl: 2 }}>
             <Typography pb={1} fontSize="sm" fontWeight={600}>
               No queued up transaction
             </Typography>
