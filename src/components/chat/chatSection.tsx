@@ -119,7 +119,7 @@ export const ChatSection: React.FC<{
           bottom: 0,
         }}
       >
-        <Box sx={{ width: '100%', display: 'flex', gap: '16px', p: 3, padding-top: '0px' }}>
+        <Box sx={{ width: '100%', display: 'flex', gap: '16px', p: 3 }}>
           <TextField
             sx={{ flexGrow: 1 }}
             label="Type Something"
