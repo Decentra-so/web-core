@@ -27,7 +27,7 @@ const TransactionQueue = () => {
             return <PendingTxListItem transaction={transaction.transaction} key={transaction.transaction.id} />
           })
         ) : (
-          <Box sx={{ border: '2px solid', borderRadius: '8px', pt: 2, pb: 2, pl: 2, color: grey[700] }}>
+          <Box sx={{ border: '1px solid #dcdee0', borderRadius: '4px', pt: 2, pb: 2, pl: 2, color: grey[700] }}>
             <Typography pb={1} fontSize="sm" fontWeight={600}>
               No queued up transaction
             </Typography>
