@@ -20,13 +20,13 @@ const TransactionQueue = () => {
         <Typography sx={{ fontWeight: 600 }}>Transaction queue</Typography>
         <AddNewTxIconButton />
       </Box>
-      <List sx={{ p: 3 }}>
+      <List sx={{ p: 3, pt: 2 }}>
         {queue ? (
           queue.map((transaction: any, i: number) => {
             return <PendingTxListItem transaction={transaction.transaction} key={transaction.transaction.id} />
           })
         ) : (
-          <Box sx={{ border: '1px solid #dcdee0', borderRadius: '4px', pt: 3, pb: 2, pl: 2 }}>
+          <Box sx={{ border: '1px solid #dcdee0', borderRadius: '4px', pt: 2, pb: 2, pl: 2 }}>
             <Typography pb={1} fontSize="sm" fontWeight={600}>
               No queued up transaction
             </Typography>
