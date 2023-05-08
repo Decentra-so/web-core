@@ -77,7 +77,14 @@ export const ChatSection: React.FC<{
                             </Typography>
                           </React.Fragment>
                         }
-                        secondary={chat.data.text}
+                        secondary={
+                            <Typography
+                              sx={{ display: 'inline' }}
+                              component="span"
+                            >
+                              {chat.data.text}
+                            </Typography>
+                        }   
                       />
                     </ListItem>
                   )
