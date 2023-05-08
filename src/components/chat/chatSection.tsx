@@ -60,8 +60,8 @@ export const ChatSection: React.FC<{
                       key={index}
                       alignItems="flex-start"
                     >
-                      <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
-                        <Avatar sx={{ width: 24, height: 24 }} alt={chat?.data?.sender.uid || ''} />
+                      <ListItemAvatar sx={{ minWidth: 36, pr: '16px' }}>
+                        <Avatar sx={{ width: 36, height: 36 }} alt={chat?.data?.sender.uid || ''} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={
