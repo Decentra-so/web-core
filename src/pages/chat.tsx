@@ -411,13 +411,13 @@ const Chat = () => {
                   bgcolor: 'background.paper',
                 }}
               >
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '10px' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
                   <Link href={{ pathname: AppRoutes.home, query: { safe: `${safeAddress}` } }}>
                     <IconButton aria-label="back">
                       <ArrowBackIos />
                     </IconButton>
                   </Link>
-                  <Avatar sx={{ height: 36, width: 36, borderRadius: 4px }} alt="Decentra" />
+                  <Avatar sx={{ height: 36, width: 36 }} alt="Decentra" />
                   <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
                 </Box>
                 <Hidden mdDown>
