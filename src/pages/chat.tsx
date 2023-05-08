@@ -373,8 +373,7 @@ const Chat = () => {
                   >
                     <Avatar sx={{ height: 32, width: 32 }} alt="Daniel from Decentra" />
                     <Box>
-                      <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
-                      <Typography sx={{ color: grey[600] }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
+                      <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
                     </Box>
                   </Box>
                   {/* <Switch checked={isDarkMode} onChange={(_, checked) => dispatch(setDarkMode(checked))} /> */}
@@ -419,9 +418,7 @@ const Chat = () => {
                     </IconButton>
                   </Link>
                   <Avatar sx={{ height: 32, width: 32 }} alt="Decentra" />
-                  <Typography variant="h6" component="h6" sx={{ fontWeight: 600 }}>
-                    Treasury Chat
-                  </Typography>
+                  <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
                 </Box>
                 <Hidden mdDown>
                   <IconButton onClick={toggleDrawer(!open)}>
