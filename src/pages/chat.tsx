@@ -371,7 +371,7 @@ const Chat = () => {
                       gap: '16px',
                     }}
                   >
-                    <Avatar sx={{ height: 32, width: 32 }} alt="Daniel from Decentra" />
+                    <Avatar sx={{ height: 36, width: 36 }} alt="Daniel from Decentra" />
                     <Box>
                       <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
                     </Box>
@@ -417,7 +417,7 @@ const Chat = () => {
                       <ArrowBackIos />
                     </IconButton>
                   </Link>
-                  <Avatar sx={{ height: 36, width: 36 }} alt="Decentra" />
+                  <Avatar sx={{ height: 36, width: 36, borderRadius: '6px' }} alt="Decentra" />
                   <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
                 </Box>
                 <Hidden mdDown>
