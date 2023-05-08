@@ -417,7 +417,7 @@ const Chat = () => {
                       <ArrowBackIos />
                     </IconButton>
                   </Link>
-                  <Avatar sx={{ height: 32, width: 32 }} alt="Decentra" />
+                  <Avatar sx={{ height: 36, width: 36, border-radius: 4px }} alt="Decentra" />
                   <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
                 </Box>
                 <Hidden mdDown>
