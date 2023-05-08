@@ -69,7 +69,6 @@ export const ChatSection: React.FC<{
                             <Typography
                               sx={{ display: 'inline', pr: '12px', fontWeight: 600 }}
                               component="span"
-                              variant="subtitle2"
                             >
                               {chat.data.sender.name === wallet?.address ? 'You' : chat?.data?.sender.uid}
                             </Typography>
