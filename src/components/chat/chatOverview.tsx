@@ -16,7 +16,7 @@ export const ChatOverview: React.FC<{
   const { safe, safeAddress } = useSafeInfo()
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 2, px: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 2, px: 3 }}>
         <Typography sx={{ color: grey[600] }}>Network</Typography>
         <Typography>
           {safe?.chainId === '137'
@@ -30,7 +30,7 @@ export const ChatOverview: React.FC<{
             : ''}
         </Typography>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 2, px: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 2, px: 3 }}>
         <Typography sx={{ color: grey[600] }} paragraph>
           Address
         </Typography>
@@ -45,7 +45,7 @@ export const ChatOverview: React.FC<{
       <Divider />
       <TransactionHistory />
       <Divider />
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 3 }}>
         <Typography sx={{ fontWeight: 600 }} paragraph>
           Assets
         </Typography>
@@ -56,7 +56,8 @@ export const ChatOverview: React.FC<{
           </Button>
         </Link>
       </Box>
-      <Box sx={{ p: 2 }}>
+      <Divider />
+      <Box sx={{ p: 3 }}>
         <Typography sx={{ fontWeight: 600 }} paragraph>
           Apps
         </Typography>
