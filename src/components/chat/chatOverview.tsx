@@ -9,7 +9,7 @@ import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
 
-import TxButton, { SendNFTsButton, SendTokensButton } from './TxButton'
+import TxButton, { SendNFTsButton, SendTokensButton } from '@/components/tx/modals/NewTxModal/TxButton'
 
 import css from '@/components/chat/styles.module.css'
 
