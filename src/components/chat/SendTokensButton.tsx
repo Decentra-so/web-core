@@ -25,13 +25,13 @@ const SendTokensButton = (): ReactElement => {
           <Button onClick={onTokenModalOpen} disabled={!isOk} variant="outlined" className={css.buttonstyled} size="small">
             Send tokens
           </Button>
-        <TokenTransferModal
-          initialData={[{ [SendAssetsField.recipient]: recipient, { txNonce }]}
-        />
         )}
       </CheckWallet>
 
       {tokenModalOpen && (
+        <TokenTransferModal
+          initialData={[{ [SendAssetsField.recipient]: recipient, { txNonce }]}
+        />
         <Suspense>
           <NewTxModal onClose={() => setTokenModalOpen(false)} />
         </Suspense>
