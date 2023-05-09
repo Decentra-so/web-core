@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { useState, type ReactElement } from 'react'
 import css from '@/components/chat/styles.module.css'
 
-import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
+import SendAssetsForm from '@/components/tx/modals/TokenTransferModal/SendAssetsForm'
 
 const NewTxModal = dynamic(() => import('@/components/tx/modals/NewTxModal'))
 
@@ -28,7 +28,7 @@ const SendTokensButton = (): ReactElement => {
       </CheckWallet>
 
       {tokenModalOpen && (
-        <TokenTransferModal
+        <SendAssetsForm
           onClose={() => setTokenModalOpen(false)}                  
         />
       )}
