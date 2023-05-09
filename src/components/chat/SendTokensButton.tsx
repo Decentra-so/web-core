@@ -31,7 +31,6 @@ const SendTokensButton = (): ReactElement => {
       {tokenModalOpen && (
         <TokenTransferModal
           onClose={() => setTokenModalOpen(false)}                  
-          initialData={[{ [SendAssetsField.recipient]: recipient, { txNonce }]}
         />
       )}
     </>
