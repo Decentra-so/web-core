@@ -8,6 +8,9 @@ import React from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
+
+import TxButton, { SendNFTsButton, SendTokensButton } from './TxButton'
+
 import css from '@/components/chat/styles.module.css'
 
 export const ChatOverview: React.FC<{
@@ -85,11 +88,7 @@ export const ChatOverview: React.FC<{
           borderTop: '1px solid var(--color-border-light)'
         }}
       >
-        <Link href={{ pathname: AppRoutes.balances.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button variant="outlined" className={css.buttonstyled} fullWidth>
-            Send tokens
-          </Button>
-        </Link>
+        <SendTokensButton className={css.buttonstyled} fullWidth/>
         <Link href={{ pathname: AppRoutes.balances.nfts, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
           <Button variant="outlined" className={css.buttonstyled} fullWidth>
             Send NFTs
