@@ -2,7 +2,7 @@ import CheckWallet from '@/components/common/CheckWallet'
 import { trackEvent, MODALS_EVENTS } from '@/services/analytics'
 import Button from '@mui/material/Button'
 import dynamic from 'next/dynamic'
-import { Suspense, useState, type ReactElement } from 'react'
+import { useState, type ReactElement } from 'react'
 import css from '@/components/chat/styles.module.css'
 
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
@@ -30,6 +30,7 @@ const SendTokensButton = (): ReactElement => {
 
       {tokenModalOpen && (
         <TokenTransferModal
+          onClose={() => setTokenModalOpen(false)}                  
           initialData={[{ [SendAssetsField.recipient]: recipient, { txNonce }]}
         />
       )}
