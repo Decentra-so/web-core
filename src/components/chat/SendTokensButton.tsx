@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic'
 import { Suspense, useState, type ReactElement } from 'react'
 import css from '@/components/chat/styles.module.css'
 
-import TokenTransferModal from '../TokenTransferModal'
-import { SendAssetsField } from '../TokenTransferModal/SendAssetsForm'
+import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
+import { SendAssetsField } from '@/components/tx/modals/TokenTransferModal/SendAssetsForm'
 
 const NewTxModal = dynamic(() => import('@/components/tx/modals/NewTxModal'))
 
