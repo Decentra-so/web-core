@@ -32,9 +32,6 @@ const SendTokensButton = (): ReactElement => {
         <TokenTransferModal
           initialData={[{ [SendAssetsField.recipient]: recipient, { txNonce }]}
         />
-        <Suspense>
-          <NewTxModal onClose={() => setTokenModalOpen(false)} />
-        </Suspense>
       )}
     </>
   )
