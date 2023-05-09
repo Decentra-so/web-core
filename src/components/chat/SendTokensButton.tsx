@@ -1,5 +1,5 @@
 import CheckWallet from '@/components/common/CheckWallet'
-import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
+import { trackEvent, MODALS_EVENTS } from '@/services/analytics'
 import Button from '@mui/material/Button'
 import dynamic from 'next/dynamic'
 import { Suspense, useState, type ReactElement } from 'react'
