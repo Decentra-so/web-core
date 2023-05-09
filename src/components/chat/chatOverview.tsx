@@ -8,8 +8,10 @@ import React from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
+
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import NftIcon from '@/public/images/common/nft.svg'
+
 import css from '@/components/chat/styles.module.css'
 
 export const ChatOverview: React.FC<{
