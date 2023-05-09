@@ -9,7 +9,7 @@ import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
 
-import SendTokensButton from '../SendTokensButton'
+import SendTokensButton from '@/components/chat/SendTokensButton'
 
 import css from '@/components/chat/styles.module.css'
 
