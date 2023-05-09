@@ -9,7 +9,7 @@ import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
 
-import CreationModal from '@/components/tx/modals/NewTxModal/CreationModal'
+import SendTokensButton from '../SendTokensButton'
 
 import css from '@/components/chat/styles.module.css'
 
@@ -88,7 +88,7 @@ export const ChatOverview: React.FC<{
           borderTop: '1px solid var(--color-border-light)'
         }}
       >
-        <CreationModal />
+        <SendTokensButton />
       </Box>
     </>
   )
