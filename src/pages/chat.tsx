@@ -460,9 +460,9 @@ const Chat = () => {
                 boxSizing: 'border-box',
                 height: 'calc(100vh - var(--header-height) - 24)',
                 top: 'var(--header-height)',
-                margin-top: '12',
-                margin-bottom: '12',
-                box-shadow: '0 0 5 #56515191',
+                marginTop: '12',
+                marginBottom: '12',
+                boxShadow: '0 0 5 #56515191',
               },
             }}
             variant="persistent"
