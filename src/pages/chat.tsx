@@ -305,10 +305,10 @@ const Chat = () => {
         <Hidden mdDown>
           <Drawer
             sx={{
-              width: drawerWidth,
+              width: 287,
               flexShrink: 0,
               '& .MuiDrawer-paper': {
-                width: drawerWidth,
+                width: 287,
                 bgcolor: 'background.default',
                 boxSizing: 'border-box',
               },
