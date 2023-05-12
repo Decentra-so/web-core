@@ -311,8 +311,8 @@ const Chat = () => {
                 width: 287,
                 bgcolor: 'background.default',
                 boxSizing: 'border-box',
-                height: 'calc(100vh - var(--header-height)');
-                top: 'var(--header-height)';
+                height: 'calc(100vh - var(--header-height)'),
+                top: 'var(--header-height)',
               },
             }}
             variant="permanent"
