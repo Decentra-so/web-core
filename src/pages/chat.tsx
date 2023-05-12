@@ -458,9 +458,9 @@ const Chat = () => {
                 width: drawerWidth,
                 bgcolor: 'background.paper',
                 boxSizing: 'border-box',
-                height: 'calc(100vh - var(--header-height) - 24ox)',
+                height: 'calc(100vh - var(--header-height) - 24px)',
                 top: 'var(--header-height)',
-                margin: 12px 0
+                margin: '12px 0'
                 boxShadow: '0 0 5px #56515191',
               },
             }}
