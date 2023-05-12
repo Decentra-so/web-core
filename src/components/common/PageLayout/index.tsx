@@ -27,30 +27,22 @@ const isNoSidebarRoute = (pathname: string): boolean => {
   ].includes(pathname)
 }
 
-const isNoHeaderRoute = (pathname: string): boolean => {
-  return [AppRoutes.chat].includes(pathname)
-}
-
 const PageLayout = ({ pathname, children }: { pathname: string; children: ReactElement }): ReactElement => {
   const noSidebar = isNoSidebarRoute(pathname)
-  const noHeader = isNoHeaderRoute(pathname)
   const [isSidebarOpen, setSidebarOpen] = useState<boolean>(true)
   let isAnimated = useDebounce(!noSidebar, 300)
   if (noSidebar) isAnimated = false
 
   return (
     <>
-      {!noHeader && (
         <header className={css.header}>
           <Header onMenuToggle={noSidebar ? undefined : setSidebarOpen} />
         </header>
-      )}
 
       {!noSidebar && <SideDrawer isOpen={isSidebarOpen} onToggle={setSidebarOpen} />}
 
       <div
         className={classnames(css.main, {
-          [css.mainNoHeader]: noHeader,
           [css.mainNoSidebar]: noSidebar || !isSidebarOpen,
           [css.mainAnimated]: isAnimated,
         })}
