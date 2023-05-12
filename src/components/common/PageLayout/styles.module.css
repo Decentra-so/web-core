@@ -23,10 +23,6 @@
   padding-left: 0;
 }
 
-.mainNoHeader {
-  padding-top: 0;
-}
-
 .content {
   flex: 1;
   position: relative;
