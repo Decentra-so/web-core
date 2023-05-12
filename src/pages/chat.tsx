@@ -458,8 +458,11 @@ const Chat = () => {
                 width: drawerWidth,
                 bgcolor: 'background.paper',
                 boxSizing: 'border-box',
-                height: 'calc(100vh - var(--header-height))',
+                height: 'calc(100vh - var(--header-height) - 24)',
                 top: 'var(--header-height)',
+                margin-top: '12px',
+                margin-bottom: '12px',
+                box-shadow: '0 0 5px #56515191',
               },
             }}
             variant="persistent"
