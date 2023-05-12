@@ -9,7 +9,7 @@
 .main {
   background-color: var(--color-background-main);
   padding-left: 230px;
-  padding-top: var(--header-height);
+  margin-top: var(--header-height);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
