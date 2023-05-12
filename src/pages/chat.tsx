@@ -398,7 +398,7 @@ const Chat = () => {
             </Toolbar>
           </Drawer>
         </Hidden>
-        <Main open={open} sx={{ flexGrow: 1, bgcolor: 'background.paper' }}>
+        <Main open={open} sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
           <Box display="flex">
             <Box flexGrow={1}>
               <Toolbar
@@ -410,7 +410,7 @@ const Chat = () => {
                   px: 3,
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  bgcolor: 'background.paper',
+                  bgcolor: 'background.default',
                 }}
               >
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
