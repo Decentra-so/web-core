@@ -315,11 +315,6 @@ const Chat = () => {
                 <IconButton aria-label="add folder" onClick={() => togglePopup(!popup)}>
                   <AddIcon />
                 </IconButton>
-                <Link href={{ pathname: AppRoutes.settings.index, query: { safe: `${safeAddress}` } }}>
-                  <IconButton>
-                    <SettingsIcon />
-                  </IconButton>
-                </Link>
               </Box>
             </Toolbar>
             <Divider />
