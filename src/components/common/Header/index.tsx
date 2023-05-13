@@ -11,12 +11,13 @@ import NotificationCenter from '@/components/notification-center/NotificationCen
 import { AppRoutes } from '@/config/routes'
 import useChainId from '@/hooks/useChainId'
 import Link from 'next/link'
-import useSafeAddress from '@/hooks/useSafeAddress'
+import useSafeInfo from '@/hooks/useSafeInfo'
 import { setDarkMode } from '@/store/settingsSlice'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import ModeNightIcon from '@mui/icons-material/ModeNight'
 import { useAppDispatch } from '@/store'
 import { useDarkMode } from '@/hooks/useDarkMode'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -24,7 +25,7 @@ type HeaderProps = {
 
 const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
   const chainId = useChainId()
-  const safeAddress = useSafeAddress()
+  const { safe, safeAddress } = useSafeInfo()
   const router = useRouter()
   const dispatch = useAppDispatch()
   const isDarkMode = useDarkMode()
@@ -58,6 +59,14 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
 
       <div className={classnames(css.element, css.hideMobile)}>
         <ChainSwitcher />
+      </div>
+            
+      <div className={classnames(css.element)}>
+                <Link href={{ pathname: AppRoutes.settings.index, query: { safe: `${safeAddress}` } }}>
+                  <IconButton>
+                    <SettingsIcon />
+                  </IconButton>
+                </Link>
       </div>
       
       <div className={classnames(css.element)}>
