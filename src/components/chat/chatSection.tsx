@@ -42,7 +42,6 @@ export const ChatSection: React.FC<{
             bgcolor: 'background.default',
           }}
         >
-          <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
           <List>
             {chatData &&
               chatData.map((chat, index) => {
@@ -60,8 +59,8 @@ export const ChatSection: React.FC<{
                       key={index}
                       alignItems="flex-start"
                     >
-                      <ListItemAvatar sx={{ minWidth: 36, pr: '16px' }}>
-                        <Avatar sx={{ width: 36, height: 36 }} alt={chat?.data?.sender.uid || ''} />
+                      <ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
+                        <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={
