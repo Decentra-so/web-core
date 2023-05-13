@@ -33,7 +33,7 @@
 }
 
 .logo {
-  padding: var(--space-2);
+  padding: 16px 16px 16px 24px;
 }
 
 .menuButton {
