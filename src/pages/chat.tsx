@@ -322,7 +322,7 @@ const Chat = () => {
             <ChatNotifications />
             <Box sx={{ width: '100%', height: '100%' }}>
               {/*@ts-ignore*/}
-              <Tabs value={value} onChange={handleChange} aria-label="folder tabs">
+              <Tabs sx={{ padding: '0 24px', gap: '16px', borderBottom: '1px solid #e7e7e7' }} value={value} onChange={handleChange} aria-label="folder tabs">
                 <Tab label="All" {...a11yProps(0)} />
                 {folders.map((folder, i) => {
                   return <Tab label={folder} key={`${folder}-${i}`} />
