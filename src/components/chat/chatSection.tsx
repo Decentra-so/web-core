@@ -54,7 +54,7 @@ export const ChatSection: React.FC<{
                         borderRadius: '4px',
                         p: 0,
                         mb: 2,
-                        width: '100%',
+                        width: 'fit-content',
                       }}
                       key={index}
                       alignItems="flex-start"
