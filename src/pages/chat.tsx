@@ -309,7 +309,10 @@ const Chat = () => {
             anchor="left"
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography sx={{ fontWeight: 600 }}>Decentra</Typography>
+              <Box>
+              <Typography sx={{ color: '#757575', fontSize: 12 }}>VIEW AS:</Typography>
+              <Typography>0x3377...2957</Typography>
+              </Box>
               <Box display="flex" alignItems="center" gap="10px">
                 <IconButton aria-label="add folder" onClick={() => togglePopup(!popup)}>
                   <AddIcon />
