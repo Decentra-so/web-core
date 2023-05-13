@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { type ReactElement } from 'react'
 import { useRouter } from 'next/router'
-import { IconButton, Paper, FormControlLabel, IconButton } from '@mui/material'
+import { IconButton, Paper, FormControlLabel } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import classnames from 'classnames'
 import css from './styles.module.css'
