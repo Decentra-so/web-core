@@ -8,21 +8,16 @@ import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet
 import { FolderList } from '@/components/folder-list'
 import FolderGroup from '@/components/folder-list/folderGroups'
 import { AppRoutes } from '@/config/routes'
-import { useDarkMode } from '@/hooks/useDarkMode'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
-import { useAppDispatch } from '@/store'
-import { setDarkMode } from '@/store/settingsSlice'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import { ArrowBackIos } from '@mui/icons-material'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
-import ModeNightIcon from '@mui/icons-material/ModeNight'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
-import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import {
   Avatar,
   Box,
@@ -103,8 +98,6 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const Chat = () => {
-  const dispatch = useAppDispatch()
-  const isDarkMode = useDarkMode()
   const [folders, setFolders] = useState([])
   const [popup, togglePopup] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
@@ -354,48 +347,6 @@ const Chat = () => {
                 )
               })}
             </Box>
-            <Divider />
-            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              {wallet ? (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '16px',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '16px',
-                    }}
-                  >
-                    <Avatar sx={{ height: 36, width: 36 }} alt="Daniel from Decentra" />
-                    <Box>
-                      <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
-                    </Box>
-                  </Box>
-                  {/* <Switch checked={isDarkMode} onChange={(_, checked) => dispatch(setDarkMode(checked))} /> */}
-                  <FormControlLabel
-                    control={
-                      <IconButton onClick={() => dispatch(setDarkMode(!isDarkMode))}>
-                        {isDarkMode ? <WbSunnyIcon /> : <ModeNightIcon />}
-                      </IconButton>
-                    }
-                    label=""
-                  />
-                </Box>
-              ) : (
-                <Button onClick={connectWallet}>
-                  <Typography sx={{ color: grey[600] }} paragraph>
-                    Connect Wallet
-                  </Typography>
-                </Button>
-              )}
-            </Toolbar>
           </Drawer>
         </Hidden>
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
