@@ -16,6 +16,7 @@ import { setDarkMode } from '@/store/settingsSlice'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import ModeNightIcon from '@mui/icons-material/ModeNight'
 import { useAppDispatch } from '@/store'
+import { useDarkMode } from '@/hooks/useDarkMode'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
