@@ -461,7 +461,8 @@ const Chat = () => {
                 height: 'calc(100vh - var(--header-height) - 24px)',
                 top: 'var(--header-height)',
                 margin: '12px 0',
-                boxShadow: '0 0 5px #56515191',
+                boxShadow: '0 0 5px #5651513b',
+                borderRadius: '12px 0 0 12px',
               },
             }}
             variant="persistent"
