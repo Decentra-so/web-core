@@ -469,17 +469,9 @@ const Chat = () => {
             anchor="right"
             open={open}
           >
-            <Toolbar
-              sx={{
-                position: 'sticky',
-                zIndex: 1,
-                top: 0,
-                bgcolor: 'background.paper',
-              }}
-            >
+            <Toolbar>
               <Typography sx={{ fontWeight: 600 }}>Overview</Typography>
             </Toolbar>
-            <Divider />
             <ChatOverview owners={owners} />
           </Drawer>
         </Hidden>
