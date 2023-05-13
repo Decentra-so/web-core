@@ -15,6 +15,7 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import { setDarkMode } from '@/store/settingsSlice'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import ModeNightIcon from '@mui/icons-material/ModeNight'
+import { useAppDispatch } from '@/store'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
