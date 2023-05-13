@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { type ReactElement } from 'react'
 import { useRouter } from 'next/router'
-import { IconButton, Paper } from '@mui/material'
+import { IconButton, Paper, FormControlLabel, IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import classnames from 'classnames'
 import css from './styles.module.css'
@@ -12,6 +12,9 @@ import { AppRoutes } from '@/config/routes'
 import useChainId from '@/hooks/useChainId'
 import Link from 'next/link'
 import useSafeAddress from '@/hooks/useSafeAddress'
+import { setDarkMode } from '@/store/settingsSlice'
+import WbSunnyIcon from '@mui/icons-material/WbSunny'
+import ModeNightIcon from '@mui/icons-material/ModeNight'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -21,6 +24,8 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
   const chainId = useChainId()
   const safeAddress = useSafeAddress()
   const router = useRouter()
+  const dispatch = useAppDispatch()
+  const isDarkMode = useDarkMode()
 
   // Logo link: if on Dashboard, link to Welcome, otherwise to the root (which redirects to either Dashboard or Welcome)
   const logoHref = router.pathname === AppRoutes.home ? AppRoutes.welcome : AppRoutes.index
@@ -51,6 +56,18 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
 
       <div className={classnames(css.element, css.hideMobile)}>
         <ChainSwitcher />
+      </div>
+      
+      <div className={classnames(css.element)}>
+      {/* <Switch checked={isDarkMode} onChange={(_, checked) => dispatch(setDarkMode(checked))} /> */}
+                  <FormControlLabel
+                    control={
+                      <IconButton onClick={() => dispatch(setDarkMode(!isDarkMode))}>
+                        {isDarkMode ? <WbSunnyIcon /> : <ModeNightIcon />}
+                      </IconButton>
+                    }
+                    label=""
+                  />
       </div>
 
       <div className={classnames(css.element, css.hideMobile)}>
