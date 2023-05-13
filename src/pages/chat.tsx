@@ -309,9 +309,9 @@ const Chat = () => {
             anchor="left"
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box>
+              <Box sx={{ fontWeight: 600 }}>
               <Typography sx={{ color: '#757575', fontSize: 12 }}>VIEW AS:</Typography>
-              <Typography>0x3377...2957</Typography>
+              <Typography>{ellipsisAddress(`${wallet.address}`)}</Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
                 <IconButton aria-label="add folder" onClick={() => togglePopup(!popup)}>
