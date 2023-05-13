@@ -309,17 +309,16 @@ const Chat = () => {
             anchor="left"
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box sx={{ fontWeight: 600 }}>
-              <Typography sx={{ color: '#757575', fontSize: 12 }}>VIEW AS:</Typography>
-              <Typography>{ellipsisAddress(`${wallet.address}`)}</Typography>
+              <Box>
+              <Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
-                <IconButton aria-label="add folder" onClick={() => togglePopup(!popup)}>
+                <IconButton sx={{ border: '1px solid #e7e7e7', borderRadius: '6px', width: '32px', height: '32px' }} aria-label="add folder" onClick={() => togglePopup(!popup)}>
                   <AddIcon />
                 </IconButton>
               </Box>
             </Toolbar>
-            <Divider />
             <ChatNotifications />
             <Box sx={{ width: '100%', height: '100%' }}>
               {/*@ts-ignore*/}
