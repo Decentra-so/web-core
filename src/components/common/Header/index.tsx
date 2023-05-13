@@ -7,12 +7,9 @@ import classnames from 'classnames'
 import css from './styles.module.css'
 import ChainSwitcher from '@/components/common/ChainSwitcher'
 import ConnectWallet from '@/components/common/ConnectWallet'
-import NetworkSelector from '@/components/common/NetworkSelector'
-import SafeTokenWidget, { getSafeTokenAddress } from '@/components/common/SafeTokenWidget'
 import NotificationCenter from '@/components/notification-center/NotificationCenter'
 import { AppRoutes } from '@/config/routes'
 import useChainId from '@/hooks/useChainId'
-import SafeLogo from '@/public/images/logo.svg'
 import Link from 'next/link'
 import useSafeAddress from '@/hooks/useSafeAddress'
 
@@ -23,7 +20,6 @@ type HeaderProps = {
 const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
   const chainId = useChainId()
   const safeAddress = useSafeAddress()
-  const showSafeToken = safeAddress && !!getSafeTokenAddress(chainId)
   const router = useRouter()
 
   // Logo link: if on Dashboard, link to Welcome, otherwise to the root (which redirects to either Dashboard or Welcome)
@@ -48,7 +44,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
       <div className={classnames(css.element, css.hideMobile, css.logo)}>
         <Link href={logoHref} passHref>
           <a>
-            <SafeLogo alt="Safe logo" />
+            Decentra{Pro}
           </a>
         </Link>
       </div>
@@ -56,12 +52,6 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
       <div className={classnames(css.element, css.hideMobile)}>
         <ChainSwitcher />
       </div>
-
-      {showSafeToken && (
-        <div className={classnames(css.element, css.hideMobile)}>
-          <SafeTokenWidget />
-        </div>
-      )}
 
       <div className={classnames(css.element, css.hideMobile)}>
         <NotificationCenter />
@@ -71,9 +61,6 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
         <ConnectWallet />
       </div>
 
-      <div className={classnames(css.element, css.networkSelector)}>
-        <NetworkSelector />
-      </div>
     </Paper>
   )
 }
