@@ -85,6 +85,6 @@
   background: transparent;
 }
 
-.chatbox, ::-webkit-scrollbar-track {
+.chatbox :global ::-webkit-scrollbar-track {
   background: transparent;
 }
