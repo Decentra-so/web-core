@@ -13,6 +13,7 @@ import {
 import dynamic from 'next/dynamic'
 import React from 'react'
 import TxListItem from '../transactions/TxListItem'
+import css from '@/components/chat/styles.module.css'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 
@@ -45,6 +46,7 @@ export const ChatSection: React.FC<{
             marginRight: '5px',
             paddingRight: '19px',
           }}
+          className={css.chatbox}
         >
           <List>
             {chatData &&
