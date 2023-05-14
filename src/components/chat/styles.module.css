@@ -84,7 +84,3 @@
   border: 1px solid var(--color-border-light);
   background: transparent;
 }
-
-.chatbox :global ::-webkit-scrollbar-track {
-  background: transparent;
-}
