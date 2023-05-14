@@ -1,5 +1,5 @@
 import { type ReactElement } from 'react'
-import { ExplorerButton } from '@safe-global/safe-react-components'
+import { ExplorerButton } from '@decentra-so/safe-react-components'
 
 import { useCurrentChain } from '@/hooks/useChains'
 import { getBlockExplorerLink } from '@/utils/chains'
