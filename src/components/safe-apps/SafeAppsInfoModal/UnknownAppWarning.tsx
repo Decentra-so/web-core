@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
-import { lightPalette } from '@safe-global/safe-react-components'
+import { lightPalette } from '@decentra-so/safe-react-components'
 import Domain from './Domain'
 
 type UnknownAppWarningProps = {
