@@ -49,7 +49,7 @@
     "@safe-global/safe-ethers-lib": "^1.9.3",
     "@safe-global/safe-gateway-typescript-sdk": "^3.7.3",
     "@safe-global/safe-modules-deployments": "^1.0.0",
-    "@safe-global/safe-react-components": "^2.0.5",
+    "@decentra-so/safe-react-components": "^1.0.0",
     "@sentry/react": "^7.28.1",
     "@sentry/tracing": "^7.28.1",
     "@truffle/hdwallet-provider": "^2.1.4",
