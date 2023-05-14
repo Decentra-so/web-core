@@ -331,7 +331,7 @@ const Chat = () => {
                 <Tab label="Company multisigs" {...a11yProps(2)} /> */}
               </Tabs>
               <TabPanel value={value} index={0}>
-                <FolderList sx={{ padding: '0' }} resetGroup={resetGroup} />
+                <FolderList resetGroup={resetGroup} />
               </TabPanel>
               {folders.map((folder, i) => {
                 return (
