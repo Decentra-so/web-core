@@ -351,7 +351,7 @@ const Chat = () => {
                   display: 'flex',
                   position: 'sticky',
                   zIndex: 1,
-                  top: 0,
+                  top: 'var(--header-height)',
                   px: 3,
                   justifyContent: 'space-between',
                   alignItems: 'center',
