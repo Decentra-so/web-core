@@ -33,6 +33,10 @@ button {
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 :root {
   --header-height: 56px;
   --footer-height: 67px;
