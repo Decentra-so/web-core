@@ -33,14 +33,11 @@ button {
   box-sizing: border-box;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 :root {
   --header-height: 56px;
   --footer-height: 67px;
   --import-export-widget-height: 166px;
+  overflow: hidden!important;
 }
 
 input::-webkit-outer-spin-button,
