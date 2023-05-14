@@ -325,7 +325,7 @@ const Chat = () => {
               <Tabs sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }} value={value} onChange={handleChange} aria-label="folder tabs">
                 <Tab label="All" {...a11yProps(0)} />
                 {folders.map((folder, i) => {
-                  return <Tab sx={{ textTransform: 'none', fontSize: '15px', minWidth: 0, padding: '12px 0', margin: '0 8px' }} label={folder} key={`${folder}-${i}`} />
+                  return <Tab label={folder} key={`${folder}-${i}`} />
                 })}
                 {/* <Tab label="Ricochet-related" {...a11yProps(1)} />
                 <Tab label="Company multisigs" {...a11yProps(2)} /> */}
