@@ -33,13 +33,18 @@ export const ChatSection: React.FC<{
           sx={{
             flex: '1 0 auto',
             display: 'flex',
-            height: '100%',
             flexDirection: 'column',
             justifyContent: 'start',
             alignItems: 'start',
             gap: '16px',
             p: 3,
             bgcolor: 'background.default',
+            paddingTop: '8px',
+            height: 'calc(100vh - 68px - 64px - 57px)',
+            marginTop: '57px',
+            overflowY: 'overlay',
+            marginRight: '5px',
+            paddingRight: '19px',
           }}
         >
           <List>
