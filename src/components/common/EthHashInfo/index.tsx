@@ -3,12 +3,12 @@ import useChainId from '@/hooks/useChainId'
 import { useAppSelector } from '@/store'
 import { selectChainById } from '@/store/chainsSlice'
 import { selectSettings } from '@/store/settingsSlice'
-import { EthHashInfo } from '@safe-global/safe-react-components'
+import { EthHashInfo } from '@decentra-so/safe-react-components'
 import { type ReactElement } from 'react'
 
 import { getBlockExplorerLink } from '../../../utils/chains'
 
-import type { EthHashInfoProps } from '@safe-global/safe-react-components'
+import type { EthHashInfoProps } from '@decentra-so/safe-react-components'
 
 const PrefixedEthHashInfo = ({
   showName = true,
