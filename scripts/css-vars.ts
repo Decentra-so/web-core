@@ -1,4 +1,4 @@
-import reactComponents from '@safe-global/safe-react-components'
+import reactComponents from '@decentra-so/safe-react-components'
 import spacings from '../src/styles/spacings.js'
 
 const { lightPalette, darkPalette } = reactComponents
