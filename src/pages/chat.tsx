@@ -408,6 +408,7 @@ const Chat = () => {
                 margin: '12px 0',
                 boxShadow: '0 0.75rem 1.5rem rgba(0,0,0,0.08)',
                 borderRadius: '8px 0 0 8px',
+                border: '0px',
               },
             }}
             variant="persistent"
