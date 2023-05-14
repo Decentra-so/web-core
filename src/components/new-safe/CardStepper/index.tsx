@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box } from '@mui/system'
-import { lightPalette } from '@safe-global/safe-react-components'
+import { lightPalette } from '@decentra-so/safe-react-components'
 import css from './styles.module.css'
 import { Card, LinearProgress, CardHeader, Avatar, Typography, CardContent } from '@mui/material'
 import type { TxStepperProps } from './useCardStepper'
