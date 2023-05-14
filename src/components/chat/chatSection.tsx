@@ -40,7 +40,7 @@ export const ChatSection: React.FC<{
             p: 3,
             bgcolor: 'background.default',
             paddingTop: '8px',
-            height: 'calc(100vh - 67px - 64px - 56x)',
+            height: 'calc(100vh - 187px)',
             overflowY: 'overlay',
             marginRight: '5px',
             paddingRight: '19px',
