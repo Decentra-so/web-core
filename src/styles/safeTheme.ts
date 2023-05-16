@@ -1,5 +1,4 @@
 import type { Theme, PaletteMode } from '@mui/material';
-import type { Shadows } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
 import palette from './colors';
@@ -70,22 +69,6 @@ const createSafeTheme = (mode: PaletteMode): Theme => {
     shape: {
       borderRadius: 6,
     },
-    shadows: [
-      'none',
-      isDarkMode
-        ? `0 0 2px ${shadowColor}`
-        : `0 1px 4px ${shadowColor}0a, 0 4px 10px ${shadowColor}14`,
-      isDarkMode
-        ? `0 0 2px ${shadowColor}`
-        : `0 1px 4px ${shadowColor}0a, 0 4px 10px ${shadowColor}14`,
-      isDarkMode
-        ? `0 0 2px ${shadowColor}`
-        : `0 2px 20px ${shadowColor}0a, 0 8px 32px ${shadowColor}14`,
-      isDarkMode
-        ? `0 0 2px ${shadowColor}`
-        : `0 8px 32px ${shadowColor}0a, 0 24px 60px ${shadowColor}14`,
-      ...Array(20).fill('none'),
-    ] as Shadows,
     typography,
     components: {
       MuiTableCell: {
