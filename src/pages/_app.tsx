@@ -5,11 +5,9 @@ import { type AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import CssBaseline from '@mui/material/CssBaseline'
-import type { Theme } from '@mui/material/styles'
 import { ThemeProvider } from '@mui/material/styles'
 import { setBaseUrl as setGatewayBaseUrl } from '@safe-global/safe-gateway-typescript-sdk'
 import { CacheProvider, type EmotionCache } from '@emotion/react'
-import { SafeThemeProvider } from '@safe-global/safe-react-components'
 import '@/styles/globals.css'
 import { IS_PRODUCTION, GATEWAY_URL_STAGING, GATEWAY_URL_PRODUCTION } from '@/config/constants'
 import { StoreHydrator } from '@/store'
@@ -24,7 +22,7 @@ import useTxPendingStatuses from '@/hooks/useTxPendingStatuses'
 import { useInitSession } from '@/hooks/useInitSession'
 import Notifications from '@/components/common/Notifications'
 import CookieBanner from '@/components/common/CookieBanner'
-import { useDarkMode } from '@/hooks/useDarkMode'
+import { useLightDarkTheme } from '@/hooks/useDarkMode'
 import { cgwDebugStorage } from '@/components/sidebar/DebugToggle'
 import { useTxTracking } from '@/hooks/useTxTracking'
 import { useSafeMsgTracking } from '@/hooks/useSafeMsgTracking'
@@ -68,19 +66,14 @@ const InitApp = (): null => {
 const clientSideEmotionCache = createEmotionCache()
 
 export const AppProviders = ({ children }: { children: ReactNode | ReactNode[] }) => {
-  const isDarkMode = useDarkMode()
-  const themeMode = isDarkMode ? 'dark' : 'light'
+  const theme = useLightDarkTheme()
 
   return (
-    <SafeThemeProvider mode={themeMode}>
-      {(safeTheme: Theme) => (
-        <ThemeProvider theme={safeTheme}>
-          <Sentry.ErrorBoundary showDialog fallback={ErrorBoundary}>
-            {children}
-          </Sentry.ErrorBoundary>
-        </ThemeProvider>
-      )}
-    </SafeThemeProvider>
+    <ThemeProvider theme={theme}>
+       <Sentry.ErrorBoundary showDialog fallback={ErrorBoundary}>
+         {children}
+       </Sentry.ErrorBoundary>
+     </ThemeProvider>
   )
 }
 
