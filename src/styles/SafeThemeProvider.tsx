@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { PaletteMode, Theme } from '@mui/material';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import createSafeTheme from './safeTheme';
 
 // This component is necessary to make the theme available in the library components
