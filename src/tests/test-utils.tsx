@@ -2,8 +2,9 @@ import type { RenderHookOptions } from '@testing-library/react'
 import { render, renderHook } from '@testing-library/react'
 import type { NextRouter } from 'next/router'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
+import type { Theme } from '@mui/material/styles'
 import { ThemeProvider } from '@mui/material/styles'
-import initTheme from '@/styles/theme'
+import SafeThemeProvider from '@/styles/SafeThemeProvider'
 import type { RootState } from '@/store'
 import * as web3 from '@/hooks/wallets/web3'
 import { defaultAbiCoder } from 'ethers/lib/utils'
@@ -47,7 +48,9 @@ const getProviders: (options: {
     return (
       <StoreHydrator initialState={initialReduxState}>
         <RouterContext.Provider value={mockRouter(routerProps)}>
-          <ThemeProvider theme={initTheme(false)}>{children}</ThemeProvider>
+          <SafeThemeProvider mode="light">
+             {(safeTheme: Theme) => <ThemeProvider theme={safeTheme}>{children}</ThemeProvider>}
+           </SafeThemeProvider>
         </RouterContext.Provider>
       </StoreHydrator>
     )
