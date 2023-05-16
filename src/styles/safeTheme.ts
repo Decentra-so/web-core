@@ -1,64 +1,68 @@
-import { alpha, createTheme } from '@mui/material/styles'
-import type { Shadows } from '@mui/material/styles'
-import type {} from '@mui/x-date-pickers/themeAugmentation'
+import { alpha, Theme, PaletteMode } from '@mui/material';
+import { createTheme, Shadows } from '@mui/material/styles';
 
-import palette from './colors'
-import darkPalette from './colors-dark'
-import { base } from './spacings'
+import lightPalette from './colors';
+import darkPalette from './dark-colors';
+import typography from './typography';
+
+export const base = 8;
 
 declare module '@mui/material/styles' {
   // Custom color palettes
-  interface Palette {
-    border: Palette['primary']
-    logo: Palette['primary']
-    backdrop: Palette['primary']
-    static: Palette['primary']
+  export interface Palette {
+    border: Palette['primary'];
+    logo: Palette['primary'];
+    backdrop: Palette['primary'];
+    static: Palette['primary'];
   }
-  interface PaletteOptions {
-    border: PaletteOptions['primary']
-    logo: PaletteOptions['primary']
-    backdrop: PaletteOptions['primary']
-    static: PaletteOptions['primary']
+  export interface PaletteOptions {
+    border: PaletteOptions['primary'];
+    logo: PaletteOptions['primary'];
+    backdrop: PaletteOptions['primary'];
+    static: PaletteOptions['primary'];
   }
 
-  interface TypeBackground {
-    main: string
-    light: string
+  export interface TypeBackground {
+    main: string;
+    light: string;
   }
 
   // Custom color properties
-  interface PaletteColor {
-    background?: string
+  export interface PaletteColor {
+    background?: string;
   }
-  interface SimplePaletteColorOptions {
-    background?: string
+  export interface SimplePaletteColorOptions {
+    background?: string;
   }
 }
 
 declare module '@mui/material/SvgIcon' {
-  interface SvgIconPropsColorOverrides {
-    // SvgIconPropsColorOverrides['primary'] doesn't work
-    border: unknown
+  export interface SvgIconPropsColorOverrides {
+    border: unknown;
   }
 }
 
 declare module '@mui/material/Button' {
-  interface ButtonPropsSizeOverrides {
-    stretched: true
+  export interface ButtonPropsSizeOverrides {
+    stretched: true;
   }
 
-  interface ButtonPropsColorOverrides {
-    background: true
+  export interface ButtonPropsColorOverrides {
+    background: true;
+  }
+  export interface ButtonPropsVariantOverrides {
+    danger: true;
   }
 }
 
-const initTheme = (darkMode: boolean) => {
-  const colors = darkMode ? darkPalette : palette
-  const shadowColor = colors.primary.light
+const createSafeTheme = (mode: PaletteMode): Theme => {
+  const isDarkMode = mode === 'dark';
+  const colors = isDarkMode ? darkPalette : palette;
+  const shadowColor = colors.primary.light;
 
   return createTheme({
     palette: {
-      mode: darkMode ? 'dark' : 'light',
+      mode: isDarkMode ? 'dark' : 'light',
       ...colors,
     },
     spacing: base,
@@ -67,56 +71,21 @@ const initTheme = (darkMode: boolean) => {
     },
     shadows: [
       'none',
-      darkMode ? `0 0 2px ${shadowColor}` : `0 1px 4px ${shadowColor}0a, 0 4px 10px ${shadowColor}14`,
-      darkMode ? `0 0 2px ${shadowColor}` : `0 1px 4px ${shadowColor}0a, 0 4px 10px ${shadowColor}14`,
-      darkMode ? `0 0 2px ${shadowColor}` : `0 2px 20px ${shadowColor}0a, 0 8px 32px ${shadowColor}14`,
-      darkMode ? `0 0 2px ${shadowColor}` : `0 8px 32px ${shadowColor}0a, 0 24px 60px ${shadowColor}14`,
+      isDarkMode
+        ? `0 0 2px ${shadowColor}`
+        : `0 1px 4px ${shadowColor}0a, 0 4px 10px ${shadowColor}14`,
+      isDarkMode
+        ? `0 0 2px ${shadowColor}`
+        : `0 1px 4px ${shadowColor}0a, 0 4px 10px ${shadowColor}14`,
+      isDarkMode
+        ? `0 0 2px ${shadowColor}`
+        : `0 2px 20px ${shadowColor}0a, 0 8px 32px ${shadowColor}14`,
+      isDarkMode
+        ? `0 0 2px ${shadowColor}`
+        : `0 8px 32px ${shadowColor}0a, 0 24px 60px ${shadowColor}14`,
       ...Array(20).fill('none'),
     ] as Shadows,
-    typography: {
-      fontFamily: 'DM Sans, sans-serif',
-      h1: {
-        fontSize: '32px',
-        lineHeight: '36px',
-        fontWeight: 700,
-      },
-      h2: {
-        fontSize: '27px',
-        lineHeight: '34px',
-        fontWeight: 700,
-      },
-      h3: {
-        fontSize: '24px',
-        lineHeight: '30px',
-      },
-      h4: {
-        fontSize: '20px',
-        lineHeight: '26px',
-      },
-      h5: {
-        fontSize: '16px',
-        fontWeight: 700,
-      },
-      body1: {
-        fontSize: '15px',
-        lineHeight: '22px',
-      },
-      body2: {
-        fontSize: '14px',
-        lineHeight: '20px',
-      },
-      caption: {
-        fontSize: '12px',
-        lineHeight: '16px',
-        letterSpacing: '0.4px',
-      },
-      overline: {
-        fontSize: '11px',
-        lineHeight: '14px',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-      },
-    },
+    typography,
     components: {
       MuiTableCell: {
         styleOverrides: {
@@ -413,7 +382,7 @@ const initTheme = (darkMode: boolean) => {
               backgroundColor: theme.palette.background.light,
             },
             '& .MuiTableRow-root.Mui-selected': {
-              backgroundColor: theme.palette.background.paper,
+              backgroundColor: theme.palette.background.light,
             },
           }),
         },
@@ -475,6 +444,19 @@ const initTheme = (darkMode: boolean) => {
             ...theme.typography.body2,
             color: theme.palette.background.main,
             backgroundColor: theme.palette.text.primary,
+            '& .MuiLink-root': {
+              color: isDarkMode
+                ? theme.palette.background.main
+                : theme.palette.secondary.main,
+              textDecorationColor: isDarkMode
+                ? theme.palette.background.main
+                : theme.palette.secondary.main,
+            },
+            '& .MuiLink-root:hover': {
+              color: isDarkMode
+                ? theme.palette.text.secondary
+                : theme.palette.secondary.light,
+            },
           }),
           arrow: ({ theme }) => ({
             color: theme.palette.text.primary,
@@ -490,10 +472,10 @@ const initTheme = (darkMode: boolean) => {
       },
       MuiSwitch: {
         defaultProps: {
-          color: darkMode ? undefined : 'success',
+          color: isDarkMode ? undefined : 'success',
         },
         styleOverrides: {
-          thumb: ({ theme }) => ({
+          thumb: () => ({
             boxShadow:
               '0px 2px 6px -1px rgba(0, 0, 0, 0.2), 0px 1px 4px rgba(0, 0, 0, 0.14), 0px 1px 4px rgba(0, 0, 0, 0.14)',
           }),
@@ -517,7 +499,7 @@ const initTheme = (darkMode: boolean) => {
         },
       },
     },
-  })
-}
+  });
+};
 
-export default initTheme
+export default createSafeTheme;
