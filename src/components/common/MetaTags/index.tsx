@@ -1,10 +1,11 @@
 import { IS_PRODUCTION } from '@/config/constants'
 import { ContentSecurityPolicy, StrictTransportSecurity } from '@/config/securityHeaders'
-import { lightPalette, darkPalette } from '@safe-global/safe-react-components'
+import lightPalette from '@/styles/colors'
+import darkPalette from '@/styles/colors-dark'
 
 const descriptionText =
-  'Safe (prev. Gnosis Safe) is the most trusted platform to manage digital assets on Ethereum and multiple EVMs. Over $40B secured.'
-const titleText = 'Safe{Wallet}'
+  'Decenbtra builds on top of Safe which is the most trusted platform to manage digital assets on Ethereum and multiple EVMs. Over $60B secured.'
+const titleText = 'Decentra{Pro}'
 
 const MetaTags = ({ prefetchUrl }: { prefetchUrl: string }) => (
   <>
