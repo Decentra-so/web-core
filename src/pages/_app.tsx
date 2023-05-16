@@ -9,7 +9,7 @@ import type { Theme } from '@mui/material/styles'
 import { ThemeProvider } from '@mui/material/styles'
 import { setBaseUrl as setGatewayBaseUrl } from '@safe-global/safe-gateway-typescript-sdk'
 import { CacheProvider, type EmotionCache } from '@emotion/react'
-import { SafeThemeProvider } from '@safe-global/safe-react-components'
+import { SafeThemeProvider } from '@/styles/SafeThemeProvider'
 import '@/styles/globals.css'
 import { IS_PRODUCTION, GATEWAY_URL_STAGING, GATEWAY_URL_PRODUCTION } from '@/config/constants'
 import { StoreHydrator } from '@/store'
@@ -74,7 +74,7 @@ export const AppProviders = ({ children }: { children: ReactNode | ReactNode[] }
   return (
      <SafeThemeProvider mode={themeMode}>
       {(safeTheme: Theme) => (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={safeTheme}>
           <Sentry.ErrorBoundary showDialog fallback={ErrorBoundary}>
             {children}
           </Sentry.ErrorBoundary>
