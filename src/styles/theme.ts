@@ -98,7 +98,7 @@ const initTheme = (darkMode: boolean) => {
         fontWeight: 700,
       },
       body1: {
-        fontSize: '16px',
+        fontSize: '15px',
         lineHeight: '22px',
       },
       body2: {
@@ -413,7 +413,7 @@ const initTheme = (darkMode: boolean) => {
               backgroundColor: theme.palette.background.light,
             },
             '& .MuiTableRow-root.Mui-selected': {
-              backgroundColor: theme.palette.background.light,
+              backgroundColor: theme.palette.background.paper,
             },
           }),
         },
