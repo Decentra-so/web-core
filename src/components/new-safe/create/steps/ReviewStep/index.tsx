@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Button, Grid, Typography, Divider, Box } from '@mui/material'
-import { lightPalette } from '@safe-global/safe-react-components'
+import lightPalette from '@/styles/colors'
 import ChainIndicator from '@/components/common/ChainIndicator'
 import EthHashInfo from '@/components/common/EthHashInfo'
 import { useCurrentChain } from '@/hooks/useChains'
