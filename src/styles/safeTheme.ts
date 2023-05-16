@@ -1,5 +1,4 @@
 import type { Theme, PaletteMode } from '@mui/material';
-import alpha from '@mui/material';
 import type { Shadows } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
@@ -468,7 +467,7 @@ const createSafeTheme = (mode: PaletteMode): Theme => {
       MuiBackdrop: {
         styleOverrides: {
           root: ({ theme }) => ({
-            backgroundColor: alpha(theme.palette.backdrop.main, 0.75),
+            backgroundColor: theme.palette.backdrop.main,
           }),
         },
       },
