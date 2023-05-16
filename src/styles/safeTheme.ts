@@ -4,7 +4,7 @@ import type { Shadows } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
 import palette from './colors';
-import darkPalette from './dark-colors';
+import darkPalette from './colors-dark';
 import typography from './typography';
 
 export const base = 8;
