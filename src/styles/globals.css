@@ -1,6 +1,19 @@
 @import url(./vars.css);
 @import url(./onboard.css);
-@import url(../../node_modules/@safe-global/safe-react-components/dist/fonts.css);
+
+@font-face {
+   font-family: 'DM Sans';
+   font-display: swap;
+   font-weight: 400;
+   src: url('/fonts/DMSansRegular.woff2') format('woff2');
+ }
+
+ @font-face {
+   font-family: 'DM Sans';
+   font-display: swap;
+   font-weight: bold;
+   src: url('/fonts/DMSans700.woff2') format('woff2');
+ }
 
 html,
 body {
