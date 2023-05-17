@@ -44,6 +44,10 @@ export const ChatOverview: React.FC<{
             : ''}
         </Typography>
       </Box>
+      <Box sx={{ p: 3 }}>
+        <Typography sx={{ fontWeight: 600 }} paragraph>
+          Overview
+        </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 2, px: 3 }}>
         <Typography sx={{ color: grey[600] }} paragraph>
           Address
@@ -51,6 +55,7 @@ export const ChatOverview: React.FC<{
         <Typography paragraph noWrap>
           {ellipsisAddress(`${safeAddress}`)}
         </Typography>
+      </Box>
       </Box>
       <Divider />
       <Members members={owners} />
