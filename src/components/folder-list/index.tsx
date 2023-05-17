@@ -63,7 +63,6 @@ export const FolderList: React.FC<{
       {safeFolder.map((safe, index) => (
         <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
           <ListItemButton
-            className={css.listitemsafebutton}              
             sx={{ padding: '8px 24px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
             //key={folder.name}
             key={safe}
