@@ -5,7 +5,6 @@ import { IconButton, Paper, FormControlLabel } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import classnames from 'classnames'
 import css from './styles.module.css'
-import ChainSwitcher from '@/components/common/ChainSwitcher'
 import ConnectWallet from '@/components/common/ConnectWallet'
 import NotificationCenter from '@/components/notification-center/NotificationCenter'
 import { AppRoutes } from '@/config/routes'
@@ -55,10 +54,6 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
             Decentra&#123;Pro&#125;
           </b>
         </Link>
-      </div>
-
-      <div className={classnames(css.element, css.hideMobile)}>
-        <ChainSwitcher />
       </div>
             
       <div className={classnames(css.element)}>
