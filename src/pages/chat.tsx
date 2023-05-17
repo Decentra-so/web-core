@@ -415,9 +415,6 @@ const Chat = () => {
             anchor="right"
             open={open}
           >
-            <Toolbar>
-              <Typography sx={{ fontWeight: 600 }}>Overview</Typography>
-            </Toolbar>
             <ChatOverview owners={owners} />
           </Drawer>
         </Hidden>
