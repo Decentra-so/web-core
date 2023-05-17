@@ -58,7 +58,7 @@ export const FolderList: React.FC<{
     return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
   }
   return (
-    <List>
+    <List sx={{ padding: '0px' }}>
       {safeFolder.map((safe, index) => (
         <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
           <ListItemButton
