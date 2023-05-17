@@ -2,9 +2,9 @@ import type { Theme, PaletteMode } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import type { Shadows } from '@mui/material/styles';
 
-import palette from '@safe-react-components/src/theme/colors';
-import darkPalette from '@safe-react-components/src/theme/colors-dark';
-import typography from '@safe-react-components/src/theme/typography';
+import palette from '@decentra-so/safe-react-components/src/theme/colors';
+import darkPalette from '@decentra-so/safe-react-components/src/theme/colors-dark';
+import typography from '@decentra-so/safe-react-components/src/theme/typography';
 
 export const base = 8;
 
