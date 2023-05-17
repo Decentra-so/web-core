@@ -27,7 +27,7 @@ export const ChatSection: React.FC<{
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', top: '56px', position: 'relative' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <Box sx={{ height: '100%', overflowY: 'auto' }}>
         <Box
           sx={{
