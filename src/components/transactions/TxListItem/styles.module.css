@@ -1,10 +1,11 @@
 .accordion * {
   border-width: 1px;
+  background: var(--color-background-default);
 }
 
 .closed:hover,
 .batched {
-  background-color: var(--color-secondary-background);
+  background-color: var(--color-secondary-background)!important;
   border-color: var(--color-secondary-light);
 }
 
