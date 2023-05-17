@@ -1,3 +1,7 @@
+.accordion {
+   background: var(--color-background-default);
+}
+
 .accordion * {
    border-width: 1px;
  }
