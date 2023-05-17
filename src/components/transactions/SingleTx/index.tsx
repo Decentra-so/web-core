@@ -29,7 +29,7 @@ const SingleTxGrid = ({ txDetails }: { txDetails: TransactionDetails }): ReactEl
     <TxListGrid>
       {label ? <GroupLabel item={{ label } as Label} /> : null}
 
-      <ExpandableTransactionItem item={tx} txDetails={txDetails}/>
+      <ExpandableTransactionItem item={tx} txDetails={txDetails} />
     </TxListGrid>
   )
 }
