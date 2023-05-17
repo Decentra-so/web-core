@@ -1,6 +1,6 @@
 .accordion {
    background: var(--color-background-default);
-   border-radius: 12px;
+   border-radius: 12px!important;
 }
 
 .accordion * {
