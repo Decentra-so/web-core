@@ -30,11 +30,11 @@ export const ChatOverview: React.FC<{
       ) : (
         ''
       )}
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ px: 3, pt: 3, pb: 1 }}>
         <Typography sx={{ fontWeight: 600 }} paragraph>
           Overview
         </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 1 }}>
         <Typography sx={{ color: grey[600] }}>Network</Typography>
         <Typography>
           {safe?.chainId === '137'
