@@ -31,12 +31,12 @@ export const ChatOverview: React.FC<{
         ''
       )}
       <Box sx={{ px: 3, pt: 3, pb: 1 }}>
-        <p sx={{ fontWeight: 600 }} p>
+        <Typography sx={{ fontWeight: 600, fontSize: '15px' }} Typtography>
           Overview
         </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 1 }}>
-        <Typography sx={{ color: grey[600] }}>Network</Typography>
-        <Typography>
+        <Typography sx={{ color: grey[600], fontSize: '15px' }}>Network</Typography>
+        <Typography sx={{ fontSize: '15px' }}>
           {safe?.chainId === '137'
             ? 'Matic'
             : safe?.chainId === '1'
