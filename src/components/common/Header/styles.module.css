@@ -6,7 +6,7 @@
   align-items: center;
   position: relative;
   border-radius: 0 !important;
-  background-color: onboard(--color-background-lightcolor);
+  background-color: var(--color-background-lightcolor);
   border-bottom: 1px solid var(--color-border-light);
 }
 
