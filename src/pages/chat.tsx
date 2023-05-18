@@ -1,5 +1,4 @@
 import { AddFolder } from '@/components/chat/addFolder'
-import ChatNotifications from '@/components/chat/chatNotifications'
 import { ChatOverview } from '@/components/chat/chatOverview'
 import { DesktopChat } from '@/components/chat/desktopChat'
 import { MobileChat } from '@/components/chat/mobileChat'
@@ -15,7 +14,6 @@ import useWallet from '@/hooks/wallets/useWallet'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import { ArrowBackIos } from '@mui/icons-material'
 import AddIcon from '@mui/icons-material/Add'
-import CloseIcon from '@mui/icons-material/Close'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
   Avatar,
@@ -290,7 +288,7 @@ const Chat = () => {
     <>
       {popup ? <AddFolder open={popup} onClose={() => togglePopup(!popup)} /> : ''}
       <Head>
-        <title>Safe &mdash; Chat</title>
+        <title>Decentra &mdash; Chat</title>
       </Head>
       <Box sx={{ display: 'flex' }}>
         <Hidden mdDown>
@@ -315,12 +313,11 @@ const Chat = () => {
               <Typography sx={{ fontWeight: 600, fontSize: 15 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
-                <IconButton sx={{ border: '1px solid #e7e7e7', borderRadius: '6px', width: '32px', height: '32px' }} aria-label="add folder" onClick={() => togglePopup(!popup)}>
+                <IconButton sx={{ border: '1px solid var(--color-border-light)', borderRadius: '6px', width: '32px', height: '32px' }} aria-label="add folder" onClick={() => togglePopup(!popup)}>
                   <AddIcon />
                 </IconButton>
               </Box>
             </Toolbar>
-            <ChatNotifications />
             <Box sx={{ width: '100%', height: '100%' }}>
               {/*@ts-ignore*/}
               <Tabs sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }} value={value} onChange={handleChange} aria-label="folder tabs">
@@ -370,7 +367,7 @@ const Chat = () => {
                 </Box>
                 <Hidden mdDown>
                   <IconButton onClick={toggleDrawer(!open)}>
-                    {open ? <CloseIcon aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                    {open ? <ViewSidebarIcon sx={{ background: '#e0dfe07d', borderRadius: '6px', width: '32px', height: '32px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
                   </IconButton>
                 </Hidden>
               </Toolbar>
