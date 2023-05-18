@@ -16,7 +16,6 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import ModeNightIcon from '@mui/icons-material/ModeNight'
 import { useAppDispatch } from '@/store'
 import { useDarkMode } from '@/hooks/useDarkMode'
-import SettingsIcon from '@mui/icons-material/Settings'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -55,15 +54,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
           </b>
         </Link>
       </div>
-            
-      <div className={classnames(css.element)}>
-                <Link href={{ pathname: AppRoutes.settings.index, query: { safe: `${safeAddress}` } }}>
-                  <IconButton>
-                    <SettingsIcon />
-                  </IconButton>
-                </Link>
-      </div>
-      
+
       <div className={classnames(css.element)}>
       {/* <Switch checked={isDarkMode} onChange={(_, checked) => dispatch(setDarkMode(checked))} /> */}
                   <FormControlLabel
