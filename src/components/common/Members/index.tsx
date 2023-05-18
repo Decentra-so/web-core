@@ -11,7 +11,7 @@ const Members: React.FC<TypeMembers> = ({ members }) => {
   return (
     <>
       <Box sx={{ pt: 2, px: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography sx={{ fontWeight: 600 }}>Members</Typography>
+        <Typography sx={{ fontWeight: 600, fontSize: '15px' }}>Members</Typography>
         <AddOwner />
       </Box>
       <List sx={{ pl: 1 }}>
@@ -20,7 +20,7 @@ const Members: React.FC<TypeMembers> = ({ members }) => {
             <ListItemAvatar sx={{ minWidth: 35 }}>
               <Avatar sx={{ width: 24, height: 24 }} alt={member.value} />
             </ListItemAvatar>
-            <ListItemText primary={ellipsisAddress(`${member.value}`)} />
+            <ListItemText sx={{ fontSize: '15px' }} primary={ellipsisAddress(`${member.value}`)} />
           </ListItem>
         ))}
       </List>
