@@ -8,6 +8,8 @@
 }
 .tab {
   padding: 12px 0px;
+  min-width: auto;
+  text-transform: initial;
 }
 
 @media (min-width: 901px) {
