@@ -36,6 +36,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import css from './styles.module.css'
 
 const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false })
 
@@ -323,7 +324,7 @@ const Chat = () => {
             <Box sx={{ width: '100%', height: '100%' }}>
               {/*@ts-ignore*/}
               <Tabs sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }} value={value} onChange={handleChange} aria-label="folder tabs">
-                <Tab label="All" {...a11yProps(0)} />
+                <Tab className={css.tab} label="All" {...a11yProps(0)} />
                 {folders.map((folder, i) => {
                   return <Tab label={folder} key={`${folder}-${i}`} />
                 })}
