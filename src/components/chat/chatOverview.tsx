@@ -49,10 +49,10 @@ export const ChatOverview: React.FC<{
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 2 }}>
-        <Typography sx={{ color: grey[600] }} paragraph>
+        <Typography sx={{ color: grey[600], fontSize: '15px' }} paragraph>
           Address
         </Typography>
-        <Typography paragraph noWrap>
+        <Typography sx={{ fontSize: '15px' }} paragraph noWrap>
           {ellipsisAddress(`${safeAddress}`)}
         </Typography>
       </Box>
@@ -65,10 +65,10 @@ export const ChatOverview: React.FC<{
       <TransactionHistory />
       <Divider />
       <Box sx={{ p: 3 }}>
-        <Typography sx={{ fontWeight: 600 }} paragraph>
+        <Typography sx={{ fontWeight: 600, fontSize: '15px' }} paragraph>
           Assets
         </Typography>
-        <Typography paragraph>View all tokens and NFTs the Safe holds.</Typography>
+        <Typography sx={{ fontSize: '15px' }} paragraph>View all tokens and NFTs the Safe holds.</Typography>
         <Link href={{ pathname: AppRoutes.balances.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
           <Button variant="outlined" className={css.buttonstyled} size="small">
             View Assets
@@ -77,10 +77,10 @@ export const ChatOverview: React.FC<{
       </Box>
       <Divider />
       <Box sx={{ p: 3 }}>
-        <Typography sx={{ fontWeight: 600 }} paragraph>
+        <Typography sx={{ fontWeight: 600, fontSize: '15px' }} paragraph>
           Apps
         </Typography>
-        <Typography paragraph>
+        <Typography sx={{ fontSize: '15px' }} paragraph>
           Explore the Safe Apps ecosystem &mdash; connect to your favourite web3 applications with your Safe wallet,
           securely and efficiently
         </Typography>
