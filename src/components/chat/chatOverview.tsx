@@ -31,7 +31,7 @@ export const ChatOverview: React.FC<{
         ''
       )}
       <Box sx={{ px: 3, pt: 3, pb: 1 }}>
-        <Typography sx={{ fontWeight: 600, fontSize: '15px' }} Typography>
+        <Typography sx={{ fontWeight: 600, fontSize: '15px' }} paragraph>
           Overview
         </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 1 }}>
