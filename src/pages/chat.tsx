@@ -367,7 +367,7 @@ const Chat = () => {
                 </Box>
                 <Hidden mdDown>
                   <IconButton onClick={toggleDrawer(!open)}>
-                    {open ? <ViewSidebarIcon sx={{ background: '#e0dfe07d', borderRadius: '6px', width: '32px', height: '32px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                    {open ? <ViewSidebarIcon sx={{ background: 'rgba(0, 0, 0, 0.04)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
                   </IconButton>
                 </Hidden>
               </Toolbar>
