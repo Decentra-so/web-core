@@ -20,7 +20,7 @@ const Members: React.FC<TypeMembers> = ({ members }) => {
             <ListItemAvatar sx={{ minWidth: 35 }}>
               <Avatar sx={{ width: 24, height: 24 }} alt={member.value} />
             </ListItemAvatar>
-            <ListItemText sx={{ fontSize: '15px' }} primary={ellipsisAddress(`${member.value}`)} />
+            <ListItemText primary={ellipsisAddress(`${member.value}`)} />
           </ListItem>
         ))}
       </List>
