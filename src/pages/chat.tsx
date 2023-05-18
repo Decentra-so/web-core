@@ -14,6 +14,7 @@ import useWallet from '@/hooks/wallets/useWallet'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import { ArrowBackIos } from '@mui/icons-material'
 import AddIcon from '@mui/icons-material/Add'
+import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
   Avatar,
@@ -365,11 +366,18 @@ const Chat = () => {
                   <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt="Decentra" />
                   <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
                 </Box>
+                <Box>
+                <Link href={{ pathname: AppRoutes.settings.index, query: { safe: `${safeAddress}` } }}>
+                  <IconButton>
+                    <SettingsIcon />
+                  </IconButton>
+                </Link>  
                 <Hidden mdDown>
                   <IconButton onClick={toggleDrawer(!open)}>
                     {open ? <ViewSidebarIcon sx={{ background: 'rgba(0, 0, 0, 0.04)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
                   </IconButton>
                 </Hidden>
+                </Box>  
               </Toolbar>
               <Divider />
               <MobileChat
