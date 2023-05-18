@@ -10,6 +10,8 @@
   padding: 12px 0px;
   min-width: auto;
   text-transform: initial;
+  margin: 0 8px;
+  font-size: 15px;
 }
 
 @media (min-width: 901px) {
