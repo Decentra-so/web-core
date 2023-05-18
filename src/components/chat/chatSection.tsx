@@ -55,7 +55,6 @@ export const ChatSection: React.FC<{
                       sx={{
                         display: 'flex',
                         alignItems: 'start',
-                        borderRadius: '4px',
                         p: 0,
                         mb: 2,
                         width: 'fit-content',
@@ -71,7 +70,7 @@ export const ChatSection: React.FC<{
                         primary={
                           <React.Fragment>
                             <Typography
-                              sx={{ display: 'inline', pr: '12px', fontWeight: 600 }}
+                              sx={{ display: 'inline', pr: '12px', fontWeight: 600, fontSize: '15px' }}
                               component="span"
                             >
                               {chat.data.sender.name === wallet?.address ? 'You' : chat?.data?.sender.uid}
@@ -83,7 +82,7 @@ export const ChatSection: React.FC<{
                         }
                         secondary={
                             <Typography
-                              sx={{ display: 'inline' }}
+                              sx={{ display: 'inline', fontSize: '15px' }}
                               component="span"
                             >
                               {chat.data.text}
