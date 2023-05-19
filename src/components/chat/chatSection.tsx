@@ -38,7 +38,7 @@ export const ChatSection: React.FC<{
             alignItems: 'start',
             gap: '16px',
             p: 3,
-            bgcolor: 'background.default',
+            bgcolor: 'var(--color-background-lightcolor)',
             paddingTop: '8px',
             height: 'calc(100vh - 201px)',
             overflowY: 'overlay',
@@ -124,7 +124,7 @@ export const ChatSection: React.FC<{
       <Box
         sx={{
           flexShrink: 0,
-          bgcolor: 'background.default',
+          bgcolor: 'var(--color-background-lightcolor)',
           position: 'sticky',
           bottom: 0,
         }}
