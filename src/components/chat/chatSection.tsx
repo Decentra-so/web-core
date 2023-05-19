@@ -56,7 +56,6 @@ export const ChatSection: React.FC<{
                         display: 'flex',
                         alignItems: 'start',
                         p: 0,
-                        mb: 2,
                         width: 'fit-content',
                       }}
                       key={index}
@@ -93,7 +92,7 @@ export const ChatSection: React.FC<{
                   )
                 } else {
                   return (
-                    <ListItem key={index} sx={{ mb: 1 }} alignItems="flex-start" disableGutters>
+                    <ListItem key={index} sx={{ pt: '6px', pb: '6px' }} alignItems="flex-start" disableGutters>
                       <TxListItem key={`${index}-tx`} item={chat?.data} />
                       <ListItemText
                          primary={
