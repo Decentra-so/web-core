@@ -37,13 +37,11 @@ export const ChatSection: React.FC<{
             justifyContent: 'start',
             alignItems: 'start',
             gap: '16px',
-            p: 3,
+            p: '8px 19px 8px 24px',
             bgcolor: 'var(--color-background-lightcolor)',
-            paddingTop: '8px',
-            height: 'calc(100vh - 201px)',
+            height: 'calc(100vh - 189px)',
             overflowY: 'overlay',
             marginRight: '5px',
-            paddingRight: '19px',
           }}
         >
           <List>
@@ -128,7 +126,7 @@ export const ChatSection: React.FC<{
           bottom: 0,
         }}
       >
-        <Box sx={{ width: '100%', display: 'flex', gap: '16px', p: 3, pt: 0 }}>
+        <Box sx={{ width: '100%', display: 'flex', gap: '16px', p: 3, pt: 0, pb: '12px' }}>
           <TextField
             sx={{ flexGrow: 1 }}
             label="Type Something"
