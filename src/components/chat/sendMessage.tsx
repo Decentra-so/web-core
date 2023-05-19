@@ -25,7 +25,7 @@ const SendMessage: React.FC<{
 
   return (
     <Button variant="contained" onClick={handleSubmit}>
-      -
+      Send message
     </Button>
   )
 }
