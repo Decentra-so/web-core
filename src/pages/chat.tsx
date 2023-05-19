@@ -407,7 +407,7 @@ const Chat = () => {
               flexShrink: 0,
               '& .MuiDrawer-paper': {
                 width: drawerWidth,
-                bgcolor: 'var(--color-background-papercolor: #fff)',
+                bgcolor: 'var(--color-background-papercolor)',
                 boxSizing: 'border-box',
                 height: 'calc(100vh - var(--header-height) - 24px)',
                 top: 'var(--header-height)',
