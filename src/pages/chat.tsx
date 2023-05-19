@@ -299,7 +299,7 @@ const Chat = () => {
               flexShrink: 0,
               '& .MuiDrawer-paper': {
                 width: 287,
-                bgcolor: 'background.default',
+                bgcolor: 'var(--color-background-lightcolor)',
                 boxSizing: 'border-box',
                 height: 'calc(100vh - var(--header-height))',
                 top: 'var(--header-height)',
@@ -354,7 +354,7 @@ const Chat = () => {
                   px: 3,
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  bgcolor: 'background.default',
+                  bgcolor: 'var(--color-background-lightcolor)',
                 }}
               >
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
