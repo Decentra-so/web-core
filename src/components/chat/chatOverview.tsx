@@ -100,7 +100,7 @@ export const ChatOverview: React.FC<{
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
-          bgcolor: 'background.paper',
+          bgcolor: 'var(--color-background-papercolor)',
           borderTop: '1px solid var(--color-border-light)',
         }}
       >
