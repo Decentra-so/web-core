@@ -8,7 +8,7 @@ body {
   margin: 0;
   font-family: DM Sans, sans-serif;
   font-size: 15px;
-  background-color: var(--color-background-paper);
+  background-color: var(--color-background-lightcolor);
 }
 
 main {
