@@ -11,6 +11,8 @@ import useOwnedSafes from '@/hooks/useOwnedSafes'
 import { useRouter } from 'next/router'
 import useSafeInfo from '@/hooks/useSafeInfo'
 
+import css from '/styles.modules.css'
+
 export const FolderList: React.FC<{
   resetGroup: () => void
 }> = ({ resetGroup }) => {
@@ -62,6 +64,7 @@ export const FolderList: React.FC<{
       {safeFolder.map((safe, index) => (
         <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
           <ListItemButton
+            className={css.listitembuttonstyle}              
             sx={{ padding: '8px 24px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
             //key={folder.name}
             key={safe}
