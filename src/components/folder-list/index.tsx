@@ -11,7 +11,7 @@ import useOwnedSafes from '@/hooks/useOwnedSafes'
 import { useRouter } from 'next/router'
 import useSafeInfo from '@/hooks/useSafeInfo'
 
-import css from '/styles.module.css'
+import css from './styles.module.css'
 
 export const FolderList: React.FC<{
   resetGroup: () => void
