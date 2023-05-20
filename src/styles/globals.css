@@ -11,11 +11,6 @@ body {
   background-color: var(--color-background-lightcolor);
 }
 
- body1: {
-    font-size: 15px;
-    line-height: 22px;
-  }
-
 main {
   width: 100%;
 }
