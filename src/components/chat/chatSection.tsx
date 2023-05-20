@@ -28,7 +28,7 @@ export const ChatSection: React.FC<{
   const safeAddress = useSafeAddress()
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      <Box sx={{ height: '100%', overflowY: 'auto' }}>
+      <Box sx={{ height: '100%', overflowY: 'auto', bgcolor: 'var(--color-background-lightcolor)' }}>
         <Box
           sx={{
             flex: '1 0 auto',
