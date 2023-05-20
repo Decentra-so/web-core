@@ -11,8 +11,6 @@ import useOwnedSafes from '@/hooks/useOwnedSafes'
 import { useRouter } from 'next/router'
 import useSafeInfo from '@/hooks/useSafeInfo'
 
-import css from './styles.module.css'
-
 export const FolderList: React.FC<{
   resetGroup: () => void
 }> = ({ resetGroup }) => {
@@ -64,7 +62,6 @@ export const FolderList: React.FC<{
       {safeFolder.map((safe, index) => (
         <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
           <ListItemButton
-            className={css.listitembuttonstyle}              
             sx={{ padding: '8px 24px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
             //key={folder.name}
             key={safe}
@@ -78,7 +75,7 @@ export const FolderList: React.FC<{
               <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt={safe} />
             </ListItemAvatar>
             <ListItemText
-              primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
+              primary={<Typography sx={{ fontWeight: 500, fontSize: '15px' }}>{ellipsisAddress(safe)}</Typography>}
               //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
             />
           </ListItemButton>
