@@ -1,3 +1,7 @@
 .listitembuttonstyle.Mui-selected {
   border-left: 4px solid black;
 }
+
+.mui-style-hqptgn.Mui-selected {
+    background-color: red;
+}
