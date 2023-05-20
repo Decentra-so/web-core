@@ -1,4 +1,4 @@
-.listitembuttonstyle.Mui-selected {
+.listitembuttonstyle .selected {
   border-left: 4px solid black;
 }
 
