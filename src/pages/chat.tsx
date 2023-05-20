@@ -303,6 +303,8 @@ const Chat = () => {
                 boxSizing: 'border-box',
                 height: 'calc(100vh - var(--header-height))',
                 top: 'var(--header-height)',
+                borderRadius: '0',
+                border-right: '1px solid var(--color-border-light)'
               },
             }}
             variant="permanent"
