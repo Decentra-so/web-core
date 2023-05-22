@@ -83,7 +83,7 @@
 [data-theme='dark'] {
   --color-background-lightcolor: #1b1d21;
   --color-background-papercolor: #212327;
-  --color-shadow-paper: rgb(17 17 17 / 90%) 0px 0.75rem 1.5rem;
+  --color-shadow-paper: rgb(17 17 17 / 60%) 0px 0.25rem 1rem;
 }
 
 #walletconnect-qrcode-modal {
