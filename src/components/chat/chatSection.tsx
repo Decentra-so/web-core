@@ -68,7 +68,7 @@ export const ChatSection: React.FC<{
                         <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
                       </ListItemAvatar>
                       <ListItemText
-                        sx={{ background: 'rgb(155 155 155 / 11%)', padding: '12px 16px', borderRadius: '0 10px 10px 10px' }}            
+                        sx={{ background: 'var(--color-background-mediumcolor)', padding: '12px 16px', borderRadius: '0 10px 10px 10px' }}            
                         primary={
                           <React.Fragment>
                             <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">
