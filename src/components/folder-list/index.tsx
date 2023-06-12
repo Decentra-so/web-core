@@ -6,14 +6,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Link from 'next/link'
 import ListItemText from '@mui/material/ListItemText'
 import { AppRoutes } from '@/config/routes'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
 import { useRouter } from 'next/router'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import FolderListContextMenu from './folderItemContextItem'
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 
-export const FolderList: React.FC<{
+const FolderList: React.FC<{
   resetGroup: () => void
 }> = ({ resetGroup }) => {
   const allOwnedSafes = useAllOwnedSafes()
@@ -81,3 +81,5 @@ export const FolderList: React.FC<{
     </List>
   )
 }
+
+export default memo(FolderList)

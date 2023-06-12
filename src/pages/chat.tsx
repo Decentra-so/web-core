@@ -5,7 +5,7 @@ import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
-import { FolderList } from '@/components/folder-list'
+import FolderList from '@/components/folder-list'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useTxQueue from '@/hooks/useTxQueue'
@@ -113,9 +113,11 @@ export async function getServerSideProps(context: any) {
   }
 }
 
+//TO DO: move state out of this component and into the relevant components to avoid pointless re-renders and speed up app.
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
+  //routing
   const router = useRouter()
   //folders and folder control
   const [group, setGroup] = useState<any>()
@@ -127,7 +129,6 @@ const Chat: React.FC<{
   const [open, setOpen] = useState(true)
   const [value, setValue] = React.useState(0)
   //Chat
-  const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([''])
   const [chatData, setChatData] = useState<any[]>([''])
   //transactions
@@ -327,7 +328,7 @@ const Chat: React.FC<{
                 })}
               </Tabs>
               <TabPanel value={value} index={0}>
-              <FolderList resetGroup={resetGroup} key={wallet?.chainId} />
+              <FolderList resetGroup={resetGroup} />
               </TabPanel>
               {folders.map((folder, i) => {
                 return (
@@ -398,8 +399,6 @@ const Chat: React.FC<{
                 :
                 <>
                   <MobileChat
-                    message={message}
-                    setMessage={setMessage}
                     messages={messages}
                     setMessages={setMessages}
                     bottom={bottom}
@@ -414,8 +413,6 @@ const Chat: React.FC<{
                     setGroup={setGroup}
                     currentUser={currentUser}
                     setCurrentUser={setCurrentUser}
-                    message={message}
-                    setMessage={setMessage}
                     messages={messages}
                     setMessages={setMessages}
                     group={group}

@@ -4,6 +4,7 @@ import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, T
 import dynamic from 'next/dynamic'
 import React from 'react'
 import TxListItem from '../transactions/TxListItem'
+import { useState } from 'react'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const LoginButton = dynamic(() => import('@/components/chat/LoginButton'), { ssr: false })
@@ -15,9 +16,7 @@ export const ChatSection: React.FC<{
   group: any
   setGroup: any
   chatData: any[]
-  message: string
   messages: string[]
-  setMessage: any
   setMessages: any
   bottom: any
 }> = ({
@@ -26,14 +25,14 @@ export const ChatSection: React.FC<{
   group,
   setGroup,
   chatData,
-  message,
-  setMessage,
   messages,
   setMessages,
   bottom,
 }) => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
+  const [message, setMessage] = useState<string>()
+  
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ height: '100%', overflowY: 'auto' }}>
