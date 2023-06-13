@@ -52,6 +52,10 @@
   gap: 1px;
 }
 
+.ButtonNav:hover {
+  background: #5050500f;
+}
+
 .ButtonNavSelected {
   background: var(--color-background-papercolor);
   font-size: 16px;
