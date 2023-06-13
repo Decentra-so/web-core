@@ -66,15 +66,15 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
         </Link>
       </div>
 
-      <Box display='flex' alignItems='center' gap={1}>
+      <Box display='flex' alignItems='center'>
         <Link href={{ pathname: AppRoutes.wallet, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.Wallet)} startIcon={<WalletIcon />} variant={selectedButton === Pages.Wallet ? 'contained' : 'text'} size='small'>Wallet</Button>
+          <Button onClick={() => setSelectedButton(Pages.Wallet)} startIcon={<WalletIcon />} className={selectedButton === Pages.Wallet ? css.ButtonNavSelected : css.ButtonNav} size='small'>Wallet</Button>
         </Link>
         <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.Chat)} startIcon={<ChatIcon />} variant={selectedButton === Pages.Chat ? 'contained' : 'text'} size='small'>Chat</Button>
+          <Button onClick={() => setSelectedButton(Pages.Chat)} startIcon={<ChatIcon />} className={selectedButton === Pages.Chat ? css.ButtonNavSelected : css.ButtonNav} size='small'>Chat</Button>
         </Link>
         <Link href={{ pathname: AppRoutes.addressBook, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.AddressBook)} startIcon={<MenuBookIcon />} variant={selectedButton === Pages.AddressBook ? 'contained' : 'text'} size='small'>Address Book</Button>
+          <Button onClick={() => setSelectedButton(Pages.AddressBook)} startIcon={<MenuBookIcon />} className={selectedButton === Pages.AddressBook ? css.ButtonNavSelected : css.ButtonNav} size='small'>Address book</Button>
         </Link>
       </Box>
 

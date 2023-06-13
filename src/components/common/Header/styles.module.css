@@ -42,6 +42,37 @@
   display: none;
 }
 
+.ButtonNav {
+  font-size: 16px;
+  color: #757575;
+  padding: 8px 16px;
+  margin: 0 4px;
+  font-weight: normal;
+  border-radius: 10px;
+  gap: 1px;
+}
+
+.ButtonNav:hover {
+  background: #5050500f;
+}
+
+.ButtonNavSelected {
+  background: var(--color-background-papercolor);
+  font-size: 16px;
+  color: currentColor;
+  padding: 8px 16px;
+  margin: 0 4px;
+  font-weight: normal;
+  border-radius: 10px;
+  box-shadow: rgba(0,0,0,.05) 0px 0.5rem 1.5rem;
+  gap: 1px;
+}
+
+.ButtonNavSelected:hover {
+  background: var(--color-background-papercolor);
+  box-shadow: rgba(0,0,0,.05) 0px 0.5rem 1.5rem;
+}
+
 .networkSelector {
   padding-right: 0;
   padding-left: 0;
