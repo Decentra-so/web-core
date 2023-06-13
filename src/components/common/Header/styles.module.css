@@ -60,13 +60,13 @@
   margin: 0 4px;
   font-weight: normal;
   border-radius: 10px;
-  box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
+  box-shadow: rgba(0,0,0,.05) 0px 0.5rem 1.5rem;
   gap: 1px;
 }
 
 .ButtonNavSelected:hover {
   background: var(--color-background-papercolor);
-  box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
+  box-shadow: rgba(0,0,0,.05) 0px 0.5rem 1.5rem;
 }
 
 .networkSelector {
