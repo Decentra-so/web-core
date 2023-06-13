@@ -42,6 +42,16 @@
   display: none;
 }
 
+.ButtonNav {
+  font-size: 16px;
+  color: #757575;
+}
+
+.ButtonNavSelected {
+ background: white;
+  font-size: 16px;
+}
+
 .networkSelector {
   padding-right: 0;
   padding-left: 0;
