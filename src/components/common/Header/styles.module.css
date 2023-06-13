@@ -48,6 +48,7 @@
   padding: 8px 16px;
   margin: 0 4px;
   font-weight: normal;
+  border-radius: 10px;
 }
 
 .ButtonNavSelected {
@@ -56,6 +57,8 @@
   padding: 8px 16px;
   margin: 0 4px;
   font-weight: normal;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
 }
 
 .networkSelector {
