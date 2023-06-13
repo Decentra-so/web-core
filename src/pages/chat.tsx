@@ -38,6 +38,7 @@ import { getSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 
 import css from './styles.module.css'
+import { useRouter } from 'next/router'
 
 const drawerWidth = 360
 
@@ -115,6 +116,7 @@ export async function getServerSideProps(context: any) {
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
+  const router = useRouter()
   //folders and folder control
   const [group, setGroup] = useState<any>()
   const [folders, setFolders] = useState([])
@@ -153,10 +155,12 @@ const Chat: React.FC<{
   }, [])
 
   useEffect(() => {
-    const userAuth = JSON.stringify(user, null, 2)
     if (user.address !== wallet?.address) {
       //@ts-ignore
       signOut({ redirect: '/auth' })
+    }
+    if (router.asPath.includes('chain')) {
+      setCreateSafe(true)
     }
   }, [])
 
@@ -358,7 +362,7 @@ const Chat: React.FC<{
                     </IconButton>
                   </Link>
                   <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt="Decentra" />
-                  <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${safeAddress}`)}</Typography>
+                  <Typography sx={{ fontWeight: 600 }}>{safeAddress ? ellipsisAddress(`${safeAddress}`) : ''}</Typography>
                 </Box>
                 <Box>
                 <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
@@ -417,6 +421,7 @@ const Chat: React.FC<{
                     group={group}
                     bottom={bottom}
                     chatData={chatData}
+                    safe={safeAddress}
                   />
                 </>
               }

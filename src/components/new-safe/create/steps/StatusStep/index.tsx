@@ -72,7 +72,7 @@ export const CreateSafeStatus = ({ data, setProgressColor }: StepRenderProps<New
 
     if (safeAddress) {
       setPendingSafe(undefined)
-      router.push(getRedirect(chainPrefix, safeAddress, router.query?.safeViewRedirectURL))
+      router.push(getRedirect(chainPrefix, safeAddress, '/chat'))
     }
   }, [chainPrefix, pendingSafe, router, setPendingSafe])
 

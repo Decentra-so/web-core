@@ -23,7 +23,7 @@ const NetworkSelector = (): ReactElement => {
       const shouldKeepPath = keepPathRoutes.includes(router.pathname)
 
       const route = {
-        pathname: shouldKeepPath ? router.pathname : '/',
+        pathname: router.pathname,
         query: {
           chain: shortName,
         } as {
