@@ -66,7 +66,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
         </Link>
       </div>
 
-      <Box display='flex' alignItems='center' gap={1}>
+      <Box display='flex' alignItems='center'>
         <Link href={{ pathname: AppRoutes.wallet, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
           <Button onClick={() => setSelectedButton(Pages.Wallet)} startIcon={<WalletIcon />} className={selectedButton === Pages.Wallet ? css.ButtonNavSelected : css.ButtonNav} size='small'>Wallet</Button>
         </Link>
