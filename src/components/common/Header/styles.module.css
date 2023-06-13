@@ -49,20 +49,23 @@
   margin: 0 4px;
   font-weight: normal;
   border-radius: 10px;
+  gap: 1px;
 }
 
 .ButtonNavSelected {
-  background: white;
+  background: var(--color-background-papercolor);
   font-size: 16px;
+  color: currentColor;
   padding: 8px 16px;
   margin: 0 4px;
   font-weight: normal;
   border-radius: 10px;
   box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
+  gap: 1px;
 }
 
 .ButtonNavSelected:hover {
-  background: white;
+  background: var(--color-background-papercolor);
   box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
 }
 
