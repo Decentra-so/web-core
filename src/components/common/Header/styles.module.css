@@ -45,11 +45,17 @@
 .ButtonNav {
   font-size: 16px;
   color: #757575;
+  padding: 8px 16px;
+  margin: 0 4px;
+  font-weight: normal;
 }
 
 .ButtonNavSelected {
- background: white;
+  background: white;
   font-size: 16px;
+  padding: 8px 16px;
+  margin: 0 4px;
+  font-weight: normal;
 }
 
 .networkSelector {
