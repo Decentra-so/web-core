@@ -74,7 +74,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
           <Button onClick={() => setSelectedButton(Pages.Chat)} startIcon={<ChatIcon />} className={selectedButton === Pages.Chat ? css.ButtonNavSelected : css.ButtonNav} size='small'>Chat</Button>
         </Link>
         <Link href={{ pathname: AppRoutes.addressBook, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.AddressBook)} startIcon={<MenuBookIcon />} className={selectedButton === Pages.AddressBook ? css.ButtonNavSelected : css.ButtonNav} size='small'>Address Book</Button>
+          <Button onClick={() => setSelectedButton(Pages.AddressBook)} startIcon={<MenuBookIcon />} className={selectedButton === Pages.AddressBook ? css.ButtonNavSelected : css.ButtonNav} size='small'>Address book</Button>
         </Link>
       </Box>
 
