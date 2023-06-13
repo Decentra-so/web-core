@@ -61,6 +61,11 @@
   box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
 }
 
+.ButtonNavSelected:hover {
+  background: white;
+  box-shadow: 0 1px 4px #6366690a, 0 4px 10px #63666914;
+}
+
 .networkSelector {
   padding-right: 0;
   padding-left: 0;
