@@ -2,37 +2,94 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'
 import dynamic from 'next/dynamic'
-import React from 'react'
+import React, { useCallback } from 'react'
 import TxListItem from '../transactions/TxListItem'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import useTxHistory from '@/hooks/useTxHistory'
+import useTxQueue from '@/hooks/useTxQueue'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const LoginButton = dynamic(() => import('@/components/chat/LoginButton'), { ssr: false })
-const JoinButton = dynamic(() => import('@/components/chat/JoinButton'), { ssr: false })
 
 export const ChatSection: React.FC<{
   currentUser: any
   setCurrentUser: any
   group: any
   setGroup: any
-  chatData: any[]
-  messages: string[]
-  setMessages: any
-  bottom: any
 }> = ({
   currentUser,
   setCurrentUser,
   group,
   setGroup,
-  chatData,
-  messages,
-  setMessages,
-  bottom,
 }) => {
+  //transactions
+  const txHistory = useTxHistory()
+  const txQueue = useTxQueue()
   const wallet = useWallet()
+  //chat
+  const [messages, setMessages] = useState([''])
+  const [chatData, setChatData] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const [message, setMessage] = useState<string>()
+  const bottom = useRef<HTMLDivElement>(null)
+  const getLast5Items = (arr: any) => {
+    if (arr) {
+      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+    }
+    return arr
+  }
+
+  const getChat = useCallback(() => {
+    let allData: any[] = []
+    const historyItems = getLast5Items(txHistory.page?.results)
+    const queueItems = getLast5Items(txQueue?.page?.results)
+    historyItems?.forEach((tx: any) => {
+      if (tx.type === 'DATE_LABEL') {
+        return
+      }
+      allData.push({
+        data: tx,
+        timestamp: tx.transaction.timestamp,
+        type: 'tx',
+      })
+    })
+    queueItems?.forEach((tx: any) => {
+      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
+        return
+      }
+      allData.push({
+        data: tx,
+        timestamp: tx.transaction.timestamp,
+        type: 'tx',
+      })
+    })
+    if (!messages.length) {
+      setChatData(allData)
+      return
+    }
+    messages?.forEach((message: any) => {
+      allData.push({
+        data: message,
+        timestamp: +message.sentAt * 1000,
+        type: 'message',
+      })
+    })
+    allData.sort(function (a, b) {
+      if (a['timestamp'] > b['timestamp']) {
+        return 1
+      } else if (a['timestamp'] < b['timestamp']) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+    setChatData(allData)
+  }, [messages, txHistory?.page?.results, txQueue?.page?.results])
   
+  useEffect(() => {
+    getChat()
+  }, [group, messages, currentUser])
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ height: '100%', overflowY: 'auto' }}>
@@ -130,7 +187,7 @@ export const ChatSection: React.FC<{
           background: 'var(--color-background-lightcolor)'
         }}
       >
-        {currentUser && group ? (
+        {currentUser ? (
           <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
             <TextField
               sx={{ flexGrow: 1 }}
@@ -147,28 +204,7 @@ export const ChatSection: React.FC<{
             />
           </Box>
         ) : (
-          <Box
-            sx={{
-              width: { sm: '100%', lg: 'calc(100vw - 695px)' },
-              border: '1px solid var(--color-border-light)',
-              borderRadius: '6px',
-              p: 3,
-            }}
-          >
-            <Typography pb={1} fontSize="sm" fontWeight={600}>
-              Join the chat
-            </Typography>
-            <Typography paragraph fontSize="xs">
-              To view messages, click the button below
-            </Typography>
-            {!currentUser ? (
-              <LoginButton setCurrentUser={setCurrentUser} />
-            ) : currentUser && !group ? (
-              <JoinButton user={currentUser} setGroup={setGroup} setMessages={setMessages} />
-            ) : (
-              ''
-            )}
-          </Box>
+          <LoginButton setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} setMessages={setMessages} />
         )}
       </Box>
     </Box>

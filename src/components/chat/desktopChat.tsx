@@ -3,29 +3,21 @@ import React from 'react'
 import { ChatSection } from './chatSection'
 
 export const DesktopChat: React.FC<{
-  chatData: any[]
-  messages: string[]
   currentUser: any
   setCurrentUser: any
   setGroup: any
-  setMessages: any
-  bottom: any
   group: any
   safe: string
-}> = ({ chatData, messages, setMessages, bottom, setCurrentUser, currentUser, setGroup, group, safe }) => {
+}> = ({ setCurrentUser, currentUser, setGroup, group, safe }) => {
   return (
     <Hidden mdDown>
       {
-        safe && chatData ? (
+        safe ? (
           <ChatSection
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
             group={group}
             setGroup={setGroup}
-            messages={messages}
-            setMessages={setMessages}
-            bottom={bottom}
-            chatData={chatData}
           />
         ) : (
           <Box

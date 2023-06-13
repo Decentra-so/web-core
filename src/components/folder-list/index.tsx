@@ -8,7 +8,6 @@ import ListItemText from '@mui/material/ListItemText'
 import { AppRoutes } from '@/config/routes'
 import { useEffect, useState, memo } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
-import { useRouter } from 'next/router'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import FolderListContextMenu from './folderItemContextItem'
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
@@ -17,8 +16,6 @@ const FolderList: React.FC<{
   resetGroup: () => void
 }> = ({ resetGroup }) => {
   const allOwnedSafes = useAllOwnedSafes()
-  console.log(allOwnedSafes)
-  const history = useRouter()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
   const { safeAddress } = useSafeInfo()
   //TODO: can be signficantly refactored
@@ -41,7 +38,6 @@ const FolderList: React.FC<{
 
   const handleListItemClick = (folder: string, index: number) => {
     resetGroup()
-    history.push(`${folder}/new-chat`)
   }
 
   const matchSafe = (safe: string) => {

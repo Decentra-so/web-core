@@ -37,16 +37,12 @@ function a11yProps(index: number) {
 }
 
 export const MobileChat: React.FC<{
-  chatData: any[]
-  messages: string[]
   currentUser: any
-  setMessages: any
-  bottom: any
   setCurrentUser: any
   setGroup: any
   group: any
   owners: any[]
-}> = ({ chatData, messages, setMessages, bottom, owners, currentUser, setCurrentUser, setGroup, group }) => {
+}> = ({ owners, currentUser, setCurrentUser, setGroup, group }) => {
   const [mobileValue, setMobileValue] = React.useState(0)
 
   const handleMobileChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -66,10 +62,6 @@ export const MobileChat: React.FC<{
             setCurrentUser={setCurrentUser}
             setGroup={setGroup}
             currentUser={currentUser}
-            messages={messages}
-            setMessages={setMessages}
-            bottom={bottom}
-            chatData={chatData}
           />
         </TabPanel>
         <TabPanel value={mobileValue} index={1}>
