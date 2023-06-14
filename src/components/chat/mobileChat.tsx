@@ -2,6 +2,7 @@ import { Box, Hidden, Tab, Tabs, Typography } from '@mui/material'
 import React from 'react'
 import { ChatOverview } from './chatOverview'
 import { ChatSection } from './chatSection'
+import MobileChatFooter from './mobileChatFooter'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -82,6 +83,7 @@ export const MobileChat: React.FC<{
           </Box>
         </TabPanel>
       </Box>
+      <MobileChatFooter />
     </Hidden>
   )
 }

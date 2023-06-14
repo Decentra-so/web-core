@@ -24,12 +24,6 @@ type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
 }
 
-enum Pages {
-  Wallet = 'Wallet',
-  Chat = 'Chat',
-  AddressBook = 'Address Book'
-}
-
 const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
   const chainId = useChainId()
   const { safe, safeAddress } = useSafeInfo()
@@ -48,7 +42,13 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
     }
   }
 
-  const [selectedButton, setSelectedButton] = useState(Pages.Chat);
+  const buttonPages = [
+    AppRoutes.wallet,
+    AppRoutes.chat,
+    AppRoutes.addressBook
+  ]
+
+  const [selectedButton, setSelectedButton] = useState(AppRoutes.chat);
 
   return (
     <Paper className={css.container}>
@@ -66,16 +66,12 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
         </Link>
       </div>
 
-      <Box display='flex' alignItems='center'>
-        <Link href={{ pathname: AppRoutes.wallet, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.Wallet)} startIcon={<WalletIcon />} className={selectedButton === Pages.Wallet ? css.ButtonNavSelected : css.ButtonNav} size='small'>Wallet</Button>
-        </Link>
-        <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.Chat)} startIcon={<ChatIcon />} className={selectedButton === Pages.Chat ? css.ButtonNavSelected : css.ButtonNav} size='small'>Chat</Button>
-        </Link>
-        <Link href={{ pathname: AppRoutes.addressBook, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button onClick={() => setSelectedButton(Pages.AddressBook)} startIcon={<MenuBookIcon />} className={selectedButton === Pages.AddressBook ? css.ButtonNavSelected : css.ButtonNav} size='small'>Address book</Button>
-        </Link>
+      <Box display='flex' alignItems='center' className={css.hideMobile}>
+        {buttonPages.map(path =>
+          <Link href={{ pathname: path, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
+            <Button onClick={() => setSelectedButton(path)} startIcon={path === AppRoutes.wallet ? <WalletIcon /> : path === AppRoutes.chat ? <ChatIcon /> : <MenuBookIcon />} className={router.pathname.startsWith(path) ? css.ButtonNavSelected : css.ButtonNav} size='small'>{path === AppRoutes.wallet ? 'Wallet' : path === AppRoutes.chat ? 'Chat' : 'Address Book'}</Button>
+          </Link>
+        )}
       </Box>
 
       <Box display='flex' alignItems='center' justifyContent='space-evenly'>

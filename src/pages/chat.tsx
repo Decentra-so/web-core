@@ -2,12 +2,14 @@ import { ChatOverview } from '@/components/chat/chatOverview'
 import { DesktopChat } from '@/components/chat/desktopChat'
 import { MobileChat } from '@/components/chat/mobileChat'
 import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
-import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
+import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
 import { FolderList } from '@/components/folder-list'
+import FolderGroup from '@/components/folder-list/folderGroups'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
+import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import ellipsisAddress from '@/utils/ellipsisAddress'
@@ -30,15 +32,13 @@ import {
   Typography
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import Head from 'next/head'
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import useTxHistory from '@/hooks/useTxHistory'
-import FolderGroup from '@/components/folder-list/folderGroups'
 import { getSession, signOut } from 'next-auth/react'
+import Head from 'next/head'
 import Link from 'next/link'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import css from './styles.module.css'
 import { useRouter } from 'next/router'
+import css from './styles.module.css'
 
 const drawerWidth = 360
 
@@ -285,7 +285,7 @@ const Chat: React.FC<{
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
-      <Box sx={{ display: 'flex' }}>
+      <Box display='flex'>
         <Hidden mdDown>
           <Drawer
             sx={{
@@ -306,8 +306,8 @@ const Chat: React.FC<{
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box>
-              <Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
+                <Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
+                <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
                 <IconButton
@@ -327,7 +327,7 @@ const Chat: React.FC<{
                 })}
               </Tabs>
               <TabPanel value={value} index={0}>
-              <FolderList resetGroup={resetGroup} key={wallet?.chainId} />
+                <FolderList resetGroup={resetGroup} key={wallet?.chainId} />
               </TabPanel>
               {folders.map((folder, i) => {
                 return (
@@ -365,67 +365,66 @@ const Chat: React.FC<{
                   <Typography sx={{ fontWeight: 600 }}>{safeAddress ? ellipsisAddress(`${safeAddress}`) : ''}</Typography>
                 </Box>
                 <Box>
-                <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
-                  <SettingsIcon />
-                </IconButton>
-                <Hidden mdDown>
-                  <IconButton onClick={toggleDrawer(!open)}>
-                    {open ? <ViewSidebarIcon sx={{ background: 'rgba(0, 0, 0, 0.04)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                  <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <SettingsIcon />
                   </IconButton>
-                </Hidden>
+                  <Hidden mdDown>
+                    <IconButton onClick={toggleDrawer(!open)}>
+                      {open ? <ViewSidebarIcon sx={{ background: 'rgba(0, 0, 0, 0.04)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                    </IconButton>
+                  </Hidden>
                 </Box>
               </Toolbar>
               <Divider />
               {
-                (ownerArray.length && !ownerArray.includes(wallet?.address!)) ? 
-                <Container fixed sx={{ height: '100vh', width: '100vw' }}>
-                  <Box
-                    sx={{
-                      height: '100%',
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 3,
-                    }}
-                  >
-                    <Typography variant="h4">
-                      You are not a signer on this safe.
-                    </Typography>
-                  </Box>
-                </Container>
-                :
-                <>
-                  <MobileChat
-                    message={message}
-                    setMessage={setMessage}
-                    messages={messages}
-                    setMessages={setMessages}
-                    bottom={bottom}
-                    chatData={chatData}
-                    group={group}
-                    owners={owners}
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    setGroup={setGroup}
-                  />
-                  <DesktopChat
-                    setGroup={setGroup}
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    message={message}
-                    setMessage={setMessage}
-                    messages={messages}
-                    setMessages={setMessages}
-                    group={group}
-                    bottom={bottom}
-                    chatData={chatData}
-                    safe={safeAddress}
-                  />
-                </>
+                (ownerArray.length && !ownerArray.includes(wallet?.address!)) ?
+                  <Container fixed sx={{ height: '100vh', width: '100vw' }}>
+                    <Box
+                      sx={{
+                        height: '100%',
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 3,
+                      }}
+                    >
+                      <Typography variant="h4">
+                        You are not a signer on this safe.
+                      </Typography>
+                    </Box>
+                  </Container>
+                  :
+                  <>
+                    <MobileChat
+                      message={message}
+                      setMessage={setMessage}
+                      messages={messages}
+                      setMessages={setMessages}
+                      bottom={bottom}
+                      chatData={chatData}
+                      group={group}
+                      owners={owners}
+                      currentUser={currentUser}
+                      setCurrentUser={setCurrentUser}
+                      setGroup={setGroup}
+                    />
+                    <DesktopChat
+                      setGroup={setGroup}
+                      currentUser={currentUser}
+                      setCurrentUser={setCurrentUser}
+                      message={message}
+                      setMessage={setMessage}
+                      messages={messages}
+                      setMessages={setMessages}
+                      group={group}
+                      bottom={bottom}
+                      chatData={chatData}
+                      safe={safeAddress}
+                    />
+                  </>
               }
-            
             </Box>
           </Box>
         </Main>
