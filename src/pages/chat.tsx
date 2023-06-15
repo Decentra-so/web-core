@@ -357,7 +357,7 @@ const Chat: React.FC<{
               >
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
                   <Link href={{ pathname: AppRoutes.home, query: { safe: `${safeAddress}` } }}>
-                    <IconButton aria-label="back">
+                    <IconButton  className={css.hideDesktop} aria-label="back">
                       <ArrowBackIos />
                     </IconButton>
                   </Link>
