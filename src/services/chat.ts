@@ -29,6 +29,22 @@ const loginWithCometChat = async (wallet: string) => {
   })
 }
 
+const checkUserExists = async (wallet: string) => {
+  console.log('here 2')
+  try {
+    await CometChat.getUser(wallet).then(
+      user => {
+        console.log("User details fetched for user:", user);
+      }, error => {
+        console.log("User details fetching failed with error:", error);
+      }
+    );
+  } catch {
+    console.log('error')
+  }
+  
+}
+
 const signUpWithCometChat = async (wallet: string) => {
   const authKey = CONSTANTS.Auth_Key
   const UID = wallet
@@ -136,4 +152,5 @@ export {
   getGroup,
   joinGroup,
   listenForMessage,
+  checkUserExists,
 }

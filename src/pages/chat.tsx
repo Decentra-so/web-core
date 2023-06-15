@@ -1,5 +1,5 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
-import { DesktopChat } from '@/components/chat/desktopChat'
+
 import { MobileChat } from '@/components/chat/mobileChat'
 import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
@@ -34,7 +34,8 @@ import React, { useState, useEffect } from 'react'
 import FolderGroup from '@/components/folder-list/folderGroups'
 import { getSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
-
+import dynamic from 'next/dynamic'
+const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 import css from './styles.module.css'
 import { useRouter } from 'next/router'
 
@@ -321,13 +322,7 @@ const Chat: React.FC<{
                     setCurrentUser={setCurrentUser}
                     setGroup={setGroup}
                   />
-                  <DesktopChat
-                    setGroup={setGroup}
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    group={group}
-                    safe={safeAddress}
-                  />
+                  <ChatWrapper />
                 </>
               }
             

@@ -1,15 +1,19 @@
+'use client'
+
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Hidden, Typography, Box } from '@mui/material'
+import React from 'react'
+import { ChatSection } from '@/components/chat/chatSection'
 import { toast } from 'react-toastify'
-import { initCometChat, loginWithCometChat, signUpWithCometChat, getMessages, listenForMessage, joinGroup, createNewGroup, getGroup } from '../../services/chat'
+import { initCometChat, loginWithCometChat, signUpWithCometChat, getMessages, listenForMessage, joinGroup, createNewGroup, getGroup } from '@/services/chat'
 
-const LoginButton: React.FC<{
-  setCurrentUser: any
-  user: any
-  setGroup: any
-  setMessages: any
-}> = ({ setCurrentUser, user, setGroup, setMessages }) => {
+const ChatWrapper = () => {
+
+  const [group, setGroup] = useState<any>()
+  const [user, setCurrentUser] = useState<any>()
+  const [messages, setMessages] = useState<any[]>()
   const [signedUp, setSignedUp] = useState<boolean>(false)
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
@@ -31,9 +35,11 @@ const LoginButton: React.FC<{
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
         .then((msgs: any) => {
+          console.log(msgs, 'messages 1')
           setMessages(msgs)
         })
         .catch((error) => {
+          console.log(error, 'error 1')
           setMessages([])
         })
 
@@ -51,9 +57,11 @@ const LoginButton: React.FC<{
       new Promise(async (resolve, reject) => {
         await joinGroup(`pid_${safeAddress}`)
           .then((user) => {
+            console.log(user)
             resolve(user)
           })
           .catch((err) => {
+            console.log(err)
             reject(err)
           })
       }),
@@ -124,8 +132,10 @@ const LoginButton: React.FC<{
         await loginWithCometChat(wallet?.address)
           .then((user) => {
             setCurrentUser(user)
+            console.log(user)
           })
           .catch((err) => {
+            console.log(err)
             reject()
           })
       }),
@@ -160,8 +170,37 @@ const LoginButton: React.FC<{
 
 
   return (
-    <></>
+    <Hidden mdDown>
+      {
+        safeAddress ? (
+          <ChatSection
+            currentUser={user}
+            setCurrentUser={setCurrentUser}
+            group={group}
+            setGroup={setGroup}
+          />
+        ) : (
+          <Box
+            sx={{
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 3,
+            }}
+          >
+            <title>No Chat Selected</title>
+            <Typography>
+              Please add, or select a chat from the sidebar.
+            </Typography>
+          </Box>
+        )
+      }
+     
+    </Hidden>
   )
 }
 
-export default LoginButton
+export default ChatWrapper

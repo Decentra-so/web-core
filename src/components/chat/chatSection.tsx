@@ -1,3 +1,5 @@
+'use client'
+
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'

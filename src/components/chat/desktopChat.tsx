@@ -1,6 +1,11 @@
+'use client'
+
 import { Hidden, Typography, Box } from '@mui/material'
 import React from 'react'
 import { ChatSection } from './chatSection'
+
+//import dynamic from 'next/dynamic'
+//const ChatData = dynamic(() => import('@/hooks/useChat'), { ssr: false })
 
 export const DesktopChat: React.FC<{
   currentUser: any
@@ -9,6 +14,7 @@ export const DesktopChat: React.FC<{
   group: any
   safe: string
 }> = ({ setCurrentUser, currentUser, setGroup, group, safe }) => {
+
   return (
     <Hidden mdDown>
       {
