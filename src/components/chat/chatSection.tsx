@@ -1,9 +1,10 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'
+import { Avatar, Box, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import TxListItem from '../transactions/TxListItem'
+import AddNewTxIconButton from './AddNewTxIconButton'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const LoginButton = dynamic(() => import('@/components/chat/LoginButton'), { ssr: false })
@@ -48,7 +49,7 @@ export const ChatSection: React.FC<{
               justifyContent: 'start',
               alignItems: 'start',
               gap: '16px',
-            p: '0 24px',
+              p: '0 24px',
             }}
           >
             <List>
@@ -62,7 +63,7 @@ export const ChatSection: React.FC<{
                           alignItems: 'start',
                           p: 0,
                           width: 'fit-content',
-                        margin: '8px 0',
+                          margin: '8px 0',
                         }}
                         key={index}
                         alignItems="flex-start"
@@ -70,7 +71,7 @@ export const ChatSection: React.FC<{
                         <ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
                           <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
                         </ListItemAvatar>
-                      <ListItemText           
+                        <ListItemText
                           primary={
                             <React.Fragment>
                               <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">
@@ -93,7 +94,7 @@ export const ChatSection: React.FC<{
                     return (
                       <ListItem
                         key={index}
-                      sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
+                        sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
                         alignItems="flex-start"
                         disableGutters
                       >
@@ -122,6 +123,11 @@ export const ChatSection: React.FC<{
                 sx={{ flexGrow: 1 }}
                 label="Type Something"
                 value={message}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">
+                    <AddNewTxIconButton />
+                  </InputAdornment>,
+                }}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <SendMessage
