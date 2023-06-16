@@ -7,7 +7,6 @@ const CONSTANTS = {
 }
 
 const initCometChat = async () => {
-  console.log('init')
   const appID = CONSTANTS.APP_ID
   const region = CONSTANTS.REGION
 
@@ -30,7 +29,6 @@ const loginWithCometChat = async (wallet: string) => {
 }
 
 const checkUserExists = async (wallet: string) => {
-  console.log('here 2')
   try {
     await CometChat.getUser(wallet).then(
       user => {

@@ -1,50 +1,28 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { initCometChat, loginWithCometChat, signUpWithCometChat, getMessages, listenForMessage, joinGroup, createNewGroup, getGroup } from '../../services/chat'
+import { initCometChat, loginWithCometChat, signUpWithCometChat, joinGroup, createNewGroup, getGroup } from '../../services/chat'
 
-const LoginButton: React.FC<{
+const Login: React.FC<{
   setCurrentUser: any
   user: any
   setGroup: any
-  setMessages: any
-}> = ({ setCurrentUser, user, setGroup, setMessages }) => {
-  const [signedUp, setSignedUp] = useState<boolean>(false)
+}> = ({ setCurrentUser, user, setGroup }) => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
 
   useEffect(() => {
-
     const init = async () => {
+      initCometChat()
+      handleSignup()
+      handleLogin()
       handleCreateGroup()
       handleJoin()
       handleGetGroup()
-      initCometChat()
-      handleSignup().then(() => setSignedUp(true)).catch()
-      handleLogin()
     }
     init()
-  }, [])
-
-  useEffect(() => {
-    async function getM() {
-      await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
-          setMessages(msgs)
-        })
-        .catch((error) => {
-          setMessages([])
-        })
-
-      await listenForMessage(`pid_${safeAddress!}`)
-        .then((msg: any) => {
-          setMessages((prevState: any) => [...prevState, msg])
-        })
-        .catch((error) => console.log(error))
-    }
-    getM()
-  }, [safeAddress])
+  }, [user])
 
   const handleJoin = async () => {
     await toast.promise(
@@ -142,7 +120,6 @@ const LoginButton: React.FC<{
       new Promise(async (resolve, reject) => {
         await signUpWithCometChat(wallet?.address!)
           .then((user) => {
-            console.log(user)
             resolve(user)
           })
           .catch((err) => {
@@ -164,4 +141,4 @@ const LoginButton: React.FC<{
   )
 }
 
-export default LoginButton
+export default Login

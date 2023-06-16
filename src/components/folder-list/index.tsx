@@ -12,9 +12,7 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import FolderListContextMenu from './folderItemContextItem'
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 
-const FolderList: React.FC<{
-  resetGroup: () => void
-}> = ({ resetGroup }) => {
+const FolderList: React.FC = () => {
   const allOwnedSafes = useAllOwnedSafes()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
   const { safeAddress } = useSafeInfo()
@@ -36,10 +34,6 @@ const FolderList: React.FC<{
     }
   }, [allOwnedSafes])
 
-  const handleListItemClick = (folder: string, index: number) => {
-    resetGroup()
-  }
-
   const matchSafe = (safe: string) => {
     return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
   }
@@ -53,10 +47,7 @@ const FolderList: React.FC<{
           sx={{ padding: '2px 6px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
         >
           <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
-            <ListItemButton
-              key={safe}
-              onClick={() => handleListItemClick(safe, index)}
-            >
+            <ListItemButton key={safe}>
               {/* <ListItemAvatar>
                 {folder.badge ? <BadgeAvatar name={folder.name} /> : <Avatar alt={folder.name} />}
               </ListItemAvatar> */}

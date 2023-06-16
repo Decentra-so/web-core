@@ -1,5 +1,3 @@
-'use client'
-
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'
@@ -9,20 +7,21 @@ import TxListItem from '../transactions/TxListItem'
 import { useState, useEffect, useRef } from 'react'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
+import {  getMessages, listenForMessage } from '../../services/chat'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
-const LoginButton = dynamic(() => import('@/components/chat/LoginButton'), { ssr: false })
+const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
 export const ChatSection: React.FC<{
   currentUser: any
   setCurrentUser: any
-  group: any
   setGroup: any
+  group: any
 }> = ({
   currentUser,
   setCurrentUser,
-  group,
   setGroup,
+  group,
 }) => {
   //transactions
   const txHistory = useTxHistory()
@@ -34,14 +33,35 @@ export const ChatSection: React.FC<{
   const safeAddress = useSafeAddress()
   const [message, setMessage] = useState<string>()
   const bottom = useRef<HTMLDivElement>(null)
+
   const getLast5Items = (arr: any) => {
     if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+      return arr.length > 5 ? arr.slice(0, 5) : arr
     }
     return arr
   }
 
-  const getChat = useCallback(() => {
+
+  useEffect(() => {
+    async function getM() {
+      await getMessages(`pid_${safeAddress!}`)
+        .then((msgs: any) => {
+          setMessages(msgs)
+        })
+        .catch((error) => {
+          setMessages([])
+        })
+
+      await listenForMessage(`pid_${safeAddress!}`)
+        .then((msg: any) => {
+          setMessages((prevState: any) => [...prevState, msg])
+        })
+        .catch((error) => console.log(error))
+    }
+    getM()
+  }, [safeAddress, currentUser])
+
+  const getChat = useCallback(() => {  
     let allData: any[] = []
     const historyItems = getLast5Items(txHistory.page?.results)
     const queueItems = getLast5Items(txQueue?.page?.results)
@@ -86,11 +106,11 @@ export const ChatSection: React.FC<{
       }
     })
     setChatData(allData)
-  }, [messages, txHistory?.page?.results, txQueue?.page?.results])
+  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
   
   useEffect(() => {
     getChat()
-  }, [group, messages, currentUser])
+  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -189,7 +209,7 @@ export const ChatSection: React.FC<{
           background: 'var(--color-background-lightcolor)'
         }}
       >
-        {currentUser ? (
+        {currentUser && group ? (
           <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
             <TextField
               sx={{ flexGrow: 1 }}
@@ -206,7 +226,7 @@ export const ChatSection: React.FC<{
             />
           </Box>
         ) : (
-          <LoginButton setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} setMessages={setMessages} />
+          <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
         )}
       </Box>
     </Box>

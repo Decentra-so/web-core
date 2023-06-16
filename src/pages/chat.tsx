@@ -1,6 +1,5 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
 
-import { MobileChat } from '@/components/chat/mobileChat'
 import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
@@ -119,7 +118,6 @@ const Chat: React.FC<{
   //routing
   const router = useRouter()
   //folders and folder control
-  const [group, setGroup] = useState<any>()
   const [folders, setFolders] = useState([])
   const [popup, togglePopup] = useState<boolean>(false)
   //modals and modal control
@@ -129,13 +127,9 @@ const Chat: React.FC<{
   const [value, setValue] = React.useState(0)
   //user and safe
   const wallet = useWallet()
-  const [currentUser, setCurrentUser] = useState<any>()
   const { safe, safeAddress } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
-  const resetGroup = () => {
-    setGroup('')
-  }
 
   useEffect(() => {
     if (user.address !== wallet?.address) {
@@ -245,7 +239,7 @@ const Chat: React.FC<{
                 })}
               </Tabs>
               <TabPanel value={value} index={0}>
-              <FolderList resetGroup={resetGroup} />
+                <FolderList />
               </TabPanel>
               {folders.map((folder, i) => {
                 return (
@@ -315,13 +309,6 @@ const Chat: React.FC<{
                 </Container>
                 :
                 <>
-                  <MobileChat
-                    group={group}
-                    owners={owners}
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    setGroup={setGroup}
-                  />
                   <ChatWrapper />
                 </>
               }
@@ -358,4 +345,4 @@ const Chat: React.FC<{
   )
 }
 
-export default React.memo(Chat)
+export default Chat
