@@ -71,8 +71,8 @@ export const ChangeThresholdDialogEditIcon = () => {
         {(isOk) => (
           <Track {...SETTINGS_EVENTS.SETUP.CHANGE_THRESHOLD}>
            <Tooltip title="Change threshold" placement="top"> 
-            <IconButton onClick={() => setOpen(true)}>
-              <SvgIcon component={EditIcon} inheritViewBox color="border" fontSize="small" height="24px" width="24px" />
+            <IconButton height="24px" width="24px" onClick={() => setOpen(true)}>
+              <SvgIcon component={EditIcon} inheritViewBox color="border" fontSize="small" />
             </IconButton>
            </Tooltip>  
           </Track>
