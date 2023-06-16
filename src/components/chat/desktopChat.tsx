@@ -1,4 +1,4 @@
-import { Hidden, Typography, Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { ChatSection } from './chatSection'
 
@@ -16,7 +16,7 @@ export const DesktopChat: React.FC<{
   safe: string
 }> = ({ chatData, message, setMessage, messages, setMessages, bottom, setCurrentUser, currentUser, setGroup, group, safe }) => {
   return (
-    <Hidden mdDown>
+    <>
       {
         safe && chatData ? (
           <ChatSection
@@ -50,7 +50,6 @@ export const DesktopChat: React.FC<{
           </Box>
         )
       }
-     
-    </Hidden>
+    </>
   )
 }

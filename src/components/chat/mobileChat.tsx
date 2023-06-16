@@ -1,8 +1,7 @@
-import { Box, Hidden, Tab, Tabs, Typography } from '@mui/material'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
 import React from 'react'
 import { ChatOverview } from './chatOverview'
 import { ChatSection } from './chatSection'
-import MobileChatFooter from './mobileChatFooter'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -57,33 +56,30 @@ export const MobileChat: React.FC<{
   }
 
   return (
-    <Hidden mdUp>
-      <Box sx={{ width: '100%', height: '100%' }}>
-        <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
-          <Tab label="Timeline" {...a11yProps(0)} />
-          <Tab label="Overview" {...a11yProps(1)} />
-        </Tabs>
-        <TabPanel value={mobileValue} index={0}>
-          <ChatSection
-            group={group}
-            setCurrentUser={setCurrentUser}
-            setGroup={setGroup}
-            currentUser={currentUser}
-            message={message}
-            setMessage={setMessage}
-            messages={messages}
-            setMessages={setMessages}
-            bottom={bottom}
-            chatData={chatData}
-          />
-        </TabPanel>
-        <TabPanel value={mobileValue} index={1}>
-          <Box height="100%">
-            <ChatOverview owners={owners} />
-          </Box>
-        </TabPanel>
-      </Box>
-      <MobileChatFooter />
-    </Hidden>
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
+        <Tab label="Timeline" {...a11yProps(0)} />
+        <Tab label="Overview" {...a11yProps(1)} />
+      </Tabs>
+      <TabPanel value={mobileValue} index={0}>
+        <ChatSection
+          group={group}
+          setCurrentUser={setCurrentUser}
+          setGroup={setGroup}
+          currentUser={currentUser}
+          message={message}
+          setMessage={setMessage}
+          messages={messages}
+          setMessages={setMessages}
+          bottom={bottom}
+          chatData={chatData}
+        />
+      </TabPanel>
+      <TabPanel value={mobileValue} index={1}>
+        <Box height="100%">
+          <ChatOverview owners={owners} />
+        </Box>
+      </TabPanel>
+    </Box>
   )
 }

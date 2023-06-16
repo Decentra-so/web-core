@@ -1,17 +1,16 @@
+import { AppRoutes } from '@/config/routes'
+import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
+import useSafeInfo from '@/hooks/useSafeInfo'
 import { ListItemButton, Typography } from '@mui/material'
-import ListItem from '@mui/material/ListItem'
 import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Link from 'next/link'
 import ListItemText from '@mui/material/ListItemText'
-import { AppRoutes } from '@/config/routes'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
-import { useRouter } from 'next/router'
-import useSafeInfo from '@/hooks/useSafeInfo'
 import FolderListContextMenu from './folderItemContextItem'
-import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 
 export const FolderList: React.FC<{
   resetGroup: () => void
@@ -50,33 +49,22 @@ export const FolderList: React.FC<{
   return (
     <List sx={{ padding: '0px' }}>
       {safeFolder?.map((safe, index) => (
-        <ListItem
-          key={`safe-${index}`}
-          disablePadding
-          selected={matchSafe(safe)}
-          sx={{ padding: '2px 6px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
-        >
-          <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
-            <ListItemButton
-              key={safe}
-              onClick={() => handleListItemClick(safe, index)}
-            >
-              {/* <ListItemAvatar>
-                {folder.badge ? <BadgeAvatar name={folder.name} /> : <Avatar alt={folder.name} />}
-              </ListItemAvatar> */}
-              <ListItemAvatar>
-                <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt={safe} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
-                //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
-              />
-              
-            </ListItemButton>
-          </Link>
-          
-          <FolderListContextMenu address={safe} />
-        </ListItem>
+        <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
+          <ListItemButton
+            key={`safe-${index}`}
+            selected={matchSafe(safe)}
+            sx={{ padding: '2px 6px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
+            onClick={() => handleListItemClick(safe, index)}
+          >
+            <ListItemAvatar>
+              <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt={safe} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
+            />
+            <FolderListContextMenu address={safe} />
+          </ListItemButton>
+        </Link>
       ))}
     </List>
   )

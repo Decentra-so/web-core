@@ -10,6 +10,7 @@ export const AppRoutes = {
   index: '/',
   imprint: '/imprint',
   import: '/import',
+  safeList: '/safe-list',
   home: '/home',
   environmentVariables: '/environment-variables',
   cookie: '/cookie',

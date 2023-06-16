@@ -15,13 +15,6 @@
   font-size: 16px;
 }
 
-@media (min-width: 600px) {
-  .hideDesktop {
-    display: none;
-  }
-}
-
-
 @media (min-width: 901px) {
   .mainview {
     height: 100%;
