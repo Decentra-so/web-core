@@ -21,7 +21,7 @@ import { selectSettings } from '@/store/settingsSlice'
 import { useCurrentChain } from '@/hooks/useChains'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import QrIconBold from '@/public/images/sidebar/qr-bold.svg'
+import AppsIcon from '@/public/images/apps/apps-icon.svg'
 import CopyIcon from '@/public/images/common/copy.svg'
 import LinkIcon from '@/public/images/common/link.svg'
 import { getBlockExplorerLink } from '@/utils/chains'
@@ -69,7 +69,7 @@ export const ChatOverview: React.FC<{
             <QrCodeButton>
               <Tooltip title="Open QR code" placement="top">
                 <IconButton className={css.iconButton}>
-                  <SvgIcon component={QrIconBold} inheritViewBox color="primary" fontSize="small" />
+                  <SvgIcon component={AppsIcon} inheritViewBox fontSize="small" />
                 </IconButton>
               </Tooltip>
             </QrCodeButton>
