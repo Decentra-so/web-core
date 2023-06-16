@@ -62,6 +62,7 @@
   --color-background-lightcolor: #f4f4f4;
   --color-background-papercolor: #ffffff;
   --color-shadow-paper: rgba(0, 0, 0, 0.08) 0px 0.75rem 1.5rem;
+  --color-background-mediumcolor: #e8e8e8;
 
   /* Fonts */
   --onboard-font-family-normal: DM Sans, sans-serif;
@@ -84,6 +85,7 @@
   --color-background-lightcolor: #1b1d21;
   --color-background-papercolor: #212327;
   --color-shadow-paper: rgb(17 17 17 / 60%) 0px 0.25rem 1rem;
+  --color-background-mediumcolor: #212327;
 }
 
 #walletconnect-qrcode-modal {

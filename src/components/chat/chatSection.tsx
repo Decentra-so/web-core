@@ -46,7 +46,7 @@ export const ChatSection: React.FC<{
             justifyContent: 'start',
             alignItems: 'start',
             gap: '16px',
-            p: 3,
+            p: '0 24px',
           }}
         >
           <List>
@@ -60,6 +60,7 @@ export const ChatSection: React.FC<{
                         alignItems: 'start',
                         p: 0,
                         width: 'fit-content',
+                        margin: '8px 0',
                       }}
                       key={index}
                       alignItems="flex-start"
@@ -67,8 +68,7 @@ export const ChatSection: React.FC<{
                       <ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
                         <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
                       </ListItemAvatar>
-                      <ListItemText
-                        sx={{ background: 'rgb(155 155 155 / 11%)', padding: '12px 16px', borderRadius: '0 10px 10px 10px' }}            
+                      <ListItemText           
                         primary={
                           <React.Fragment>
                             <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">
@@ -91,28 +91,11 @@ export const ChatSection: React.FC<{
                   return (
                     <ListItem
                       key={index}
-                      sx={{ pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
+                      sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
                       alignItems="flex-start"
                       disableGutters
                     >
                       <TxListItem key={`${index}-tx`} item={chat?.data} />
-                      <ListItemText
-                        primary={
-                          <React.Fragment>
-                            <Typography
-                              sx={{ display: 'inline', pr: '8px', fontWeight: 600 }}
-                              component="span"
-                              variant="subtitle2"
-                            >
-                              {chat.name}
-                            </Typography>
-                            <Typography sx={{ display: 'inline' }} component="span" variant="body2">
-                              {chat.timeAgo}
-                            </Typography>
-                          </React.Fragment>
-                        }
-                        secondary={chat.message}
-                      />
                     </ListItem>
                   )
                 }
