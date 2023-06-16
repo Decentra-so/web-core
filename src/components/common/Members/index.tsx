@@ -15,15 +15,15 @@ const Members: React.FC<TypeMembers> = ({ members }) => {
         <AddOwner />
       </Box>
       <List sx={{ px: 1, pb: 2 }}>
-        {members.map((member, index) => (
-          <ListItem key={member.value}>
-            <ListItemAvatar sx={{ minWidth: 35 }}>
-              <Avatar sx={{ width: 24, height: 24 }} alt={member.value} />
-            </ListItemAvatar>
-            <ListItemText primary={ellipsisAddress(`${member.value}`)} />
-          </ListItem>
-        ))}
-      </List>
+         {members.map((member, index) => (
+           <ListItem key={member.value}>
+             <ListItemAvatar sx={{ minWidth: 35 }}>
+               <Avatar sx={{ width: 24, height: 24 }} alt={member.value} />
+             </ListItemAvatar>
+             <ListItemText primary={ellipsisAddress(`${member.value}`)} />
+           </ListItem>
+         ))}
+       </List>
     </>
   )
 }

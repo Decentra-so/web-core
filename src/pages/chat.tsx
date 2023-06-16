@@ -16,7 +16,6 @@ import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
   Avatar,
   Box, Container,
-  Divider,
   Drawer,
   Hidden,
   IconButton, Toolbar,
@@ -238,6 +237,7 @@ const Chat: React.FC<{
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   bgcolor: 'var(--color-background-lightcolor)',
+                  borderBottom: '1px solid var(--color-border-light)',
                 }}
               >
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
@@ -257,12 +257,11 @@ const Chat: React.FC<{
                   </IconButton>
                   <Hidden mdDown>
                     <IconButton onClick={toggleDrawer(!open)}>
-                      {open ? <ViewSidebarIcon sx={{ background: 'rgba(0, 0, 0, 0.04)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                    {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
                     </IconButton>
                   </Hidden>
                 </Box>
               </Toolbar>
-              <Divider />
               {
                 (ownerArray.length && !ownerArray.includes(wallet?.address!)) ?
                   <Container fixed sx={{ height: '100vh', width: '100vw' }}>
