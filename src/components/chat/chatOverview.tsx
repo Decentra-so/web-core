@@ -95,13 +95,17 @@ export const ChatOverview: React.FC<{
         <Typography sx={{ color: grey[600] }}>Network</Typography>
         <Typography>
           {safe?.chainId === '137'
-            ? 'Matic'
+            ? 'Polygon'
             : safe?.chainId === '1'
             ? 'Ethereum'
             : safe?.chainId === '10'
             ? 'Optimism'
-            : safe?.chainId === '80001'
-            ? 'Mumbai'
+            : safe?.chainId === '42161'
+            ? 'Arbitrum'
+            : safe?.chainId === '56'
+            ? 'BNB Smart Chain'
+            : safe?.chainId === '100'
+            ? 'Gnosis Chain'
             : ''}
         </Typography>
       </Box>
