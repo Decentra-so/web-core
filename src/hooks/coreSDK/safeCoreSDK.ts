@@ -77,7 +77,6 @@ export const initSafeSDK = async ({
 
     isL1SafeMasterCopy = masterCopy === safeL1Deployment?.defaultAddress
     const isL2SafeMasterCopy = masterCopy === safeL2Deployment?.defaultAddress
-    console.log('2 test')
     // Unknown deployment, which we do not want to support
     if (!isL1SafeMasterCopy && !isL2SafeMasterCopy) {
       return Promise.resolve(undefined)
@@ -86,10 +85,8 @@ export const initSafeSDK = async ({
 
   // Legacy Safe contracts
   if (isLegacyVersion(safeVersion)) {
-    console.log('3 test')
     isL1SafeMasterCopy = true
   }
-  console.log('4 test')
   return Safe.create({
     ethAdapter: createReadOnlyEthersAdapter(provider),
     safeAddress: address,

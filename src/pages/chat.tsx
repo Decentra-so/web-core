@@ -1,16 +1,13 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
-import { DesktopChat } from '@/components/chat/desktopChat'
-import { MobileChat } from '@/components/chat/mobileChat'
+
 import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
-import { FolderList } from '@/components/folder-list'
+import FolderList from '@/components/folder-list'
 import FolderGroup from '@/components/folder-list/folderGroups'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
-import useTxHistory from '@/hooks/useTxHistory'
-import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import { ArrowBackIos } from '@mui/icons-material'
@@ -32,12 +29,13 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { getSession, signOut } from 'next-auth/react'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import css from './styles.module.css'
+const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
 
@@ -112,12 +110,13 @@ export async function getServerSideProps(context: any) {
   }
 }
 
+//TO DO: move state out of this component and into the relevant components to avoid pointless re-renders and speed up app.
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
+  //routing
   const router = useRouter()
   //folders and folder control
-  const [group, setGroup] = useState<any>()
   const [folders, setFolders] = useState([])
   const [popup, togglePopup] = useState<boolean>(false)
   //modals and modal control
@@ -125,38 +124,15 @@ const Chat: React.FC<{
   const [settings, toggleSettings] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
   const [value, setValue] = React.useState(0)
-  //Chat
-  const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([''])
-  const [chatData, setChatData] = useState<any[]>([''])
-  //transactions
-  const txHistory = useTxHistory()
-  const txQueue = useTxQueue()
   //user and safe
   const wallet = useWallet()
-  const [currentUser, setCurrentUser] = useState<any>()
   const { safe, safeAddress } = useSafeInfo()
-  const bottom = useRef<HTMLDivElement>(null)
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
-  const resetGroup = () => {
-    setGroup('')
-  }
-
-  const scrollToBottom = useCallback(() => {
-    if (!bottom.current) return
-    const { current: bottomOfChat } = bottom
-    const rect = bottomOfChat.getBoundingClientRect()
-    if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-      return
-    }
-    bottomOfChat.scrollIntoView({ behavior: 'smooth' })
-  }, [])
 
   useEffect(() => {
     if (user.address !== wallet?.address) {
-      //@ts-ignore
-      signOut({ redirect: '/auth' })
+      signOut({ redirect: true })
     }
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
@@ -191,70 +167,6 @@ const Chat: React.FC<{
 
     setOpen(open)
   }
-
-  const getLast5Items = (arr: any) => {
-    if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
-    }
-    return arr
-  }
-
-  const getChat = useCallback(() => {
-    let allData: any[] = []
-    const historyItems = getLast5Items(txHistory.page?.results)
-    const queueItems = getLast5Items(txQueue?.page?.results)
-    historyItems?.forEach((tx: any) => {
-      if (tx.type === 'DATE_LABEL') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-    queueItems?.forEach((tx: any) => {
-      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-    if (!messages.length) {
-      setChatData(allData)
-      return
-    }
-    messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    })
-    allData.sort(function (a, b) {
-      if (a['timestamp'] > b['timestamp']) {
-        return 1
-      } else if (a['timestamp'] < b['timestamp']) {
-        return -1
-      } else {
-        return 0
-      }
-    })
-    setChatData(allData)
-  }, [messages, txHistory?.page?.results, txQueue?.page?.results])
-
-  useEffect(() => {
-    if (safeAddress) {
-      getChat()
-    }
-  }, [safeAddress, messages, txHistory?.page?.results, txQueue?.page?.results])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [chatData, messages])
 
   if (!wallet?.address || !user)
     return (
@@ -326,7 +238,7 @@ const Chat: React.FC<{
                 })}
               </Tabs>
               <TabPanel value={value} index={0}>
-                <FolderList resetGroup={resetGroup} key={wallet?.chainId} />
+                <FolderList />
               </TabPanel>
               {folders.map((folder, i) => {
                 return (
@@ -396,32 +308,7 @@ const Chat: React.FC<{
                   </Container>
                   :
                   <>
-                    <MobileChat
-                      message={message}
-                      setMessage={setMessage}
-                      messages={messages}
-                      setMessages={setMessages}
-                      bottom={bottom}
-                      chatData={chatData}
-                      group={group}
-                      owners={owners}
-                      currentUser={currentUser}
-                      setCurrentUser={setCurrentUser}
-                      setGroup={setGroup}
-                    />
-                    <DesktopChat
-                      setGroup={setGroup}
-                      currentUser={currentUser}
-                      setCurrentUser={setCurrentUser}
-                      message={message}
-                      setMessage={setMessage}
-                      messages={messages}
-                      setMessages={setMessages}
-                      group={group}
-                      bottom={bottom}
-                      chatData={chatData}
-                      safe={safeAddress}
-                    />
+                    <ChatWrapper />
                   </>
               }
             </Box>
@@ -456,4 +343,4 @@ const Chat: React.FC<{
   )
 }
 
-export default React.memo(Chat)
+export default Chat

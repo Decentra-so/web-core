@@ -1,24 +1,19 @@
+import { AppRoutes } from '@/config/routes'
+import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
+import useSafeInfo from '@/hooks/useSafeInfo'
 import { ListItemButton, Typography } from '@mui/material'
-import ListItem from '@mui/material/ListItem'
 import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Link from 'next/link'
 import ListItemText from '@mui/material/ListItemText'
-import { AppRoutes } from '@/config/routes'
-import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { memo, useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
-import { useRouter } from 'next/router'
-import useSafeInfo from '@/hooks/useSafeInfo'
 import FolderListContextMenu from './folderItemContextItem'
-import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 
-export const FolderList: React.FC<{
-  resetGroup: () => void
-}> = ({ resetGroup }) => {
+const FolderList: React.FC = () => {
   const allOwnedSafes = useAllOwnedSafes()
-  console.log(allOwnedSafes)
-  const history = useRouter()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
   const { safeAddress } = useSafeInfo()
   //TODO: can be signficantly refactored
@@ -39,11 +34,6 @@ export const FolderList: React.FC<{
     }
   }, [allOwnedSafes])
 
-  const handleListItemClick = (folder: string, index: number) => {
-    resetGroup()
-    history.push(`${folder}/new-chat`)
-  }
-
   const matchSafe = (safe: string) => {
     return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
   }
@@ -57,10 +47,7 @@ export const FolderList: React.FC<{
           sx={{ padding: '2px 6px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
         >
           <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
-            <ListItemButton
-              key={safe}
-              onClick={() => handleListItemClick(safe, index)}
-            >
+            <ListItemButton key={safe}>
               {/* <ListItemAvatar>
                 {folder.badge ? <BadgeAvatar name={folder.name} /> : <Avatar alt={folder.name} />}
               </ListItemAvatar> */}
@@ -69,15 +56,16 @@ export const FolderList: React.FC<{
               </ListItemAvatar>
               <ListItemText
                 primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
-                //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
+              //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
               />
-              
             </ListItemButton>
           </Link>
-          
+
           <FolderListContextMenu address={safe} />
         </ListItem>
       ))}
     </List>
   )
 }
+
+export default memo(FolderList)

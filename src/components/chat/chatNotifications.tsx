@@ -35,7 +35,6 @@ const ChatNotifications = () => {
         data.push({ addedSafeEntriesOnChain, chain })
       }
     })
-    console.log(data)
     setAddedSafesList(data)
   }, [configs])
 
