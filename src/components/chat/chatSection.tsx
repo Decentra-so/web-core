@@ -1,14 +1,13 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
-import useWallet from '@/hooks/wallets/useWallet'
-import { Box, List, ListItem, TextField, Typography } from '@mui/material'
-import dynamic from 'next/dynamic'
-import React, { useCallback } from 'react'
-import TxListItem from '../transactions/TxListItem'
-import ChatMessage from './chatMessage'
-import { useState, useEffect, useRef } from 'react'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
-import {  getMessages, listenForMessage } from '../../services/chat'
+import useWallet from '@/hooks/wallets/useWallet'
+import { Box, List, ListItem, TextField } from '@mui/material'
+import dynamic from 'next/dynamic'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { getMessages, listenForMessage } from '../../services/chat'
+import TxListItem from '../transactions/TxListItem'
+import ChatMessage from './chatMessage'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
@@ -24,94 +23,94 @@ export const ChatSection: React.FC<{
   setGroup,
   group,
 }) => {
-  //transactions
-  const txHistory = useTxHistory()
-  const txQueue = useTxQueue()
+    //transactions
+    const txHistory = useTxHistory()
+    const txQueue = useTxQueue()
     const wallet = useWallet()
-  //chat
-  const [messages, setMessages] = useState([''])
-  const [chatData, setChatData] = useState<any[]>([''])
+    //chat
+    const [messages, setMessages] = useState([''])
+    const [chatData, setChatData] = useState<any[]>([''])
     const safeAddress = useSafeAddress()
-  const [message, setMessage] = useState<string>()
-  const bottom = useRef<HTMLDivElement>(null)
+    const [message, setMessage] = useState<string>()
+    const bottom = useRef<HTMLDivElement>(null)
 
-  const getLast5Items = (arr: any) => {
-    if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+    const getLast5Items = (arr: any) => {
+      if (arr) {
+        return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+      }
+      return arr
     }
-    return arr
-  }
 
 
-  useEffect(() => {
-    async function getM() {
-      await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
-          setMessages(msgs)
+    useEffect(() => {
+      async function getM() {
+        await getMessages(`pid_${safeAddress!}`)
+          .then((msgs: any) => {
+            setMessages(msgs)
+          })
+          .catch((error) => {
+            setMessages([])
+          })
+
+        await listenForMessage(`pid_${safeAddress!}`)
+          .then((msg: any) => {
+            setMessages((prevState: any) => [...prevState, msg])
+          })
+          .catch((error) => console.log(error))
+      }
+      getM()
+    }, [safeAddress, currentUser])
+
+    const getChat = useCallback(() => {
+      let allData: any[] = []
+      const historyItems = getLast5Items(txHistory.page?.results)
+      const queueItems = getLast5Items(txQueue?.page?.results)
+      historyItems?.forEach((tx: any) => {
+        if (tx.type === 'DATE_LABEL') {
+          return
+        }
+        allData.push({
+          data: tx,
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
         })
-        .catch((error) => {
-          setMessages([])
+      })
+      queueItems?.forEach((tx: any) => {
+        if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
+          return
+        }
+        allData.push({
+          data: tx,
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
         })
-
-      await listenForMessage(`pid_${safeAddress!}`)
-        .then((msg: any) => {
-          setMessages((prevState: any) => [...prevState, msg])
-        })
-        .catch((error) => console.log(error))
-    }
-    getM()
-  }, [safeAddress, currentUser])
-
-  const getChat = useCallback(() => {  
-    let allData: any[] = []
-    const historyItems = getLast5Items(txHistory.page?.results)
-    const queueItems = getLast5Items(txQueue?.page?.results)
-    historyItems?.forEach((tx: any) => {
-      if (tx.type === 'DATE_LABEL') {
+      })
+      if (!messages.length) {
+        setChatData(allData)
         return
       }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
+      messages?.forEach((message: any) => {
+        allData.push({
+          data: message,
+          timestamp: +message.sentAt * 1000,
+          type: 'message',
+        })
       })
-    })
-    queueItems?.forEach((tx: any) => {
-      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
+      allData.sort(function (a, b) {
+        if (a['timestamp'] > b['timestamp']) {
+          return 1
+        } else if (a['timestamp'] < b['timestamp']) {
+          return -1
+        } else {
+          return 0
+        }
       })
-    })
-    if (!messages.length) {
       setChatData(allData)
-      return
-    }
-    messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    })
-    allData.sort(function (a, b) {
-      if (a['timestamp'] > b['timestamp']) {
-        return 1
-      } else if (a['timestamp'] < b['timestamp']) {
-        return -1
-      } else {
-        return 0
-      }
-    })
-    setChatData(allData)
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
-  
-  useEffect(() => {
-    getChat()
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+
+    useEffect(() => {
+      getChat()
+    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -179,7 +178,7 @@ export const ChatSection: React.FC<{
               />
             </Box>
           ) : (
-          <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
+            <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
           )}
         </Box>
       </Box>
