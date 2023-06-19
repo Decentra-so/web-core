@@ -36,7 +36,7 @@ export const ChatSection: React.FC<{
 
   const getLast5Items = (arr: any) => {
     if (arr) {
-      return arr.length > 5 ? arr.slice(0, 5) : arr
+      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
     }
     return arr
   }
