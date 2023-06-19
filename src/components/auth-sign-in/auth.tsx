@@ -26,8 +26,6 @@ function SignIn() {
     })
 
     const signature = await signMessageAsync({ message })
-
-    console.log(signature)
   }
 
   return (

@@ -1,53 +1,37 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
-import { Button, Stack } from '@mui/material'
-import { useEffect } from 'react'
+import useWallet from '@/hooks/wallets/useWallet'
+import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { createNewGroup, getGroup, getMessages, joinGroup, listenForMessage } from '../../services/chat'
+import { initCometChat, loginWithCometChat, signUpWithCometChat, joinGroup, createNewGroup, getGroup } from '../../services/chat'
 
-const JoinButton: React.FC<{
+const Login: React.FC<{
+  setCurrentUser: any
   user: any
   setGroup: any
-  setMessages: any
-}> = ({ user, setGroup, setMessages }) => {
+}> = ({ setCurrentUser, user, setGroup }) => {
+  const wallet = useWallet()
   const safeAddress = useSafeAddress()
 
   useEffect(() => {
-    handleCreateGroup()
-    handleJoin()
-    handleGetGroup()
-  }, [])
-
-  useEffect(() => {
-    async function getM() {
-      await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
-          console.log(msgs)
-          setMessages(msgs)
-        })
-        .catch((error) => {
-          console.log(error)
-          setMessages([])
-        })
-
-      await listenForMessage(`pid_${safeAddress!}`)
-        .then((msg: any) => {
-          setMessages((prevState: any) => [...prevState, msg])
-        })
-        .catch((error) => console.log(error))
+    const init = async () => {
+      initCometChat()
+      handleSignup()
+      handleLogin()
+      handleCreateGroup()
+      handleJoin()
+      handleGetGroup()
     }
-    getM()
-  }, [safeAddress])
+    init()
+  }, [user])
 
   const handleJoin = async () => {
     await toast.promise(
       new Promise(async (resolve, reject) => {
         await joinGroup(`pid_${safeAddress}`)
           .then((user) => {
-            console.log(user)
             resolve(user)
           })
           .catch((err) => {
-            console.log(err)
             reject(err)
           })
       }),
@@ -111,13 +95,50 @@ const JoinButton: React.FC<{
     )
   }
 
+  const handleLogin = async () => {
+    if (!wallet?.address) return
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await loginWithCometChat(wallet?.address)
+          .then((user) => {
+            setCurrentUser(user)
+          })
+          .catch((err) => {
+            reject()
+          })
+      }),
+      {
+        pending: 'Logging in...',
+        success: 'Logged in successfully 👌',
+        error: 'Error, are you signed up? 🤯',
+      },
+    )
+  }
+
+  const handleSignup = async () => {
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await signUpWithCometChat(wallet?.address!)
+          .then((user) => {
+            resolve(user)
+          })
+          .catch((err) => {
+            console.log(err)
+            reject(err)
+          })
+      }),
+      {
+        pending: 'Signing up...',
+        success: 'Signed up successfully 👌',
+        error: 'Error, maybe you should login instead? 🤯',
+      },
+    )
+  }
+
+
   return (
-        <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={handleGetGroup}>
-            Get Group
-          </Button>
-        </Stack>
+    <></>
   )
 }
 
-export default JoinButton
+export default Login

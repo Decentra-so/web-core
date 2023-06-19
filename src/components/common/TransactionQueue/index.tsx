@@ -9,7 +9,6 @@ const TransactionQueue = () => {
   const txQueue = useTxQueue()
   const [queue, setQueue] = useState<any>()
   useEffect(() => {
-    console.log(txQueue?.page?.results, 'test')
     if (txQueue?.page?.results && txQueue?.page?.results.length > 0) {
       setQueue(txQueue?.page?.results.filter((tx) => tx.type !== 'LABEL'))
     }

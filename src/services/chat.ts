@@ -7,7 +7,6 @@ const CONSTANTS = {
 }
 
 const initCometChat = async () => {
-  console.log('init')
   const appID = CONSTANTS.APP_ID
   const region = CONSTANTS.REGION
 
@@ -27,6 +26,21 @@ const loginWithCometChat = async (wallet: string) => {
       .then((user: any) => resolve(user))
       .catch((error: any) => reject(error))
   })
+}
+
+const checkUserExists = async (wallet: string) => {
+  try {
+    await CometChat.getUser(wallet).then(
+      user => {
+        console.log("User details fetched for user:", user);
+      }, error => {
+        console.log("User details fetching failed with error:", error);
+      }
+    );
+  } catch {
+    console.log('error')
+  }
+  
 }
 
 const signUpWithCometChat = async (wallet: string) => {
@@ -136,4 +150,5 @@ export {
   getGroup,
   joinGroup,
   listenForMessage,
+  checkUserExists,
 }
