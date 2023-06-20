@@ -18,7 +18,7 @@ export function CardStepper<StepperData>(props: TxStepperProps<StepperData>) {
       <Box className={css.progress} color={progressColor}>
         <LinearProgress color="inherit" variant="determinate" value={Math.min(progress, 100)} />
       </Box>
-      {currentStep.title && (
+      {currentStep?.title && (
         <CardHeader
           title={currentStep.title}
           subheader={currentStep.subtitle}
@@ -33,7 +33,7 @@ export function CardStepper<StepperData>(props: TxStepperProps<StepperData>) {
         />
       )}
       <CardContent className={css.content}>
-        {currentStep.render(stepData, onSubmit, onBack, setStep, setProgressColor)}
+        {currentStep?.render(stepData, onSubmit, onBack, setStep, setProgressColor)}
       </CardContent>
     </Card>
   )
