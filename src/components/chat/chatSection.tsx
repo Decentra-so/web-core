@@ -41,7 +41,6 @@ export const ChatSection: React.FC<{
       return arr
     }
 
-
     useEffect(() => {
       async function getM() {
         await getMessages(`pid_${safeAddress!}`)

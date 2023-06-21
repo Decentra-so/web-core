@@ -13,12 +13,10 @@ const Login: React.FC<{
   const safeAddress = useSafeAddress()
 
   useEffect(() => {
-    const init = async () => {
+    const init = () => {
       initCometChat()
-      handleSignup()
-      handleLogin()
-      handleCreateGroup()
-      handleJoin()
+      handleSignup().then(handleLogin).catch(handleLogin)
+      handleCreateGroup().then(handleJoin).catch(handleGetGroup)
       handleGetGroup()
     }
     init()
