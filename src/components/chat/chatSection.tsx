@@ -8,6 +8,9 @@ import { useState, useEffect, useRef } from 'react'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import {  getMessages, listenForMessage } from '../../services/chat'
+import { useDispatch } from 'react-redux'
+import { selectChat, setChat } from '@/store/chatSelectorSlice'
+import { useAppSelector } from '@/store'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
@@ -23,12 +26,16 @@ export const ChatSection: React.FC<{
   setGroup,
   group,
 }) => {
+  //state
+  const dispatch = useDispatch()
+  const chatState = useAppSelector((state) => selectChat(state, safeAddress))
+  console.log('boink', chatState)
   //transactions
   const txHistory = useTxHistory()
   const txQueue = useTxQueue()
   const wallet = useWallet()
   //chat
-  const [messages, setMessages] = useState([''])
+  const [messages, setMessages] = useState<any[]>([''])
   const [chatData, setChatData] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const [message, setMessage] = useState<string>()
@@ -44,8 +51,11 @@ export const ChatSection: React.FC<{
   useEffect(() => {
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
+        .then((msgs) => {
+          //@ts-ignore
           setMessages(msgs)
+          //@ts-ignore
+          dispatch(setChat({ safeAddress, msgs }))
         })
         .catch((error) => {
           setMessages([])
