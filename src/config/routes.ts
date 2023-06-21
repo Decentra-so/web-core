@@ -6,6 +6,8 @@ export const AppRoutes = {
   terms: '/terms',
   privacy: '/privacy',
   licenses: '/licenses',
+  wallet: '/wallet',
+  safeList: '/safe-list',
   index: '/',
   imprint: '/imprint',
   import: '/import',

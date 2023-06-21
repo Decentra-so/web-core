@@ -1,6 +1,7 @@
+import AddressBookTable from '@/components/address-book/AddressBookTable'
+import MobileChatFooter from '@/components/chat/mobileChatFooter'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import AddressBookTable from '@/components/address-book/AddressBookTable'
 
 const AddressBook: NextPage = () => {
   return (
@@ -10,6 +11,7 @@ const AddressBook: NextPage = () => {
       </Head>
 
       <AddressBookTable />
+      <MobileChatFooter />
     </>
   )
 }
