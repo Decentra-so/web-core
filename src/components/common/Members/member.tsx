@@ -1,6 +1,7 @@
 import ellipsisAddress from "@/utils/ellipsisAddress"
-import { Avatar, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
+import { ListItem, ListItemAvatar, ListItemText } from "@mui/material"
 import { useEnsName } from "wagmi"
+import Identicon from "../Identicon"
 
 const Member: React.FC<{ member: any }> = ({ member }) => {
 	const { data, isError, isLoading } = useEnsName({
@@ -9,7 +10,7 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 	return (
 		<ListItem key={member.value}>
 			<ListItemAvatar sx={{ minWidth: 35 }}>
-				<Avatar sx={{ width: 24, height: 24 }} alt={member.value} />
+				<Identicon address={member.value} size={24} />
 			</ListItemAvatar>
 			<ListItemText primary={isLoading || isError || !data ? ellipsisAddress(`${member.value}`) : data} />
 		</ListItem>

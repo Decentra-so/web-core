@@ -4,6 +4,7 @@ import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
+import Identicon from '@/components/common/Identicon'
 import FolderList from '@/components/folder-list'
 import FolderGroup from '@/components/folder-list/folderGroups'
 import { AppRoutes } from '@/config/routes'
@@ -15,7 +16,6 @@ import AddIcon from '@mui/icons-material/Add'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
-  Avatar,
   Box,
   Button,
   Container,
@@ -273,7 +273,7 @@ const Chat: React.FC<{
                       <ArrowBackIos />
                     </IconButton>
                   </Link>
-                  <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt="Decentra" />
+                  <Identicon address={safeAddress} radius={6} size={32} />
                   <Typography sx={{ fontWeight: 600 }}>{safeAddress ? ellipsisAddress(`${safeAddress}`) : ''}</Typography>
                 </Box>
                 <Box>

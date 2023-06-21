@@ -1,7 +1,8 @@
 import type { ConnectedWallet } from "@/services/onboard"
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
+import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
 import React from 'react'
 import { useEnsName } from "wagmi"
+import Identicon from "../common/Identicon"
 
 const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ chat, wallet }) => {
 	const { data, isError, isLoading } = useEnsName({
@@ -18,7 +19,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		alignItems="flex-start"
 	>
 		<ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
-			<Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || data} />
+			<Identicon address={chat?.data?.sender.uid || data} size={32} />
 		</ListItemAvatar>
 		<ListItemText
 			primary={
