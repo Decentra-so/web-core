@@ -72,6 +72,14 @@
   margin-top: 1em;
 }
 
+.tab {
+  padding: 12px 0px;
+  min-width: auto;
+  text-transform: initial;
+  margin: 0 8px;
+  font-size: 16px;
+}
+
 /* styling various buttons wip*/
 .buttonstyled {
   border: 1px solid var(--color-border-light);
@@ -94,4 +102,48 @@
   padding: 6px;
   width: 24px;
   height: 24px;
+}
+
+.ButtonNav {
+  font-size: 16px;
+  color: #757575;
+  padding: 8px 16px;
+  margin: 0 4px;
+  font-weight: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  gap: 1px;
+}
+
+.ButtonNavSelected {
+  background: transparent;
+  font-size: 16px;
+  color: var(--color-primary-main);
+  padding: 8px 16px;
+  margin: 0 4px;
+  font-weight: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.mobileBtnGroup {
+  width: 100%;
+  bottom: 0px;
+  position: fixed;
+  background: var(--color-background-paper);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px;
+}
+
+@media (min-width: 600px) {
+  .hideDesktop {
+    display: none;
+  }
 }
