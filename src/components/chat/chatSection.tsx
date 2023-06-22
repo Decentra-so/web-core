@@ -1,13 +1,13 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
-import useWallet from '@/hooks/wallets/useWallet'
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'
-import dynamic from 'next/dynamic'
-import React, { useCallback } from 'react'
-import TxListItem from '../transactions/TxListItem'
-import { useState, useEffect, useRef } from 'react'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
-import {  getMessages, listenForMessage } from '../../services/chat'
+import useWallet from '@/hooks/wallets/useWallet'
+import { Box, List, ListItem, TextField } from '@mui/material'
+import dynamic from 'next/dynamic'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { getMessages, listenForMessage } from '../../services/chat'
+import TxListItem from '../transactions/TxListItem'
+import ChatMessage from './chatMessage'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
@@ -23,194 +23,163 @@ export const ChatSection: React.FC<{
   setGroup,
   group,
 }) => {
-  //transactions
-  const txHistory = useTxHistory()
-  const txQueue = useTxQueue()
-  const wallet = useWallet()
-  //chat
-  const [messages, setMessages] = useState([''])
-  const [chatData, setChatData] = useState<any[]>([''])
-  const safeAddress = useSafeAddress()
-  const [message, setMessage] = useState<string>()
-  const bottom = useRef<HTMLDivElement>(null)
+    //transactions
+    const txHistory = useTxHistory()
+    const txQueue = useTxQueue()
+    const wallet = useWallet()
+    //chat
+    const [messages, setMessages] = useState([''])
+    const [chatData, setChatData] = useState<any[]>([''])
+    const safeAddress = useSafeAddress()
+    const [message, setMessage] = useState<string>()
+    const bottom = useRef<HTMLDivElement>(null)
 
-  const getLast5Items = (arr: any) => {
-    if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+    const getLast5Items = (arr: any) => {
+      if (arr) {
+        return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+      }
+      return arr
     }
-    return arr
-  }
 
-  useEffect(() => {
-    async function getM() {
-      await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
-          setMessages(msgs)
-        })
-        .catch((error) => {
-          setMessages([])
-        })
+    useEffect(() => {
+      async function getM() {
+        await getMessages(`pid_${safeAddress!}`)
+          .then((msgs: any) => {
+            setMessages(msgs)
+          })
+          .catch((error) => {
+            setMessages([])
+          })
 
-      await listenForMessage(`pid_${safeAddress!}`)
-        .then((msg: any) => {
-          setMessages((prevState: any) => [...prevState, msg])
-        })
-        .catch((error) => console.log(error))
-    }
-    getM()
-  }, [safeAddress, currentUser])
+        await listenForMessage(`pid_${safeAddress!}`)
+          .then((msg: any) => {
+            setMessages((prevState: any) => [...prevState, msg])
+          })
+          .catch((error) => console.log(error))
+      }
+      getM()
+    }, [safeAddress, currentUser])
 
-  const getChat = useCallback(() => {  
-    let allData: any[] = []
-    const historyItems = getLast5Items(txHistory.page?.results)
-    const queueItems = getLast5Items(txQueue?.page?.results)
-    historyItems?.forEach((tx: any) => {
-      if (tx.type === 'DATE_LABEL') {
+    const getChat = useCallback(() => {
+      let allData: any[] = []
+      const historyItems = getLast5Items(txHistory.page?.results)
+      const queueItems = getLast5Items(txQueue?.page?.results)
+      historyItems?.forEach((tx: any) => {
+        if (tx.type === 'DATE_LABEL') {
+          return
+        }
+        allData.push({
+          data: tx,
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
+        })
+      })
+      queueItems?.forEach((tx: any) => {
+        if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
+          return
+        }
+        allData.push({
+          data: tx,
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
+        })
+      })
+      if (!messages.length) {
+        setChatData(allData)
         return
       }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
+      messages?.forEach((message: any) => {
+        allData.push({
+          data: message,
+          timestamp: +message.sentAt * 1000,
+          type: 'message',
+        })
       })
-    })
-    queueItems?.forEach((tx: any) => {
-      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
+      allData.sort(function (a, b) {
+        if (a['timestamp'] > b['timestamp']) {
+          return 1
+        } else if (a['timestamp'] < b['timestamp']) {
+          return -1
+        } else {
+          return 0
+        }
       })
-    })
-    if (!messages.length) {
       setChatData(allData)
-      return
-    }
-    messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    })
-    allData.sort(function (a, b) {
-      if (a['timestamp'] > b['timestamp']) {
-        return 1
-      } else if (a['timestamp'] < b['timestamp']) {
-        return -1
-      } else {
-        return 0
-      }
-    })
-    setChatData(allData)
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
-  
-  useEffect(() => {
-    getChat()
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: '100%', overflowY: 'auto' }}>
+    useEffect(() => {
+      getChat()
+    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ height: '100%', overflowY: 'auto' }}>
+          <Box
+            sx={{
+              flex: '1 0 auto',
+              display: 'flex',
+              minHeight: '100vh',
+              flexDirection: 'column',
+              justifyContent: 'start',
+              alignItems: 'start',
+              gap: '16px',
+              p: '0 24px',
+            }}
+          >
+            <List>
+              {chatData &&
+                chatData.map((chat, index) => {
+                  if (chat.type === 'message' && chat?.data?.sender) {
+                    return (
+                      <ChatMessage key={index} chat={chat} wallet={wallet} />
+                    )
+                  } else if (chat?.type) {
+                    return (
+                      <ListItem
+                        key={index}
+                        sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
+                        alignItems="flex-start"
+                        disableGutters
+                      >
+                        <TxListItem key={`${index}-tx`} item={chat?.data} />
+                      </ListItem>
+                    )
+                  }
+                })}
+              <Box ref={bottom} sx={{ height: 0 }} />
+              {!chatData ? <ListItem>No Chat</ListItem> : ''}
+            </List>
+          </Box>
+        </Box>
         <Box
           sx={{
-            flex: '1 0 auto',
-            display: 'flex',
-            minHeight: '100vh',
-            flexDirection: 'column',
-            justifyContent: 'start',
-            alignItems: 'start',
-            gap: '16px',
-            p: '0 24px',
+            flexShrink: 0,
+            position: 'sticky',
+            bottom: 0,
+            p: '0px 24px 12px 24px',
+            background: 'var(--color-background-lightcolor)'
           }}
         >
-          <List>
-            {chatData &&
-              chatData.map((chat, index) => {
-                if (chat.type === 'message' && chat?.data?.sender) {
-                  return (
-                    <ListItem
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'start',
-                        p: 0,
-                        width: 'fit-content',
-                        margin: '8px 0',
-                      }}
-                      key={index}
-                      alignItems="flex-start"
-                    >
-                      <ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
-                        <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
-                      </ListItemAvatar>
-                      <ListItemText           
-                        primary={
-                          <React.Fragment>
-                            <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">
-                              {chat.data.sender.name === wallet?.address ? 'You' : chat?.data?.sender.uid}
-                            </Typography>
-                            <Typography sx={{ display: 'inline' }} component="span" variant="body2">
-                              {chat.timeStamp}
-                            </Typography>
-                          </React.Fragment>
-                        }
-                        secondary={
-                          <Typography sx={{ display: 'inline' }} component="span">
-                            {chat.data.text}
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                  )
-                } else if (chat?.type) {
-                  return (
-                    <ListItem
-                      key={index}
-                      sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
-                      alignItems="flex-start"
-                      disableGutters
-                    >
-                      <TxListItem key={`${index}-tx`} item={chat?.data} />
-                    </ListItem>
-                  )
-                }
-              })}
-            <Box ref={bottom} sx={{ height: 0 }} />
-            {!chatData ? <ListItem>No Chat</ListItem> : ''}
-          </List>
+          {currentUser && group ? (
+            <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
+              <TextField
+                sx={{ flexGrow: 1 }}
+                label="Type Something"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <SendMessage
+                message={message}
+                safeAddress={safeAddress}
+                setMessages={setMessages}
+                setMessage={setMessage}
+                prevState={messages}
+              />
+            </Box>
+          ) : (
+            <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
+          )}
         </Box>
       </Box>
-      <Box
-        sx={{
-          flexShrink: 0,
-          position: 'sticky',
-          bottom: 0,
-          p: '0px 24px 12px 24px',
-          background: 'var(--color-background-lightcolor)'
-        }}
-      >
-        {currentUser && group ? (
-          <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
-            <TextField
-              sx={{ flexGrow: 1 }}
-              label="Type Something"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <SendMessage
-              message={message}
-              safeAddress={safeAddress}
-              setMessages={setMessages}
-              setMessage={setMessage}
-              prevState={messages}
-            />
-          </Box>
-        ) : (
-          <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
-        )}
-      </Box>
-    </Box>
-  )
-}
+    )
+  }

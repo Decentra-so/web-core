@@ -1,10 +1,12 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
 
 import { AddFolderModal } from '@/components/chat/modals/AddFolderModal'
-import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
+import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
+import Identicon from '@/components/common/Identicon'
 import FolderList from '@/components/folder-list'
+import FolderGroup from '@/components/folder-list/folderGroups'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
@@ -14,7 +16,6 @@ import AddIcon from '@mui/icons-material/Add'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
-  Avatar,
   Box,
   Button,
   Container,
@@ -27,15 +28,14 @@ import {
   Typography
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import Head from 'next/head'
-import React, { useState, useEffect } from 'react'
-import FolderGroup from '@/components/folder-list/folderGroups'
 import { getSession, signOut } from 'next-auth/react'
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
-const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
-import css from './styles.module.css'
+import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import css from './styles.module.css'
+const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
 
@@ -217,8 +217,8 @@ const Chat: React.FC<{
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box>
-              <Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
+                <Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
+                <Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet.address}`)}</Typography>
               </Box>
               <Box display="flex" alignItems="center" gap="10px">
                 <IconButton
@@ -273,43 +273,43 @@ const Chat: React.FC<{
                       <ArrowBackIos />
                     </IconButton>
                   </Link>
-                  <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt="Decentra" />
+                  <Identicon address={safeAddress} radius={6} size={32} />
                   <Typography sx={{ fontWeight: 600 }}>{safeAddress ? ellipsisAddress(`${safeAddress}`) : ''}</Typography>
                 </Box>
                 <Box>
-                <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
-                  <SettingsIcon />
-                </IconButton>
-                <Hidden mdDown>
-                  <IconButton onClick={toggleDrawer(!open)}>
-                    {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                  <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <SettingsIcon />
                   </IconButton>
-                </Hidden>
+                  <Hidden mdDown>
+                    <IconButton onClick={toggleDrawer(!open)}>
+                      {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                    </IconButton>
+                  </Hidden>
                 </Box>
               </Toolbar>
               {
-                (ownerArray.length && !ownerArray.includes(wallet?.address!)) ? 
-                <Container fixed sx={{ height: '100vh', width: '100vw' }}>
-                  <Box
-                    sx={{
-                      height: '100%',
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 3,
-                    }}
-                  >
-                    <Typography variant="h4">
-                      You are not a signer on this safe.
-                    </Typography>
-                  </Box>
-                </Container>
-                :
-                <>
-                  <ChatWrapper />
-                </>
+                (ownerArray.length && !ownerArray.includes(wallet?.address!)) ?
+                  <Container fixed sx={{ height: '100vh', width: '100vw' }}>
+                    <Box
+                      sx={{
+                        height: '100%',
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 3,
+                      }}
+                    >
+                      <Typography variant="h4">
+                        You are not a signer on this safe.
+                      </Typography>
+                    </Box>
+                  </Container>
+                  :
+                  <>
+                    <ChatWrapper />
+                  </>
               }
             </Box>
           </Box>
