@@ -5,6 +5,9 @@ import useWallet from '@/hooks/wallets/useWallet'
 import { Box, List, ListItem, TextField } from '@mui/material'
 import dynamic from 'next/dynamic'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setChat, selectChats } from '@/store/chatServiceSlice'
+import { useAppSelector } from '@/store'
 import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
@@ -23,6 +26,9 @@ export const ChatSection: React.FC<{
   setGroup,
   group,
 }) => {
+    //state
+    const dispatch = useDispatch()
+    const chatState = useAppSelector((state) => selectChats(state))
     //transactions
     const txHistory = useTxHistory()
     const txQueue = useTxQueue()
@@ -33,6 +39,7 @@ export const ChatSection: React.FC<{
     const safeAddress = useSafeAddress()
     const [message, setMessage] = useState<string>()
     const bottom = useRef<HTMLDivElement>(null)
+    console.log('example 1', chatState[safeAddress || ''])
 
     const getLast5Items = (arr: any) => {
       if (arr) {
@@ -45,6 +52,7 @@ export const ChatSection: React.FC<{
       async function getM() {
         await getMessages(`pid_${safeAddress!}`)
           .then((msgs: any) => {
+            dispatch(setChat({ safeAddress, messages: msgs }))
             setMessages(msgs)
           })
           .catch((error) => {
@@ -105,11 +113,11 @@ export const ChatSection: React.FC<{
         }
       })
       setChatData(allData)
-    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+    }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
 
     useEffect(() => {
       getChat()
-    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+    }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>

@@ -1,6 +1,8 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
+import { setUser } from '@/store/chatServiceSlice'
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { initCometChat, loginWithCometChat, signUpWithCometChat, joinGroup, createNewGroup, getGroup } from '../../services/chat'
 
@@ -11,6 +13,7 @@ const Login: React.FC<{
 }> = ({ setCurrentUser, user, setGroup }) => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const init = () => {
@@ -99,6 +102,7 @@ const Login: React.FC<{
       new Promise(async (resolve, reject) => {
         await loginWithCometChat(wallet?.address)
           .then((user) => {
+            dispatch(setUser({ user }))
             setCurrentUser(user)
           })
           .catch((err) => {
