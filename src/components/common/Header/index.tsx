@@ -1,22 +1,24 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { type ReactElement } from 'react'
-import { useRouter } from 'next/router'
-import { IconButton, Paper, FormControlLabel } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import classnames from 'classnames'
-import css from './styles.module.css'
 import ConnectWallet from '@/components/common/ConnectWallet'
 import NotificationCenter from '@/components/notification-center/NotificationCenter'
 import { AppRoutes } from '@/config/routes'
 import useChainId from '@/hooks/useChainId'
-import Link from 'next/link'
-
-import useSafeInfo from '@/hooks/useSafeInfo'
-import { setDarkMode } from '@/store/settingsSlice'
-import WbSunnyIcon from '@mui/icons-material/WbSunny'
-import ModeNightIcon from '@mui/icons-material/ModeNight'
-import { useAppDispatch } from '@/store'
 import { useDarkMode } from '@/hooks/useDarkMode'
+import useSafeInfo from '@/hooks/useSafeInfo'
+import { useAppDispatch } from '@/store'
+import { setDarkMode } from '@/store/settingsSlice'
+import ChatIcon from '@mui/icons-material/Chat'
+import MenuIcon from '@mui/icons-material/Menu'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import ModeNightIcon from '@mui/icons-material/ModeNight'
+import WalletIcon from '@mui/icons-material/Wallet'
+import WbSunnyIcon from '@mui/icons-material/WbSunny'
+import { Box, Button, FormControlLabel, IconButton, Paper } from '@mui/material'
+import classnames from 'classnames'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import type { Dispatch, SetStateAction } from 'react'
+import { useState, type ReactElement } from 'react'
+import css from './styles.module.css'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -40,6 +42,14 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
     }
   }
 
+  const buttonPages = [
+    AppRoutes.wallet,
+    AppRoutes.chat,
+    AppRoutes.addressBook
+  ]
+
+  const [selectedButton, setSelectedButton] = useState(AppRoutes.chat);
+
   return (
     <Paper className={css.container}>
       <div className={classnames(css.element, css.menuButton, !onMenuToggle ? css.hideSidebarMobile : null)}>
@@ -48,7 +58,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
         </IconButton>
       </div>
 
-      <div className={classnames(css.element, css.hideMobile, css.logo)}>
+      <div className={classnames(css.element, css.hideMobile)}>
         <Link href={logoHref} passHref>
           <b>
             Decentra&#123;Pro&#125;
@@ -56,25 +66,35 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
         </Link>
       </div>
 
-      <div className={classnames(css.element)}>
-                  <FormControlLabel
-                    sx= {{ margin: 0 }}
-                    control={
-                      <IconButton onClick={() => dispatch(setDarkMode(!isDarkMode))}>
-                        {isDarkMode ? <WbSunnyIcon /> : <ModeNightIcon />}
-                      </IconButton>
-                    }
-                    label=""
-                  />
-      </div>
-      
-      <div className={classnames(css.element, css.hideMobile)}>
-        <NotificationCenter />
-      </div>
+      <Box display='flex' alignItems='center' className={css.hideMobile}>
+        {buttonPages.map(path =>
+          <Link href={{ pathname: path, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
+            <Button onClick={() => setSelectedButton(path)} startIcon={path === AppRoutes.wallet ? <WalletIcon /> : path === AppRoutes.chat ? <ChatIcon /> : <MenuBookIcon />} className={router.pathname.startsWith(path) ? css.ButtonNavSelected : css.ButtonNav} size='small'>{path === AppRoutes.wallet ? 'Wallet' : path === AppRoutes.chat ? 'Chat' : 'Address Book'}</Button>
+          </Link>
+        )}
+      </Box>
 
-      <div className={classnames(css.element, css.connectWallet)}>
-        <ConnectWallet />
-      </div>
+      <Box display='flex' alignItems='center' justifyContent='space-evenly'>
+        <div className={classnames(css.element)}>
+          <FormControlLabel
+            sx={{ margin: 0 }}
+            control={
+              <IconButton onClick={() => dispatch(setDarkMode(!isDarkMode))}>
+                {isDarkMode ? <WbSunnyIcon /> : <ModeNightIcon />}
+              </IconButton>
+            }
+            label=""
+          />
+        </div>
+
+        <div className={classnames(css.element, css.hideMobile)}>
+          <NotificationCenter />
+        </div>
+
+        <div className={classnames(css.element, css.connectWallet)}>
+          <ConnectWallet />
+        </div>
+      </Box>
     </Paper>
   )
 }

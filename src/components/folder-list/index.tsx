@@ -1,15 +1,14 @@
 import { AppRoutes } from '@/config/routes'
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 import useSafeInfo from '@/hooks/useSafeInfo'
-import { ListItemButton, Typography } from '@mui/material'
+import { ListItem, ListItemButton, Typography } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 import { memo, useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
-import Identicon from '../common/Identicon'
 import FolderListContextMenu from './folderItemContextItem'
 
 const FolderList: React.FC = () => {
@@ -40,31 +39,31 @@ const FolderList: React.FC = () => {
   return (
     <List sx={{ padding: '0px' }}>
       {safeFolder?.map((safe, index) => (
-        <ListItem
-          key={`safe-${index}`}
-          disablePadding
-          selected={matchSafe(safe)}
-          sx={{ padding: '2px 6px', minHeight: '69px', borderBottom: '1px solid var(--color-border-light)' }}
-        >
+        <ListItem key={`${safe}-${index}`} selected={matchSafe(safe)} sx={{ "&:hover": { backgroundColor: 'var(--color-border-light)' } }}>
           <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
-            <ListItemButton key={safe}>
-              {/* <ListItemAvatar>
-                {folder.badge ? <BadgeAvatar name={folder.name} /> : <Avatar alt={folder.name} />}
-              </ListItemAvatar> */}
+            <ListItemButton
+              key={`safe-${index}`}
+              sx={{
+                padding: '2px 6px', minHeight: '69px',
+                "&:hover": {
+                  backgroundColor: "transparent"
+                }
+              }}
+              disableRipple
+            >
               <ListItemAvatar>
-                <Identicon address={safe.slice(safe.lastIndexOf(':') + 1)} radius={6} size={32} />
+                <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt={safe} />
               </ListItemAvatar>
               <ListItemText
                 primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
-              //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
               />
             </ListItemButton>
           </Link>
-
           <FolderListContextMenu address={safe} />
         </ListItem>
-      ))}
-    </List>
+      ))
+      }
+    </List >
   )
 }
 
