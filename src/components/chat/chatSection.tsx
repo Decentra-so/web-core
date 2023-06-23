@@ -1,10 +1,11 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
+import { useScrollToElement } from '@/hooks/useScrollToElement'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { Box, List, ListItem } from '@mui/material'
 import dynamic from 'next/dynamic'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
@@ -31,7 +32,7 @@ export const ChatSection: React.FC<{
     const [messages, setMessages] = useState([''])
     const [chatData, setChatData] = useState<any[]>([''])
     const safeAddress = useSafeAddress()
-    const bottom = useRef<HTMLDivElement>(null)
+    const bottom = useScrollToElement<HTMLDivElement>(messages);
 
     const getLast5Items = (arr: any) => {
       if (arr) {
