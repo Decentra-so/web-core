@@ -15,6 +15,9 @@ const isNoSidebarRoute = (pathname: string): boolean => {
     AppRoutes.newSafe.create,
     AppRoutes.newSafe.load,
     AppRoutes.chat,
+    AppRoutes.safeList,
+    AppRoutes.addressBook,
+    AppRoutes.wallet,
     AppRoutes.welcome,
     AppRoutes.index,
     AppRoutes.import,
@@ -35,9 +38,9 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
 
   return (
     <>
-        <header className={css.header}>
-          <Header onMenuToggle={noSidebar ? undefined : setSidebarOpen} />
-        </header>
+      <header className={css.header}>
+        <Header onMenuToggle={noSidebar ? undefined : setSidebarOpen} />
+      </header>
 
       {!noSidebar && <SideDrawer isOpen={isSidebarOpen} onToggle={setSidebarOpen} />}
 

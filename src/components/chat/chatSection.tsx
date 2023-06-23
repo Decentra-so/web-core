@@ -11,6 +11,7 @@ import { useAppSelector } from '@/store'
 import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
+import ChatTextField from './chatTextField'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 
@@ -55,6 +56,7 @@ export const ChatSection = () => {
       }
       getM()
     }, [safeAddress, user, group])
+
 
     const getChat = useCallback(() => {
       let allData: any[] = []
@@ -157,11 +159,7 @@ export const ChatSection = () => {
           }}
         >
           {user && group && 
-            <SendMessage
-              safeAddress={safeAddress}
-              setMessages={setMessages}
-              prevState={messages}
-            />
+            <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} />
           }
         </Box>
       </Box>
