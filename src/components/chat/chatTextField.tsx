@@ -54,7 +54,9 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 	return (
 		<Paper
 			component="form"
-			sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}
+			sx={{
+				p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', background: ({ palette }) => palette.mode === 'light' ? palette.background.paper : palette.background.default
+			}}
 			onSubmit={handleSubmit}
 		>
 			<AddNewTxIconButton />
@@ -69,7 +71,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, mr: 1, backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
 				<SendOutlinedIcon />
 			</Button>
-		</Paper>
+		</Paper >
 	)
 }
 
