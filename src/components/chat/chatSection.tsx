@@ -2,33 +2,23 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
-import { Box, List, ListItem, TextField } from '@mui/material'
+import { Box, List, ListItem } from '@mui/material'
 import dynamic from 'next/dynamic'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setChat, selectChats } from '@/store/chatServiceSlice'
+import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice'
 import { useAppSelector } from '@/store'
 import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
-const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-export const ChatSection: React.FC<{
-  currentUser: any
-  setCurrentUser: any
-  setGroup: any
-  group: any
-}> = ({
-  currentUser,
-  setCurrentUser,
-  setGroup,
-  group,
-}) => {
+export const ChatSection = () => {
     //state
     const dispatch = useDispatch()
-    const chatState = useAppSelector((state) => selectChats(state))
+    const group = useAppSelector((state) => selectGroup(state))
+    const user = useAppSelector((state) => selectUserItem(state))
     //transactions
     const txHistory = useTxHistory()
     const txQueue = useTxQueue()
@@ -37,9 +27,7 @@ export const ChatSection: React.FC<{
     const [messages, setMessages] = useState([''])
     const [chatData, setChatData] = useState<any[]>([''])
     const safeAddress = useSafeAddress()
-    const [message, setMessage] = useState<string>()
     const bottom = useRef<HTMLDivElement>(null)
-    console.log('example 1', chatState[safeAddress || ''])
 
     const getLast5Items = (arr: any) => {
       if (arr) {
@@ -66,7 +54,7 @@ export const ChatSection: React.FC<{
           .catch((error) => console.log(error))
       }
       getM()
-    }, [safeAddress, currentUser])
+    }, [safeAddress, user, group])
 
     const getChat = useCallback(() => {
       let allData: any[] = []
@@ -168,25 +156,13 @@ export const ChatSection: React.FC<{
             background: 'var(--color-background-lightcolor)'
           }}
         >
-          {currentUser && group ? (
-            <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
-              <TextField
-                sx={{ flexGrow: 1 }}
-                label="Type Something"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <SendMessage
-                message={message}
-                safeAddress={safeAddress}
-                setMessages={setMessages}
-                setMessage={setMessage}
-                prevState={messages}
-              />
-            </Box>
-          ) : (
-            <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
-          )}
+          {user && group && 
+            <SendMessage
+              safeAddress={safeAddress}
+              setMessages={setMessages}
+              prevState={messages}
+            />
+          }
         </Box>
       </Box>
     )

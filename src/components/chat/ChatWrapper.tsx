@@ -1,30 +1,26 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
-import { useState } from 'react'
 import { Hidden, Typography, Box } from '@mui/material'
 import React from 'react'
 import { ChatSection } from '@/components/chat/chatSection'
-import useSafeInfo from '@/hooks/useSafeInfo'
 import { MobileChat } from './mobileChat'
+import dynamic from 'next/dynamic'
+import { useAppSelector } from '@/store'
+import { selectUserItem, selectGroup } from '@/store/chatServiceSlice'
+
+const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
 const ChatWrapper = () => {
-  const [group, setGroup] = useState<any>()
-  const [user, setCurrentUser] = useState<any>()
+  const user = useAppSelector((state) => selectUserItem(state))
+  const group = useAppSelector((state) => selectGroup(state))
+
   const safeAddress = useSafeAddress()
-  const { safe } = useSafeInfo()
-  const owners = safe?.owners || ['']
-  const ownerArray = owners.map((owner) => owner.value)
 
   return (
     <>
       <Hidden mdDown>
         {
           safeAddress ? (
-            <ChatSection
-              currentUser={user}
-              setCurrentUser={setCurrentUser}
-              setGroup={setGroup}
-              group={group}
-            />
+            <ChatSection />
           ) : (
             <Box
               sx={{
@@ -46,13 +42,8 @@ const ChatWrapper = () => {
         }
       
       </Hidden>
-      <MobileChat
-        group={group}
-        owners={ownerArray}
-        currentUser={user}
-        setCurrentUser={setCurrentUser}
-        setGroup={setGroup}
-      />
+      <MobileChat />
+      {(!user || !group) && <Login />}
     </>
 
   )

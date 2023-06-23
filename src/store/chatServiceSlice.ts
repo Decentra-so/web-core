@@ -3,18 +3,18 @@ import { createSelector } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '@/store'
 
-export type ChatMessages = {
-  [safeAddress: string]: any[],
-}
-
 export type ChatState = {
-  chats: ChatMessages,
+  chats: {
+    [safeAddress: string]: any[],
+  },
   user: any,
+  group: any,
 }
 
 const initialState: ChatState = {
-  user: {},
+  user: undefined,
   chats: {},
+  group: undefined,
 }
 
 export const chatServiceSlice = createSlice({
@@ -28,12 +28,15 @@ export const chatServiceSlice = createSlice({
     setUser: (state, { payload }: PayloadAction<{ user: any }>) => {
       const { user } = payload
       state.user = user
+    },
+    setGroup: (state, { payload }: PayloadAction<{ group: any }>) => {
+      const { group } = payload
+      state.group = group
     }
   },
 })
 
-export const selectChats = (state: RootState): ChatMessages => {
-  console.log(state.chat.chats)
+export const selectChats = (state: RootState): { [safeAddress: string]: any[] } => {
   return state.chat.chats
 }
 
@@ -41,13 +44,14 @@ export const selectUser = (state: RootState): any => {
   return state.chat?.user || ''
 }
 
-export const { setChat, setUser } = chatServiceSlice.actions
+export const selectSafeGroup = (state: RootState): any => {
+  return state.chat?.group || ''
+}
+
+export const { setChat, setUser, setGroup } = chatServiceSlice.actions
 
 export const selectChat = createSelector(selectChats, (state) => state)
-  /* [selectChats, (_: RootState, safeAddress: string) => safeAddress],
-  (chats, safeAddress): any[] => {
-    const chat = chats[safeAddress]
-    return chat || []
-  } */
 
 export const selectUserItem = createSelector(selectUser, (state) => state)
+
+export const selectGroup = createSelector(selectSafeGroup, (state) => state)

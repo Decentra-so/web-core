@@ -35,8 +35,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import css from './styles.module.css'
-import { selectUserItem } from '@/store/chatServiceSlice'
-import { useAppSelector } from '@/store'
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -116,8 +114,6 @@ export async function getServerSideProps(context: any) {
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
-  const chatState = useAppSelector((state) => selectUserItem(state))
-  console.log(chatState, 'example 1')
   //routing
   const router = useRouter()
   //folders and folder control

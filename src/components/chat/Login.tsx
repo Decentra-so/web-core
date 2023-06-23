@@ -1,19 +1,19 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
-import { setUser } from '@/store/chatServiceSlice'
+import { setUser, setGroup } from '@/store/chatServiceSlice'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { initCometChat, loginWithCometChat, signUpWithCometChat, joinGroup, createNewGroup, getGroup } from '../../services/chat'
+import { useAppSelector } from '@/store'
+import { selectUserItem, selectGroup } from '@/store/chatServiceSlice'
 
-const Login: React.FC<{
-  setCurrentUser: any
-  user: any
-  setGroup: any
-}> = ({ setCurrentUser, user, setGroup }) => {
+const Login = () => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
   const dispatch = useDispatch()
+  const user = useAppSelector((state) => selectUserItem(state))
+  const group = useAppSelector((state) => selectGroup(state))
 
   useEffect(() => {
     const init = () => {
@@ -55,7 +55,7 @@ const Login: React.FC<{
       new Promise(async (resolve, reject) => {
         await createNewGroup(`pid_${safeAddress}`, 'safe')
           .then((gp) => {
-            setGroup(gp)
+            dispatch(setGroup({ group: gp }))
             resolve(gp)
           })
           .catch((error) => {
@@ -83,7 +83,7 @@ const Login: React.FC<{
       new Promise(async (resolve, reject) => {
         await getGroup(`pid_${safeAddress}`)
           .then((gp) => {
-            setGroup(gp)
+            dispatch(setGroup({ group: gp }))
             resolve(gp)
           })
           .catch((error) => console.log(error))
@@ -103,7 +103,6 @@ const Login: React.FC<{
         await loginWithCometChat(wallet?.address)
           .then((user) => {
             dispatch(setUser({ user }))
-            setCurrentUser(user)
           })
           .catch((err) => {
             reject()
