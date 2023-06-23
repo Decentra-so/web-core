@@ -2,12 +2,12 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
-import { Box, List, ListItem, TextField } from '@mui/material'
+import { Box, List, ListItem } from '@mui/material'
 import dynamic from 'next/dynamic'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
+import ChatTextField from './chatTextField'
 
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
@@ -31,7 +31,6 @@ export const ChatSection: React.FC<{
     const [messages, setMessages] = useState([''])
     const [chatData, setChatData] = useState<any[]>([''])
     const safeAddress = useSafeAddress()
-    const [message, setMessage] = useState<string>()
     const bottom = useRef<HTMLDivElement>(null)
 
     const getLast5Items = (arr: any) => {
@@ -40,25 +39,6 @@ export const ChatSection: React.FC<{
       }
       return arr
     }
-
-    useEffect(() => {
-      async function getM() {
-        await getMessages(`pid_${safeAddress!}`)
-          .then((msgs: any) => {
-            setMessages(msgs)
-          })
-          .catch((error) => {
-            setMessages([])
-          })
-
-        await listenForMessage(`pid_${safeAddress!}`)
-          .then((msg: any) => {
-            setMessages((prevState: any) => [...prevState, msg])
-          })
-          .catch((error) => console.log(error))
-      }
-      getM()
-    }, [safeAddress, currentUser])
 
     const getChat = useCallback(() => {
       let allData: any[] = []
@@ -161,21 +141,7 @@ export const ChatSection: React.FC<{
           }}
         >
           {currentUser && group ? (
-            <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
-              <TextField
-                sx={{ flexGrow: 1 }}
-                label="Type Something"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <SendMessage
-                message={message}
-                safeAddress={safeAddress}
-                setMessages={setMessages}
-                setMessage={setMessage}
-                prevState={messages}
-              />
-            </Box>
+            <ChatTextField currentUser={currentUser} messages={messages} setMessages={setMessages} />
           ) : (
             <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
           )}
