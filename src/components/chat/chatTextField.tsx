@@ -12,7 +12,6 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 		fontSize: 16,
 		width: '100%',
 		padding: '10px 12px',
-		boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem',
 	},
 }));
 
@@ -55,7 +54,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 		<Paper
 			component="form"
 			sx={{
-				p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', background: ({ palette }) => palette.mode === 'light' ? palette.background.paper : palette.background.default
+				p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', background: ({ palette }) => palette.mode === 'light' ? palette.background.paper : palette.background.default
 			}}
 			onSubmit={handleSubmit}
 		>
