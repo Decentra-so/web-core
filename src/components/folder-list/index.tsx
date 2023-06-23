@@ -2,13 +2,13 @@ import { AppRoutes } from '@/config/routes'
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { ListItem, ListItemButton, Typography } from '@mui/material'
-import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 import { memo, useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
+import Identicon from '../common/Identicon'
 import FolderListContextMenu from './folderItemContextItem'
 
 const FolderList: React.FC = () => {
@@ -52,7 +52,7 @@ const FolderList: React.FC = () => {
               disableRipple
             >
               <ListItemAvatar>
-                <Avatar sx={{ height: 32, width: 32, borderRadius: '6px' }} alt={safe} />
+                <Identicon address={safe.slice(safe.lastIndexOf(':') + 1)} radius={6} size={32} />
               </ListItemAvatar>
               <ListItemText
                 primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
