@@ -17,7 +17,9 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 
 const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessages: any }> = ({ currentUser, messages, setMessages }) => {
 	const safeAddress = useSafeAddress()
-	const [message, setMessage] = useState<string>()
+	const [message, setMessage] = useState<string>('')
+
+	//get and listen for message updates
 	useEffect(() => {
 		async function getM() {
 			await getMessages(`pid_${safeAddress!}`)
@@ -67,7 +69,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 				inputProps={{ 'aria-label': 'chat message' }}
 				onChange={(e) => setMessage(e.target.value)}
 			/>
-			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, mr: 1, backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
+			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, mr: 1, backgroundColor: '#12FF80', '&:hover': { backgroundColor: '#12FF86' } }} aria-label="send">
 				<SendOutlinedIcon />
 			</Button>
 		</Paper >
