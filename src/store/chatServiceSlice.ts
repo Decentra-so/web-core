@@ -32,6 +32,7 @@ export type CometChatGroup = {
 
 export type ChatState = {
   chats: {
+    //@ts-nocheck
     [safeAddress: string]: any[],
   },
   user: undefined | CometChatUser,
