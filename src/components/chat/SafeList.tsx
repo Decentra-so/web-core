@@ -4,10 +4,10 @@ import useWallet from "@/hooks/wallets/useWallet"
 import ellipsisAddress from "@/utils/ellipsisAddress"
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, IconButton, Tab, Tabs, Toolbar, Typography } from "@mui/material"
-import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
+import { AddFolderModal } from "./modals/AddFolderModal"
 import css from './styles.module.css'
 
 interface TabPanelProps {
@@ -44,12 +44,10 @@ function a11yProps(index: number) {
 	}
 }
 
-export const SafeList = ({ user }: any) => {
+export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = ({ createSafe, setCreateSafe }) => {
 	//user and safe
 	const wallet = useWallet()
-	const router = useRouter()
 	const { safe, safeAddress } = useSafeInfo()
-	const [createSafe, setCreateSafe] = useState<boolean>(false)
 	const [popup, togglePopup] = useState<boolean>(false)
 	const [value, setValue] = useState(0)
 	const [folders, setFolders] = useState([])
@@ -71,18 +69,9 @@ export const SafeList = ({ user }: any) => {
 		}
 	}, [])
 
-	useEffect(() => {
-		if (user.address !== wallet?.address) {
-			//@ts-ignore
-			signOut({ redirect: '/auth' })
-		}
-		if (router.asPath.includes('chain')) {
-			setCreateSafe(true)
-		}
-	}, [])
-
 	return (
 		<>
+			{popup && <AddFolderModal open={popup} onClose={() => togglePopup(!popup)} />}
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>

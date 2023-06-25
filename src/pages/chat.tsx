@@ -1,4 +1,5 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
+import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
@@ -20,11 +21,12 @@ import {
   useMediaQuery
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { getSession } from 'next-auth/react'
+import { getSession, signOut } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -72,7 +74,10 @@ const Chat: React.FC<{
 }> = ({ user }) => {
   
   const matches = useMediaQuery('(max-width: 600px)')
+  //routing
+  const router = useRouter()
   //modals and modal control
+  const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [settings, toggleSettings] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
   //user and safe
@@ -80,6 +85,15 @@ const Chat: React.FC<{
   const { safe, safeAddress } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
+
+  useEffect(() => {
+    if (user.address !== wallet?.address) {
+      signOut({ redirect: true })
+    }
+    if (router.asPath.includes('chain')) {
+      setCreateSafe(true)
+    }
+  }, [])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -115,6 +129,7 @@ const Chat: React.FC<{
   return (
     <>
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
+      {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
@@ -137,7 +152,7 @@ const Chat: React.FC<{
             variant="permanent"
             anchor="left"
           >
-            <SafeList user={user} />
+            <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
           </Drawer>
         </Hidden>
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
