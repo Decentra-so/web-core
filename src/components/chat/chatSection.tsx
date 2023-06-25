@@ -3,26 +3,20 @@ import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { Box, List, ListItem } from '@mui/material'
-import dynamic from 'next/dynamic'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice'
+import { useAppSelector } from '@/store'
+import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
 
-const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
-const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
-
-export const ChatSection: React.FC<{
-  currentUser: any
-  setCurrentUser: any
-  setGroup: any
-  group: any
-}> = ({
-  currentUser,
-  setCurrentUser,
-  setGroup,
-  group,
-}) => {
+export const ChatSection = () => {
+    //state
+    const dispatch = useDispatch()
+    const group = useAppSelector((state) => selectGroup(state))
+    const user = useAppSelector((state) => selectUserItem(state))
     //transactions
     const txHistory = useTxHistory()
     const txQueue = useTxQueue()
@@ -33,12 +27,47 @@ export const ChatSection: React.FC<{
     const safeAddress = useSafeAddress()
     const bottom = useRef<HTMLDivElement>(null)
 
+    const scrollToBottom = useCallback(() => {
+      if (!bottom.current) return
+      const { current: bottomOfChat } = bottom
+      const rect = bottomOfChat.getBoundingClientRect()
+      if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+        return
+      }
+      bottomOfChat.scrollIntoView({ behavior: 'smooth' })
+    }, [])  
+
+    useEffect(() => {
+      scrollToBottom()
+    }, [chatData, messages])
+
     const getLast5Items = (arr: any) => {
       if (arr) {
         return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
       }
       return arr
     }
+
+    useEffect(() => {
+      async function getM() {
+        await getMessages(`pid_${safeAddress!}`)
+          .then((msgs: any) => {
+            dispatch(setChat({ safeAddress, messages: msgs }))
+            setMessages(msgs)
+          })
+          .catch((error) => {
+            setMessages([])
+          })
+
+        await listenForMessage(`pid_${safeAddress!}`)
+          .then((msg: any) => {
+            setMessages((prevState: any) => [...prevState, msg])
+          })
+          .catch((error) => console.log(error))
+      }
+      getM()
+    }, [safeAddress, user, group])
+
 
     const getChat = useCallback(() => {
       let allData: any[] = []
@@ -85,11 +114,11 @@ export const ChatSection: React.FC<{
         }
       })
       setChatData(allData)
-    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+    }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
 
     useEffect(() => {
       getChat()
-    }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+    }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -140,11 +169,9 @@ export const ChatSection: React.FC<{
             background: 'var(--color-background-lightcolor)'
           }}
         >
-          {currentUser && group ? (
-            <ChatTextField currentUser={currentUser} messages={messages} setMessages={setMessages} />
-          ) : (
-            <Login setCurrentUser={setCurrentUser} user={currentUser} setGroup={setGroup} />
-          )}
+          {user && group && 
+            <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} />
+          }
         </Box>
       </Box>
     )
