@@ -3,7 +3,6 @@ import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { Box, List, ListItem } from '@mui/material'
-import dynamic from 'next/dynamic'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice'
@@ -12,8 +11,6 @@ import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
-
-const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), { ssr: false })
 
 export const ChatSection = () => {
     //state
@@ -29,6 +26,20 @@ export const ChatSection = () => {
     const [chatData, setChatData] = useState<any[]>([''])
     const safeAddress = useSafeAddress()
     const bottom = useRef<HTMLDivElement>(null)
+
+    const scrollToBottom = useCallback(() => {
+      if (!bottom.current) return
+      const { current: bottomOfChat } = bottom
+      const rect = bottomOfChat.getBoundingClientRect()
+      if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+        return
+      }
+      bottomOfChat.scrollIntoView({ behavior: 'smooth' })
+    }, [])  
+
+    useEffect(() => {
+      scrollToBottom()
+    }, [chatData, messages])
 
     const getLast5Items = (arr: any) => {
       if (arr) {

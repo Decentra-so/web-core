@@ -93,7 +93,7 @@ const Chat: React.FC<{
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
     }
-  }, [])
+  }, [wallet?.address, user?.address])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (

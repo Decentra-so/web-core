@@ -3,12 +3,39 @@ import { createSelector } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '@/store'
 
+export type CometChatUser = {
+  authToken: string,
+  blockedByMe: boolean,
+  deactivatedAt: number,
+  hasBlockedMe: boolean,
+  lastActiveAt: number,
+  name: string,
+  role: string,
+  status: string,
+  uid: string,
+}
+
+export type CometChatGroup = {
+  conversationId: string,
+  createdAt: number,
+  guid: string,
+  hasJoined: boolean,
+  joinedAt: number
+  membersCount: number,
+  name: string,
+  onlineMembersCount: number,
+  owner: string,
+  scope: string,
+  type: string,
+}
+
+
 export type ChatState = {
   chats: {
     [safeAddress: string]: any[],
   },
-  user: any,
-  group: any,
+  user: undefined | CometChatUser,
+  group: undefined | CometChatGroup,
 }
 
 const initialState: ChatState = {

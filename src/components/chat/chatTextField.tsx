@@ -17,7 +17,9 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 
 const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessages: any }> = ({ currentUser, messages, setMessages }) => {
 	const safeAddress = useSafeAddress()
-	const [message, setMessage] = useState<string>()
+	const [message, setMessage] = useState<string>('')
+
+	//get and listen for message updates
 	useEffect(() => {
 		async function getM() {
 			await getMessages(`pid_${safeAddress!}`)
