@@ -68,27 +68,30 @@ export const selectChats = (state: RootState): { [safeAddress: string]: any[] } 
   return state.chat.chats;
 };
 
-export const selectUser = (state: RootState): any => {
-  return state.chat?.user || '';
+export const selectUser = (state: RootState): CometChatUser | undefined => {
+  return state.chat.user;
 };
 
-export const selectSafeGroup = (state: RootState): any => {
-  return state.chat?.group || '';
+export const selectSafeGroup = (state: RootState): CometChatGroup | undefined => {
+  return state.chat.group;
 };
 
 export const { setChat, setUser, setGroup } = chatServiceSlice.actions;
 
-export const selectChat = createSelector(
+//@ts-ignore
+export const selectChat = createSelector<RootState, { [safeAddress: string]: any[] }>(
   selectChats,
-  (chats) => chats
+  (chats: any) => chats
 );
 
-export const selectUserItem = createSelector(
+//@ts-ignore
+export const selectUserItem = createSelector<RootState, CometChatUser | undefined>(
   selectUser,
-  (user) => user
+  (user: CometChatUser) => user
 );
 
-export const selectGroup = createSelector(
+//@ts-ignore
+export const selectGroup = createSelector<RootState, CometChatGroup | undefined>(
   selectSafeGroup,
-  (group) => group
+  (group: CometChatGroup) => group
 );
