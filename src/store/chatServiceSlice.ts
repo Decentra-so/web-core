@@ -1,4 +1,3 @@
-// @ts-ignore
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSelector } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
@@ -82,14 +81,14 @@ export const { setChat, setUser, setGroup } = chatServiceSlice.actions;
 export const selectChat = createSelector(
   selectChats,
   (chats) => chats
-) as (state: RootState) => { [safeAddress: string]: any[] };
+);
 
 export const selectUserItem = createSelector(
   selectUser,
   (user) => user
-) as (state: RootState) => CometChatUser | undefined;
+);
 
 export const selectGroup = createSelector(
   selectSafeGroup,
   (group) => group
-) as (state: RootState) => CometChatGroup | undefined;
+);
