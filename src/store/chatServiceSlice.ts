@@ -65,21 +65,30 @@ export const chatServiceSlice = createSlice({
 })
 
 export const selectChats = (state: RootState): { [safeAddress: string]: any[] } => {
-  return state.chat.chats
-}
+  return state.chat.chats;
+};
 
 export const selectUser = (state: RootState): any => {
-  return state.chat?.user || ''
-}
+  return state.chat?.user || '';
+};
 
 export const selectSafeGroup = (state: RootState): any => {
-  return state.chat?.group || ''
-}
+  return state.chat?.group || '';
+};
 
-export const { setChat, setUser, setGroup } = chatServiceSlice.actions
+export const { setChat, setUser, setGroup } = chatServiceSlice.actions;
 
-export const selectChat = createSelector(selectChats, (state) => state)
+export const selectChat = createSelector(
+  selectChats,
+  (chats) => chats
+);
 
-export const selectUserItem = createSelector(selectUser, (state) => state)
+export const selectUserItem = createSelector(
+  selectUser,
+  (user) => user
+);
 
-export const selectGroup = createSelector(selectSafeGroup, (state) => state)
+export const selectGroup = createSelector(
+  selectSafeGroup,
+  (group) => group
+);
