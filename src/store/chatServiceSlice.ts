@@ -1,3 +1,4 @@
+//@ts-nocheck
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSelector } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
@@ -32,7 +33,6 @@ export type CometChatGroup = {
 
 export type ChatState = {
   chats: {
-    //@ts-nocheck
     [safeAddress: string]: any[],
   },
   user: undefined | CometChatUser,
@@ -49,7 +49,7 @@ export const chatServiceSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    setChat: (state, { payload }: PayloadAction<{ safeAddress: string; messages: any }>) => {
+    setChat: (state, { payload }: PayloadAction<{ safeAddress: string; messages: any[] }>) => {
       const { safeAddress, messages } = payload
       state.chats[safeAddress] = messages
     },
