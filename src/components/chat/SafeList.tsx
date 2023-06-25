@@ -99,7 +99,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				</TabPanel>
 				{folders.map((folder, i) => {
 					return (
-						<TabPanel value={value} index={i + 1} key={`tab-${folder}-${i}`}>
+						<TabPanel value={value} index={i + 1} key={`${folder}-${i}`}>
 							<FolderGroup group={folder} currentSafe={safeAddress} />
 						</TabPanel>
 					)

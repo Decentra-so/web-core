@@ -13,7 +13,6 @@ import { chainsSlice } from './chainsSlice'
 import { safeInfoSlice } from './safeInfoSlice'
 import { balancesSlice } from './balancesSlice'
 import { sessionSlice } from './sessionSlice'
-import { chatServiceSlice } from './chatServiceSlice'
 import { txHistorySlice, txHistoryMiddleware } from './txHistorySlice'
 import { txQueueSlice, txQueueMiddleware } from './txQueueSlice'
 import { addressBookSlice } from './addressBookSlice'
@@ -30,7 +29,6 @@ import { safeMessagesMiddleware, safeMessagesSlice } from './safeMessagesSlice'
 import { pendingSafeMessagesSlice } from './pendingSafeMessagesSlice'
 
 const rootReducer = combineReducers({
-  [chatServiceSlice.name]: chatServiceSlice.reducer,
   [chainsSlice.name]: chainsSlice.reducer,
   [safeInfoSlice.name]: safeInfoSlice.reducer,
   [balancesSlice.name]: balancesSlice.reducer,

@@ -49,6 +49,40 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }))
 
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  )
+}
+
+//wtf is this lol
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
+
 //Get auth session, if not reroute
 export async function getServerSideProps(context: any) {
   const session = await getSession(context)
@@ -72,7 +106,6 @@ export async function getServerSideProps(context: any) {
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
-  
   const matches = useMediaQuery('(max-width: 600px)')
   //routing
   const router = useRouter()
@@ -93,7 +126,7 @@ const Chat: React.FC<{
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
     }
-  }, [wallet?.address, user?.address])
+  }, [])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (

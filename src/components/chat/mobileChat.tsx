@@ -2,7 +2,6 @@ import { Box, Hidden, Tab, Tabs, Typography } from '@mui/material'
 import React from 'react'
 import { ChatOverview } from './chatOverview'
 import { ChatSection } from './chatSection'
-import useSafeInfo from '@/hooks/useSafeInfo'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -37,11 +36,14 @@ function a11yProps(index: number) {
   }
 }
 
-export const MobileChat = () => {
+export const MobileChat: React.FC<{
+  currentUser: any
+  setCurrentUser: any
+  setGroup: any
+  group: any
+  owners: any[]
+}> = ({ owners, currentUser, setCurrentUser, setGroup, group }) => {
   const [mobileValue, setMobileValue] = React.useState(0)
-
-  const { safe } = useSafeInfo()
-  const owners = safe?.owners || ['']
 
   const handleMobileChange = (event: React.SyntheticEvent, newValue: number) => {
     setMobileValue(newValue)
@@ -55,7 +57,12 @@ export const MobileChat = () => {
           <Tab label="Overview" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={mobileValue} index={0}>
-          <ChatSection />
+          <ChatSection
+            group={group}
+            setCurrentUser={setCurrentUser}
+            setGroup={setGroup}
+            currentUser={currentUser}
+          />
         </TabPanel>
         <TabPanel value={mobileValue} index={1}>
           <Box height="100%">

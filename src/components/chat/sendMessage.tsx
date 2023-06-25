@@ -1,17 +1,17 @@
 import React from 'react'
 import { Button } from '@mui/material'
-import { Box, TextField } from '@mui/material'
 import { sendMessage } from '@/services/chat'
 
 const SendMessage: React.FC<{
+  message: any
   safeAddress: string
   setMessages: any
+  setMessage: any
   prevState: any
-}> = ({ safeAddress, setMessages, prevState }) => {
-  const [message, setMessage] = React.useState<string>()
-  
+}> = ({ message, safeAddress, setMessages, setMessage, prevState }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+
     if (!message) return
     await sendMessage(`pid_${safeAddress}`, message)
       .then(async (msg: any) => {
@@ -24,17 +24,9 @@ const SendMessage: React.FC<{
   }
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', gap: '16px' }}>
-      <TextField
-        sx={{ flexGrow: 1 }}
-        label="Type Something"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <Button variant="contained" onClick={handleSubmit}>
-        Send message
-      </Button>
-    </Box>
+    <Button variant="contained" onClick={handleSubmit}>
+      Send message
+    </Button>
   )
 }
 
