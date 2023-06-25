@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSelector } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
