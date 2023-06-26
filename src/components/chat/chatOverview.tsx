@@ -32,7 +32,7 @@ export const ChatOverview: React.FC<{
   owners: any[]
 }> = ({ owners }) => {
   const { safe, safeAddress } = useSafeInfo()
-  const ownerLength = safe.owners.length
+  const ownerLength = safe?.owners?.length || 0
   const threshold = safe.threshold
   const [tokenTransfer, toggleTokenTransfer] = useState<boolean>(false)
   const [assetsOpen, toggleAssetsOpen] = useState<boolean>(false)
@@ -41,7 +41,6 @@ export const ChatOverview: React.FC<{
   const chain = useCurrentChain()
   const addressCopyText = settings.shortName.copy && chain ? `${chain.shortName}:${safeAddress}` : safeAddress
   const blockExplorerLink = chain ? getBlockExplorerLink(chain, safeAddress) : undefined
-
 
   return (
     <>
@@ -119,7 +118,7 @@ export const ChatOverview: React.FC<{
       <Divider />
       <Members members={owners} />
       <Divider />
-      <TransactionQueue />
+      <TransactionQueue key={safeAddress} />
       <Divider />
       <TransactionHistory />
       <Divider />

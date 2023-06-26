@@ -32,7 +32,6 @@ export type CometChatGroup = {
 
 export type ChatState = {
   chats: {
-    //@ts-nocheck
     [safeAddress: string]: any[],
   },
   user: undefined | CometChatUser,
@@ -80,15 +79,15 @@ export const { setChat, setUser, setGroup } = chatServiceSlice.actions;
 
 export const selectChat = createSelector(
   selectChats,
-  (chats) => chats
+  (chats: {[safeAddress: string]: any[]}) => chats
 );
 
 export const selectUserItem = createSelector(
   selectUser,
-  (user) => user
+  (user: CometChatUser | undefined) => user
 );
 
 export const selectGroup = createSelector(
   selectSafeGroup,
-  (group) => group
+  (group: CometChatGroup | undefined) => group
 );
