@@ -32,7 +32,6 @@ export type CometChatGroup = {
 
 export type ChatState = {
   chats: {
-    //@ts-nocheck
     [safeAddress: string]: any[],
   },
   user: undefined | CometChatUser,
@@ -65,21 +64,30 @@ export const chatServiceSlice = createSlice({
 })
 
 export const selectChats = (state: RootState): { [safeAddress: string]: any[] } => {
-  return state.chat.chats
-}
+  return state.chat.chats;
+};
 
-export const selectUser = (state: RootState): any => {
-  return state.chat?.user || ''
-}
+export const selectUser = (state: RootState): CometChatUser | undefined => {
+  return state.chat.user;
+};
 
-export const selectSafeGroup = (state: RootState): any => {
-  return state.chat?.group || ''
-}
+export const selectSafeGroup = (state: RootState): CometChatGroup | undefined => {
+  return state.chat.group;
+};
 
-export const { setChat, setUser, setGroup } = chatServiceSlice.actions
+export const { setChat, setUser, setGroup } = chatServiceSlice.actions;
 
-export const selectChat = createSelector(selectChats, (state) => state)
+export const selectChat = createSelector(
+  selectChats,
+  (chats: {[safeAddress: string]: any[]}) => chats
+);
 
-export const selectUserItem = createSelector(selectUser, (state) => state)
+export const selectUserItem = createSelector(
+  selectUser,
+  (user: CometChatUser | undefined) => user
+);
 
-export const selectGroup = createSelector(selectSafeGroup, (state) => state)
+export const selectGroup = createSelector(
+  selectSafeGroup,
+  (group: CometChatGroup | undefined) => group
+);

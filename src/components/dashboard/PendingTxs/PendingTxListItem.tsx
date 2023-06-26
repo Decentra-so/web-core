@@ -6,7 +6,6 @@ import ChevronRight from '@mui/icons-material/ChevronRight'
 import type { TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
 import { Box, SvgIcon, Typography } from '@mui/material'
 import { isMultisigExecutionInfo } from '@/utils/transaction-guards'
-import TxInfo from '@/components/transactions/TxInfo'
 import TxType from '@/components/transactions/TxType'
 import css from './styles.module.css'
 import classNames from 'classnames'
@@ -42,10 +41,6 @@ const PendingTx = ({ transaction }: PendingTxType): ReactElement => {
 
           <Box gridArea="type" className={css.columnWrap}>
             <TxType tx={transaction} />
-          </Box>
-
-          <Box gridArea="info" className={css.columnWrap}>
-            <TxInfo info={transaction.txInfo} />
           </Box>
 
           <Box gridArea="confirmations">

@@ -7,11 +7,13 @@ import PendingTxListItem from '../../dashboard/PendingTxs/PendingTxListItem'
 const TransactionQueue = () => {
   const txQueue = useTxQueue()
   const [queue, setQueue] = useState<any>()
+
   useEffect(() => {
-    if (txQueue?.page?.results && txQueue?.page?.results.length > 0) {
+    if (txQueue?.page?.results && txQueue?.page?.results?.length > 0) {
       setQueue(txQueue?.page?.results.filter((tx) => tx.type !== 'LABEL'))
     }
   }, [txQueue?.page?.results])
+
   return (
     <>
       <Box sx={{ pt: 2, pl: 3, pr: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -68,7 +68,6 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-//TO DO: move state out of this component and into the relevant components to avoid pointless re-renders and speed up app.
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
@@ -194,7 +193,7 @@ const Chat: React.FC<{
                 </Box>
               </Toolbar>
               {
-                (ownerArray.length && !ownerArray.includes(wallet?.address!)) ?
+                (ownerArray?.length && !ownerArray.includes(wallet?.address!)) ?
                   <Container fixed sx={{ height: '100vh', width: '100vw' }}>
                     <Box
                       sx={{
