@@ -31,6 +31,7 @@ const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr
 
 const drawerWidth = 360
 
+//testing new PR to see if build will work
 const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean
 }>(({ theme, open }) => ({
