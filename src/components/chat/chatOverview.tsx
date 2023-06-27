@@ -1,13 +1,11 @@
 import css from '@/components/chat/styles.module.css'
 import { ThresholdOverview } from '@/components/chat/threshold'
-import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import Link from 'next/link'
 import React, { useState } from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
@@ -36,6 +34,7 @@ export const ChatOverview: React.FC<{
   const threshold = safe.threshold
   const [tokenTransfer, toggleTokenTransfer] = useState<boolean>(false)
   const [assetsOpen, toggleAssetsOpen] = useState<boolean>(false)
+  const [nftsOpen, setNftsOpen] = useState<boolean>(false)
   const [appsOpen, toggleAppsOpen] = useState<boolean>(false)
   const settings = useAppSelector(selectSettings)
   const chain = useCurrentChain()
@@ -50,7 +49,7 @@ export const ChatOverview: React.FC<{
           initialData={[{ disableSpendingLimit: false }]}
         />
       )}
-      {assetsOpen && <ViewAssetsModal open={assetsOpen} onClose={() => toggleAssetsOpen(!assetsOpen)} />}
+      {assetsOpen && <ViewAssetsModal open={assetsOpen} onClose={() => toggleAssetsOpen(!assetsOpen)} nfts={nftsOpen} />}
       {appsOpen && <ViewAppsModal open={appsOpen} onClose={() => toggleAppsOpen(!appsOpen)} />}
       <Box sx={{ p: 3 }}>
         <Typography sx={{ fontWeight: 600, mb: 3 }}>
@@ -131,7 +130,7 @@ export const ChatOverview: React.FC<{
         <Button
           variant="outlined"
           className={css.buttonstyled}
-          onClick={() => toggleAssetsOpen(!assetsOpen)}
+          onClick={() => { toggleAssetsOpen(!assetsOpen); setNftsOpen(false) }}
           size="small"
         >
           View Assets
@@ -178,16 +177,15 @@ export const ChatOverview: React.FC<{
           Send tokens
         </Button>
         {/* </Link> */}
-        <Link href={{ pathname: AppRoutes.balances.nfts, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
-          <Button
-            variant="outlined"
-            className={css.buttonstyled}
-            startIcon={<SvgIcon component={NftIcon} inheritViewBox />}
-            fullWidth
-          >
-            Send NFTs
-          </Button>
-        </Link>
+        <Button
+          variant="outlined"
+          className={css.buttonstyled}
+          startIcon={<SvgIcon component={NftIcon} inheritViewBox />}
+          onClick={() => { toggleAssetsOpen(!assetsOpen); setNftsOpen(true) }}
+          fullWidth
+        >
+          Send NFTs
+        </Button>
       </Box>
     </>
   )

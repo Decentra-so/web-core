@@ -38,9 +38,10 @@ function TabPanel(props: TabPanelProps) {
 
 const ViewAssetsModal: React.FC<{
   open: boolean
+  nfts: boolean
   onClose: () => void
-}> = ({ open, onClose }) => {
-  const [tabIndex, setTabIndex] = useState<number>(0);
+}> = ({ open, nfts, onClose }) => {
+  const [tabIndex, setTabIndex] = useState<number>(nfts ? 1 : 0);
   const { error } = useBalances()
   const [showHiddenAssets, setShowHiddenAssets] = useState(false)
   const toggleShowHiddenAssets = () => setShowHiddenAssets((prev) => !prev)
