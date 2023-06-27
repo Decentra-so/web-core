@@ -48,11 +48,11 @@ const FolderList: React.FC = () => {
     
      '&&.Mui-selected': {
        backgroundColor: 'var(--color-background-papercolor)',
-       borderLeft: '5px solid #FE7E51'
+       borderLeft: '4px solid #FE7E51',
+       paddingLeft: '12px'
      },
      '&&:hover': {
-       backgroundColor: 'var(--color-background-papercolor)',
-       paddingLeft: '12px'
+       backgroundColor: 'var(--color-background-papercolor)'
      },
    }))
 
