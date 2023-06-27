@@ -42,7 +42,7 @@ const FolderList: React.FC = () => {
   }, [allOwnedSafes])
 
 
-  const CustomListItem = styled(ListItem)( => ({
+  const CustomListItem = styled(ListItem) => ({
     '&&.Mui-selected': {
       backgroundColor: var(--color-background-papercolor),
       borderLeft: '5px solid #FE7E51'
@@ -51,7 +51,7 @@ const FolderList: React.FC = () => {
       backgroundColor: var(--color-background-paper),
       paddingLeft: '11px'
     },
-  }))
+  })
 
   const matchSafe = (safe: string) => {
     return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
