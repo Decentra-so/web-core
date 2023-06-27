@@ -43,12 +43,16 @@ const FolderList: React.FC = () => {
 
 
   const CustomListItem = styled(ListItem)(({ theme }) => ({
+    height: '70px',
+    borderBottom: '1px solid var(--color-border-light)',
+    
      '&&.Mui-selected': {
        backgroundColor: 'var(--color-background-papercolor)',
        borderLeft: '5px solid #FE7E51'
      },
      '&&:hover': {
-       backgroundColor: 'var(--color-background-papercolor)'
+       backgroundColor: 'var(--color-background-papercolor)',
+       paddingLeft: '12px'
      },
    }))
 
