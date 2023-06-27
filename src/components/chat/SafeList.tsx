@@ -88,7 +88,13 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				</Box>
 			</Toolbar>
 			<Box sx={{ width: '100%', height: '100%' }}>
-				<Tabs sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }} value={value} onChange={handleChange} aria-label="folder tabs">
+				<Tabs
+					variant="scrollable"
+					scrollButtons="auto"
+					sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }}
+					value={value}
+					onChange={handleChange}
+					aria-label="folder tabs">
 					<Tab className={css.tab} label="All" {...a11yProps(0)} />
 					{folders.map((folder, i) => {
 						return <Tab className={css.tab} label={folder} key={`${folder}-${i}`} />
