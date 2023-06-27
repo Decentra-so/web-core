@@ -56,7 +56,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 		<Paper
 			component="form"
 			sx={{
-				p: '2px 8.5px 2px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', borderRadius: '8px', background: 'var(--color-background-papercolor)'
+				p: '4px 8.5px 4px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', borderRadius: '8px', background: 'var(--color-background-papercolor)'
 			}}
 			onSubmit={handleSubmit}
 		>
