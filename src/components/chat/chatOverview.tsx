@@ -4,7 +4,6 @@ import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
-import ellipsisAddress from '@/utils/ellipsisAddress'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import Link from 'next/link'
@@ -25,6 +24,7 @@ import LinkIcon from '@/public/images/common/link.svg'
 import { useAppSelector } from '@/store'
 import { selectSettings } from '@/store/settingsSlice'
 import { getBlockExplorerLink } from '@/utils/chains'
+import ellipsisAddress from '@/utils/ellipsisAddress'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -64,6 +64,7 @@ export const ChatOverview: React.FC<{
             <Typography noWrap>
               {ellipsisAddress(`${safeAddress}`)}
             </Typography>
+            {/* <PrefixedEthHashInfo address={safeAddress} showAvatar={false} /> */}
             <div className={css.iconButtons}>
               <QrCodeButton>
                 <Tooltip title="Open QR code" placement="top">

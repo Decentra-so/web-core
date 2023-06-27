@@ -1,17 +1,19 @@
 import { AppRoutes } from '@/config/routes'
+import useAddressBook from '@/hooks/useAddressBook'
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes'
 import useSafeInfo from '@/hooks/useSafeInfo'
-import { ListItem, ListItemButton, Typography } from '@mui/material'
+import { ListItem, ListItemButton } from '@mui/material'
 import List from '@mui/material/List'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 import { memo, useEffect, useState } from 'react'
-import ellipsisAddress from '../../utils/ellipsisAddress'
+import PrefixedEthHashInfo from '../common/EthHashInfo'
 import Identicon from '../common/Identicon'
 import FolderListContextMenu from './folderItemContextItem'
 
 const FolderList: React.FC = () => {
+  const addressBook = useAddressBook()
   const allOwnedSafes = useAllOwnedSafes()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
   const { safeAddress } = useSafeInfo()
@@ -55,7 +57,10 @@ const FolderList: React.FC = () => {
                 <Identicon address={safe.slice(safe.lastIndexOf(':') + 1)} radius={6} size={32} />
               </ListItemAvatar>
               <ListItemText
-                primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(safe)}</Typography>}
+                primary={
+                  <PrefixedEthHashInfo address={safe.slice(safe.lastIndexOf(':') + 1)} hasExplorer showAvatar={false} />
+                  // <Typography sx={{ fontWeight: 500 }}>{addressBook[safe.slice(safe.lastIndexOf(':') + 1)] || ellipsisAddress(safe)}</Typography>
+                }
               />
             </ListItemButton>
           </Link>
