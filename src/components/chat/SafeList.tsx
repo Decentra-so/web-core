@@ -2,12 +2,11 @@
 import useSafeInfo from "@/hooks/useSafeInfo"
 import useWallet from "@/hooks/wallets/useWallet"
 import ellipsisAddress from "@/utils/ellipsisAddress"
-import AddIcon from '@mui/icons-material/Add'
-import { Box, Button, IconButton, Tab, Tabs, Toolbar, Typography } from "@mui/material"
+import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
-import { AddFolderModal } from "./modals/AddFolderModal"
+import ModalListContextMenu from "./ModalListContextMenu"
 import css from './styles.module.css'
 
 interface TabPanelProps {
@@ -48,7 +47,6 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	//user and safe
 	const wallet = useWallet()
 	const { safe, safeAddress } = useSafeInfo()
-	const [popup, togglePopup] = useState<boolean>(false)
 	const [value, setValue] = useState(0)
 	const [folders, setFolders] = useState([])
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -71,21 +69,12 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 
 	return (
 		<>
-			{popup && <AddFolderModal open={popup} onClose={() => togglePopup(!popup)} />}
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
 					<Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet?.address}`)}</Typography>
 				</Box>
-				<Box display="flex" alignItems="center" gap="10px">
-					<IconButton
-						sx={{ border: '1px solid var(--color-border-light)', borderRadius: '6px', width: '32px', height: '32px' }}
-						aria-label="add folder"
-						onClick={() => togglePopup(!popup)}
-					>
-						<AddIcon />
-					</IconButton>
-				</Box>
+				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			</Toolbar>
 			<Box sx={{ width: '100%', height: '100%' }}>
 				<Tabs sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }} value={value} onChange={handleChange} aria-label="folder tabs">

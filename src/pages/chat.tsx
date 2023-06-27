@@ -71,7 +71,7 @@ export async function getServerSideProps(context: any) {
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
-  
+
   const matches = useMediaQuery('(max-width: 600px)')
   //routing
   const router = useRouter()

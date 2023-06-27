@@ -1,5 +1,4 @@
 import MobileChatFooter from "@/components/chat/mobileChatFooter"
-import ViewCreateSafe from "@/components/chat/modals/CreateSafe"
 import { SafeList } from "@/components/chat/SafeList"
 import useWallet from "@/hooks/wallets/useWallet"
 import { getSession, signOut } from "next-auth/react"
@@ -38,7 +37,6 @@ const SafePage: React.FC<{ user: any }> = ({ user }) => {
 	}, [])
 	return (
 		<>
-			{createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
 			<SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			<MobileChatFooter />
 		</>
