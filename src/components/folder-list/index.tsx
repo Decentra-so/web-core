@@ -3,7 +3,7 @@ import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes';
 import useSafeInfo from '@/hooks/useSafeInfo';
 import { useAppSelector } from '@/store';
 import { selectSafe, setSelectedSafe } from '@/store/chatServiceSlice';
-import { ListItem, ListItemButton, Typography } from '@mui/material';
+import { ListItem, ListItemButton, Typography, useMediaQuery } from '@mui/material';
 import List from '@mui/material/List';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,6 +16,7 @@ import Identicon from '../common/Identicon';
 import FolderListContextMenu from './folderItemContextItem';
 
 const FolderList: React.FC = () => {
+  const matches = useMediaQuery('(max-width: 600px)')
   const dispatch = useDispatch()
   const selectedSafe = useAppSelector((state) => selectSafe(state))
   const allOwnedSafes = useAllOwnedSafes()
@@ -89,7 +90,7 @@ const FolderList: React.FC = () => {
               />
             </ListItemButton>
           </Link>
-          {(activeSafe === safe || selectedSafe === safe) && <FolderListContextMenu address={safe} />}
+          {(activeSafe === safe || selectedSafe === safe || matches) && <FolderListContextMenu address={safe} />}
         </CustomListItem>
       ))
       }
