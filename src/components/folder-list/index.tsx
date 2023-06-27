@@ -42,13 +42,13 @@ const FolderList: React.FC = () => {
   }, [allOwnedSafes])
 
 
-  const CustomListItem = styled(ListItem)(({ theme }) => ({
+  const CustomListItem = styled(ListItem)( => ({
     '&&.Mui-selected': {
-      backgroundColor: theme.color.background.papercolor,
+      backgroundColor: var(--color-background-papercolor),
       borderLeft: '5px solid #FE7E51'
     },
     '&&:hover': {
-      backgroundColor: theme.palette.border.light,
+      backgroundColor: var(--color-background-paper),
       paddingLeft: '11px'
     },
   }))
