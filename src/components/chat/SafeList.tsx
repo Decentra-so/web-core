@@ -1,9 +1,9 @@
 
 import useSafeInfo from "@/hooks/useSafeInfo"
 import useWallet from "@/hooks/wallets/useWallet"
-import ellipsisAddress from "@/utils/ellipsisAddress"
 import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
+import FormattedName from "../common/FormattedName/FormattedName"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
 import ModalListContextMenu from "./ModalListContextMenu"
@@ -72,12 +72,18 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
-					<Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet?.address}`)}</Typography>
+					<FormattedName address={wallet?.address!} weight={600} />
 				</Box>
 				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			</Toolbar>
 			<Box sx={{ width: '100%', height: '100%' }}>
-				<Tabs sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }} value={value} onChange={handleChange} aria-label="folder tabs">
+				<Tabs
+					variant="scrollable"
+					scrollButtons={false}
+					sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }}
+					value={value}
+					onChange={handleChange}
+					aria-label="folder tabs">
 					<Tab className={css.tab} label="All" {...a11yProps(0)} />
 					{folders.map((folder, i) => {
 						return <Tab className={css.tab} label={folder} key={`${folder}-${i}`} />
