@@ -2,7 +2,8 @@
 import useSafeInfo from "@/hooks/useSafeInfo"
 import useWallet from "@/hooks/wallets/useWallet"
 import ellipsisAddress from "@/utils/ellipsisAddress"
-import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
+import AddIcon from '@mui/icons-material/Add'
+import { Box, Button, IconButton, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
