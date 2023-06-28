@@ -1,4 +1,5 @@
 import { AppRoutes } from '@/config/routes';
+import useAddressBook from '@/hooks/useAddressBook';
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes';
 import useSafeInfo from '@/hooks/useSafeInfo';
 import { useAppSelector } from '@/store';
@@ -11,16 +12,18 @@ import { styled } from '@mui/material/styles';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import PrefixedEthHashInfo from '../common/EthHashInfo';
+import FormattedName from '../common/FormattedName/FormattedName';
 import Identicon from '../common/Identicon';
 import FolderListContextMenu from './folderItemContextItem';
 
 const FolderList: React.FC = () => {
+  const addressBook = useAddressBook()
   const matches = useMediaQuery('(max-width: 600px)')
   const dispatch = useDispatch()
   const selectedSafe = useAppSelector((state) => selectSafe(state))
   const allOwnedSafes = useAllOwnedSafes()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
+  const [sortedFolders, setSortedFolders] = useState<string[]>([])
   const { safeAddress } = useSafeInfo()
   const [activeSafe, setActiveSafe] = useState<string>();
 
@@ -41,6 +44,18 @@ const FolderList: React.FC = () => {
       setSafeFolder(folderList)
     }
   }, [allOwnedSafes])
+
+  useEffect(() => {
+    const sorted = safeFolder.sort((a, b) => {
+      const haveNames = addressBook[a.slice(a.lastIndexOf(':') + 1)] && addressBook[b.slice(b.lastIndexOf(':') + 1)] ? true : false
+      if (haveNames) {
+        return 1
+      } else {
+        return -1
+      }
+    })
+    setSortedFolders(sorted)
+  }, [safeFolder])
 
 
   const CustomListItem = styled(ListItem)(({ theme }) => ({
@@ -72,7 +87,7 @@ const FolderList: React.FC = () => {
 
   return (
     <List sx={{ padding: '0px' }}>
-      {safeFolder?.map((safe, index) => (
+      {sortedFolders?.map((safe, index) => (
         <CustomListItem key={`${safe}-${index}`} selected={matchSafe(safe)} onMouseOver={(e) => handleMouseEnter(safe)} onMouseLeave={handleMouseLeave}>
           <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
             <ListItemButton
@@ -91,7 +106,7 @@ const FolderList: React.FC = () => {
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  <PrefixedEthHashInfo address={safe.slice(safe.lastIndexOf(':') + 1)} hasExplorer showAvatar={false} />
+                  <FormattedName address={safe} weight={500} />
                   // <Typography sx={{ fontWeight: 500 }}>{addressBook[safe.slice(safe.lastIndexOf(':') + 1)] || ellipsisAddress(safe)}</Typography>
                 }
               />

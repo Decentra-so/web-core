@@ -4,7 +4,7 @@ import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
-import PrefixedEthHashInfo from '@/components/common/EthHashInfo'
+import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
 import { AppRoutes } from '@/config/routes'
 import useAddressBook from '@/hooks/useAddressBook'
@@ -180,7 +180,7 @@ const Chat: React.FC<{
                     </Link>
                   }
                   <Identicon address={safeAddress} radius={6} size={32} />
-                  <PrefixedEthHashInfo address={safeAddress} hasExplorer showAvatar={false} />
+                  <FormattedName address={safeAddress} weight={600} />
                   {/* <Typography sx={{ fontWeight: 600 }}>{safeAddress ? addressBook[safeAddress] || ellipsisAddress(`${safeAddress}`) : ''}</Typography> */}
                 </Box>
                 <Box>

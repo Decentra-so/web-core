@@ -23,7 +23,7 @@ const PrefixedEthHashInfo = ({
     address: props.address as `0x${string}`,
   })
   const link = chain ? getBlockExplorerLink(chain, props.address) : undefined
-  const name = showName ? props.name || addressBook[props.address] || ens : undefined
+  const name = showName ? props.name || addressBook[props.address] : undefined
 
   return (
     <EthHashInfo
