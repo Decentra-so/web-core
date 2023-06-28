@@ -1,10 +1,10 @@
 
 import useSafeInfo from "@/hooks/useSafeInfo"
 import useWallet from "@/hooks/wallets/useWallet"
-import ellipsisAddress from "@/utils/ellipsisAddress"
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, IconButton, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
+import FormattedName from "../common/FormattedName/FormattedName"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
 import { AddFolderModal } from "./modals/AddFolderModal"
@@ -75,7 +75,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
-					<Typography sx={{ fontWeight: 600 }}>{ellipsisAddress(`${wallet?.address}`)}</Typography>
+					<FormattedName address={wallet?.address!} weight={600} />
 				</Box>
 				<Box display="flex" alignItems="center" gap="10px">
 					<IconButton

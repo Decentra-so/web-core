@@ -4,11 +4,12 @@ import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
+import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
 import { AppRoutes } from '@/config/routes'
+import useAddressBook from '@/hooks/useAddressBook'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
-import ellipsisAddress from '@/utils/ellipsisAddress'
 import { ArrowBackIos } from '@mui/icons-material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
@@ -71,7 +72,7 @@ export async function getServerSideProps(context: any) {
 const Chat: React.FC<{
   user: any
 }> = ({ user }) => {
-
+  const addressBook = useAddressBook()
   const matches = useMediaQuery('(max-width: 600px)')
   //routing
   const router = useRouter()
@@ -179,7 +180,8 @@ const Chat: React.FC<{
                     </Link>
                   }
                   <Identicon address={safeAddress} radius={6} size={32} />
-                  <Typography sx={{ fontWeight: 600 }}>{safeAddress ? ellipsisAddress(`${safeAddress}`) : ''}</Typography>
+                  <FormattedName address={safeAddress} weight={600} />
+                  {/* <Typography sx={{ fontWeight: 600 }}>{safeAddress ? addressBook[safeAddress] || ellipsisAddress(`${safeAddress}`) : ''}</Typography> */}
                 </Box>
                 <Box>
                   <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>

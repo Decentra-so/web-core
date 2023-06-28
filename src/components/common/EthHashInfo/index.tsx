@@ -9,6 +9,7 @@ import { type ReactElement } from 'react'
 import { getBlockExplorerLink } from '../../../utils/chains'
 
 import type { EthHashInfoProps } from '@safe-global/safe-react-components'
+import { useEnsName } from 'wagmi'
 
 const PrefixedEthHashInfo = ({
   showName = true,
@@ -18,6 +19,9 @@ const PrefixedEthHashInfo = ({
   const currentChainId = useChainId()
   const chain = useAppSelector((state) => selectChainById(state, props.chainId || currentChainId))
   const addressBook = useAddressBook()
+  const { data: ens, isError, isLoading } = useEnsName({
+    address: props.address as `0x${string}`,
+  })
   const link = chain ? getBlockExplorerLink(chain, props.address) : undefined
   const name = showName ? props.name || addressBook[props.address] : undefined
 
