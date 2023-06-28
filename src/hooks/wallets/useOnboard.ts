@@ -129,10 +129,10 @@ export const connectWallet = async (
     return
   }
 
-  const [magicWallet] = await onboard.connectWallet()
+  const [magic] = await onboard.connectWallet()
 
 try {
-  const { email, publicAddress } = await magicWallet.instance.user.getMetadata()
+  const { email, publicAddress } = await magic.instance.user.getMetadata()
   localStorage.setItem('magicUserEmail', email)
   // This email can then be passed through the MagicInitOptions to continue the users session and avoid having to login again
 } catch {
