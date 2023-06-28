@@ -49,7 +49,7 @@ const WALLET_MODULES: { [key in WALLET_KEYS]: () => WalletInit } = {
   [WALLET_KEYS.TREZOR]: () => trezorModule({ appUrl: TREZOR_APP_URL, email: TREZOR_EMAIL }),
   [WALLET_KEYS.KEYSTONE]: keystoneModule,
   [WALLET_KEYS.TALLYHO]: tallyhoModule,
-  [WALLET_KEYS.MAGIC]: () => magicModule({ apiKey: pk_live_648348513A2AAEB4, userEmail: localStorage.getItem('magicUserEmail') }),
+  [WALLET_KEYS.MAGIC]: () => magicModule({ apiKey: 'pk_live_648348513A2AAEB4', userEmail: localStorage.getItem('magicUserEmail') }),
   [WALLET_KEYS.COINBASE]: () =>
     coinbaseModule({ darkMode: !!window?.matchMedia('(prefers-color-scheme: dark)')?.matches }),
 }
