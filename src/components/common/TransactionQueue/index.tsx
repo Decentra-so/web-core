@@ -1,3 +1,4 @@
+import AddNewTxIconButton from '@/components/chat/AddNewTxIconButton'
 import NewTxButton from '@/components/chat/NewTxButton'
 import useTxQueue from '@/hooks/useTxQueue'
 import { Box, List, Typography } from '@mui/material'
@@ -18,6 +19,7 @@ const TransactionQueue = () => {
     <>
       <Box sx={{ pt: 2, pl: 3, pr: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 600 }}>Transaction queue</Typography>
+        <AddNewTxIconButton />
       </Box>
       <List sx={{ p: 3, pt: 2 }}>
         {queue ? (
