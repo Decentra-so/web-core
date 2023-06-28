@@ -625,14 +625,6 @@ const SafeLicenses = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>js-cookie</TableCell>
-                <TableCell>
-                  <ExternalLink href="https://github.com/js-cookie/js-cookie/blob/main/LICENSE">
-                    https://github.com/js-cookie/js-cookie/blob/main/LICENSE
-                  </ExternalLink>
-                </TableCell>
-              </TableRow>
-              <TableRow>
                 <TableCell>lodash</TableCell>
                 <TableCell>
                   <ExternalLink href="https://github.com/lodash/lodash/blob/master/LICENSE">

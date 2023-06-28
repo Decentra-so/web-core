@@ -1,10 +1,9 @@
-import type { SyntheticEvent, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import css from './styles.module.css'
 import { useAppDispatch } from '@/store'
-import { openCookieBanner } from '@/store/popupSlice'
 import { AppRoutes } from '@/config/routes'
 import packageJson from '../../../../package.json'
 import AppstoreButton from '../AppStoreButton'
@@ -16,7 +15,6 @@ const footerPages = [
   AppRoutes.settings.index,
   AppRoutes.imprint,
   AppRoutes.privacy,
-  AppRoutes.cookie,
   AppRoutes.terms,
   AppRoutes.licenses,
 ]
@@ -27,11 +25,6 @@ const Footer = (): ReactElement | null => {
 
   if (!footerPages.some((path) => router.pathname.startsWith(path))) {
     return null
-  }
-
-  const onCookieClick = (e: SyntheticEvent) => {
-    e.preventDefault()
-    dispatch(openCookieBanner({}))
   }
 
   return (
@@ -58,15 +51,6 @@ const Footer = (): ReactElement | null => {
         <li>
           <Link href={AppRoutes.imprint} passHref>
             <MUILink>Imprint</MUILink>
-          </Link>
-        </li>
-        <li>
-          <Link href={AppRoutes.cookie} passHref>
-            <MUILink>Cookie Policy</MUILink>
-          </Link>
-          &nbsp;&mdash;&nbsp;
-          <Link href={`${router.pathname}#`} passHref>
-            <MUILink onClick={onCookieClick}>Preferences</MUILink>
           </Link>
         </li>
         <li>
