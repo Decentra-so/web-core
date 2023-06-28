@@ -56,7 +56,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 		<Paper
 			component="form"
 			sx={{
-				p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', background: ({ palette }) => palette.mode === 'light' ? palette.background.paper : palette.background.default
+				p: '4px 8.5px 4px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', borderRadius: '8px', background: 'var(--color-background-papercolor)'
 			}}
 			onSubmit={handleSubmit}
 		>
@@ -65,11 +65,11 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 			<CustomInput
 				sx={{ flex: 1 }}
 				value={message}
-				placeholder="Type Something..."
+				placeholder="Type something..."
 				inputProps={{ 'aria-label': 'chat message' }}
 				onChange={(e) => setMessage(e.target.value)}
 			/>
-			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, mr: 1, backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
+			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, borderRadius: '8px', backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
 				<SendOutlinedIcon />
 			</Button>
 		</Paper >
