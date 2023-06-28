@@ -9,6 +9,7 @@ import ledgerModule from '@web3-onboard/ledger'
 import trezorModule from '@web3-onboard/trezor'
 import walletConnect from '@web3-onboard/walletconnect'
 import tallyhoModule from '@web3-onboard/tallyho'
+import magicModule from '@web3-onboard/magic'
 
 import pairingModule from '@/services/pairing/module'
 import e2eWalletModule from '@/tests/e2e-wallet'
@@ -25,6 +26,7 @@ export const enum WALLET_KEYS {
   TREZOR = 'TREZOR',
   WALLETCONNECT = 'WALLETCONNECT',
   TALLYHO = 'TALLYHO',
+  MAGIC = 'MAGIC',
 }
 
 export const CGW_NAMES: { [key in WALLET_KEYS]: string | undefined } = {
@@ -36,6 +38,7 @@ export const CGW_NAMES: { [key in WALLET_KEYS]: string | undefined } = {
   [WALLET_KEYS.TREZOR]: 'trezor',
   [WALLET_KEYS.WALLETCONNECT]: 'walletConnect',
   [WALLET_KEYS.TALLYHO]: 'tally',
+  [WALLET_KEYS.MAGIC]: 'magic',
 }
 
 const WALLET_MODULES: { [key in WALLET_KEYS]: () => WalletInit } = {
@@ -46,6 +49,7 @@ const WALLET_MODULES: { [key in WALLET_KEYS]: () => WalletInit } = {
   [WALLET_KEYS.TREZOR]: () => trezorModule({ appUrl: TREZOR_APP_URL, email: TREZOR_EMAIL }),
   [WALLET_KEYS.KEYSTONE]: keystoneModule,
   [WALLET_KEYS.TALLYHO]: tallyhoModule,
+  [WALLET_KEYS.MAGIC]: () => magicModule({ apiKey: 'API_KEY', userEmail: localStorage.getItem('magicUserEmail') }),
   [WALLET_KEYS.COINBASE]: () =>
     coinbaseModule({ darkMode: !!window?.matchMedia('(prefers-color-scheme: dark)')?.matches }),
 }
