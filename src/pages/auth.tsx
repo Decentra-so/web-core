@@ -26,7 +26,7 @@ const Auth = () => {
   options: {
     name: 'Taho',
     getProvider: () =>
-      typeof window !== 'undefined' ? window.taho : undefined,
+      typeof window !== 'undefined' ? window.Taho : undefined,
   },
 }),
     })
