@@ -2,6 +2,7 @@ import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { Box, Button, Typography } from '@mui/material'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import type { EIP1193Provider } from '@web3-onboard/core'
 
 function SignIn() {
   const { connectAsync } = useConnect()
