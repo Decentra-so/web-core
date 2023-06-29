@@ -60,15 +60,15 @@ const FolderList: React.FC = () => {
 
   const CustomListItem = styled(ListItem)(({ theme }) => ({
     height: '70px',
-    borderBottom: '1px solid var(--color-border-light)',
+    borderBottom: `1px solid ${theme.palette.border.light}`,
 
     '&&.Mui-selected': {
-      backgroundColor: 'var(--color-background-papercolor)',
+      backgroundColor: theme.palette.background.paper,
       borderLeft: '4px solid #FE7E51',
       paddingLeft: '12px'
     },
     '&&:hover': {
-      backgroundColor: 'var(--color-background-papercolor)'
+      backgroundColor: theme.palette.background.paper
     },
   }))
 
@@ -76,13 +76,15 @@ const FolderList: React.FC = () => {
     return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
   }
   const handleMouseEnter = (safe: string) => {
-    setActiveSafe(safe)
+    const safeAddress = safe.slice(safe.lastIndexOf(':') + 1)
+    setActiveSafe(safeAddress)
   };
   const handleMouseLeave = () => {
     setActiveSafe(undefined)
   };
   const handleClick = (safe: string) => {
-    dispatch(setSelectedSafe({ selectedSafe: safe }))
+    const safeAddress = safe.slice(safe.lastIndexOf(':') + 1)
+    dispatch(setSelectedSafe({ selectedSafe: safeAddress }))
   }
 
   return (
@@ -107,7 +109,6 @@ const FolderList: React.FC = () => {
               <ListItemText
                 primary={
                   <FormattedName address={safe} weight={500} />
-                  // <Typography sx={{ fontWeight: 500 }}>{addressBook[safe.slice(safe.lastIndexOf(':') + 1)] || ellipsisAddress(safe)}</Typography>
                 }
               />
             </ListItemButton>
