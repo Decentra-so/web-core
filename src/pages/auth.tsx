@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
 const Auth = () => {
   const router = useRouter()
@@ -23,13 +24,14 @@ const Auth = () => {
 
     const { account, chain } = await connectAsync({
       connector: new InjectedConnector({
-  options: {
-    name: 'Taho',
-    getProvider: () =>
-      typeof window !== 'undefined' ? window.Taho : undefined,
-  },
 }),
     })
+
+        const { account, chain } = await connectAsync({
+      connector: new MetaMaskConnector({
+}),
+    })
+    
     //TO-DO: fix this type pls
     //@ts-ignore
     const { message } = await requestChallengeAsync({
