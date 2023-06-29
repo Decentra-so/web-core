@@ -18,7 +18,6 @@ function SignIn() {
     const { account, chain } = await connectAsync({
       connector: new InjectedConnector({  
           options: {
-       name: 'ethereum',     
     getProvider: () =>
       EIP1193Provider,
   },
