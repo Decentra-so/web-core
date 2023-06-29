@@ -2,6 +2,7 @@ import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { Box, Button, Typography } from '@mui/material'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
 function SignIn() {
   const { connectAsync } = useConnect()
@@ -17,11 +18,11 @@ function SignIn() {
 
     const { account, chain } = await connectAsync({
       connector: new InjectedConnector({
-  options: {
-    name: 'Taho',
-    getProvider: () =>
-      typeof window !== 'undefined' ? window.Taho : undefined,
-  },
+}),
+    })
+
+        const { account, chain } = await connectAsync({
+      connector: new MetaMaskConnector({
 }),
     })
 
