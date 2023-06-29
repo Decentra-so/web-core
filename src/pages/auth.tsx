@@ -26,7 +26,7 @@ const Auth = () => {
     const { account, chain } = await connectAsync({
       connector: new InjectedConnector({    
     getProvider: () =>
-      EIP1193Provider,
+      typeof window !== 'undefined' && !!window?.ethereum,
   },
 }),
     })
