@@ -24,7 +24,8 @@ const Auth = () => {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new InjectedConnector({    
+      connector: new InjectedConnector({  
+       name: 'ethereum',     
     getProvider: () =>
       typeof window !== 'undefined' && !!window?.ethereum,
   },
