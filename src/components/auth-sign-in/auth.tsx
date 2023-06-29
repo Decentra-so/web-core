@@ -17,8 +17,7 @@ function SignIn() {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(),
-      connector: new InjectedConnector(),
+      connector: new MetaMaskConnector(), new InjectedConnector(),
     })
 
     //@ts-ignore
