@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import type { EIP1193Provider } from '@web3-onboard/core'
 
 const Auth = () => {
   const router = useRouter()
@@ -23,14 +24,13 @@ const Auth = () => {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new InjectedConnector({
+      connector: new InjectedConnector({    
+    getProvider: () =>
+      EIP1193Provider,
+  },
 }),
     })
 
-        const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector({
-}),
-    })
     
     //TO-DO: fix this type pls
     //@ts-ignore
