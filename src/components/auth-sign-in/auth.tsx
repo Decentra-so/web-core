@@ -1,7 +1,6 @@
 import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { Box, Button, Typography } from '@mui/material'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 function SignIn() {
@@ -17,7 +16,7 @@ function SignIn() {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(), new InjectedConnector(),
+      connector: new InjectedConnector(),
     })
 
     //@ts-ignore
