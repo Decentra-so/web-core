@@ -7,7 +7,6 @@ import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
-
 const Auth = () => {
   const router = useRouter()
   const { connectAsync } = useConnect()
