@@ -24,9 +24,14 @@ const Auth = () => {
     const { account, chain } = await connectAsync({
       connector: new InjectedConnector({
   options: {
-    name: 'My Injected Wallet',
+        name: (detectedName) =>
+      `Injected (${
+        typeof detectedName === 'string'
+          ? detectedName
+          : detectedName.join(', ')
+      })`,
     getProvider: () =>
-      typeof window !== 'undefined' ? window.myInjectedWallet : undefined,
+      typeof window !== 'undefined' ? window.detectedName : undefined,
   },
 }),
     })
