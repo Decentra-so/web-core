@@ -24,8 +24,9 @@ const Auth = () => {
     const { account, chain } = await connectAsync({
       connector: new InjectedConnector({
   options: {
+    name: 'Taho',
     getProvider: () =>
-      typeof window !== 'undefined' ? window.ethereum : undefined,
+      typeof window !== 'undefined' ? window.taho : undefined,
   },
 }),
     })
