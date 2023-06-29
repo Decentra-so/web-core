@@ -22,7 +22,13 @@ const Auth = () => {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new InjectedConnector(),
+      connector: new InjectedConnector({
+  options: {
+    name: 'My Injected Wallet',
+    getProvider: () =>
+      typeof window !== 'undefined' ? window.myInjectedWallet : undefined,
+  },
+}),
     })
     //TO-DO: fix this type pls
     //@ts-ignore
