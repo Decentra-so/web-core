@@ -79,8 +79,10 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 			<Box sx={{ width: '100%', height: '100%' }}>
 				<Tabs
 					variant="scrollable"
-					scrollButtons={false}
-					sx={{ padding: '0 16px', borderBottom: '1px solid var(--color-border-light)' }}
+					scrollButtons='auto'
+					allowScrollButtonsMobile
+					TabScrollButtonProps={{ sx: { margin: 0, padding: 0, width: '20px' } }}
+					sx={{ padding: 0, borderBottom: '1px solid var(--color-border-light)' }}
 					value={value}
 					onChange={handleChange}
 					aria-label="folder tabs">

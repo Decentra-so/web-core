@@ -2,6 +2,7 @@ import type { ConnectedWallet } from "@/services/onboard"
 import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
 import React from 'react'
 import { useEnsName } from "wagmi"
+import FormattedName from "../common/FormattedName/FormattedName"
 import Identicon from "../common/Identicon"
 
 const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ chat, wallet }) => {
@@ -24,9 +25,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		<ListItemText
 			primary={
 				<React.Fragment>
-					<Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">
-						{chat.data.sender.name === wallet?.address ? 'You' : isLoading || isError || !data ? chat?.data?.sender.uid : data}
-					</Typography>
+					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600} />}
 					<Typography sx={{ display: 'inline' }} component="span" variant="body2">
 						{chat.timeStamp}
 					</Typography>
