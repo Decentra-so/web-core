@@ -4,7 +4,8 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+
 
 const Auth = () => {
   const router = useRouter()
@@ -22,7 +23,7 @@ const Auth = () => {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(),
+      connector: new InjectedConnector(),
     })
     //TO-DO: fix this type pls
     //@ts-ignore
