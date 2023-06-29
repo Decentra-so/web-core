@@ -1,4 +1,4 @@
-import CookieBanner from '@/components/common/CookieBanner'
+
 import ErrorBoundary from '@/components/common/ErrorBoundary'
 import MetaTags from '@/components/common/MetaTags'
 import Notifications from '@/components/common/Notifications'
@@ -7,7 +7,6 @@ import { cgwDebugStorage } from '@/components/sidebar/DebugToggle'
 import { GATEWAY_URL_PRODUCTION, GATEWAY_URL_STAGING, IS_PRODUCTION } from '@/config/constants'
 import { useInitSafeCoreSDK } from '@/hooks/coreSDK/useInitSafeCoreSDK'
 import useAdjustUrl from '@/hooks/useAdjustUrl'
-import useBeamer from '@/hooks/useBeamer'
 import { useDarkMode } from '@/hooks/useDarkMode'
 import { useInitSession } from '@/hooks/useInitSession'
 import useLoadableStores from '@/hooks/useLoadableStores'
@@ -18,7 +17,6 @@ import useTxPendingStatuses from '@/hooks/useTxPendingStatuses'
 import { useTxTracking } from '@/hooks/useTxTracking'
 import { useInitWeb3 } from '@/hooks/wallets/useInitWeb3'
 import { useInitOnboard } from '@/hooks/wallets/useOnboard'
-import useGtm from '@/services/analytics/useGtm'
 import Sentry from '@/services/sentry'; // needs to be imported first
 import { StoreHydrator } from '@/store'
 import '@/styles/globals.css'
@@ -32,7 +30,6 @@ import { SafeThemeProvider } from '@safe-global/safe-react-components'
 import { Analytics } from '@vercel/analytics/react'
 import { SessionProvider } from 'next-auth/react'
 import { type AppProps } from 'next/app'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import type { ReactNode } from 'react'
 import { type ReactElement } from 'react'
@@ -48,9 +45,6 @@ const client = createClient({
   autoConnect: true,
 })
 
-// Importing it dynamically to prevent hydration errors because we read the local storage
-const TermsBanner = dynamic(() => import('@/components/common/TermsBanner'), { ssr: false })
-
 import useSafeMessageNotifications from '@/hooks/useSafeMessageNotifications'
 import useSafeMessagePendingStatuses from '@/hooks/useSafeMessagePendingStatuses'
 
@@ -59,7 +53,6 @@ const GATEWAY_URL = IS_PRODUCTION || cgwDebugStorage.get() ? GATEWAY_URL_PRODUCT
 const InitApp = (): null => {
   setGatewayBaseUrl(GATEWAY_URL)
   useAdjustUrl()
-  useGtm()
   useInitSession()
   useLoadableStores()
   useInitOnboard()
@@ -72,7 +65,6 @@ const InitApp = (): null => {
   useSafeMessagePendingStatuses()
   useTxTracking()
   useSafeMsgTracking()
-  useBeamer()
 
   return null
 }
@@ -127,9 +119,6 @@ const WebCoreApp = ({
                   <Analytics />
                 </>
               </PageLayout>
-              <CookieBanner />
-              <TermsBanner />
-
               <Notifications />
             </AppProviders>
           </CacheProvider>

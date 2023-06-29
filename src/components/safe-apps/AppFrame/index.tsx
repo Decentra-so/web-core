@@ -22,11 +22,9 @@ import { useCurrentChain } from '@/hooks/useChains'
 import { isSameUrl } from '@/utils/url'
 import useTransactionQueueBarState from '@/components/safe-apps/AppFrame/useTransactionQueueBarState'
 import { gtmTrackPageview } from '@/services/analytics/gtm'
-import useThirdPartyCookies from './useThirdPartyCookies'
 import useAnalyticsFromSafeApp from './useFromAppAnalytics'
 import useAppIsLoading from './useAppIsLoading'
 import useAppCommunicator, { CommunicatorMessages } from './useAppCommunicator'
-import { ThirdPartyCookiesWarning } from './ThirdPartyCookiesWarning'
 import SafeAppsTxModal from '@/components/safe-apps/SafeAppsTxModal'
 import useTxModal from '@/components/safe-apps/SafeAppsTxModal/useTxModal'
 import SafeAppsSignMessageModal from '@/components/safe-apps/SafeAppsSignMessageModal'
@@ -76,7 +74,6 @@ const AppFrame = ({ appUrl, allowedFeaturesList }: AppFrameProps): ReactElement 
   const queueBarVisible = transactions.results.length > 0 && !queueBarDismissed
   const [remoteApp, , isBackendAppsLoading] = useSafeAppFromBackend(appUrl, safe.chainId)
   const { safeApp: safeAppFromManifest } = useSafeAppFromManifest(appUrl, safe.chainId)
-  const { thirdPartyCookiesDisabled, setThirdPartyCookiesDisabled } = useThirdPartyCookies()
   const { iframeRef, appIsLoading, isLoadingSlow, setAppIsLoading } = useAppIsLoading()
   useAnalyticsFromSafeApp(iframeRef)
   const { getPermissions, hasPermission, permissionsRequest, setPermissionsRequest, confirmPermissionRequest } =
@@ -254,8 +251,6 @@ const AppFrame = ({ appUrl, allowedFeaturesList }: AppFrameProps): ReactElement 
       </Head>
 
       <div className={css.wrapper}>
-        {thirdPartyCookiesDisabled && <ThirdPartyCookiesWarning onClose={() => setThirdPartyCookiesDisabled(false)} />}
-
         {appIsLoading && (
           <div className={css.loadingContainer}>
             {isLoadingSlow && (
