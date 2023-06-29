@@ -26,7 +26,7 @@ const Auth = () => {
   options: {
     name: 'Injected',
     getProvider: () =>
-      typeof window !== 'undefined' ? window.injected : undefined,
+      typeof window !== 'undefined' ? window.Injected : undefined,
   },
 }),
     })
