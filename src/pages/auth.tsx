@@ -28,7 +28,7 @@ const Auth = () => {
           options: {
        name: 'ethereum',     
     getProvider: () =>
-      typeof window !== 'undefined' && !!window?.ethereum,
+      EIP1193Provider,
   },
 }),
     })
