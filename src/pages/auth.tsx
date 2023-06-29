@@ -23,8 +23,7 @@ const Auth = () => {
     }
 
     const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(),
-      connector: new InjectedConnector(),
+      connector: new MetaMaskConnector(), new InjectedConnector(),
     })
     //TO-DO: fix this type pls
     //@ts-ignore
