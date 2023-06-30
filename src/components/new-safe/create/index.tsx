@@ -172,7 +172,7 @@ const CreateSafe = () => {
   }
 
   const onClose = () => {
-    router.push(AppRoutes.welcome)
+    router.push(AppRoutes.chat)
   }
 
   return (
