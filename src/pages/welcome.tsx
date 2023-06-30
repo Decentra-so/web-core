@@ -5,20 +5,16 @@ import { Box, Button, Typography, Container } from '@mui/material'
 import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
 import { signIn } from 'next-auth/react'
 import useWallet from '@/hooks/wallets/useWallet'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { useRouter } from 'next/router'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import useLastSafe from '@/hooks/useLastSafe'
-import { useCurrentChain } from '@/hooks/useChains'
-import { switchWalletChain } from '@/services/tx/tx-sender/sdk'
-import useOnboard from '@/hooks/wallets/useOnboard'
 import ErrorMessage from '@/components/tx/ErrorMessage'
 
 const Welcome: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const currentChain = useCurrentChain()
-  const onboard = useOnboard()
+ 
   const { connectAsync } = useConnect()
   const { disconnectAsync } = useDisconnect()
   const { isConnected } = useAccount()
@@ -29,19 +25,9 @@ const Welcome: NextPage = () => {
   const lastSafe = useLastSafe()
   const { push } = useRouter()
 
-  const handleChainSwitch = useCallback(async () => {
-
-    if (!onboard || !currentChain) return
-
-    await switchWalletChain(onboard, "137")
-  }, [currentChain, onboard])
-
   const handleAuth = async () => {
     setLoading(true)
-    if (wallet?.chainId !== "137") {
-      await handleChainSwitch()
-    }
-
+    
     if (isConnected) {
       await disconnectAsync()
     }

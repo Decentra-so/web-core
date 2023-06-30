@@ -1,5 +1,5 @@
 
-import useSafeInfo from "@/hooks/useSafeInfo"
+import useSafeAddress from "@/hooks/useSafeAddress"
 import useWallet from "@/hooks/wallets/useWallet"
 import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
@@ -46,7 +46,7 @@ function a11yProps(index: number) {
 export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = ({ createSafe, setCreateSafe }) => {
 	//user and safe
 	const wallet = useWallet()
-	const { safe, safeAddress } = useSafeInfo()
+	const safeAddress = useSafeAddress()
 	const [value, setValue] = useState(0)
 	const [folders, setFolders] = useState([])
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -72,7 +72,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
-					<FormattedName address={wallet?.address!} weight={600} />
+					<FormattedName address={wallet?.address || 'not connected'} weight={600} />
 				</Box>
 				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			</Toolbar>
@@ -92,9 +92,9 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 					})}
 				</Tabs>
 				<TabPanel value={value} index={0}>
-					<FolderList />
+					{wallet?.address && <FolderList />}
 				</TabPanel>
-				{folders.map((folder, i) => {
+				{folders?.map((folder, i) => {
 					return (
 						<TabPanel value={value} index={i + 1} key={`tab-${folder}-${i}`}>
 							<FolderGroup group={folder} currentSafe={safeAddress} />

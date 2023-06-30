@@ -4,31 +4,10 @@ import useLastSafe from '@/hooks/useLastSafe'
 import { AppRoutes } from '@/config/routes'
 import { Box } from '@mui/material'
 import LoadingSpinner from '@/components/new-safe/create/steps/StatusStep/LoadingSpinner'
-import { getSession } from 'next-auth/react'
 
 const useIsomorphicEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context)
-  const path = context.req.url.split('?')
-  // redirect if not authenticated
-  if (!session) {
-    return {
-      redirect: {
-        destination: path[1] ? `/welcome?${path[1]}` : `/welcome`,
-        permanent: false,
-      },
-    }
-  }
-
-  return {
-    props: { user: session.user },
-  }
-}
-
-const IndexPage: React.FC<{
-  user: any
-}> = ({ user }) => {
+const IndexPage = () => {
   const router = useRouter()
   const { safe, chain } = router.query
   const lastSafe = useLastSafe()
@@ -43,8 +22,8 @@ const IndexPage: React.FC<{
       safeAddress
         ? `${AppRoutes.chat}?safe=${safeAddress}`
         : chain
-        ? `${AppRoutes.welcome}?chain=${chain}`
-        : AppRoutes.welcome,
+        ? `${AppRoutes.chat}?chain=${chain}`
+        : AppRoutes.chat,
     )
   }, [router, safeAddress, chain])
 
