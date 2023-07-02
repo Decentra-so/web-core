@@ -72,6 +72,8 @@
     "exponential-backoff": "^3.1.0",
     "fuse.js": "^6.6.2",
     "iron-session": "^6.3.1",
+    "jotai": "^2.2.1",
+    "js-base64": "^3.7.5",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "moralis": "^2.19.0",
@@ -92,6 +94,7 @@
     "react-toastify": "^9.1.2",
     "semver": "^7.3.7",
     "siwe": "^2.1.4",
+    "uuid": "^9.0.0",
     "wagmi": "^0.12.12"
   },
   "devDependencies": {

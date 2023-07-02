@@ -21,12 +21,14 @@ import {
   useMediaQuery
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { getSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import useOnboard from '@/hooks/wallets/useOnboard'
+import { createWeb3 } from '@/hooks/wallets/web3'
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -49,19 +51,7 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }))
 
-//Get auth session, if not reroute
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context)
-
-  return {
-    props: { session: session || null },
-  }
-}
-
-const Chat: React.FC<{
-  session: any
-}> = ({ session }) => {
-  console.log(session, 'user')
+const Chat = () => {
   const matches = useMediaQuery('(max-width: 600px)')
   //routing
   const router = useRouter()
@@ -70,23 +60,39 @@ const Chat: React.FC<{
   const [settings, toggleSettings] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(true)
   const [auth, setAuth] = useState<boolean>(false)
+  const [authToken, setAuthToken] = useState<string | null>('1')
   //user and safe
   const wallet = useWallet()
+  const onboard = useOnboard()
   const { safe, safeAddress } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
 
   useEffect(() => {
-    if (session?.user?.address === wallet?.address && wallet?.address) {
+    if (!onboard || !wallet) return
+    const provider = createWeb3(wallet?.provider)
+    const getToken = async () => {
+      await getExistingAuth(provider, wallet?.address).then((res) => {
+        setAuthToken(res)
+      })
+    }
+    getToken()
+  }, [onboard, wallet?.address, wallet?.provider])
+
+  useEffect(() => {
+    if (!onboard || !wallet) return
+    if (!authToken) {
+      setAuth(true)
+    } else {
       setAuth(false)
     }
-    if (session?.user?.address !== wallet?.address && wallet?.address) {
-      setAuth(true)
-    }
+  }, [authToken, onboard, wallet])
+
+  useEffect(() => {
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
     }
-  }, [wallet?.address, session?.user?.address])
+  }, [router.asPath])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -101,7 +107,7 @@ const Chat: React.FC<{
 
   return (
     <>
-      {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} />}
+      {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
@@ -192,8 +198,8 @@ const Chat: React.FC<{
                   :
                   <>
                     {!wallet?.address && <Typography variant='h5' p={3}>Connect Wallet to continue</Typography>}
-                    {wallet?.address && !session?.user && <Button onClick={() => setAuth(true)}>Authenticate</Button>}
-                    {wallet?.address && session?.user && <ChatWrapper />}
+                    {wallet?.address && !authToken && <Button onClick={() => setAuth(true)}>Authenticate</Button>}
+                    {wallet?.address && authToken && <ChatWrapper />}
                   </>
               }
             </Box>
