@@ -15,10 +15,10 @@ This request will not trigger a blockchain transaction or cost any gas fees.
 Your authentication status will reset after 7 days.`;
 
 type Claim = {
-  iat: Date;
-  exp: Date;
-  iss: string;
-  tid: string;
+  timestamp: Date;
+  authexpiration: Date;
+  walletaddress: string;
+  nonce: string;
 };
 
 export async function createToken(
@@ -26,13 +26,13 @@ export async function createToken(
 ): Promise<string> {
   const signer = provider.getSigner();
   const address = await signer.getAddress();
-  const iat = +new Date();
+  const timestamp = +new Date();
 
   const claim = {
-    iat,
-    exp: iat + tokenDuration,
-    iss: address,
-    tid: uuidv4(),
+    timestamp,
+    authexpiration: timestamp + tokenDuration,
+    walletaddress: address,
+    nonce: uuidv4(),
   };
 
   const serializedClaim = JSON.stringify(claim);
@@ -50,7 +50,7 @@ export async function verifyToken(
   const rawToken = Base64.decode(token);
   const [proof, rawClaim] = JSON.parse(rawToken);
   const claim: Claim = JSON.parse(rawClaim);
-  const claimant = claim.iss;
+  const claimant = claim.walletaddress;
 
   if (connectedAddress != null && claimant !== connectedAddress) {
     throw new Error(
