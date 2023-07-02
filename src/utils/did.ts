@@ -6,7 +6,13 @@ import { getSignature, verifySignature } from './ethereumHelpers';
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
-const WELCOME_MESSAGE = `Welcome to Decentra, please sign this message to prove you own this address`;
+const WELCOME_MESSAGE = `Welcome to Decentra!
+
+Please sign this message to prove that you own this address. 
+
+This request will not trigger a blockchain transaction or cost any gas fees.
+
+Your authentication status will reset after 7 days.`;
 
 type Claim = {
   iat: Date;
