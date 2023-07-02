@@ -12,7 +12,6 @@ type Claim = {
   iat: Date;
   exp: Date;
   iss: string;
-  aud: string;
   tid: string;
 };
 
@@ -27,7 +26,6 @@ export async function createToken(
     iat,
     exp: iat + tokenDuration,
     iss: address,
-    aud: 'the-game',
     tid: uuidv4(),
   };
 
