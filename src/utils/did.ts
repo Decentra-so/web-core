@@ -12,7 +12,8 @@ Please sign this message to prove that you own this address.
 
 This request will not trigger a blockchain transaction or cost any gas fees.
 
-Your authentication status will reset after 7 days.`;
+Your authentication status will reset after 7 days.
+`;
 
 type Claim = {
   timestamp: Date;
