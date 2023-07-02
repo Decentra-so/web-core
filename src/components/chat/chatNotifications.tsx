@@ -12,7 +12,7 @@ const ChatNotifications = () => {
   const router = useRouter()
   const { configs } = useChains()
   const addedSafes: any = useAppSelector(selectAllAddedSafes)
-  const isWelcomePage = router.pathname === AppRoutes.welcome
+  const isWelcomePage = router.pathname === AppRoutes.chat
   const isSingleTxPage = router.pathname === AppRoutes.transactions.tx
   const [addedSafeList, setAddedSafesList] = useState<any>()
 

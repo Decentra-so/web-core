@@ -11,7 +11,6 @@ import ExternalLink from '../ExternalLink'
 import MUILink from '@mui/material/Link'
 
 const footerPages = [
-  AppRoutes.welcome,
   AppRoutes.settings.index,
   AppRoutes.imprint,
   AppRoutes.privacy,

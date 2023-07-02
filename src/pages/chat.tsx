@@ -1,20 +1,19 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
+import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
-import ConnectionCenter from '@/components/common/ConnectWallet/ConnectionCenter'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
 import { AppRoutes } from '@/config/routes'
-import useAddressBook from '@/hooks/useAddressBook'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
 import { ArrowBackIos } from '@mui/icons-material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
-  Box, Container,
+  Box, Button, Container,
   Drawer,
   Hidden,
   IconButton, Toolbar,
@@ -22,12 +21,14 @@ import {
   useMediaQuery
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { getSession, signOut } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import useOnboard from '@/hooks/wallets/useOnboard'
+import { createWeb3 } from '@/hooks/wallets/web3'
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -50,50 +51,48 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }))
 
-//Get auth session, if not reroute
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context)
-  const path = context.req.url.split('?')
-  // redirect if not authenticated
-  if (!session) {
-    return {
-      redirect: {
-        destination: path[1] ? `/welcome?${path[1]}` : '/welcome',
-        permanent: false,
-      },
-    }
-  }
-
-  return {
-    props: { user: session.user },
-  }
-}
-
-const Chat: React.FC<{
-  user: any
-}> = ({ user }) => {
-  const addressBook = useAddressBook()
+const Chat = () => {
   const matches = useMediaQuery('(max-width: 600px)')
   //routing
   const router = useRouter()
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [settings, toggleSettings] = useState<boolean>(false)
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState<boolean>(true)
+  const [auth, setAuth] = useState<boolean>(false)
+  const [authToken, setAuthToken] = useState<string | null>('1')
   //user and safe
   const wallet = useWallet()
+  const onboard = useOnboard()
   const { safe, safeAddress } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
 
   useEffect(() => {
-    if (user.address !== wallet?.address) {
-      signOut({ redirect: true })
+    if (!onboard || !wallet) return
+    const provider = createWeb3(wallet?.provider)
+    const getToken = async () => {
+      await getExistingAuth(provider, wallet?.address).then((res) => {
+        setAuthToken(res)
+      })
     }
+    getToken()
+  }, [onboard, wallet?.address, wallet?.provider])
+
+  useEffect(() => {
+    if (!onboard || !wallet) return
+    if (!authToken) {
+      setAuth(true)
+    } else {
+      setAuth(false)
+    }
+  }, [authToken, onboard, wallet])
+
+  useEffect(() => {
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
     }
-  }, [wallet?.address, user?.address])
+  }, [router.asPath])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -106,28 +105,9 @@ const Chat: React.FC<{
     setOpen(open)
   }
 
-  if (!wallet?.address || !user)
-    return (
-      <Container fixed sx={{ height: '100vh', width: '100vw' }}>
-        <Box
-          sx={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 3,
-          }}
-        >
-          <Typography variant="h4">You are not connected.</Typography>
-          <ConnectionCenter />
-        </Box>
-      </Container>
-    )
-
   return (
     <>
+      {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
@@ -179,9 +159,11 @@ const Chat: React.FC<{
                       </IconButton>
                     </Link>
                   }
-                  <Identicon address={safeAddress} radius={6} size={32} />
-                  <FormattedName address={safeAddress} weight={600} />
-                  {/* <Typography sx={{ fontWeight: 600 }}>{safeAddress ? addressBook[safeAddress] || ellipsisAddress(`${safeAddress}`) : ''}</Typography> */}
+                  {safeAddress && <>
+                      <Identicon address={safeAddress} radius={6} size={32} />
+                      <FormattedName address={safeAddress} weight={600} />
+                    </>
+                  }
                 </Box>
                 <Box>
                   <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
@@ -215,7 +197,9 @@ const Chat: React.FC<{
                   </Container>
                   :
                   <>
-                    <ChatWrapper />
+                    {!wallet?.address && <Typography variant='h5' p={3}>Connect Wallet to continue</Typography>}
+                    {wallet?.address && !authToken && <Button onClick={() => setAuth(true)}>Authenticate</Button>}
+                    {wallet?.address && authToken && <ChatWrapper />}
                   </>
               }
             </Box>

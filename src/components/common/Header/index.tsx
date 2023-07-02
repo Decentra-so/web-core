@@ -32,7 +32,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
   const isDarkMode = useDarkMode()
 
   // Logo link: if on Dashboard, link to Welcome, otherwise to the root (which redirects to either Dashboard or Welcome)
-  const logoHref = router.pathname === AppRoutes.home ? AppRoutes.welcome : AppRoutes.index
+  const logoHref = router.pathname === AppRoutes.home ? AppRoutes.chat : AppRoutes.index
 
   const handleMenuToggle = () => {
     if (onMenuToggle) {

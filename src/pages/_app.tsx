@@ -28,7 +28,6 @@ import { ThemeProvider } from '@mui/material/styles'
 import { setBaseUrl as setGatewayBaseUrl } from '@safe-global/safe-gateway-typescript-sdk'
 import { SafeThemeProvider } from '@safe-global/safe-react-components'
 import { Analytics } from '@vercel/analytics/react'
-import { SessionProvider } from 'next-auth/react'
 import { type AppProps } from 'next/app'
 import Head from 'next/head'
 import type { ReactNode } from 'react'
@@ -102,7 +101,6 @@ const WebCoreApp = ({
   return (
     <StoreHydrator>
       <WagmiConfig client={client}>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
           <Head>
             <title key="default-title">{'Decentra{Pro}'}</title>
             <MetaTags prefetchUrl={GATEWAY_URL} />
@@ -122,7 +120,6 @@ const WebCoreApp = ({
               <Notifications />
             </AppProviders>
           </CacheProvider>
-        </SessionProvider>
       </WagmiConfig>
     </StoreHydrator>
   )

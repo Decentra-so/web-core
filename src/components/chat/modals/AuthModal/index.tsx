@@ -5,11 +5,12 @@ import { DialogContent } from "@mui/material"
 export const AuthModal: React.FC<{
 	open: boolean
 	onClose: () => void
-}> = ({ open, onClose }) => {
+	setAuthToken: any
+}> = ({ open, onClose, setAuthToken }) => {
 	return (
 		<ModalDialog open={open} dialogTitle="Sign in with Ethereum" onClose={onClose}>
 			<DialogContent>
-				<SignIn />
+				<SignIn onClose={onClose} setAuthToken={setAuthToken} />
 			</DialogContent>
 		</ModalDialog>
 	)

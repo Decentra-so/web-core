@@ -12,7 +12,7 @@ import { useCallback } from 'react'
 import { AppRoutes } from '@/config/routes'
 import { trackEvent, OVERVIEW_EVENTS } from '@/services/analytics'
 
-const keepPathRoutes = [AppRoutes.welcome, AppRoutes.newSafe.create, AppRoutes.newSafe.load]
+const keepPathRoutes = [AppRoutes.chat, AppRoutes.newSafe.create, AppRoutes.newSafe.load]
 
 const NetworkSelector = (): ReactElement => {
   const { configs } = useChains()

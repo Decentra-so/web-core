@@ -33,7 +33,7 @@ const ErrorBoundary: FallbackRender = ({ error, componentStack }) => {
             <Typography color="error">{componentStack}</Typography>
           </>
         )}
-        <Link href={AppRoutes.welcome} color="primary" mt={2}>
+        <Link href={AppRoutes.chat} color="primary" mt={2}>
           Go home
         </Link>
       </div>

@@ -46,7 +46,7 @@ const LoadSafe = ({ initialData }: { initialData?: TxStepperProps<LoadSafeFormDa
   const router = useRouter()
 
   const onClose = () => {
-    router.push(AppRoutes.welcome)
+    router.push(AppRoutes.chat)
   }
 
   const initialSafe = initialData ?? loadSafeDefaultData
