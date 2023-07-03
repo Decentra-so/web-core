@@ -42,9 +42,9 @@ export const createOnboard = (chainConfigs: ChainInfo[], rpcConfig: EnvState['rp
     },
 
     appMetadata: {
-      name: 'Safe{Wallet}',
+      name: 'Decentra{Pro}',
       icon: '/images/safe-logo-green.png',
-      description: 'Please select a wallet to connect to Safe{Wallet}',
+      description: 'Please select a wallet to connect to Decentra{Pro}',
       recommendedInjectedWallets: getRecommendedInjectedWallets(),
     },
   })
