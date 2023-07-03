@@ -1,7 +1,7 @@
 import { CYPRESS_MNEMONIC, TREZOR_APP_URL, TREZOR_EMAIL, WC_BRIDGE, WC_PROJECT_ID } from '@/config/constants'
 import type { RecommendedInjectedWallets, WalletInit, WalletModule } from '@web3-onboard/common/dist/types.d'
 import type { ChainInfo } from '@safe-global/safe-gateway-typescript-sdk'
-
+import { getWeb3ReadOnly } from '@/hooks/wallets/web3'
 import coinbaseModule from '@web3-onboard/coinbase'
 import injectedWalletModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
 import keystoneModule from '@web3-onboard/keystone/dist/index'
@@ -9,7 +9,8 @@ import ledgerModule from '@web3-onboard/ledger'
 import trezorModule from '@web3-onboard/trezor'
 import walletConnect from '@web3-onboard/walletconnect'
 import tahoModule from '@web3-onboard/taho'
-
+import { EMPTY_DATA } from '@safe-global/safe-core-sdk/dist/src/utils/constants'
+import { type ConnectedWallet } from '@/hooks/wallets/useOnboard'
 import pairingModule from '@/services/pairing/module'
 import e2eWalletModule from '@/tests/e2e-wallet'
 import { CGW_NAMES, WALLET_KEYS } from './consts'
@@ -79,4 +80,22 @@ export const getSupportedWallets = (chain: ChainInfo): WalletInit[] => {
   }
 
   return enabledWallets.map(([, module]) => module(chain))
+}
+
+export const isHardwareWallet = (wallet: ConnectedWallet): boolean => {
+  return [WALLET_KEYS.LEDGER, WALLET_KEYS.TREZOR, WALLET_KEYS.KEYSTONE].includes(
+    wallet.label.toUpperCase() as WALLET_KEYS,
+  )
+}
+
+export const isSmartContractWallet = async (wallet: ConnectedWallet) => {
+  const provider = getWeb3ReadOnly()
+
+  if (!provider) {
+    throw new Error('Provider not found')
+  }
+
+  const code = await provider.getCode(wallet.address)
+
+  return code !== EMPTY_DATA
 }
