@@ -36,7 +36,7 @@ const walletConnectV2 = (chain: ChainInfo): WalletInit => {
     projectId: WC_PROJECT_ID,
     qrModalOptions: {
       themeVariables: {
-        '--w3m-z-index': '1302',
+        '--wcm-z-index': '1302',
       },
     },
     requiredChains: [parseInt(chain.chainId)],
@@ -48,6 +48,7 @@ const WALLET_MODULES: { [key in WALLET_KEYS]: (chain: ChainInfo) => WalletInit }
   [WALLET_KEYS.PAIRING]: () => pairingModule(),
   [WALLET_KEYS.WALLETCONNECT]: () => walletConnectV1(),
   [WALLET_KEYS.WALLETCONNECT_V2]: (chain) => walletConnectV2(chain),
+  //@ts-ignore
   [WALLET_KEYS.LEDGER]: () => ledgerModule(),
   [WALLET_KEYS.TREZOR]: () => trezorModule({ appUrl: TREZOR_APP_URL, email: TREZOR_EMAIL }),
   [WALLET_KEYS.KEYSTONE]: () => keystoneModule(),
