@@ -12,7 +12,7 @@ import { CYPRESS_MNEMONIC, IS_PRODUCTION } from '@/config/constants'
 export const ContentSecurityPolicy = `
  default-src 'self';
  connect-src 'self' *;
- script-src 'self' https://explorer-api.walletconnect.com/w3m/v1/getDesktopListings?projectId=f2877030e1fb845a0d5112691fa0266f https://explorer-api.walletconnect.com/w3m/v1/getInjectedListings?projectId=f2877030e1fb845a0d5112691fa0266f https://www.google-analytics.com https://ssl.google-analytics.com 'unsafe-inline' https://*.getbeamer.com https://www.googletagmanager.com https://*.ingest.sentry.io https://sentry.io ${
+ script-src 'self' https://www.google-analytics.com https://ssl.google-analytics.com 'unsafe-inline' https://*.getbeamer.com https://www.googletagmanager.com https://*.ingest.sentry.io https://sentry.io ${
    !IS_PRODUCTION || /* TODO: remove after moving cypress to görli and testing in staging again!! */ CYPRESS_MNEMONIC
      ? "'unsafe-eval'"
      : ''
