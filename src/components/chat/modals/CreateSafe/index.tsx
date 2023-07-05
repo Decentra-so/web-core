@@ -54,10 +54,10 @@ const ViewCreateSafe: React.FC<{
           <Tab label="Create" />
           <Tab label="Load" />
         </Tabs>
-        <TabPanel value={tab} index={1}>
+        <TabPanel value={tab} index={0}>
           <Open />
         </TabPanel>
-        <TabPanel value={tab} index={0}>
+        <TabPanel value={tab} index={1}>
           <Load />
         </TabPanel>
       </DialogContent>
