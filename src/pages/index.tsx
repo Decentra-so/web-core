@@ -1,9 +1,9 @@
-import { useEffect, useLayoutEffect } from 'react'
-import { useRouter } from 'next/router'
-import useLastSafe from '@/hooks/useLastSafe'
-import { AppRoutes } from '@/config/routes'
-import { Box } from '@mui/material'
 import LoadingSpinner from '@/components/new-safe/create/steps/StatusStep/LoadingSpinner'
+import { AppRoutes } from '@/config/routes'
+import useLastSafe from '@/hooks/useLastSafe'
+import { Box, useMediaQuery } from '@mui/material'
+import { useRouter } from 'next/router'
+import { useEffect, useLayoutEffect } from 'react'
 
 const useIsomorphicEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
@@ -12,18 +12,19 @@ const IndexPage = () => {
   const { safe, chain } = router.query
   const lastSafe = useLastSafe()
   const safeAddress = safe || lastSafe
+  const matches = useMediaQuery('(max-width: 600px)')
 
   useIsomorphicEffect(() => {
     if (router.pathname !== AppRoutes.index) {
       return
     }
-
+    console.log(matches)
     router.replace(
       safeAddress
         ? `${AppRoutes.chat}?safe=${safeAddress}`
         : chain
-        ? `${AppRoutes.chat}?chain=${chain}`
-        : AppRoutes.chat,
+          ? `${AppRoutes.chat}?chain=${chain}`
+          : window.innerWidth < 600 ? AppRoutes.safeList : AppRoutes.chat,
     )
   }, [router, safeAddress, chain])
 
