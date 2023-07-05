@@ -96,7 +96,7 @@ const FolderList: React.FC = () => {
               key={`safe-${index}`}
               onClick={(e) => handleClick(safe)}
               sx={{
-                padding: '2px 6px', height: '70px', borderBottom: '1px solid var(--color-border-light)',
+                padding: '2px 6px', height: '70px',
                 "&:hover": {
                   backgroundColor: "transparent"
                 }
