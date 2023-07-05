@@ -7,15 +7,12 @@ import ListItemText from '@mui/material/ListItemText'
 import { AppRoutes } from '@/config/routes'
 import { useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
-import { useRouter } from 'next/router'
 
 const FolderGroup: React.FC<{
   group: any,
   currentSafe: string
 }> = ({ group, currentSafe }) => {
   const [safes, setSafes] = useState<string[]>([''])
-  const [selectedIndex, setSelectedIndex] = useState<string | number>('')
-  const history = useRouter()
 
   window?.addEventListener('storage', () => {
     const items = JSON.parse(localStorage.getItem(group)!)
@@ -39,22 +36,17 @@ const FolderGroup: React.FC<{
     }
   }, [localStorage.getItem(group)])
 
-  const handleListItemClick = (folder: string, index: number) => {
-    setSelectedIndex(index)
-    history.push(`${folder}/new-chat`)
-  }
   //TODO
   return (
     <>
       <List>
         {safes.map((folder, index) => (
-          <Link href={{ pathname: AppRoutes.home, query: { safe: `${folder}` } }} key={`${folder}-${index}`} passHref>
+          <Link href={{ pathname: AppRoutes.chat, query: { safe: `${folder}` } }} key={`${folder}-${index}`} passHref>
             <ListItemButton
               sx={{ borderRadius: '6px' }}
               //key={folder.name}
               key={folder}
               selected={currentSafe === folder.split(':')[1]}
-              onClick={() => handleListItemClick(folder, index)}
             >
               <ListItemAvatar>
                 <Avatar alt={folder} />
