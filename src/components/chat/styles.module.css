@@ -136,10 +136,11 @@
   width: 100%;
   bottom: 0px;
   position: fixed;
-  background: var(--color-background-paper);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
   padding: 10px;
+  background: #f4f4f485;
+  backdrop-filter: blur(15px);
+  border-top: 1px solid var(--color-border-light);
+  justify-content: space-around;
 }
 
 @media (min-width: 600px) {
