@@ -51,13 +51,13 @@ const ViewCreateSafe: React.FC<{
     <ModalDialog open={open} dialogTitle="Add Safe" onClose={onClose} maxWidth="md">
       <DialogContent sx={{ maxHeight: '90vh', overflow: 'auto' }}>
         <Tabs value={tab} onChange={handleChange} aria-label="folder tabs">
-          <Tab label="Load" />
           <Tab label="Create" />
+          <Tab label="Load" />
         </Tabs>
-        <TabPanel value={tab} index={1}>
+        <TabPanel value={tab} index={0}>
           <Open />
         </TabPanel>
-        <TabPanel value={tab} index={0}>
+        <TabPanel value={tab} index={1}>
           <Load />
         </TabPanel>
       </DialogContent>
