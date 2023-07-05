@@ -3,6 +3,7 @@ import useSafeAddress from "@/hooks/useSafeAddress"
 import useWallet from "@/hooks/wallets/useWallet"
 import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
+import useConnectWallet from "../common/ConnectWallet/useConnectWallet"
 import FormattedName from "../common/FormattedName/FormattedName"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
@@ -48,6 +49,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	const wallet = useWallet()
 	const safeAddress = useSafeAddress()
 	const [value, setValue] = useState(0)
+	const handleConnect = useConnectWallet()
 	const [folders, setFolders] = useState([])
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue)
@@ -72,11 +74,11 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
-					<FormattedName address={wallet?.address || 'not connected'} weight={600} />
+					{wallet?.address ? <FormattedName address={wallet?.address} weight={600} /> : <Typography fontWeight={600}>Not connected</Typography>}
 				</Box>
 				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			</Toolbar>
-			<Box sx={{ width: '100%', height: '100%' }}>
+			<Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
 				<Tabs
 					variant="scrollable"
 					scrollButtons='auto'
@@ -94,15 +96,26 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				<TabPanel value={value} index={0}>
 					{wallet?.address && <FolderList />}
 				</TabPanel>
-				{folders?.map((folder, i) => {
-					return (
-						<TabPanel value={value} index={i + 1} key={`tab-${folder}-${i}`}>
-							<FolderGroup group={folder} currentSafe={safeAddress} />
-						</TabPanel>
-					)
-				})}
-				<Button onClick={() => setCreateSafe(!createSafe)}>Add Safe</Button>
-			</Box>
+				{
+					folders?.map((folder, i) => {
+						return (
+							<TabPanel value={value} index={i + 1} key={`tab-${folder}-${i}`}>
+								<FolderGroup group={folder} currentSafe={safeAddress} />
+							</TabPanel>
+						)
+					})
+				}
+				{
+					wallet?.address ?
+						<Button onClick={() => setCreateSafe(!createSafe)}>Add Safe</Button>
+						:
+						<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							<Button onClick={handleConnect} variant="contained" disableElevation>
+								Connect wallet
+							</Button>
+						</Box>
+				}
+			</Box >
 		</>
 	)
 }
