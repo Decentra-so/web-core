@@ -69,7 +69,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 
 	return (
 		<>
-			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px 24px' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
 					<FormattedName address={wallet?.address || 'not connected'} weight={600} />
