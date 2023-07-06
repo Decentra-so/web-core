@@ -9,6 +9,7 @@ import css from './styles.module.css'
 export const UNKNOWN_CHAIN_NAME = 'Unknown'
 
 const WalletInfo = ({ wallet }: { wallet: ConnectedWallet }): ReactElement => {
+  const walletChain = useAppSelector((state) => selectChainById(state, wallet.chainId))
   const prefix = walletChain?.shortName
 
   return (
