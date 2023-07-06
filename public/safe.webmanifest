@@ -1,7 +1,7 @@
 {
   "name": "Decentra",
   "short_name": "Decentra",
-  "description": "Decentra is your financial management chat hub.",
+  "description": "We're embedding Safe into a familiar user experience.",
   "icons": [
     {
       "src": "/favicons/android-chrome-192x192.png",
