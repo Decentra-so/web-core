@@ -32,14 +32,8 @@ const ConnectionCenter = (): ReactElement => {
   return (
     <>
       <ButtonBase disableRipple onClick={handleClick} className={css.buttonContainer}>
-        <KeyholeIcon />
-
-        <Typography variant="caption">
-          <b>Not connected</b>
-          <br />
-          <Typography variant="inherit" sx={{ color: ({ palette }) => palette.error.main }}>
+          <Typography variant="inherit" sx={{ fontSize: 16px, letterSpacing: normal, fontWeight: 600 }}>
             Connect wallet
-          </Typography>
         </Typography>
 
         <ExpandIcon color="border" />
