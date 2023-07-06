@@ -17,8 +17,9 @@ import classnames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import type { Dispatch, SetStateAction } from 'react'
-import { useState, type ReactElement } from 'react'
+import { useState, useMemo, type ReactElement } from 'react'
 import css from './styles.module.css'
+import { getFormattedSafeUrl } from '@/utils/getFormattedSafeUrl'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -27,6 +28,7 @@ type HeaderProps = {
 const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
   const chainId = useChainId()
   const { safe, safeAddress } = useSafeInfo()
+  const safeAddressAndChainId = useMemo(() => getFormattedSafeUrl(safeAddress, chainId), [safeAddress, chainId])
   const router = useRouter()
   const dispatch = useAppDispatch()
   const isDarkMode = useDarkMode()
@@ -68,7 +70,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
 
       <Box display='flex' alignItems='center' className={css.hideMobile}>
         {buttonPages.map(path =>
-          <Link href={{ pathname: path, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref>
+          <Link href={{ pathname: path, query: { safe: `${safeAddressAndChainId}` } }} key={`${safe}`} passHref>
             <Button onClick={() => setSelectedButton(path)} startIcon={path === AppRoutes.wallet ? <WalletIcon /> : path === AppRoutes.chat ? <ChatIcon /> : <MenuBookIcon />} className={router.pathname.startsWith(path) ? css.ButtonNavSelected : css.ButtonNav} size='small'>{path === AppRoutes.wallet ? 'Wallet' : path === AppRoutes.chat ? 'Chat' : 'Address book'}</Button>
           </Link>
         )}

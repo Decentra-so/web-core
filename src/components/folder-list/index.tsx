@@ -47,11 +47,11 @@ const FolderList: React.FC = () => {
 
   useEffect(() => {
     const sorted = safeFolder.sort((a, b) => {
-      const haveNames = addressBook[a.slice(a.lastIndexOf(':') + 1)] && addressBook[b.slice(b.lastIndexOf(':') + 1)] ? true : false
-      if (haveNames) {
-        return -1
-      } else {
+      const havename = addressBook[b.slice(b.lastIndexOf(':') + 1)] ? true : false
+      if (havename) {
         return 1
+      } else {
+        return -1
       }
     })
     setSortedFolders(sorted)

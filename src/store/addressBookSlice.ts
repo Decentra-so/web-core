@@ -54,3 +54,5 @@ export const selectAddressBookByChain = createSelector(
     return chainId ? validAddresses || {} : {}
   },
 )
+
+export const selectAllAddressBooksOwned = createSelector([selectAllAddressBooks], (allAddressBooks) => allAddressBooks)
