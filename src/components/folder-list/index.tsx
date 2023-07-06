@@ -30,6 +30,7 @@ const FolderList: React.FC = () => {
   //TODO: can be signficantly refactored
   useEffect(() => {
     if (allOwnedSafes?.size) {
+      console.log({ allOwnedSafes })
       let folderList: string[] = []
       //getting pre-fix for all networks and creating links
       allOwnedSafes.get(42161)?.forEach((safe: string) => folderList.push(`arb1:${safe}`))
