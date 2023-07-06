@@ -1,4 +1,5 @@
 export const getFormattedSafeUrl = (safeAddress: string, chainId: string): string => {
+  if (!safeAddress) return '/'
   if (chainId === '1') {
     return `eth:${safeAddress}`
   }
