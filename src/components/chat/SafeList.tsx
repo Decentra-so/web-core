@@ -96,6 +96,11 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				<TabPanel value={value} index={0}>
 					{wallet?.address && <FolderList />}
 				</TabPanel>
+				{!folders.length && <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+					<Button onClick={() => setCreateSafe(!createSafe)} variant="contained" disableElevation>
+						Create Safe
+					</Button>
+				</Box>}
 				{
 					folders?.map((folder, i) => {
 						return (
