@@ -137,8 +137,8 @@
   bottom: 0px;
   position: fixed;
   padding: 5px;
-  background: #f4f4f485;
-  backdrop-filter: blur(15px);
+  background: #66666600;
+  backdrop-filter: blur(20px);
   border-top: 1px solid var(--color-border-light);
   justify-content: space-around;
 }

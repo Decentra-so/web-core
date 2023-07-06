@@ -71,14 +71,14 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 
 	return (
 		<>
-			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px 24px' }}>
 				<Box>
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
 					{wallet?.address ? <FormattedName address={wallet?.address} weight={600} /> : <Typography fontWeight={600}>Not connected</Typography>}
 				</Box>
 				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			</Toolbar>
-			<Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
+			<Box sx={{ width: '100%', height: '100%' }}>
 				<Tabs
 					variant="scrollable"
 					scrollButtons='auto'

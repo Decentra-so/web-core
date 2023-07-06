@@ -3,7 +3,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import { useState, type MouseEvent, type ReactElement } from 'react'
 
-import KeyholeIcon from '@/components/common/icons/KeyholeIcon'
 import WalletDetails from '@/components/common/ConnectWallet/WalletDetails'
 import PairingDetails from '@/components/common/PairingDetails'
 
@@ -32,14 +31,8 @@ const ConnectionCenter = (): ReactElement => {
   return (
     <>
       <ButtonBase disableRipple onClick={handleClick} className={css.buttonContainer}>
-        <KeyholeIcon />
-
-        <Typography variant="caption">
-          <b>Not connected</b>
-          <br />
-          <Typography variant="inherit" sx={{ color: ({ palette }) => palette.error.main }}>
+          <Typography variant="inherit" sx={{ fontSize: '16px', letterSpacing: 'normal', fontWeight: '600' }}>
             Connect wallet
-          </Typography>
         </Typography>
 
         <ExpandIcon color="border" />
