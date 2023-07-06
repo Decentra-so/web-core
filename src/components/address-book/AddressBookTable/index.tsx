@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip'
 import RemoveDialog from '@/components/address-book/RemoveDialog'
 import EthHashInfo from '@/components/common/EthHashInfo'
 import AddressBookHeader from '../AddressBookHeader'
-import useAddressBook from '@/hooks/useAddressBook'
 import Track from '@/components/common/Track'
 import { ADDRESS_BOOK_EVENTS } from '@/services/analytics/events/addressBook'
 import SvgIcon from '@mui/material/SvgIcon'
@@ -24,6 +23,7 @@ import tableCss from '@/components/common/EnhancedTable/styles.module.css'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
 import { SendAssetsField } from '@/components/tx/modals/TokenTransferModal/SendAssetsForm'
 import CheckWallet from '@/components/common/CheckWallet'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const headCells = [
   { id: 'name', label: 'Name' },
@@ -66,7 +66,7 @@ const AddressBookTable = () => {
     setDefaultValues(undefined)
   }
 
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const addressBookEntries = Object.entries(addressBook)
   const filteredEntries = useMemo(() => {
     if (!searchQuery) {
@@ -141,6 +141,7 @@ const AddressBookTable = () => {
 
       <main>
         {filteredEntries.length > 0 ? (
+          //@ts-ignore
           <EnhancedTable rows={rows} headCells={headCells} mobileVariant />
         ) : (
           <Box bgcolor="background.paper" borderRadius={1}>

@@ -1,4 +1,4 @@
-import useAddressBook from '@/hooks/useAddressBook'
+
 import useChainId from '@/hooks/useChainId'
 import { useAppSelector } from '@/store'
 import { selectChainById } from '@/store/chainsSlice'
@@ -10,6 +10,7 @@ import { getBlockExplorerLink } from '../../../utils/chains'
 
 import type { EthHashInfoProps } from '@safe-global/safe-react-components'
 import { useEnsName } from 'wagmi'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const PrefixedEthHashInfo = ({
   showName = true,
@@ -18,7 +19,7 @@ const PrefixedEthHashInfo = ({
   const settings = useAppSelector(selectSettings)
   const currentChainId = useChainId()
   const chain = useAppSelector((state) => selectChainById(state, props.chainId || currentChainId))
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const { data: ens, isError, isLoading } = useEnsName({
     address: props.address as `0x${string}`,
   })

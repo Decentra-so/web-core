@@ -16,7 +16,6 @@ import { useSafeAppFromManifest } from '@/hooks/safe-apps/useSafeAppFromManifest
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { useSafeAppFromBackend } from '@/hooks/safe-apps/useSafeAppFromBackend'
 import useChainId from '@/hooks/useChainId'
-import useAddressBook from '@/hooks/useAddressBook'
 import { useSafePermissions } from '@/hooks/safe-apps/permissions'
 import { useCurrentChain } from '@/hooks/useChains'
 import { isSameUrl } from '@/utils/url'
@@ -44,6 +43,7 @@ import SafeAppIframe from './SafeAppIframe'
 import useGetSafeInfo from './useGetSafeInfo'
 import { hasFeature, FEATURES } from '@/utils/chains'
 import { selectTokenList, TOKEN_LISTS } from '@/store/settingsSlice'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const UNKNOWN_APP_NAME = 'Unknown Safe App'
 
@@ -61,7 +61,7 @@ const AppFrame = ({ appUrl, allowedFeaturesList }: AppFrameProps): ReactElement 
   const { safe, safeLoaded, safeAddress } = useSafeInfo()
   const tokenlist = useAppSelector(selectTokenList)
 
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const chain = useCurrentChain()
   const router = useRouter()
   const {

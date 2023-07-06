@@ -8,8 +8,8 @@ import {
 } from '@safe-global/safe-gateway-typescript-sdk'
 
 import { isCancellationTxInfo, isModuleExecutionInfo, isTxQueued } from '@/utils/transaction-guards'
-import useAddressBook from './useAddressBook'
 import type { AddressBook } from '@/store/addressBookSlice'
+import useAddressBookByChain from './useAddressBookByChain'
 
 const getTxTo = ({ txInfo }: Pick<TransactionSummary, 'txInfo'>): AddressEx | undefined => {
   switch (txInfo.type) {
@@ -99,7 +99,7 @@ export const getTransactionType = (tx: TransactionSummary, addressBook: AddressB
 }
 
 export const useTransactionType = (tx: TransactionSummary): TxType => {
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
 
   return useMemo(() => {
     return getTransactionType(tx, addressBook)

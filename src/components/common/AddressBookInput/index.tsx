@@ -2,9 +2,9 @@ import type { ReactElement } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { Typography } from '@mui/material'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
-import useAddressBook from '@/hooks/useAddressBook'
 import AddressInput, { type AddressInputProps } from '../AddressInput'
 import EthHashInfo from '../EthHashInfo'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const abFilterOptions = createFilterOptions({
   stringify: (option: { label: string; name: string }) => option.name + ' ' + option.label,
@@ -14,7 +14,7 @@ const abFilterOptions = createFilterOptions({
  *  Temporary component until revamped safe components are done
  */
 const AddressBookInput = ({ name, ...props }: AddressInputProps): ReactElement => {
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const { setValue, control } = useFormContext()
   const addressValue = useWatch({ name, control })
 

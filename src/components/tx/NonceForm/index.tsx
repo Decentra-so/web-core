@@ -9,9 +9,9 @@ import useTxQueue, { useQueuedTxByNonce } from '@/hooks/useTxQueue'
 import { isMultisigExecutionInfo, isTransactionListItem } from '@/utils/transaction-guards'
 import { uniqBy } from 'lodash'
 import { getTransactionType } from '@/hooks/useTransactionType'
-import useAddressBook from '@/hooks/useAddressBook'
 import { getLatestTransactions } from '@/utils/tx-list'
 import type { MenuItemProps } from '@mui/material'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 type NonceFormProps = {
   name: string
@@ -27,7 +27,7 @@ const NonceFormOption = memo(function NonceFormOption({
   nonce: number
   menuItemProps: MenuItemProps
 }): ReactElement {
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const transactions = useQueuedTxByNonce(nonce)
 
   const label = useMemo(() => {

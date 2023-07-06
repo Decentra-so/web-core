@@ -11,14 +11,14 @@ import { selectChainById } from '@/store/chainsSlice'
 import Identicon from '@/components/common/Identicon'
 import WalletInfo, { UNKNOWN_CHAIN_NAME } from '../common/WalletInfo'
 import ChainSwitcher from '../common/ChainSwitcher'
-import useAddressBook from '@/hooks/useAddressBook'
 import { type ConnectedWallet } from '@/hooks/wallets/useOnboard'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const WalletConnect = ({ wallet }: { wallet: ConnectedWallet }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const onboard = useOnboard()
   const chainInfo = useAppSelector((state) => selectChainById(state, wallet.chainId))
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const prefix = chainInfo?.shortName
 
   const handleSwitchWallet = () => {
