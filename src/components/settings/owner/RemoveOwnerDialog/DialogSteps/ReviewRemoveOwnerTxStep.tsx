@@ -6,15 +6,15 @@ import useAsync from '@/hooks/useAsync'
 import type { SafeTransaction } from '@safe-global/safe-core-sdk-types'
 import SignOrExecuteForm from '@/components/tx/SignOrExecuteForm'
 import { sameAddress } from '@/utils/addresses'
-import useAddressBook from '@/hooks/useAddressBook'
 import type { RemoveOwnerData } from '..'
 import React from 'react'
 import { trackEvent, SETTINGS_EVENTS } from '@/services/analytics'
 import { createRemoveOwnerTx } from '@/services/tx/tx-sender'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 export const ReviewRemoveOwnerTxStep = ({ data, onSubmit }: { data: RemoveOwnerData; onSubmit: () => void }) => {
   const { safe, safeAddress } = useSafeInfo()
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const { removedOwner, threshold } = data
 
   const [safeTx, safeTxError] = useAsync<SafeTransaction | undefined>(async () => {

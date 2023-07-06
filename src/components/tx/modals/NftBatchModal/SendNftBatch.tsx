@@ -5,8 +5,8 @@ import AddressBookInput from '@/components/common/AddressBookInput'
 import SendFromBlock from '../../SendFromBlock'
 import { type NftTransferParams } from '.'
 import ImageFallback from '@/components/common/ImageFallback'
-import useAddressBook from '@/hooks/useAddressBook'
 import SendToBlock from '@/components/tx/SendToBlock'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 enum Field {
   recipient = 'recipient',
@@ -50,7 +50,7 @@ const NftItem = ({ image, name, description }: { image: string; name: string; de
 )
 
 const SendNftBatch = ({ params, onSubmit }: SendNftBatchProps) => {
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const { tokens } = params
 
   const formMethods = useForm<FormData>({

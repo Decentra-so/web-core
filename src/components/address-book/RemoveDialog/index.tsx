@@ -8,12 +8,12 @@ import ModalDialog from '@/components/common/ModalDialog'
 import { useAppDispatch } from '@/store'
 import { removeAddressBookEntry } from '@/store/addressBookSlice'
 import useChainId from '@/hooks/useChainId'
-import useAddressBook from '@/hooks/useAddressBook'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const RemoveDialog = ({ handleClose, address }: { handleClose: () => void; address: string }): ReactElement => {
   const dispatch = useAppDispatch()
   const chainId = useChainId()
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
 
   const name = addressBook?.[address]
 

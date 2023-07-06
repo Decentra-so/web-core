@@ -52,7 +52,6 @@ const ChatNotifications = () => {
           threshold: data.addedSafeEntriesOnChain[0][1].threshold,
           owners: data.addedSafeEntriesOnChain[0][1].owners,
         }
-        console.log(info, '1')
         return <Notification info={info} key={`address-${i}`} />
       })}
     </List>

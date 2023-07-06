@@ -1,10 +1,10 @@
 import { useAppSelector } from '@/store'
-import { selectAddressBookByChain } from '@/store/addressBookSlice'
-import useChainId from './useChainId'
+import { selectAllAddressBooksOwned } from '@/store/addressBookSlice'
+import { flattenObject } from '@/utils/flattenObject'
 
 const useAddressBook = () => {
-  const chainId = useChainId()
-  return useAppSelector((state) => selectAddressBookByChain(state, chainId))
+  const allAddresses = useAppSelector((state) => selectAllAddressBooksOwned(state))
+  return flattenObject(allAddresses)
 }
 
 export default useAddressBook

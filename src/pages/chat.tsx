@@ -2,13 +2,16 @@ import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
+import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
+import { createWeb3 } from '@/hooks/wallets/web3'
 import { ArrowBackIos } from '@mui/icons-material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
@@ -26,9 +29,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import useOnboard from '@/hooks/wallets/useOnboard'
-import { createWeb3 } from '@/hooks/wallets/web3'
-import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -55,18 +55,18 @@ const Chat = () => {
   const matches = useMediaQuery('(max-width: 600px)')
   //routing
   const router = useRouter()
-  //modals and modal control
-  const [createSafe, setCreateSafe] = useState<boolean>(false)
-  const [settings, toggleSettings] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(true)
-  const [auth, setAuth] = useState<boolean>(false)
-  const [authToken, setAuthToken] = useState<string | null>('1')
   //user and safe
   const wallet = useWallet()
   const onboard = useOnboard()
   const { safe, safeAddress } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
+  //modals and modal control
+  const [createSafe, setCreateSafe] = useState<boolean>(false)
+  const [settings, toggleSettings] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
+  const [auth, setAuth] = useState<boolean>(false)
+  const [authToken, setAuthToken] = useState<string | null>('1')
 
   useEffect(() => {
     if (!onboard || !wallet) return
@@ -93,6 +93,11 @@ const Chat = () => {
       setCreateSafe(true)
     }
   }, [router.asPath])
+
+  useEffect(() => {
+    if (!wallet?.address) setOpen(false)
+    else setOpen(true)
+  }, [wallet?.address])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -138,46 +143,48 @@ const Chat = () => {
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
             <Box flexGrow={1}>
-              <Toolbar
-                sx={{
-                  display: 'flex',
-                  position: 'sticky',
-                  zIndex: 1,
-                  top: 'var(--header-height)',
-                  px: 3,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  bgcolor: 'var(--color-background-lightcolor)',
-                  borderBottom: '1px solid var(--color-border-light)',
-                }}
-              >
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
-                  {matches &&
-                    <Link href={{ pathname: AppRoutes.safeList }}>
-                      <IconButton aria-label="back">
-                        <ArrowBackIos />
-                      </IconButton>
-                    </Link>
-                  }
-                  {safeAddress && <>
+              {wallet?.address &&
+                <Toolbar
+                  sx={{
+                    display: 'flex',
+                    position: 'sticky',
+                    zIndex: 1,
+                    top: 'var(--header-height)',
+                    px: 3,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    bgcolor: 'var(--color-background-lightcolor)',
+                    borderBottom: '1px solid var(--color-border-light)',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
+                    {matches &&
+                      <Link href={{ pathname: AppRoutes.safeList }}>
+                        <IconButton aria-label="back">
+                          <ArrowBackIos />
+                        </IconButton>
+                      </Link>
+                    }
+                    {safeAddress && <>
                       <Identicon address={safeAddress} radius={6} size={32} />
                       <FormattedName address={safeAddress} weight={600} />
                     </>
-                  }
-                </Box>
-                <Box>
-                  <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
-                    <SettingsIcon />
-                  </IconButton>
-                  <Hidden mdDown>
-                    <IconButton onClick={toggleDrawer(!open)}>
-                      {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                    }
+                  </Box>
+                  <Box>
+                    <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                      <SettingsIcon />
                     </IconButton>
-                  </Hidden>
-                </Box>
-              </Toolbar>
+                    <Hidden mdDown>
+                      <IconButton onClick={toggleDrawer(!open)}>
+                        {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                      </IconButton>
+                    </Hidden>
+                  </Box>
+                </Toolbar>
+              }
               {
-                (ownerArray?.length && !ownerArray.includes(wallet?.address!)) ?
+                (wallet?.address && ownerArray?.length && !ownerArray.includes(wallet?.address!)) ?
                   <Container fixed sx={{ height: '100vh', width: '100vw' }}>
                     <Box
                       sx={{
@@ -196,11 +203,26 @@ const Chat = () => {
                     </Box>
                   </Container>
                   :
-                  <>
-                    {!wallet?.address && <Typography variant='h5' p={3}>Connect Wallet to continue</Typography>}
-                    {wallet?.address && !authToken && <Button onClick={() => setAuth(true)}>Authenticate</Button>}
-                    {wallet?.address && authToken && <ChatWrapper />}
-                  </>
+                  !wallet?.address ?
+                    <Container fixed sx={{ height: '100vh', width: '100vw' }}>
+                      <Box
+                        sx={{
+                          height: '100%',
+                          width: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 3,
+                        }}
+                      >
+                        <Typography variant='h5' p={3}>Please add or select a chat from the sidebar</Typography>
+                      </Box>
+                    </Container>
+                    : wallet?.address && !authToken ?
+                      <Button onClick={() => setAuth(true)}>Authenticate</Button>
+                      :
+                      <ChatWrapper />
               }
             </Box>
           </Box>

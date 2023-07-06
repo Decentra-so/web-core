@@ -10,15 +10,15 @@ import { useAppSelector } from '@/store'
 import { selectChainById } from '@/store/chainsSlice'
 import Identicon from '@/components/common/Identicon'
 import ChainSwitcher from '../ChainSwitcher'
-import useAddressBook from '@/hooks/useAddressBook'
 import { type ConnectedWallet } from '@/hooks/wallets/useOnboard'
 import WalletInfo, { UNKNOWN_CHAIN_NAME } from '../WalletInfo'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const AccountCenter = ({ wallet }: { wallet: ConnectedWallet }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const onboard = useOnboard()
   const chainInfo = useAppSelector((state) => selectChainById(state, wallet.chainId))
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const prefix = chainInfo?.shortName
 
   const handleSwitchWallet = () => {

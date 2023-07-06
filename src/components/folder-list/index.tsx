@@ -47,8 +47,8 @@ const FolderList: React.FC = () => {
 
   useEffect(() => {
     const sorted = safeFolder.sort((a, b) => {
-      const haveNames = addressBook[a.slice(a.lastIndexOf(':') + 1)] && addressBook[b.slice(b.lastIndexOf(':') + 1)] ? true : false
-      if (haveNames) {
+      const havename = addressBook[b.slice(b.lastIndexOf(':') + 1)] ? true : false
+      if (havename) {
         return 1
       } else {
         return -1
@@ -76,15 +76,13 @@ const FolderList: React.FC = () => {
     return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
   }
   const handleMouseEnter = (safe: string) => {
-    const safeAddress = safe.slice(safe.lastIndexOf(':') + 1)
-    setActiveSafe(safeAddress)
+    setActiveSafe(safe)
   };
   const handleMouseLeave = () => {
     setActiveSafe(undefined)
   };
   const handleClick = (safe: string) => {
-    const safeAddress = safe.slice(safe.lastIndexOf(':') + 1)
-    dispatch(setSelectedSafe({ selectedSafe: safeAddress }))
+    dispatch(setSelectedSafe({ selectedSafe: safe }))
   }
 
   return (
