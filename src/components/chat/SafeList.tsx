@@ -78,7 +78,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				</Box>
 				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
 			</Toolbar>
-			<Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
+			<Box sx={{ width: '100%', height: '100%' }}>
 				<Tabs
 					variant="scrollable"
 					scrollButtons='auto'
