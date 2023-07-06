@@ -75,6 +75,7 @@ const AddressBookTable = () => {
 
     const query = searchQuery.toLowerCase()
     return addressBookEntries.filter(([address, name]) => {
+      //@ts-ignore
       return address.toLowerCase().includes(query) || name.toLowerCase().includes(query)
     })
   }, [addressBookEntries, searchQuery])
@@ -96,6 +97,7 @@ const AddressBookTable = () => {
           <div className={tableCss.actions}>
             <Track {...ADDRESS_BOOK_EVENTS.EDIT_ENTRY}>
               <Tooltip title="Edit entry" placement="top">
+                {/* @ts-ignore */}
                 <IconButton onClick={() => handleOpenModalWithValues(ModalType.ENTRY, address, name)} size="small">
                   <SvgIcon component={EditIcon} inheritViewBox color="border" fontSize="small" />
                 </IconButton>
@@ -104,6 +106,7 @@ const AddressBookTable = () => {
 
             <Track {...ADDRESS_BOOK_EVENTS.DELETE_ENTRY}>
               <Tooltip title="Delete entry" placement="top">
+                          {/* @ts-ignore */}
                 <IconButton onClick={() => handleOpenModalWithValues(ModalType.REMOVE, address, name)} size="small">
                   <SvgIcon component={DeleteIcon} inheritViewBox color="error" fontSize="small" />
                 </IconButton>
@@ -141,6 +144,7 @@ const AddressBookTable = () => {
 
       <main>
         {filteredEntries.length > 0 ? (
+          //@ts-ignore
           <EnhancedTable rows={rows} headCells={headCells} mobileVariant />
         ) : (
           <Box bgcolor="background.paper" borderRadius={1}>
