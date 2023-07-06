@@ -3,8 +3,6 @@ import type { ReactElement } from 'react'
 
 import EthHashInfo from '@/components/common/EthHashInfo'
 import type { ConnectedWallet } from '@/hooks/wallets/useOnboard'
-import { useAppSelector } from '@/store'
-import { selectChainById } from '@/store/chainsSlice'
 
 import css from './styles.module.css'
 
