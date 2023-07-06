@@ -5,7 +5,6 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import MenuItem from '@mui/material/MenuItem'
 import ListItemText from '@mui/material/ListItemText'
 
-import useAddressBook from '@/hooks/useAddressBook'
 import EntryDialog from '@/components/address-book/EntryDialog'
 import ContextMenu from '@/components/common/ContextMenu'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
@@ -16,6 +15,7 @@ import { isERC20Transfer, isNativeTokenTransfer } from '@/utils/transaction-guar
 import { trackEvent, TX_LIST_EVENTS } from '@/services/analytics'
 import { safeFormatUnits } from '@/utils/formatters'
 import CheckWallet from '@/components/common/CheckWallet'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 enum ModalType {
   SEND_AGAIN = 'SEND_AGAIN',
@@ -29,7 +29,7 @@ const defaultOpen = { [ModalType.SEND_AGAIN]: false, [ModalType.ADD_TO_AB]: fals
 const TransferActions = ({ address, txInfo }: { address: string; txInfo: Transfer }): ReactElement => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const [open, setOpen] = useState<typeof defaultOpen>(defaultOpen)
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const name = addressBook?.[address]
 
   const handleOpenContextMenu = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {

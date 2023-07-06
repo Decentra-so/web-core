@@ -1,6 +1,5 @@
 import EthHashInfo from '@/components/common/EthHashInfo'
 import { AddOwnerDialog } from '@/components/settings/owner/AddOwnerDialog'
-import useAddressBook from '@/hooks/useAddressBook'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { Box, Grid, Typography } from '@mui/material'
 import { useMemo } from 'react'
@@ -10,6 +9,7 @@ import { ReplaceOwnerDialog } from '../ReplaceOwnerDialog'
 import EnhancedTable from '@/components/common/EnhancedTable'
 
 import tableCss from '@/components/common/EnhancedTable/styles.module.css'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const headCells = [
   { id: 'owner', label: 'Name' },
@@ -17,7 +17,7 @@ const headCells = [
 ]
 
 export const OwnerList = () => {
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const { safe } = useSafeInfo()
 
   const rows = useMemo(() => {

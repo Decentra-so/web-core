@@ -10,7 +10,6 @@ import SetNameStep from '@/components/new-safe/create/steps/SetNameStep'
 import OwnerPolicyStep from '@/components/new-safe/create/steps/OwnerPolicyStep'
 import ReviewStep from '@/components/new-safe/create/steps/ReviewStep'
 import { CreateSafeStatus } from '@/components/new-safe/create/steps/StatusStep'
-import useAddressBook from '@/hooks/useAddressBook'
 import { CardStepper } from '@/components/new-safe/CardStepper'
 import { AppRoutes } from '@/config/routes'
 import { CREATE_SAFE_CATEGORY } from '@/services/analytics'
@@ -20,6 +19,7 @@ import CreateSafeInfos from '@/components/new-safe/create/CreateSafeInfos'
 import { type ReactElement, useMemo, useState } from 'react'
 import ExternalLink from '@/components/common/ExternalLink'
 import { HelpCenterArticle } from '@/config/constants'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 export type NewSafeFormData = {
   name: string
@@ -99,7 +99,7 @@ const staticHints: Record<
 const CreateSafe = () => {
   const router = useRouter()
   const wallet = useWallet()
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const defaultOwnerAddressBookName = wallet?.address ? addressBook[wallet.address] : undefined
   const defaultOwner: NamedAddress = {
     name: defaultOwnerAddressBookName || wallet?.ens || '',

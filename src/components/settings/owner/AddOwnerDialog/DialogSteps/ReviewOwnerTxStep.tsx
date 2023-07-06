@@ -9,16 +9,16 @@ import { useAppDispatch } from '@/store'
 import type { SafeTransaction } from '@safe-global/safe-core-sdk-types'
 import SignOrExecuteForm from '@/components/tx/SignOrExecuteForm'
 import { sameAddress } from '@/utils/addresses'
-import useAddressBook from '@/hooks/useAddressBook'
 import React from 'react'
 import { trackEvent, SETTINGS_EVENTS } from '@/services/analytics'
 import { createAddOwnerTx, createSwapOwnerTx } from '@/services/tx/tx-sender'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 export const ReviewOwnerTxStep = ({ data, onSubmit }: { data: ChangeOwnerData; onSubmit: () => void }) => {
   const { safe, safeAddress } = useSafeInfo()
   const { chainId } = safe
   const dispatch = useAppDispatch()
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const { newOwner, removedOwner, threshold } = data
 
   const [safeTx, safeTxError] = useAsync<SafeTransaction>(() => {

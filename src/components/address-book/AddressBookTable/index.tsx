@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip'
 import RemoveDialog from '@/components/address-book/RemoveDialog'
 import EthHashInfo from '@/components/common/EthHashInfo'
 import AddressBookHeader from '../AddressBookHeader'
-import useAddressBook from '@/hooks/useAddressBook'
 import Track from '@/components/common/Track'
 import { ADDRESS_BOOK_EVENTS } from '@/services/analytics/events/addressBook'
 import SvgIcon from '@mui/material/SvgIcon'
@@ -24,6 +23,7 @@ import tableCss from '@/components/common/EnhancedTable/styles.module.css'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
 import { SendAssetsField } from '@/components/tx/modals/TokenTransferModal/SendAssetsForm'
 import CheckWallet from '@/components/common/CheckWallet'
+import useAddressBookByChain from '@/hooks/useAddressBookByChain'
 
 const headCells = [
   { id: 'name', label: 'Name' },
@@ -66,7 +66,7 @@ const AddressBookTable = () => {
     setDefaultValues(undefined)
   }
 
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const addressBookEntries = Object.entries(addressBook)
   const filteredEntries = useMemo(() => {
     if (!searchQuery) {
@@ -75,7 +75,6 @@ const AddressBookTable = () => {
 
     const query = searchQuery.toLowerCase()
     return addressBookEntries.filter(([address, name]) => {
-      //@ts-ignore
       return address.toLowerCase().includes(query) || name.toLowerCase().includes(query)
     })
   }, [addressBookEntries, searchQuery])
@@ -97,7 +96,6 @@ const AddressBookTable = () => {
           <div className={tableCss.actions}>
             <Track {...ADDRESS_BOOK_EVENTS.EDIT_ENTRY}>
               <Tooltip title="Edit entry" placement="top">
-                {/* @ts-ignore */}
                 <IconButton onClick={() => handleOpenModalWithValues(ModalType.ENTRY, address, name)} size="small">
                   <SvgIcon component={EditIcon} inheritViewBox color="border" fontSize="small" />
                 </IconButton>
@@ -106,7 +104,6 @@ const AddressBookTable = () => {
 
             <Track {...ADDRESS_BOOK_EVENTS.DELETE_ENTRY}>
               <Tooltip title="Delete entry" placement="top">
-                          {/* @ts-ignore */}
                 <IconButton onClick={() => handleOpenModalWithValues(ModalType.REMOVE, address, name)} size="small">
                   <SvgIcon component={DeleteIcon} inheritViewBox color="error" fontSize="small" />
                 </IconButton>

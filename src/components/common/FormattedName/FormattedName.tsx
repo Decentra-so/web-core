@@ -1,10 +1,11 @@
-import useAddressBook from "@/hooks/useAddressBook";
+
+import useAddressBookByChain from "@/hooks/useAddressBookByChain";
 import ellipsisAddress from "@/utils/ellipsisAddress";
 import { Typography } from "@mui/material";
 import { useEnsName } from "wagmi";
 
 const FormattedName: React.FC<{ address: string, weight: string | number }> = ({ address, weight }) => {
-	const addressBook = useAddressBook()
+	const addressBook = useAddressBookByChain()
 	const { data: ens, isError, isLoading } = useEnsName({
 		address: address?.startsWith('0x') ? address as `0x${string}` : address?.slice(address.lastIndexOf(':') + 1) as `0x${string}`,
 	})

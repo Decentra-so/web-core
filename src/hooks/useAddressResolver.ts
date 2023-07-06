@@ -1,4 +1,4 @@
-import useAddressBook from '@/hooks/useAddressBook'
+
 import { useWeb3ReadOnly } from '@/hooks/wallets/web3'
 import { lookupAddress } from '@/services/ens'
 import { FEATURES, hasFeature } from '@/utils/chains'
@@ -6,9 +6,10 @@ import { useMemo } from 'react'
 import { useCurrentChain } from './useChains'
 import useAsync from '@/hooks/useAsync'
 import useDebounce from './useDebounce'
+import useAddressBookByChain from './useAddressBookByChain'
 
 export const useAddressResolver = (address: string) => {
-  const addressBook = useAddressBook()
+  const addressBook = useAddressBookByChain()
   const ethersProvider = useWeb3ReadOnly()
   const debouncedValue = useDebounce(address, 200)
   const addressBookName = addressBook[address]
