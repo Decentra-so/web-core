@@ -1,11 +1,11 @@
-import SafeApiKit from '@safe-global/api-kit'
-import { ethers } from 'ethers'
-import { EthersAdapter } from '@safe-global/protocol-kit'
 import { createWeb3 } from '@/hooks/wallets/web3'
-import useWallet from './wallets/useWallet'
-import { useEffect } from 'react'
-import type { EthAdapter } from '@safe-global/safe-core-sdk-types'
 import useLocalStorage from '@/services/local-storage/useLocalStorage'
+import SafeApiKit from '@safe-global/api-kit'
+import { EthersAdapter } from '@safe-global/protocol-kit'
+import type { EthAdapter } from '@safe-global/safe-core-sdk-types'
+import { ethers } from 'ethers'
+import { useEffect } from 'react'
+import useWallet from './wallets/useWallet'
 
 const CACHE_KEY = 'allOwnedSafes'
 
@@ -17,6 +17,7 @@ export const useAllOwnedSafes = (): any => {
   const [ownedSafesCache, setOwnedSafesCache] = useLocalStorage<OwnedSafesCache>(CACHE_KEY)
 
   useEffect(() => {
+    if (!wallet?.provider) return
     let isCurrent = true
     const createService = async () => {
       let safeMap = new Map<number, string[]>();
@@ -64,7 +65,7 @@ export const useAllOwnedSafes = (): any => {
         },
         {
           chainId: 56,
-          service:  new SafeApiKit({
+          service: new SafeApiKit({
             txServiceUrl: 'https://safe-transaction-bsc.safe.global/',
             //@ts-ignore
             ethAdapter
@@ -89,13 +90,13 @@ export const useAllOwnedSafes = (): any => {
     createService()
       .then((ownedSafes) => {
         isCurrent &&
-        setOwnedSafesCache(ownedSafes)
+          setOwnedSafesCache(ownedSafes)
       })
-      
+
     return () => {
       isCurrent = false
     }
-  }, [wallet?.address, setOwnedSafesCache])
-  
+  }, [wallet?.address, wallet?.provider, setOwnedSafesCache])
+
   return ownedSafesCache
 }
