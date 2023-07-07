@@ -1,6 +1,7 @@
 import { AppRoutes } from "@/config/routes"
 import useSafeInfo from "@/hooks/useSafeInfo"
 import { useAppSelector } from "@/store"
+import { selectAllAddressBooks } from "@/store/addressBookSlice"
 import { selectSafe, setSelectedSafe } from "@/store/chatServiceSlice"
 import styled from "@emotion/styled"
 import { ListItem, ListItemAvatar, ListItemButton, ListItemText, useMediaQuery } from "@mui/material"
@@ -26,9 +27,11 @@ const CustomListItem = styled(ListItem)(({ theme }) => ({
 	},
 }))
 
-const SafeDisplay: React.FC<{ safe: string, index: number }> = ({ safe, index }) => {
+const SafeDisplay: React.FC<{ safe: string, index: number, chainId: string }> = ({ safe, index, chainId }) => {
 	const dispatch = useDispatch()
 	const { safeAddress } = useSafeInfo()
+	const allAddressBooks = useAppSelector(selectAllAddressBooks)
+	const name = allAddressBooks[chainId]?.[safe]
 	const matches = useMediaQuery('(max-width: 600px)')
 	const [activeSafe, setActiveSafe] = useState<string>();
 	const selectedSafe = useAppSelector((state) => selectSafe(state))
@@ -69,7 +72,7 @@ const SafeDisplay: React.FC<{ safe: string, index: number }> = ({ safe, index })
 					/>
 				</ListItemButton>
 			</Link>
-			{(activeSafe === safe || selectedSafe === safe || matches) && <FolderListContextMenu address={safe} />}
+			{(activeSafe === safe || selectedSafe === safe || matches) && <FolderListContextMenu address={safe} name={name} chainId={chainId} />}
 		</CustomListItem>
 	)
 }

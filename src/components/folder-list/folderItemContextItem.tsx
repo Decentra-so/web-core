@@ -1,5 +1,3 @@
-import { useAppSelector } from '@/store'
-import { selectAllAddressBooks } from '@/store/addressBookSlice'
 import { getSafeData } from '@/utils/networkRegistry'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import IconButton from '@mui/material/IconButton'
@@ -15,7 +13,9 @@ import ContextMenu from '@/components/common/ContextMenu'
 import AddIcon from '@/public/images/common/add.svg'
 import CheckIcon from '@/public/images/common/circle-check.svg'
 //import { trackEvent, OVERVIEW_EVENTS } from '@/services/analytics'
+import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
 import { SvgIcon } from '@mui/material'
+import EntryDialog from '../address-book/EntryDialog'
 
 enum ModalType {
   RENAME = 'rename',
@@ -25,12 +25,15 @@ enum ModalType {
 const defaultOpen = { [ModalType.RENAME]: false, [ModalType.REMOVE]: false }
 
 const FolderListContextMenu = ({
+  name,
   address,
+  chainId,
 }: {
-  address: string
+  name: string,
+  address: string,
+  chainId: string
 }): ReactElement => {
   const [folderMenu, setDisplayFolderMenu] = useState<boolean>(false)
-  const allAddressBooks = useAppSelector(selectAllAddressBooks)
   const safeData = getSafeData(address)
   /* const name = safeData?.chainId && allAddressBooks[safeData.chainId][safeData.address] || '' */
   const [folders, setFolders] = useState([])
@@ -105,15 +108,14 @@ const FolderListContextMenu = ({
     setAnchorEl(undefined)
   }
 
-  /* const handleOpenModal =
+  const handleOpenModal =
     (type: keyof typeof open, event: typeof OVERVIEW_EVENTS.SIDEBAR_RENAME | typeof OVERVIEW_EVENTS.SIDEBAR_RENAME) =>
-    () => {
-      handleCloseContextMenu()
-      setOpen((prev) => ({ ...prev, [type]: true }))
+      () => {
+        handleCloseContextMenu()
+        setOpen((prev) => ({ ...prev, [type]: true }))
 
-      trackEvent(event)
-    }
- */
+        trackEvent(event)
+      }
   const handleCloseModal = () => {
     setOpen(defaultOpen)
   }
@@ -142,6 +144,14 @@ const FolderListContextMenu = ({
           </ListItemIcon>
           <ListItemText>Add to folder</ListItemText>
         </MenuItem>
+        <MenuItem
+          onClick={handleOpenModal(ModalType.RENAME, OVERVIEW_EVENTS.SIDEBAR_RENAME)}
+        >
+          <ListItemIcon>
+            <SvgIcon component={AddIcon} inheritViewBox fontSize="small" color="success" />
+          </ListItemIcon>
+          <ListItemText>Rename</ListItemText>
+        </MenuItem>
       </ContextMenu>
       <ContextMenu
         sx={{
@@ -165,15 +175,14 @@ const FolderListContextMenu = ({
           </MenuItem>
         )}
       </ContextMenu>
-      {/*    
       {open[ModalType.RENAME] && (
         <EntryDialog
           handleClose={handleCloseModal}
           defaultValues={{ name, address }}
-          chainId={`${safeData.chainId}`}
+          chainId={chainId}
           disableAddressInput
         />
-      )} */}
+      )}
 
       {open[ModalType.REMOVE] && (
         <SafeListRemoveDialog handleClose={handleCloseModal} address={address} chainId={`${safeData.chainId}`} />
