@@ -21,7 +21,7 @@ export const useAllOwnedSafes = (): any => {
     const createService = async () => {
       let safeMap = new Map<number, string[]>();
 
-      const provider = await createWeb3(wallet?.provider!)
+      const provider = await createWeb3(wallet.provider)
       const safeOwner = provider.getSigner(0)
 
       const ethAdapter = new EthersAdapter({
