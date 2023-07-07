@@ -1,4 +1,5 @@
 
+import { useAllOwnedSafes } from "@/hooks/useAllOwnedSafes"
 import useSafeAddress from "@/hooks/useSafeAddress"
 import useWallet from "@/hooks/wallets/useWallet"
 import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
@@ -50,9 +51,21 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	const safeAddress = useSafeAddress()
 	const [value, setValue] = useState(0)
 	const handleConnect = useConnectWallet()
+	const allOwnedSafes = useAllOwnedSafes()
 	const [folders, setFolders] = useState([])
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue)
+	}
+
+	function areAllValuesEmptyArrays(map: Map<number, any[]>): boolean {
+		if (map?.size) {
+			for (const value of map.values()) {
+				if (!Array.isArray(value) || value.length !== 0) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	useEffect(() => {
@@ -106,14 +119,19 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 					})
 				}
 				{
-					wallet?.address ?
+					wallet?.address && !areAllValuesEmptyArrays(allOwnedSafes) ?
 						<Button onClick={() => setCreateSafe(!createSafe)}>Add Safe</Button>
-						:
-						<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-							<Button onClick={handleConnect} variant="contained" disableElevation>
-								Connect wallet
-							</Button>
-						</Box>
+						: wallet?.address && areAllValuesEmptyArrays(allOwnedSafes) ?
+							<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+								<Button onClick={() => setCreateSafe(!createSafe)} variant="contained" disableElevation>
+									Create Safe
+								</Button>
+							</Box> :
+							<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+								<Button onClick={handleConnect} variant="contained" disableElevation>
+									Connect wallet
+								</Button>
+							</Box>
 				}
 			</Box >
 		</>
