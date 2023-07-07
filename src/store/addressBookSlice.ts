@@ -55,4 +55,5 @@ export const selectAddressBookByChain = createSelector(
   },
 )
 
+//testing to see if this is working
 export const selectAllAddressBooksOwned = createSelector([selectAllAddressBooks], (allAddressBooks) => allAddressBooks)
