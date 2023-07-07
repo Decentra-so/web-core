@@ -66,7 +66,7 @@ const FolderListContextMenu = ({
     const folderMap: any = {}
     if (!folders) return
     const getSafesFromStorage = () => {
-      folders.forEach(async(folderName) => {
+      folders.forEach(async (folderName) => {
         const items = JSON.parse(localStorage.getItem(folderName)!)
         if (items) folderMap[folderName] = items
       })
@@ -145,14 +145,14 @@ const FolderListContextMenu = ({
       </ContextMenu>
       <ContextMenu
         sx={{
-          marginLeft: '160px',
-          marginTop: '36px'
+          marginLeft: { base: '0px', lg: '160px' },
+          marginTop: '36px',
         }}
         anchorEl={anchorEl}
         open={!!folderMenu}
         onClose={() => setDisplayFolderMenu(false)}
-        >
-          {folders.map((folder) => 
+      >
+        {folders.map((folder) =>
           <MenuItem
             onMouseEnter={() => setFolder(folder)}
             onClick={() => handleMoveFolder(folder)}
@@ -163,9 +163,9 @@ const FolderListContextMenu = ({
             </ListItemIcon>
             <ListItemText>{folder}</ListItemText>
           </MenuItem>
-          )}
+        )}
       </ContextMenu>
-   {/*    
+      {/*    
       {open[ModalType.RENAME] && (
         <EntryDialog
           handleClose={handleCloseModal}
