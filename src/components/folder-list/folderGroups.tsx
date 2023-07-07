@@ -1,12 +1,6 @@
-import { ListItemButton, Typography } from '@mui/material'
-import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Link from 'next/link'
-import ListItemText from '@mui/material/ListItemText'
-import { AppRoutes } from '@/config/routes'
 import { useEffect, useState } from 'react'
-import ellipsisAddress from '../../utils/ellipsisAddress'
+import SafeDisplay from './safe-display'
 
 const FolderGroup: React.FC<{
   group: any,
@@ -39,21 +33,9 @@ const FolderGroup: React.FC<{
   //TODO
   return (
     <>
-      <List>
+      <List sx={{ padding: '0px' }}>
         {safes.map((folder, index) => (
-          <Link href={{ pathname: AppRoutes.chat, query: { safe: `${folder}` } }} key={`${folder}-${index}`} passHref>
-            <ListItemButton
-              sx={{ borderRadius: '6px' }}
-              //key={folder.name}
-              key={folder}
-              selected={currentSafe === folder.split(':')[1]}
-            >
-              <ListItemAvatar>
-                <Avatar alt={folder} />
-              </ListItemAvatar>
-              <ListItemText primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(folder)}</Typography>} />
-            </ListItemButton>
-          </Link>
+          <SafeDisplay key={`${folder}-${index}`} safe={folder} index={index} />
         ))}
       </List>
     </>
