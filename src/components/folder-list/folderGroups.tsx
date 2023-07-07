@@ -33,7 +33,7 @@ const FolderGroup: React.FC<{
   //TODO
   return (
     <>
-      <List>
+      <List sx={{ padding: '0px' }}>
         {safes.map((folder, index) => (
           <SafeDisplay key={`${folder}-${index}`} safe={folder} index={index} />
         ))}
