@@ -1,26 +1,12 @@
-import { AppRoutes } from '@/config/routes';
 import useAddressBook from '@/hooks/useAddressBook';
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes';
 import useSafeInfo from '@/hooks/useSafeInfo';
-import { useAppSelector } from '@/store';
-import { selectSafe, setSelectedSafe } from '@/store/chatServiceSlice';
-import { ListItem, ListItemButton, useMediaQuery } from '@mui/material';
 import List from '@mui/material/List';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import { styled } from '@mui/material/styles';
-import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import FormattedName from '../common/FormattedName/FormattedName';
-import Identicon from '../common/Identicon';
-import FolderListContextMenu from './folderItemContextItem';
+import SafeDisplay from './safe-display';
 
 const FolderList: React.FC = () => {
   const addressBook = useAddressBook()
-  const matches = useMediaQuery('(max-width: 600px)')
-  const dispatch = useDispatch()
-  const selectedSafe = useAppSelector((state) => selectSafe(state))
   const allOwnedSafes = useAllOwnedSafes()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
   const [sortedFolders, setSortedFolders] = useState<string[]>([])
@@ -57,62 +43,10 @@ const FolderList: React.FC = () => {
     setSortedFolders(sorted)
   }, [safeFolder])
 
-
-  const CustomListItem = styled(ListItem)(({ theme }) => ({
-    height: '70px',
-    borderBottom: '1px solid var(--color-border-light)',
-
-    '&&.Mui-selected': {
-      backgroundColor: 'var(--color-background-papercolor)',
-      borderLeft: '4px solid #FE7E51',
-      paddingLeft: '12px'
-    },
-    '&&:hover': {
-      backgroundColor: 'var(--color-background-papercolor)'
-    },
-  }))
-
-  const matchSafe = (safe: string) => {
-    return safe.slice(safe.lastIndexOf(':') + 1) === safeAddress
-  }
-  const handleMouseEnter = (safe: string) => {
-    setActiveSafe(safe)
-  };
-  const handleMouseLeave = () => {
-    setActiveSafe(undefined)
-  };
-  const handleClick = (safe: string) => {
-    dispatch(setSelectedSafe({ selectedSafe: safe }))
-  }
-
   return (
     <List sx={{ padding: '0px' }}>
       {sortedFolders?.map((safe, index) => (
-        <CustomListItem key={`${safe}-${index}`} selected={matchSafe(safe)} onMouseOver={(e) => handleMouseEnter(safe)} onMouseLeave={handleMouseLeave}>
-          <Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe}` } }} key={`${safe}-${index}`} passHref>
-            <ListItemButton
-              key={`safe-${index}`}
-              onClick={(e) => handleClick(safe)}
-              sx={{
-                padding: '2px 8px', height: '70px',
-                "&:hover": {
-                  backgroundColor: "transparent"
-                }
-              }}
-              disableRipple
-            >
-              <ListItemAvatar>
-                <Identicon address={safe.slice(safe.lastIndexOf(':') + 1)} radius={6} size={32} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <FormattedName address={safe} weight={500} />
-                }
-              />
-            </ListItemButton>
-          </Link>
-          {(activeSafe === safe || selectedSafe === safe || matches) && <FolderListContextMenu address={safe} />}
-        </CustomListItem>
+        <SafeDisplay key={`${safe}-${index}`} safe={safe} index={index} />
       ))
       }
     </List >
