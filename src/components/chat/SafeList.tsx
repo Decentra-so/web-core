@@ -58,9 +58,11 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	}
 
 	function areAllValuesEmptyArrays(map: Map<number, any[]>): boolean {
-		for (const value of map.values()) {
-			if (!Array.isArray(value) || value.length !== 0) {
-				return false;
+		if (map?.size) {
+			for (const value of map.values()) {
+				if (!Array.isArray(value) || value.length !== 0) {
+					return false;
+				}
 			}
 		}
 		return true;
