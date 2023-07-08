@@ -12,7 +12,7 @@ const IndexPage = () => {
   const { safe, chain } = router.query
   const lastSafe = useLastSafe()
   const safeAddress = safe || lastSafe
-  const matches = useMediaQuery('(max-width: 600px)')
+  const matches = useMediaQuery('(max-width: 900px)')
 
   useIsomorphicEffect(() => {
     if (router.pathname !== AppRoutes.index) {
@@ -24,7 +24,7 @@ const IndexPage = () => {
         ? `${AppRoutes.chat}?safe=${safeAddress}`
         : chain
           ? `${AppRoutes.chat}?chain=${chain}`
-          : window.innerWidth < 600 ? AppRoutes.safeList : AppRoutes.chat,
+          : window.innerWidth < 900 ? AppRoutes.safeList : AppRoutes.chat,
     )
   }, [router, safeAddress, chain])
 
