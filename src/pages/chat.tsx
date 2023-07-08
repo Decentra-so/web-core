@@ -141,7 +141,6 @@ const Chat = () => {
             <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
           </Drawer>
         }
-        </Hidden>
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
             <Box flexGrow={1}>
