@@ -40,6 +40,8 @@ function a11yProps(index: number) {
 export const MobileChat = () => {
   const [mobileValue, setMobileValue] = React.useState(0)
 
+  const matches = useMediaQuery('(max-width: 900px)')
+
   const { safe } = useSafeInfo()
   const owners = safe?.owners || ['']
 
@@ -48,7 +50,7 @@ export const MobileChat = () => {
   }
 
   return (
-    <Hidden mdUp>
+    {matches &&
       <Box sx={{ width: '100%', height: '100%' }}>
         <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
           <Tab label="Timeline" {...a11yProps(0)} />
@@ -63,6 +65,6 @@ export const MobileChat = () => {
           </Box>
         </TabPanel>
       </Box>
-    </Hidden>
+    }
   )
 }
