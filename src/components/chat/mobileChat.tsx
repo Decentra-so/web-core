@@ -49,13 +49,13 @@ export const MobileChat = () => {
 
   return (
     <Hidden mdUp>
-      <Box sx={{ width: '100%', height: '100%', padding: '0px' }}>
+      <Box sx={{ width: '100%', height: '100%' }}>
         <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
           <Tab label="Timeline" {...a11yProps(0)} />
           <Tab label="Overview" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={mobileValue} index={0}>
-          <ChatSection />
+          <ChatSection sx={{ padding: '0px' }}/>
         </TabPanel>
         <TabPanel value={mobileValue} index={1}>
           <Box height="100%">
