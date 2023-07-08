@@ -1,4 +1,4 @@
-import { Box, Hidden, Tab, Tabs, Typography, useMediaQuery } from '@mui/material'
+import { Box, Hidden, Tab, Tabs, Typography } from '@mui/material'
 import React from 'react'
 import { ChatOverview } from './chatOverview'
 import { ChatSection } from './chatSection'
@@ -40,8 +40,6 @@ function a11yProps(index: number) {
 export const MobileChat = () => {
   const [mobileValue, setMobileValue] = React.useState(0)
 
-  const matches = useMediaQuery('(max-width: 900px)')
-
   const { safe } = useSafeInfo()
   const owners = safe?.owners || ['']
 
@@ -51,7 +49,6 @@ export const MobileChat = () => {
 
   return (
       <Box sx={{ width: '100%', height: '100%' }}>
-        {matches &&
         <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
           <Tab label="Timeline" {...a11yProps(0)} />
           <Tab label="Overview" {...a11yProps(1)} />
@@ -64,7 +61,6 @@ export const MobileChat = () => {
             <ChatOverview owners={owners} />
           </Box>
         </TabPanel>
-        }
       </Box>
   )
 }
