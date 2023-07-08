@@ -58,6 +58,7 @@ const EntryDialog = ({
 
             <Box>
               <AddressInput
+                chainId={chainId!}
                 name="address"
                 label="Contact"
                 variant="outlined"
