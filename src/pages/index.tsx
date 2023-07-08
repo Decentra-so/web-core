@@ -24,7 +24,7 @@ const IndexPage = () => {
         ? `${AppRoutes.chat}?safe=${safeAddress}`
         : chain
           ? `${AppRoutes.chat}?chain=${chain}`
-          : window.innerWidth < 900 ? AppRoutes.safeList : AppRoutes.chat,
+          : window.innerWidth < 901 ? AppRoutes.safeList : AppRoutes.chat,
     )
   }, [router, safeAddress, chain])
 
