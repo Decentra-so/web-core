@@ -18,7 +18,6 @@ import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import {
   Box, Button, Container,
   Drawer,
-  Hidden,
   IconButton, Toolbar,
   Typography,
   useMediaQuery
