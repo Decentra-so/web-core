@@ -53,6 +53,7 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 
 const Chat = () => {
   const matches = useMediaQuery('(max-width: 900px)')
+  const matchesDesktop = useMediaQuery('(min-width: 901px)')
   //routing
   const router = useRouter()
   //user and safe
@@ -119,7 +120,7 @@ const Chat = () => {
         <title>Decentra &mdash; Chat</title>
       </Head>
       <Box sx={{ display: 'flex' }}>
-        <Hidden mdDown>
+        {matchesDesktop &&
           <Drawer
             sx={{
               width: 287,
@@ -139,6 +140,7 @@ const Chat = () => {
           >
             <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
           </Drawer>
+        }
         </Hidden>
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
@@ -175,11 +177,11 @@ const Chat = () => {
                     <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
                       <SettingsIcon />
                     </IconButton>
-                    <Hidden mdDown>
+                    {matchesDesktop &&
                       <IconButton onClick={toggleDrawer(!open)}>
                         {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
                       </IconButton>
-                    </Hidden>
+                    }
                   </Box>
                 </Toolbar>
               }
@@ -227,7 +229,7 @@ const Chat = () => {
             </Box>
           </Box>
         </Main>
-        <Hidden mdDown>
+        {matchesDesktop &&
           <Drawer
             sx={{
               width: drawerWidth,
@@ -250,7 +252,7 @@ const Chat = () => {
           >
             <ChatOverview owners={owners} />
           </Drawer>
-        </Hidden>
+        }
       </Box>
     </>
   )
