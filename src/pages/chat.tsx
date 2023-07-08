@@ -52,7 +52,7 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }))
 
 const Chat = () => {
-  const matches = useMediaQuery('(max-width: 600px)')
+  const matches = useMediaQuery('(max-width: 900px)')
   //routing
   const router = useRouter()
   //user and safe
