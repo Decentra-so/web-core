@@ -22,7 +22,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 1.5 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -55,7 +55,7 @@ export const MobileChat = () => {
           <Tab label="Overview" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={mobileValue} index={0}>
-          <ChatSection sx={{ padding: '0px' }}/>
+          <ChatSection />
         </TabPanel>
         <TabPanel value={mobileValue} index={1}>
           <Box height="100%">
