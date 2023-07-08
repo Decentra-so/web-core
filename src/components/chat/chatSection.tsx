@@ -146,7 +146,7 @@ export const ChatSection = () => {
                   return (
                     <ListItem
                       key={index}
-                      sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
+                      sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', md: 'calc(100vw - 695px)' } }}
                       alignItems="flex-start"
                       disableGutters
                     >
