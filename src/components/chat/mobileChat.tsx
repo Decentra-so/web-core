@@ -1,4 +1,4 @@
-import { Box, Hidden, Tab, Tabs, Typography } from '@mui/material'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
 import React from 'react'
 import { ChatOverview } from './chatOverview'
 import { ChatSection } from './chatSection'
@@ -22,7 +22,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 1.5 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -48,7 +48,6 @@ export const MobileChat = () => {
   }
 
   return (
-    <Hidden mdUp>
       <Box sx={{ width: '100%', height: '100%' }}>
         <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
           <Tab label="Timeline" {...a11yProps(0)} />
@@ -63,6 +62,5 @@ export const MobileChat = () => {
           </Box>
         </TabPanel>
       </Box>
-    </Hidden>
   )
 }

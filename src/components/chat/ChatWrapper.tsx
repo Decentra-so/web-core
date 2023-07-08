@@ -13,7 +13,7 @@ const ChatWrapper = () => {
 
   const user = useAppSelector((state) => selectUserItem(state))
   const group = useAppSelector((state) => selectGroup(state))
-  const matches = useMediaQuery('(max-width: 600px)')
+  const matches = useMediaQuery('(max-width: 900px)')
 
   return (
     <>

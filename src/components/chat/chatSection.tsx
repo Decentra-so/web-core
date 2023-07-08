@@ -11,6 +11,7 @@ import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
+import css from './styles.module.css'
 
 export const ChatSection = () => {
   //state
@@ -146,7 +147,7 @@ export const ChatSection = () => {
                   return (
                     <ListItem
                       key={index}
-                      sx={{ margin: '8px 0', pt: '6px', pb: '6px', width: { sm: '100%', lg: 'calc(100vw - 695px)' } }}
+                      className={css.listitemtx}
                       alignItems="flex-start"
                       disableGutters
                     >
