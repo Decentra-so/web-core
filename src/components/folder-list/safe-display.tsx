@@ -29,7 +29,7 @@ const CustomListItem = styled(ListItem)(({ theme }) => ({
 const SafeDisplay: React.FC<{ safe: string, index: number }> = ({ safe, index }) => {
 	const dispatch = useDispatch()
 	const { safeAddress } = useSafeInfo()
-	const matches = useMediaQuery('(max-width: 600px)')
+	const matches = useMediaQuery('(max-width: 900px)')
 	const [activeSafe, setActiveSafe] = useState<string>();
 	const selectedSafe = useAppSelector((state) => selectSafe(state))
 
