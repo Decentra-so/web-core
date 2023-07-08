@@ -204,7 +204,7 @@ const Chat = () => {
                   </Container>
                   :
                   !wallet?.address ?
-                    <Container fixed sx={{ height: '100vh', width: '100vw' }}>
+                    <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
                       <Box
                         sx={{
                           height: '100%',
