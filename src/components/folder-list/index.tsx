@@ -1,6 +1,5 @@
 import useAddressBook from '@/hooks/useAddressBook';
 import { useAllOwnedSafes } from '@/hooks/useAllOwnedSafes';
-import useSafeInfo from '@/hooks/useSafeInfo';
 import List from '@mui/material/List';
 import { memo, useEffect, useState } from 'react';
 import SafeDisplay from './safe-display';
@@ -8,7 +7,6 @@ import SafeDisplay from './safe-display';
 const FolderList: React.FC = () => {
   const addressBook = useAddressBook()
   const allOwnedSafes = useAllOwnedSafes()
-  const { safe } = useSafeInfo()
   const [safeFolder, setSafeFolder] = useState<string[]>([])
   const [sortedFolders, setSortedFolders] = useState<string[]>([])
 
@@ -45,7 +43,7 @@ const FolderList: React.FC = () => {
   return (
     <List sx={{ padding: '0px' }}>
       {sortedFolders?.map((folder, index) => (
-        <SafeDisplay key={`${folder}-${index}`} safe={folder} index={index} chainId={safe.chainId} />
+        <SafeDisplay key={`${folder}-${index}`} safe={folder} index={index} />
       ))
       }
     </List >

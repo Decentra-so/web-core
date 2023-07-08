@@ -1,20 +1,20 @@
+import ContextMenu from '@/components/common/ContextMenu'
+import SafeListRemoveDialog from '@/components/sidebar/SafeListRemoveDialog'
+import AddIcon from '@/public/images/common/add.svg'
+import CheckIcon from '@/public/images/common/circle-check.svg'
+import EditIcon from '@/public/images/common/edit.svg'
+import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
+import { useAppSelector } from '@/store'
+import { selectAllAddressBooks } from '@/store/addressBookSlice'
 import { getSafeData } from '@/utils/networkRegistry'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { SvgIcon } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MenuItem from '@mui/material/MenuItem'
 import type { MouseEvent } from 'react'
 import { useEffect, useState, type ReactElement } from 'react'
-//import EntryDialog from '@/components/address-book/EntryDialog'
-import SafeListRemoveDialog from '@/components/sidebar/SafeListRemoveDialog'
-//import EditIcon from '@/public/images/common/edit.svg'
-import ContextMenu from '@/components/common/ContextMenu'
-import AddIcon from '@/public/images/common/add.svg'
-import CheckIcon from '@/public/images/common/circle-check.svg'
-//import { trackEvent, OVERVIEW_EVENTS } from '@/services/analytics'
-import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
-import { SvgIcon } from '@mui/material'
 import EntryDialog from '../address-book/EntryDialog'
 
 enum ModalType {
@@ -25,17 +25,14 @@ enum ModalType {
 const defaultOpen = { [ModalType.RENAME]: false, [ModalType.REMOVE]: false }
 
 const FolderListContextMenu = ({
-  name,
   address,
-  chainId,
 }: {
-  name: string,
   address: string,
-  chainId: string
 }): ReactElement => {
   const [folderMenu, setDisplayFolderMenu] = useState<boolean>(false)
   const safeData = getSafeData(address)
-  /* const name = safeData?.chainId && allAddressBooks[safeData.chainId][safeData.address] || '' */
+  const allAddressBooks = useAppSelector(selectAllAddressBooks)
+  const name = allAddressBooks[safeData?.chainId!]?.[address]
   const [folders, setFolders] = useState([])
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const [open, setOpen] = useState<typeof defaultOpen>(defaultOpen)
@@ -130,12 +127,6 @@ const FolderListContextMenu = ({
         <MoreVertIcon sx={({ palette }) => ({ color: palette.border.main })} />
       </IconButton>
       <ContextMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseContextMenu}>
-        {/* <MenuItem onClick={handleOpenModal(ModalType.RENAME, OVERVIEW_EVENTS.SIDEBAR_RENAME)}>
-          <ListItemIcon>
-            <SvgIcon component={EditIcon} inheritViewBox fontSize="small" color="success" />
-          </ListItemIcon>
-          <ListItemText>Rename</ListItemText>
-        </MenuItem> */}
         <MenuItem
           onClick={() => setDisplayFolderMenu(true)}
         >
@@ -148,7 +139,7 @@ const FolderListContextMenu = ({
           onClick={handleOpenModal(ModalType.RENAME, OVERVIEW_EVENTS.SIDEBAR_RENAME)}
         >
           <ListItemIcon>
-            <SvgIcon component={AddIcon} inheritViewBox fontSize="small" color="success" />
+            <SvgIcon component={EditIcon} inheritViewBox fontSize="small" color="success" />
           </ListItemIcon>
           <ListItemText>Rename</ListItemText>
         </MenuItem>
@@ -179,7 +170,7 @@ const FolderListContextMenu = ({
         <EntryDialog
           handleClose={handleCloseModal}
           defaultValues={{ name, address }}
-          chainId={chainId}
+          chainId={safeData?.chainId?.toString()}
           disableAddressInput
         />
       )}

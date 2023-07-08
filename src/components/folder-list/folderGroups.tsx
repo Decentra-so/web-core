@@ -37,7 +37,7 @@ const FolderGroup: React.FC<{
     <>
       <List sx={{ padding: '0px' }}>
         {safes.map((folder, index) => (
-          <SafeDisplay key={`${folder}-${index}`} safe={folder} index={index} chainId={safe.chainId} />
+          <SafeDisplay key={`${folder}-${index}`} safe={folder} index={index} />
         ))}
       </List>
     </>

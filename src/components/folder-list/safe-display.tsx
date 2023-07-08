@@ -27,11 +27,10 @@ const CustomListItem = styled(ListItem)(({ theme }) => ({
 	},
 }))
 
-const SafeDisplay: React.FC<{ safe: string, index: number, chainId: string }> = ({ safe, index, chainId }) => {
+const SafeDisplay: React.FC<{ safe: string, index: number }> = ({ safe, index }) => {
 	const dispatch = useDispatch()
-	const { safeAddress } = useSafeInfo()
+	const { safeAddress, safe: safeData } = useSafeInfo()
 	const allAddressBooks = useAppSelector(selectAllAddressBooks)
-	const name = allAddressBooks[chainId]?.[safe]
 	const matches = useMediaQuery('(max-width: 600px)')
 	const [activeSafe, setActiveSafe] = useState<string>();
 	const selectedSafe = useAppSelector((state) => selectSafe(state))
@@ -72,7 +71,7 @@ const SafeDisplay: React.FC<{ safe: string, index: number, chainId: string }> = 
 					/>
 				</ListItemButton>
 			</Link>
-			{(activeSafe === safe || selectedSafe === safe || matches) && <FolderListContextMenu address={safe} name={name} chainId={chainId} />}
+			{(activeSafe === safe || selectedSafe === safe || matches) && <FolderListContextMenu address={safe} />}
 		</CustomListItem>
 	)
 }
