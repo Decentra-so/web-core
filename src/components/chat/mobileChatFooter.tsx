@@ -25,7 +25,7 @@ const MobileChatFooter = () => {
 		<Box display='flex' alignItems='center' justifyContent='space-between' className={classnames(css.mobileBtnGroup, css.hideDesktop)}>
 			{buttonPages.map(path =>
 				<Link href={{ pathname: path }} key={`${safe}`} passHref>
-					<Button onClick={() => setSelectedButton(path)} startIcon={path === AppRoutes.wallet ? <WalletIcon /> : path === AppRoutes.safeList ? <ChatIcon /> : <MenuBookIcon />} className={router.pathname.startsWith(path) ? css.ButtonNavSelected : css.ButtonNav} size='small'>{path === AppRoutes.wallet ? 'Wallet' : path === AppRoutes.safeList ? 'Chat' : 'Address book'}</Button>
+					<Button onClick={() => setSelectedButton(path)} icon={path === AppRoutes.wallet ? <WalletIcon /> : path === AppRoutes.safeList ? <ChatIcon /> : <MenuBookIcon />} className={router.pathname.startsWith(path) ? css.ButtonNavSelected : css.ButtonNav} size='small'>{path === AppRoutes.wallet ? 'Wallet' : path === AppRoutes.safeList ? 'Chat' : 'Address book'}</Button>
 				</Link>
 			)}
 		</Box>
