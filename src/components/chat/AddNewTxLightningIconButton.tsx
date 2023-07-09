@@ -20,7 +20,7 @@ const AddNewTxLightningIconButton = (): ReactElement => {
     <>
       <CheckWallet allowSpendingLimit>
         {(isOk) => (
-          <IconButton aria-label="add transaction" onClick={onClick} disabled={!isOk} sx={ margin: '0 6px' }>
+          <IconButton aria-label="add transaction" onClick={onClick} disabled={!isOk}>
             <AddIcon />
           </IconButton>
         )}
