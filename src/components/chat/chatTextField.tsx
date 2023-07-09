@@ -59,7 +59,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 			}}
 			onSubmit={handleSubmit}
 		>
-			<AddNewTxLightningIconButton sx={{ margin: 0 6px }} />
+			<AddNewTxLightningIconButton sx={{ margin: '0 6px' }} />
 			<Divider orientation="vertical" variant="middle" flexItem />
 			<CustomInput
 				sx={{ flex: 1 }}
