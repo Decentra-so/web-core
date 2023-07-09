@@ -1,6 +1,6 @@
 import CheckWallet from '@/components/common/CheckWallet'
 import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
-import AddIcon from '@mui/icons-material/Add'
+import AddIcon from '@/public/images/chat/lightning-svgrepo-com.svg'
 import { IconButton } from '@mui/material'
 import dynamic from 'next/dynamic'
 import { Suspense, useState, type ReactElement } from 'react'
