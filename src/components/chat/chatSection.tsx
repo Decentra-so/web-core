@@ -12,7 +12,7 @@ import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
 
-export const ChatSection: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
+export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
   //state
   const dispatch = useDispatch()
