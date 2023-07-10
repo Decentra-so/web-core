@@ -11,6 +11,8 @@ import ShareIcon from '@/public/images/common/share.svg'
 import BookmarkIcon from '@/public/images/apps/bookmark.svg'
 import BookmarkedIcon from '@/public/images/apps/bookmarked.svg'
 import DeleteIcon from '@/public/images/common/delete.svg'
+import { useRouter } from 'next/router'
+import { getSafeAppUrl } from '../SafeAppCard'
 
 type SafeAppActionButtonsProps = {
   safeApp: SafeAppData
@@ -25,6 +27,8 @@ const SafeAppActionButtons = ({
   onBookmarkSafeApp,
   removeCustomApp,
 }: SafeAppActionButtonsProps) => {
+  const router = useRouter()
+  const safeAppUrl = getSafeAppUrl(router, safeApp?.url || '')
   const isCustomApp = safeApp.id < 1
   const shareSafeAppUrl = useShareSafeAppUrl(safeApp.url)
 
@@ -80,6 +84,7 @@ const SafeAppActionButtons = ({
           </IconButton>
         </Tooltip>
       )}
+     
     </Box>
   )
 }
