@@ -1,7 +1,7 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
-
+import ViewAppModal from '@/components/chat/modals/ViewAppModal'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
@@ -67,6 +67,7 @@ const Chat = () => {
   const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
+  const [app, setApp] = useState<boolean>(true)
 
   useEffect(() => {
     if (!onboard || !wallet) return
@@ -112,6 +113,7 @@ const Chat = () => {
 
   return (
     <>
+      {app && <ViewAppModal open={app} onClose={() => setApp(!app)} />}
       {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
