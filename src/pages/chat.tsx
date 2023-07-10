@@ -67,7 +67,13 @@ const Chat = () => {
   const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
-  const [app, setApp] = useState<boolean>(true)
+  const [app, toggleApp] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (router.asPath.includes('app')) {
+      toggleApp(true)
+    }
+  }, [router.asPath])
 
   useEffect(() => {
     if (!onboard || !wallet) return
@@ -113,7 +119,7 @@ const Chat = () => {
 
   return (
     <>
-      {app && <ViewAppModal open={app} onClose={() => setApp(!app)} />}
+      {app && <ViewAppModal open={app} onClose={() => toggleApp(!app)} />}
       {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
