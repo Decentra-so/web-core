@@ -24,11 +24,13 @@ const EntryDialog = ({
     address: '',
   },
   disableAddressInput = false,
+  hideChainIndicator = false,
   chainId,
 }: {
   handleClose: () => void
   defaultValues?: AddressEntry
   disableAddressInput?: boolean
+  hideChainIndicator?: boolean
   chainId?: string
 }): ReactElement => {
   const dispatch = useAppDispatch()
@@ -48,7 +50,7 @@ const EntryDialog = ({
   }
 
   return (
-    <ModalDialog open onClose={handleClose} dialogTitle={defaultValues.name ? 'Edit entry' : 'Create entry'}>
+    <ModalDialog open onClose={handleClose} dialogTitle={defaultValues.name ? 'Edit entry' : 'Create entry'} hideChainIndicator={hideChainIndicator}>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>

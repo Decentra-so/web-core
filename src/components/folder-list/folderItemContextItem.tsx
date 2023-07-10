@@ -169,6 +169,7 @@ const FolderListContextMenu = ({
       {open[ModalType.RENAME] && (
         <EntryDialog
           handleClose={handleCloseModal}
+          hideChainIndicator={true}
           defaultValues={{ name, address: address.slice(address.lastIndexOf(':') + 1) }}
           chainId={safeData?.chainId?.toString()}
           disableAddressInput
