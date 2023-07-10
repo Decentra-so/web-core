@@ -1,3 +1,10 @@
+.listitemtx {
+ margin: 8px 0;
+ padding-top: 6px;
+ padding-bottom: 6px; 
+ width: calc(100vw - 48px);
+}
+
 .chatfullheight {
   height: 100%;
   overflow: hidden;
@@ -143,8 +150,11 @@
   justify-content: space-around;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 901px) {
   .hideDesktop {
     display: none;
+  }
+  .listitemtx {
+    width: calc(100vw - 695px);
   }
 }

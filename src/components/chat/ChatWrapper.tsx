@@ -13,7 +13,11 @@ const ChatWrapper = () => {
 
   const user = useAppSelector((state) => selectUserItem(state))
   const group = useAppSelector((state) => selectGroup(state))
-  const matches = useMediaQuery('(max-width: 600px)')
+  const matches = useMediaQuery('(max-width: 900px)')
+ 
+  const matchGroup = () => {
+    return group?.guid.split('_')[1] !== safeAddress.toLocaleLowerCase()
+  }
 
   return (
     <>
@@ -47,7 +51,7 @@ const ChatWrapper = () => {
         matches &&
         <MobileChat />
       }
-       {(!user || !group) && <Login />}
+       {(!user || !group || matchGroup()) && <Login />}
     </>
   )
 }
