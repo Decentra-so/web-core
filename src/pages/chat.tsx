@@ -67,7 +67,7 @@ const Chat = () => {
   const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
-  const [app, toggleApp] = useState<boolean>(true)
+  const [app, toggleApp] = useState<boolean>(false)
 
   useEffect(() => {
     if (router.asPath.includes('app')) {
