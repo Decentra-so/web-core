@@ -4,16 +4,16 @@ import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { useAppSelector } from '@/store'
 import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
-import { Box, List, ListItem } from '@mui/material'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Box, List, ListItem, useMediaQuery } from '@mui/material'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItem from '../transactions/TxListItem'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
-import css from './styles.module.css'
 
-export const ChatSection = () => {
+export const ChatSection: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
+  const matches = useMediaQuery('(min-width:901px)');
   //state
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
@@ -144,16 +144,42 @@ export const ChatSection = () => {
                     <ChatMessage key={index} chat={chat} wallet={wallet} />
                   )
                 } else if (chat?.type) {
-                  return (
-                    <ListItem
-                      key={index}
-                      className={css.listitemtx}
-                      alignItems="flex-start"
-                      disableGutters
-                    >
-                      <TxListItem key={`${index}-tx`} item={chat?.data} />
-                    </ListItem>
-                  )
+                  if (matches) {
+                    if (drawerOpen) {
+                      return (
+                        <ListItem
+                          key={index}
+                          sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
+                          alignItems="flex-start"
+                          disableGutters
+                        >
+                          <TxListItem key={`${index}-tx`} item={chat?.data} />
+                        </ListItem>
+                      )
+                    } else {
+                      return (
+                        <ListItem
+                          key={index}
+                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - 695px - ${drawerWidth})` }}
+                          alignItems="flex-start"
+                          disableGutters
+                        >
+                          <TxListItem key={`${index}-tx`} item={chat?.data} />
+                        </ListItem>
+                      )
+                    }
+                  } else {
+                    return (
+                      <ListItem
+                        key={index}
+                        sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
+                        alignItems="flex-start"
+                        disableGutters
+                      >
+                        <TxListItem key={`${index}-tx`} item={chat?.data} />
+                      </ListItem>
+                    )
+                  }
                 }
               })}
             <Box ref={bottom} sx={{ height: 0 }} />

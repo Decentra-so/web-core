@@ -1,8 +1,8 @@
 .listitemtx {
- margin: 8px 0;
- padding-top: 6px;
- padding-bottom: 6px; 
- width: calc(100vw - 48px);
+  margin: 8px 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  width: calc(100vw - 48px);
 }
 
 .chatfullheight {

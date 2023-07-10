@@ -222,7 +222,7 @@ const Chat = () => {
                     : wallet?.address && !authToken ?
                       <Button onClick={() => setAuth(true)}>Authenticate</Button>
                       :
-                      <ChatWrapper />
+                      <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>

@@ -1,20 +1,21 @@
 import { ChatSection } from '@/components/chat/chatSection'
 import useSafeAddress from '@/hooks/useSafeAddress'
-import { Box, Typography, useMediaQuery } from '@mui/material'
-import { MobileChat } from './mobileChat'
-import dynamic from 'next/dynamic'
 import { useAppSelector } from '@/store'
-import { selectUserItem, selectGroup } from '@/store/chatServiceSlice'
+import { selectGroup, selectUserItem } from '@/store/chatServiceSlice'
+import { Box, Typography, useMediaQuery } from '@mui/material'
+import dynamic from 'next/dynamic'
+import React from 'react'
+import { MobileChat } from './mobileChat'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-const ChatWrapper = () => {
+const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const safeAddress = useSafeAddress()
 
   const user = useAppSelector((state) => selectUserItem(state))
   const group = useAppSelector((state) => selectGroup(state))
   const matches = useMediaQuery('(max-width: 900px)')
- 
+
   const matchGroup = () => {
     return group?.guid.split('_')[1] !== safeAddress.toLocaleLowerCase()
   }
@@ -25,7 +26,7 @@ const ChatWrapper = () => {
         <>
           {
             safeAddress ? (
-              <ChatSection />
+              <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />
             ) : (
               <Box
                 sx={{
@@ -51,7 +52,7 @@ const ChatWrapper = () => {
         matches &&
         <MobileChat />
       }
-       {(!user || !group || matchGroup()) && <Login />}
+      {(!user || !group || matchGroup()) && <Login />}
     </>
   )
 }
