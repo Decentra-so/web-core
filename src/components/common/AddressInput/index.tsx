@@ -1,18 +1,20 @@
-import type { ReactElement } from 'react'
-import { useEffect, useCallback, useRef, useMemo, useState } from 'react'
-import { InputAdornment, TextField, type TextFieldProps, CircularProgress, Grid } from '@mui/material'
-import { useFormContext, useWatch, type Validate, get } from 'react-hook-form'
-import { validatePrefixedAddress } from '@/utils/validation'
 import { useCurrentChain } from '@/hooks/useChains'
-import useNameResolver from './useNameResolver'
-import ScanQRButton from '../ScanQRModal/ScanQRButton'
-import { FEATURES, hasFeature } from '@/utils/chains'
-import { parsePrefixedAddress } from '@/utils/addresses'
 import useDebounce from '@/hooks/useDebounce'
+import { useAppSelector } from '@/store'
+import { selectChainById } from '@/store/chainsSlice'
+import { parsePrefixedAddress } from '@/utils/addresses'
+import { FEATURES, hasFeature } from '@/utils/chains'
+import { validatePrefixedAddress } from '@/utils/validation'
+import { CircularProgress, Grid, InputAdornment, TextField, type TextFieldProps } from '@mui/material'
+import type { ReactElement } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { get, useFormContext, useWatch, type Validate } from 'react-hook-form'
+import ScanQRButton from '../ScanQRModal/ScanQRButton'
+import useNameResolver from './useNameResolver'
 
-export type AddressInputProps = TextFieldProps & { name: string; validate?: Validate<string>; deps?: string | string[] }
+export type AddressInputProps = TextFieldProps & { name: string; chainId?: string; validate?: Validate<string>; deps?: string | string[] }
 
-const AddressInput = ({ name, validate, required = true, deps, ...props }: AddressInputProps): ReactElement => {
+const AddressInput = ({ name, chainId, validate, required = true, deps, ...props }: AddressInputProps): ReactElement => {
   const {
     register,
     setValue,
@@ -21,9 +23,10 @@ const AddressInput = ({ name, validate, required = true, deps, ...props }: Addre
     trigger,
   } = useFormContext()
   const currentChain = useCurrentChain()
+  const chainInfo = useAppSelector((state) => selectChainById(state, chainId!))
   const rawValueRef = useRef<string>('')
   const watchedValue = useWatch({ name, control })
-  const currentShortName = currentChain?.shortName || ''
+  const currentShortName = chainInfo?.shortName || currentChain?.shortName || ''
   const [isValidating, setIsValidating] = useState<boolean>(false)
 
   // Fetch an ENS resolution for the current address

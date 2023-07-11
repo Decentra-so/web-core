@@ -1,6 +1,7 @@
 import { AppRoutes } from "@/config/routes"
 import useSafeInfo from "@/hooks/useSafeInfo"
 import { useAppSelector } from "@/store"
+import { selectAllAddressBooks } from "@/store/addressBookSlice"
 import { selectSafe, setSelectedSafe } from "@/store/chatServiceSlice"
 import styled from "@emotion/styled"
 import { ListItem, ListItemAvatar, ListItemButton, ListItemText, useMediaQuery } from "@mui/material"
@@ -28,8 +29,9 @@ const CustomListItem = styled(ListItem)(({ theme }) => ({
 
 const SafeDisplay: React.FC<{ safe: string, index: number }> = ({ safe, index }) => {
 	const dispatch = useDispatch()
-	const { safeAddress } = useSafeInfo()
-	const matches = useMediaQuery('(max-width: 900px)')
+	const { safeAddress, safe: safeData } = useSafeInfo()
+	const allAddressBooks = useAppSelector(selectAllAddressBooks)
+	const matches = useMediaQuery('(max-width: 600px)')
 	const [activeSafe, setActiveSafe] = useState<string>();
 	const selectedSafe = useAppSelector((state) => selectSafe(state))
 
