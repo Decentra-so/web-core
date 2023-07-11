@@ -40,6 +40,10 @@ const SafeAppList = ({
 
   const showZeroResultsPlaceholder = query && filteredApps.length === 0
 
+  const navigateToSafeApp = (safeAppUrl: string, router: any) => {
+    router.push(safeAppUrl)
+  }
+
   return (
     <>
       {/* Safe Apps Filters */}
@@ -91,7 +95,7 @@ const SafeAppList = ({
               isBookmarked={bookmarkedSafeAppsId?.has(safeApp.id)}
               onBookmarkSafeApp={onBookmarkSafeApp}
               removeCustomApp={removeCustomApp}
-              onClickSafeApp={()=>{}}
+              onClickSafeApp={navigateToSafeApp}
             />
           </li>
         ))}

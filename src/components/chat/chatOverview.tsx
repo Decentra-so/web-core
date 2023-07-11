@@ -5,7 +5,7 @@ import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
@@ -25,6 +25,7 @@ import { getBlockExplorerLink } from '@/utils/chains'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
+import { useRouter } from 'next/router'
 
 export const ChatOverview: React.FC<{
   owners: any[]
@@ -40,7 +41,14 @@ export const ChatOverview: React.FC<{
   const chain = useCurrentChain()
   const addressCopyText = settings.shortName.copy && chain ? `${chain.shortName}:${safeAddress}` : safeAddress
   const blockExplorerLink = chain ? getBlockExplorerLink(chain, safeAddress) : undefined
+  const router = useRouter()
 
+  useEffect(() => {
+    if (router.asPath.includes('app')) {
+      toggleAppsOpen(false)
+    }
+  }, [router.asPath])
+  
   return (
     <>
       {tokenTransfer && (
