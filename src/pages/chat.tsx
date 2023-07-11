@@ -117,9 +117,14 @@ const Chat = () => {
     setOpen(open)
   }
 
+  const handleToggleApp = () => {
+    router.asPath.includes('app') ? router.push(router.asPath.split('&')[0]) : ''
+    toggleApp(!app)
+  }
+
   return (
     <>
-      {app && <ViewAppModal open={app} onClose={() => toggleApp(!app)} />}
+      {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
       {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}

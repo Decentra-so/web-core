@@ -8,7 +8,7 @@ const ViewAppModal: React.FC<{
   onClose: () => void
 }> = ({ open, onClose }) => {
   return (
-    <ModalDialog open={open} dialogTitle="View App" onClose={onClose} maxWidth="md">
+    <ModalDialog open={open} dialogTitle="View App" onClose={onClose} maxWidth="xl">
       <DialogContent sx={{ maxHeight: '90vh', overflow: 'auto' }}>
         <SafeApps />
       </DialogContent>
