@@ -21,7 +21,6 @@ import { AppRoutes } from '@/config/routes'
 import BatchIcon from '@/public/images/apps/batch-icon.svg'
 import css from './styles.module.css'
 
-import { Button } from '@mui/material'
 export type SafeAppsViewMode = 'list-view' | 'grid-view'
 
 export const GRID_VIEW_MODE: SafeAppsViewMode = 'grid-view' // default view
@@ -149,11 +148,6 @@ const SafeAppCardGridView = ({
         {/* Safe App Tags */}
         <SafeAppTags tags={safeApp.tags} />
       </CardContent>
-      <Link href={safeAppUrl} passHref>
-        <Button fullWidth variant="contained" color="primary" component={'a'} href={safeApp?.url} sx={{ mt: 3 }}>
-          Open
-        </Button>
-      </Link>
     </SafeAppCardContainer>
   )
 }
