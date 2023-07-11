@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MenuItem from '@mui/material/MenuItem'
+import { isArray } from 'lodash'
 import type { MouseEvent } from 'react'
 import { useEffect, useState, type ReactElement } from 'react'
 import EntryDialog from '../address-book/EntryDialog'
@@ -39,10 +40,13 @@ const FolderListContextMenu = ({
   const [open, setOpen] = useState<typeof defaultOpen>(defaultOpen)
   const [folder, setFolder] = useState<any>()
   const [safes, setSafes] = useState<any>()
+  const includesAddress = safes && Object.values(safes).some((folders: unknown) =>
+    isArray(folders) ? folders.some((safe: Folder) => safe.address === safeInfo.address) : false
+  );
 
   const handleMoveFolder = async (folderName: string) => {
     if (!safes) return
-    if (safes && safes[folderName] && safes[folderName].includes(safeInfo.address)) {
+    if (safes && safes[folderName] && includesAddress) {
       await deleteSafeFromFolder()
     } else {
       await addSafeToFolder(folderName)
@@ -53,6 +57,7 @@ const FolderListContextMenu = ({
     const getFolders = async () => {
       let items
       const folders = localStorage.getItem('folders')
+      console.log({ folders })
       if (folders) items = await JSON.parse(folders)
       if (items) setFolders(items)
     }
@@ -119,7 +124,7 @@ const FolderListContextMenu = ({
   }
 
   const isInFolder = (folderName: 'string') => {
-    return safes && safes[folderName] && safes[folderName].includes(safeInfo.address)
+    return safes && safes[folderName] && includesAddress
   }
 
   return (
