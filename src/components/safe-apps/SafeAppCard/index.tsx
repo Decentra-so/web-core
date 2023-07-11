@@ -21,7 +21,6 @@ import { AppRoutes } from '@/config/routes'
 import BatchIcon from '@/public/images/apps/batch-icon.svg'
 import css from './styles.module.css'
 
-import { Button } from '@mui/material'
 export type SafeAppsViewMode = 'list-view' | 'grid-view'
 
 export const GRID_VIEW_MODE: SafeAppsViewMode = 'grid-view' // default view
@@ -29,7 +28,7 @@ export const LIST_VIEW_MODE: SafeAppsViewMode = 'list-view'
 
 type SafeAppCardProps = {
   safeApp: SafeAppData
-  onClickSafeApp?: () => void
+  onClickSafeApp?: (safeAppUrl: string, router: any) => void
   viewMode?: SafeAppsViewMode
   isBookmarked?: boolean
   onBookmarkSafeApp?: (safeAppId: number) => void
@@ -47,7 +46,9 @@ const SafeAppCard = ({
   const router = useRouter()
 
   const safeAppUrl = getSafeAppUrl(router, safeApp.url)
-
+  const navigateToSafeApp = () => {
+    onClickSafeApp ? onClickSafeApp(safeAppUrl, router) : ''
+  }
   const isListViewMode = viewMode === LIST_VIEW_MODE
 
   if (isListViewMode) {
@@ -58,7 +59,7 @@ const SafeAppCard = ({
         isBookmarked={isBookmarked}
         onBookmarkSafeApp={onBookmarkSafeApp}
         removeCustomApp={removeCustomApp}
-        onClickSafeApp={onClickSafeApp}
+        onClickSafeApp={navigateToSafeApp}
       />
     )
   }
@@ -71,7 +72,7 @@ const SafeAppCard = ({
       isBookmarked={isBookmarked}
       onBookmarkSafeApp={onBookmarkSafeApp}
       removeCustomApp={removeCustomApp}
-      onClickSafeApp={onClickSafeApp}
+      onClickSafeApp={navigateToSafeApp}
     />
   )
 }
@@ -89,7 +90,7 @@ export const getSafeAppUrl = (router: NextRouter, safeAppUrl: string) => {
 
 type SafeAppCardViewProps = {
   safeApp: SafeAppData
-  onClickSafeApp?: () => void
+  onClickSafeApp: (safeAppUrl: string, router: any) => void
   safeAppUrl: string
   isBookmarked?: boolean
   onBookmarkSafeApp?: (safeAppId: number) => void
@@ -147,11 +148,6 @@ const SafeAppCardGridView = ({
         {/* Safe App Tags */}
         <SafeAppTags tags={safeApp.tags} />
       </CardContent>
-      <Link href={safeAppUrl} passHref>
-        <Button fullWidth variant="contained" color="primary" component={'a'} href={safeApp?.url} sx={{ mt: 3 }}>
-          Open
-        </Button>
-      </Link>
     </SafeAppCardContainer>
   )
 }
@@ -199,7 +195,7 @@ const SafeAppCardListView = ({
 }
 
 type SafeAppCardContainerProps = {
-  onClickSafeApp?: () => void
+  onClickSafeApp: any
   safeAppUrl: string
   children: ReactNode
   height?: string
