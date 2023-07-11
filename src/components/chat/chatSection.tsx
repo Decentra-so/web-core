@@ -160,7 +160,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                       return (
                         <ListItem
                           key={index}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - 695px - ${drawerWidth})` }}
+                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
                           alignItems="flex-start"
                           disableGutters
                         >
