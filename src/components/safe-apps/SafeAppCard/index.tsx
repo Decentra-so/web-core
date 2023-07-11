@@ -195,7 +195,7 @@ const SafeAppCardListView = ({
 }
 
 type SafeAppCardContainerProps = {
-  onClickSafeApp: any
+  onClickSafeApp?: any
   safeAppUrl: string
   children: ReactNode
   height?: string
