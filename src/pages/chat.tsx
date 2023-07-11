@@ -95,9 +95,9 @@ const Chat = () => {
   }, [router.asPath])
 
   useEffect(() => {
-    if (!wallet?.address) setOpen(false)
+    if (!wallet?.address || !safeAddress) setOpen(false)
     else setOpen(true)
-  }, [wallet?.address])
+  }, [wallet?.address, safeAddress])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -143,7 +143,7 @@ const Chat = () => {
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
             <Box flexGrow={1}>
-              {wallet?.address &&
+              {wallet?.address && safeAddress &&
                 <Toolbar
                   sx={{
                     display: 'flex',
@@ -203,7 +203,7 @@ const Chat = () => {
                     </Box>
                   </Container>
                   :
-                  !wallet?.address ?
+                  !wallet?.address || !safeAddress ?
                     <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
                       <Box
                         sx={{
