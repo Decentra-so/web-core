@@ -64,7 +64,7 @@ const Chat = () => {
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [settings, toggleSettings] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
+  const [open, setOpen] = useState<boolean>(false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
 
