@@ -1,4 +1,5 @@
 import useSafeInfo from '@/hooks/useSafeInfo'
+import type { Folder } from '@/types/folder'
 import List from '@mui/material/List'
 import { useEffect, useState } from 'react'
 import SafeDisplay from './safe-display'
@@ -7,7 +8,7 @@ const FolderGroup: React.FC<{
   group: any,
   currentSafe: string
 }> = ({ group, currentSafe }) => {
-  const [safes, setSafes] = useState<string[]>([''])
+  const [safes, setSafes] = useState<Folder[]>([])
   const { safeAddress, safe } = useSafeInfo()
 
   window?.addEventListener('storage', () => {
