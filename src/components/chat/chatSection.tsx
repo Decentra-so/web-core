@@ -28,13 +28,23 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const safeAddress = useSafeAddress()
   const bottom = useRef<HTMLDivElement>(null)
 
+
+  const handleScroll = async() => {
+    if (!messages) return
+    console.log('made it in scroller')
+    const chatWindow = document.getElementById('chat-window'); // Replace 'chat-window' with the actual ID of your chat window/container
+    if (chatWindow?.scrollTop === 0) {
+      // User has scrolled to the top, fetch more messages
+      //fetchMoreMessages(`pid_${safeAddress!}`, messages).then((msgs) => msgs?.length && setMessages(msgs))
+    }
+  }
+
+  window?.addEventListener('scroll', handleScroll);
+
+
   const scrollToBottom = useCallback(() => {
     if (!bottom.current) return
     const { current: bottomOfChat } = bottom
-    const rect = bottomOfChat.getBoundingClientRect()
-    if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-      return
-    }
     bottomOfChat.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
@@ -42,13 +52,10 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     scrollToBottom()
   }, [chatData, messages])
 
-  const getLast5Items = (arr: any) => {
-    if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
-    }
-    return arr
+  const handleSetMessages = (msgs: any) => {
+    setMessages(msgs)
+    scrollToBottom()
   }
-
   useEffect(() => {
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
@@ -72,8 +79,8 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
 
   const getChat = useCallback(() => {
     let allData: any[] = []
-    const historyItems = getLast5Items(txHistory.page?.results)
-    const queueItems = getLast5Items(txQueue?.page?.results)
+    const historyItems = txHistory.page?.results
+    const queueItems = txQueue?.page?.results
     historyItems?.forEach((tx: any) => {
       if (tx.type === 'DATE_LABEL') {
         return
@@ -94,7 +101,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         type: 'tx',
       })
     })
-    if (!messages.length) {
+    if (!messages?.length) {
       setChatData(allData)
       return
     }
@@ -115,20 +122,21 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
       }
     })
     setChatData(allData)
-  }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
+  }, [messages?.length, txHistory?.page, txQueue?.page, safeAddress])
 
   useEffect(() => {
     getChat()
-  }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
+  }, [messages?.length, txHistory?.page, txQueue?.page, safeAddress])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: '100%', overflowY: 'auto' }}>
+      <Box sx={{ height: '100%', overflowY: 'auto' }}  id='chat-window' >
         <Box
           sx={{
             flex: '1 0 auto',
             display: 'flex',
-            minHeight: '100vh',
+            minHeight: '85vh',
+            height: '100%',
             flexDirection: 'column',
             justifyContent: 'start',
             alignItems: 'start',
@@ -197,7 +205,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         }}
       >
         {user && group &&
-          <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} />
+          <ChatTextField currentUser={user} messages={messages} setMessages={handleSetMessages} />
         }
       </Box>
     </Box>

@@ -1,4 +1,3 @@
-import useSafeInfo from '@/hooks/useSafeInfo'
 import List from '@mui/material/List'
 import { useEffect, useState } from 'react'
 import SafeDisplay from './safe-display'
@@ -8,7 +7,6 @@ const FolderGroup: React.FC<{
   currentSafe: string
 }> = ({ group, currentSafe }) => {
   const [safes, setSafes] = useState<string[]>([''])
-  const { safeAddress, safe } = useSafeInfo()
 
   window?.addEventListener('storage', () => {
     const items = JSON.parse(localStorage.getItem(group)!)

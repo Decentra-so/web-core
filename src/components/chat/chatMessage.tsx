@@ -1,14 +1,17 @@
 import type { ConnectedWallet } from "@/services/onboard"
-import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
+import { ListItem, ListItemAvatar, ListItemText, Typography, Box } from "@mui/material"
 import React from 'react'
 import { useEnsName } from "wagmi"
 import FormattedName from "../common/FormattedName/FormattedName"
 import Identicon from "../common/Identicon"
+import { getDateFromTimestamp } from "@/utils/time"
 
 const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ chat, wallet }) => {
 	const { data, isError, isLoading } = useEnsName({
 		address: chat?.data?.sender.uid,
 	})
+
+
 	return <ListItem
 		sx={{
 			display: 'flex',
@@ -24,12 +27,12 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		</ListItemAvatar>
 		<ListItemText
 			primary={
-				<React.Fragment>
-					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600} />}
-					<Typography sx={{ display: 'inline' }} component="span" variant="body2">
-						{chat.timeStamp}
+				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '5px'}}>
+					<FormattedName address={chat?.data?.sender.uid} weight={600} size={'18px'} />
+					<Typography sx={{ display: 'inline', color: 'gray', ml: '10px', mt: '4px' }} component="span" variant="body2">
+						{getDateFromTimestamp(chat.data.sentAt)}
 					</Typography>
-				</React.Fragment>
+				</Box>
 			}
 			secondary={
 				<Typography sx={{ display: 'inline' }} component="span">
