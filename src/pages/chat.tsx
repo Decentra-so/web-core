@@ -172,7 +172,7 @@ const Chat = () => {
                     }
                   </Box>
                   <Box>
-                    <IconButton color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <IconButton sx={{ marginRight: '4px' }} color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
                       <SettingsIcon />
                     </IconButton>
                     {matchesDesktop &&
