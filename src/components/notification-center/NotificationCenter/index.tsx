@@ -94,7 +94,7 @@ const NotificationCenter = (): ReactElement => {
             horizontal: 'right',
           }}
         >
-          <SvgIcon component={BellIcon} inheritViewBox fontSize="large" />
+          <SvgIcon component={BellIcon} inheritViewBox className={css.bellicon} />
         </UnreadBadge>
       </ButtonBase>
 
