@@ -87,7 +87,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
           />
         </div>
 
-        <div className={classnames(css.element, css.hideMobile)}>
+        <div className={classnames(css.element, css.paddingleftelement, css.hideMobile)}>
           <NotificationCenter />
         </div>
 
