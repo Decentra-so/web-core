@@ -13,8 +13,8 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { ArrowBackIos } from '@mui/icons-material'
-import SettingsIcon from '@mui/icons-material/Settings'
-import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
+import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
+import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import {
   Box, Button, Container,
   Drawer,
@@ -185,12 +185,12 @@ const Chat = () => {
                     }
                   </Box>
                   <Box>
-                    <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <IconButton sx={{ marginRight: '4px' }} color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
                       <SettingsIcon />
                     </IconButton>
                     {matchesDesktop &&
-                      <IconButton onClick={toggleDrawer(!open)}>
-                        {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                      <IconButton color="inherit" onClick={toggleDrawer(!open)}>
+                        {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
                       </IconButton>
                     }
                   </Box>

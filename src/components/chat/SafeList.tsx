@@ -1,4 +1,3 @@
-
 import { useAllOwnedSafes } from "@/hooks/useAllOwnedSafes"
 import useSafeAddress from "@/hooks/useSafeAddress"
 import useWallet from "@/hooks/wallets/useWallet"
@@ -120,7 +119,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				}
 				{
 					wallet?.address && !areAllValuesEmptyArrays(allOwnedSafes) ?
-						<Button onClick={() => setCreateSafe(!createSafe)}>Add Safe</Button>
+						<></>
 						: wallet?.address && areAllValuesEmptyArrays(allOwnedSafes) ?
 							<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 								<Button onClick={() => setCreateSafe(!createSafe)} variant="contained" disableElevation>

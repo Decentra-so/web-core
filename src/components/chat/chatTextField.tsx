@@ -1,17 +1,16 @@
 import useSafeAddress from "@/hooks/useSafeAddress";
 import { getMessages, listenForMessage, sendMessage } from "@/services/chat";
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Button, Divider, InputBase, Paper } from "@mui/material";
+import { Button, Divider, InputBase, Paper, Box } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from "react";
-import AddNewTxIconButton from "./AddNewTxIconButton";
+import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
-		borderRadius: 4,
 		fontSize: 16,
 		width: '100%',
-		padding: '10px 12px',
+		padding: '10px 16px',
 	},
 }));
 
@@ -60,7 +59,9 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 			}}
 			onSubmit={handleSubmit}
 		>
-			<AddNewTxIconButton />
+			<Box sx={{ margin: '0 6px' }}>
+			        <AddNewTxLightningIconButton />
+			</Box>
 			<Divider orientation="vertical" variant="middle" flexItem />
 			<CustomInput
 				sx={{ flex: 1 }}
@@ -69,7 +70,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 				inputProps={{ 'aria-label': 'chat message' }}
 				onChange={(e) => setMessage(e.target.value)}
 			/>
-			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, borderRadius: '8px', backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
+			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, borderRadius: '8px', color: 'white', backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
 				<SendOutlinedIcon />
 			</Button>
 		</Paper >

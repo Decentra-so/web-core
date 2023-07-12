@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import BellIcon from '@/public/images/notifications/bell.svg'
+import BellIcon from '@/public/images/chat/bell-svgrepo-com.svg'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
@@ -94,7 +94,7 @@ const NotificationCenter = (): ReactElement => {
             horizontal: 'right',
           }}
         >
-          <SvgIcon component={BellIcon} inheritViewBox fontSize="small" />
+          <SvgIcon component={BellIcon} inheritViewBox className={css.bellicon} />
         </UnreadBadge>
       </ButtonBase>
 
