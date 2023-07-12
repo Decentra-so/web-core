@@ -172,11 +172,11 @@ const Chat = () => {
                     }
                   </Box>
                   <Box>
-                    <IconButton sx={{ color: 'currentColor' }} aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <IconButton color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
                       <SettingsIcon />
                     </IconButton>
                     {matchesDesktop &&
-                      <IconButton color="currentColor" onClick={toggleDrawer(!open)}>
+                      <IconButton color="inherit" onClick={toggleDrawer(!open)}>
                         {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
                       </IconButton>
                     }
