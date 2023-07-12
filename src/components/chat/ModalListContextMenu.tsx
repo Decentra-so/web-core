@@ -35,7 +35,7 @@ const ModalListContextMenu: React.FC<{ createSafe: boolean, setCreateSafe: any }
 				aria-label="open context menu"
 				onClick={handleOpenContextMenu}
 			>
-				<SvgIcon component={AddChatIcon} inheritViewBox fontSize="small" color="currentColor" />
+				<SvgIcon component={AddChatIcon} inheritViewBox fontSize="small" color="inherit" />
 			</IconButton>
 			<ContextMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseContextMenu}>
 				<MenuItem
