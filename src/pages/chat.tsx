@@ -177,7 +177,7 @@ const Chat = () => {
                     </IconButton>
                     {matchesDesktop &&
                       <IconButton onClick={toggleDrawer(!open)}>
-                        {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
+                        {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
                       </IconButton>
                     }
                   </Box>
