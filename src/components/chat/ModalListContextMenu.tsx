@@ -31,7 +31,7 @@ const ModalListContextMenu: React.FC<{ createSafe: boolean, setCreateSafe: any }
 		<>
 			{addFolder && <AddFolderModal open={addFolder} onClose={() => setAddFolder(!addFolder)} />}
 			<IconButton
-				sx={{ border: '1px solid var(--color-border-light)', borderRadius: '6px', padding: '7px', width: '32px', height: '32px' }}
+				sx={{ border: '1px solid var(--color-border-light)', color: 'currentColor', borderRadius: '6px', padding: '7px', width: '32px', height: '32px' }}
 				aria-label="open context menu"
 				onClick={handleOpenContextMenu}
 			>
