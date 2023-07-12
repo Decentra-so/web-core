@@ -13,8 +13,8 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { ArrowBackIos } from '@mui/icons-material'
-import SettingsIcon from '@mui/icons-material/Settings'
-import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
+import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
+import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import {
   Box, Button, Container,
   Drawer,
