@@ -18,6 +18,10 @@
   justify-content: center;
 }
 
+.paddingleftelement {
+  padding-left: 4px;
+}
+
 .menuButton,
 .logo {
   flex: 1;
