@@ -79,7 +79,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
           <FormControlLabel
             sx={{ margin: 0 }}
             control={
-              <IconButton onClick={() => dispatch(setDarkMode(!isDarkMode))}>
+              <IconButton color="inherit" onClick={() => dispatch(setDarkMode(!isDarkMode))}>
                 {isDarkMode ? <WbSunnyIcon /> : <ModeNightIcon />}
               </IconButton>
             }
