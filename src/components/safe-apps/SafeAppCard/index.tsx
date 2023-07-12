@@ -28,7 +28,7 @@ export const LIST_VIEW_MODE: SafeAppsViewMode = 'list-view'
 
 type SafeAppCardProps = {
   safeApp: SafeAppData
-  onClickSafeApp?: () => void
+  onClickSafeApp?: (safeAppUrl: string, router: any) => void
   viewMode?: SafeAppsViewMode
   isBookmarked?: boolean
   onBookmarkSafeApp?: (safeAppId: number) => void
@@ -46,7 +46,9 @@ const SafeAppCard = ({
   const router = useRouter()
 
   const safeAppUrl = getSafeAppUrl(router, safeApp.url)
-
+  const navigateToSafeApp = () => {
+    onClickSafeApp ? onClickSafeApp(safeAppUrl, router) : ''
+  }
   const isListViewMode = viewMode === LIST_VIEW_MODE
 
   if (isListViewMode) {
@@ -57,7 +59,7 @@ const SafeAppCard = ({
         isBookmarked={isBookmarked}
         onBookmarkSafeApp={onBookmarkSafeApp}
         removeCustomApp={removeCustomApp}
-        onClickSafeApp={onClickSafeApp}
+        onClickSafeApp={navigateToSafeApp}
       />
     )
   }
@@ -70,7 +72,7 @@ const SafeAppCard = ({
       isBookmarked={isBookmarked}
       onBookmarkSafeApp={onBookmarkSafeApp}
       removeCustomApp={removeCustomApp}
-      onClickSafeApp={onClickSafeApp}
+      onClickSafeApp={navigateToSafeApp}
     />
   )
 }
@@ -79,7 +81,7 @@ export default SafeAppCard
 
 export const getSafeAppUrl = (router: NextRouter, safeAppUrl: string) => {
   const shareUrlObj: UrlObject = {
-    pathname: AppRoutes.apps.open,
+    pathname: AppRoutes.chat,
     query: { safe: router.query.safe, appUrl: safeAppUrl },
   }
 
@@ -88,7 +90,7 @@ export const getSafeAppUrl = (router: NextRouter, safeAppUrl: string) => {
 
 type SafeAppCardViewProps = {
   safeApp: SafeAppData
-  onClickSafeApp?: () => void
+  onClickSafeApp: (safeAppUrl: string, router: any) => void
   safeAppUrl: string
   isBookmarked?: boolean
   onBookmarkSafeApp?: (safeAppId: number) => void
@@ -193,7 +195,7 @@ const SafeAppCardListView = ({
 }
 
 type SafeAppCardContainerProps = {
-  onClickSafeApp?: () => void
+  onClickSafeApp?: any
   safeAppUrl: string
   children: ReactNode
   height?: string

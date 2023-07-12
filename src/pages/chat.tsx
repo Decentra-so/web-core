@@ -1,7 +1,7 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
-
+import ViewAppModal from '@/components/chat/modals/ViewAppModal'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
@@ -64,9 +64,16 @@ const Chat = () => {
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [settings, toggleSettings] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
+  const [open, setOpen] = useState<boolean>(false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
+  const [app, toggleApp] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (router.asPath.includes('app')) {
+      toggleApp(true)
+    }
+  }, [router.asPath])
 
   useEffect(() => {
     if (!onboard || !wallet) return
@@ -95,9 +102,9 @@ const Chat = () => {
   }, [router.asPath])
 
   useEffect(() => {
-    if (!wallet?.address) setOpen(false)
+    if (!wallet?.address || !safeAddress) setOpen(false)
     else setOpen(true)
-  }, [wallet?.address])
+  }, [wallet?.address, safeAddress])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -110,8 +117,14 @@ const Chat = () => {
     setOpen(open)
   }
 
+  const handleToggleApp = () => {
+    router.asPath.includes('app') ? router.push(router.asPath.split('&')[0]) : ''
+    toggleApp(!app)
+  }
+
   return (
     <>
+      {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
       {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
@@ -143,7 +156,7 @@ const Chat = () => {
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
             <Box flexGrow={1}>
-              {wallet?.address &&
+              {wallet?.address && safeAddress &&
                 <Toolbar
                   sx={{
                     display: 'flex',
@@ -203,7 +216,7 @@ const Chat = () => {
                     </Box>
                   </Container>
                   :
-                  !wallet?.address ?
+                  !wallet?.address || !safeAddress ?
                     <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
                       <Box
                         sx={{
@@ -222,7 +235,7 @@ const Chat = () => {
                     : wallet?.address && !authToken ?
                       <Button onClick={() => setAuth(true)}>Authenticate</Button>
                       :
-                      <ChatWrapper />
+                      <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>
