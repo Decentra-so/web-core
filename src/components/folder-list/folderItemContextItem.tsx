@@ -6,6 +6,7 @@ import EditIcon from '@/public/images/common/edit.svg'
 import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
 import { useAppSelector } from '@/store'
 import { selectAllAddressBooks } from '@/store/addressBookSlice'
+import type { Folder } from '@/types/folder'
 import { getSafeData } from '@/utils/networkRegistry'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { SvgIcon } from '@mui/material'
@@ -13,6 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MenuItem from '@mui/material/MenuItem'
+import { isArray } from 'lodash'
 import type { MouseEvent } from 'react'
 import { useEffect, useState, type ReactElement } from 'react'
 import EntryDialog from '../address-book/EntryDialog'
@@ -25,23 +27,26 @@ enum ModalType {
 const defaultOpen = { [ModalType.RENAME]: false, [ModalType.REMOVE]: false }
 
 const FolderListContextMenu = ({
-  address,
+  safeInfo,
 }: {
-  address: string,
+  safeInfo: Folder
 }): ReactElement => {
   const [folderMenu, setDisplayFolderMenu] = useState<boolean>(false)
-  const safeData = getSafeData(address)
+  const safeData = getSafeData(safeInfo.address)
   const allAddressBooks = useAppSelector(selectAllAddressBooks)
-  const name = allAddressBooks[safeData?.chainId!]?.[address]
+  const name = allAddressBooks[safeData?.chainId!]?.[safeInfo.address]
   const [folders, setFolders] = useState([])
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const [open, setOpen] = useState<typeof defaultOpen>(defaultOpen)
   const [folder, setFolder] = useState<any>()
   const [safes, setSafes] = useState<any>()
+  const includesAddress = safes && Object.values(safes).some((folders: unknown) =>
+    isArray(folders) ? folders.some((safe: Folder) => safe.address === safeInfo.address) : false
+  );
 
   const handleMoveFolder = async (folderName: string) => {
     if (!safes) return
-    if (safes && safes[folderName] && safes[folderName].includes(address)) {
+    if (safes && safes[folderName] && includesAddress) {
       await deleteSafeFromFolder()
     } else {
       await addSafeToFolder(folderName)
@@ -52,6 +57,7 @@ const FolderListContextMenu = ({
     const getFolders = async () => {
       let items
       const folders = localStorage.getItem('folders')
+      console.log({ folders })
       if (folders) items = await JSON.parse(folders)
       if (items) setFolders(items)
     }
@@ -80,19 +86,19 @@ const FolderListContextMenu = ({
   }, [folders])
 
   const addSafeToFolder = async (folderName: string) => {
-    if (!address) return
+    if (!safeInfo.address) return
     const safes = JSON.parse(localStorage.getItem(folderName)!)
     if (safes) {
-      localStorage.setItem(folderName, JSON.stringify([...safes, address]))
+      localStorage.setItem(folderName, JSON.stringify([...safes, safeInfo]))
     } else {
-      localStorage.setItem(folderName, JSON.stringify([address]))
+      localStorage.setItem(folderName, JSON.stringify([safeInfo]))
     }
     window.dispatchEvent(new Event('storage'))
   }
 
   const deleteSafeFromFolder = async () => {
     const safes = JSON.parse(localStorage.getItem(folder)!)
-    const updated = safes.filter((safe: string) => safe !== address)
+    const updated = safes.filter((safe: Folder) => safe.address !== safeInfo.address)
     if (updated) localStorage.setItem(folder, JSON.stringify(updated))
     window.dispatchEvent(new Event('storage'))
   }
@@ -118,7 +124,7 @@ const FolderListContextMenu = ({
   }
 
   const isInFolder = (folderName: 'string') => {
-    return safes && safes[folderName] && safes[folderName].includes(address)
+    return safes && safes[folderName] && includesAddress
   }
 
   return (
@@ -170,14 +176,14 @@ const FolderListContextMenu = ({
         <EntryDialog
           handleClose={handleCloseModal}
           hideChainIndicator={true}
-          defaultValues={{ name, address: address.slice(address.lastIndexOf(':') + 1) }}
+          defaultValues={{ name, address: safeInfo.address.slice(safeInfo.address.lastIndexOf(':') + 1) }}
           chainId={safeData?.chainId?.toString()}
           disableAddressInput
         />
       )}
 
       {open[ModalType.REMOVE] && (
-        <SafeListRemoveDialog handleClose={handleCloseModal} address={address} chainId={`${safeData.chainId}`} />
+        <SafeListRemoveDialog handleClose={handleCloseModal} address={safeInfo.address} chainId={`${safeData.chainId}`} />
       )}
     </>
   )

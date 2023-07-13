@@ -1,5 +1,6 @@
 import ContextMenu from '@/components/common/ContextMenu'
 import AddIcon from '@/public/images/common/add.svg'
+import AddChatIcon from '@/public/images/chat/add-chat-icon.svg'
 import { SvgIcon } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -30,11 +31,11 @@ const ModalListContextMenu: React.FC<{ createSafe: boolean, setCreateSafe: any }
 		<>
 			{addFolder && <AddFolderModal open={addFolder} onClose={() => setAddFolder(!addFolder)} />}
 			<IconButton
-				sx={{ border: '1px solid var(--color-border-light)', borderRadius: '6px', width: '32px', height: '32px' }}
+				sx={{ border: '1px solid var(--color-border-light)', color: 'currentColor', borderRadius: '6px', padding: '7px', width: '32px', height: '32px' }}
 				aria-label="open context menu"
 				onClick={handleOpenContextMenu}
 			>
-				<SvgIcon component={AddIcon} inheritViewBox fontSize="small" color="primary" />
+				<SvgIcon component={AddChatIcon} inheritViewBox fontSize="small" color="inherit" />
 			</IconButton>
 			<ContextMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseContextMenu}>
 				<MenuItem

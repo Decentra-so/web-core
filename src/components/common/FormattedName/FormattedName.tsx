@@ -14,7 +14,7 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 	return <>
 		{address?.startsWith('0x') ? <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography> : <>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>{addressBook[address?.slice(address.lastIndexOf(':') + 1)] || ens}</Typography>
-			<Typography sx={{ fontWeight: weight, fontSize: size }}>{ellipsisAddress(`${address}`)}</Typography>
+	    <Typography sx={{ fontWeight: weight, fontSize: size }}>{ellipsisAddress(`${address?.slice(address.lastIndexOf(':') + 1)}`)}</Typography>
 		</>}
 	</>
 }
