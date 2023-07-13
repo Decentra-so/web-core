@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, List, ListItem } from '@mui/material';
+import { Box, List, ListItem, useMediaQuery } from '@mui/material';
 import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
 import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice';
 import useSafeAddress from '@/hooks/useSafeAddress';
@@ -11,6 +11,9 @@ import ChatMessage from './chatMessage';
 import ChatTextField from './chatTextField';
 import TxListItem from '../transactions/TxListItem';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
+
+export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
+  const matches = useMediaQuery('(min-width:901px)');
 
 // Types
 interface ChatSectionProps {
@@ -171,6 +174,8 @@ export const ChatSection = () => {
               if (chat.type === 'message' && chat?.data?.sender) {
                 return <ChatMessage key={chat.data.id} chat={chat} wallet={wallet} />;
               } else if (chat.type === 'tx') {
+                                  if (matches) {
+                    if (drawerOpen) {
                 return (
                   <ListItem
                     key={chat.data.transaction.id}
@@ -180,10 +185,33 @@ export const ChatSection = () => {
                   >
                     <TxListItem item={chat?.data} />
                   </ListItem>
-                );
+                )
+              } else {
+                      return (
+                                          <ListItem
+                    key={chat.data.transaction.id}
+                    sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
+                    alignItems="flex-start"
+                    disableGutters
+                  >
+                    <TxListItem item={chat?.data} />
+                  </ListItem>
+                        )
+                    }
+                                  } else {
+                    return (
+                                        <ListItem
+                    key={chat.data.transaction.id}
+                    sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
+                    alignItems="flex-start"
+                    disableGutters
+                  >
+                    <TxListItem item={chat?.data} />
+                  </ListItem>
+                      )
+                                  }
               }
-              return null;
-            })}
+                                    })}
             <div ref={bottom} />
             {!chatData.length && <ListItem>No Chat</ListItem>}
           </List>
