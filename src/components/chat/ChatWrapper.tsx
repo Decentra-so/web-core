@@ -26,7 +26,7 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ d
         <>
           {
             safeAddress ? (
-              <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />
+              <ChatSection />
             ) : (
               <Box
                 sx={{
