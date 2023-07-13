@@ -121,22 +121,23 @@ const fetchMoreMessages = async (UID: any, currentMessages: any[]) => {
   const limit = 30; // Number of messages to fetch
   const currentlyDisplayedMessages: any[] = currentMessages; // Replace with the array holding the currently displayed messages
 
-  const messageRequest = new CometChat.MessagesRequestBuilder()
+  const messageRequest = await new CometChat.MessagesRequestBuilder()
     .setGUID(UID) // Replace 'group_guid' with the actual group ID
     .setLimit(limit)
-    .setParentMessageId(currentlyDisplayedMessages[0]?.data?.sentAt) // The ID of the oldest currently displayed message
+    .setMessageId(currentlyDisplayedMessages[0]?.id) // The ID of the oldest currently displayed message
     .build();
-    console.log('in fetch more messages')
-    messageRequest.fetchPrevious().then(
-      (messages) => {
-        const news = [...messages, ...currentlyDisplayedMessages]
-        console.log('new', news)
-      },
-    (error) => {
-      // Handle the error
-      console.log('error', ErrorEvent)
-    }
-  );
+    
+    return new Promise(async (resolve, reject) => {
+      await messageRequest.fetchPrevious().then(
+        (messages) => {
+          resolve([...messages])
+        },
+      (error) => {
+        // Handle the error
+        console.log('error', ErrorEvent)
+      }
+    );
+    })
 }
 
 const sendMessage = async (receiverID: any, messageText: any) => {

@@ -1,136 +1,147 @@
-import useSafeAddress from '@/hooks/useSafeAddress'
-import useTxHistory from '@/hooks/useTxHistory'
-import useTxQueue from '@/hooks/useTxQueue'
-import useWallet from '@/hooks/wallets/useWallet'
-import { useAppSelector } from '@/store'
-import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
-import { Box, List, ListItem, useMediaQuery } from '@mui/material'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { getMessages, listenForMessage } from '../../services/chat'
-import TxListItem from '../transactions/TxListItem'
-import ChatMessage from './chatMessage'
-import ChatTextField from './chatTextField'
+import React, { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, List, ListItem } from '@mui/material';
+import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
+import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice';
+import useSafeAddress from '@/hooks/useSafeAddress';
+import useTxHistory from '@/hooks/useTxHistory';
+import useTxQueue from '@/hooks/useTxQueue';
+import useWallet from '@/hooks/wallets/useWallet';
+import ChatMessage from './chatMessage';
+import ChatTextField from './chatTextField';
+import TxListItem from '../transactions/TxListItem';
+import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
 
-export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
-  const matches = useMediaQuery('(min-width:901px)');
-  //state
-  const dispatch = useDispatch()
-  const group = useAppSelector((state) => selectGroup(state))
-  const user = useAppSelector((state) => selectUserItem(state))
-  //transactions
-  const txHistory = useTxHistory()
-  const txQueue = useTxQueue()
-  const wallet = useWallet()
-  //chat
-  const [messages, setMessages] = useState([''])
-  const [chatData, setChatData] = useState<any[]>([''])
-  const safeAddress = useSafeAddress()
-  const bottom = useRef<HTMLDivElement>(null)
+// Types
+interface ChatSectionProps {
+  drawerWidth: number;
+  drawerOpen: boolean;
+}
 
+interface IDataItem {
+  data: any;
+  timestamp: number;
+  type: string;
+}
 
-  const handleScroll = async() => {
-    if (!messages) return
-    console.log('made it in scroller')
-    const chatWindow = document.getElementById('chat-window'); // Replace 'chat-window' with the actual ID of your chat window/container
-    if (chatWindow?.scrollTop === 0) {
-      // User has scrolled to the top, fetch more messages
-      //fetchMoreMessages(`pid_${safeAddress!}`, messages).then((msgs) => msgs?.length && setMessages(msgs))
-    }
+interface IMessage {
+  id: string;
+  sentAt: string;
+  sender?: any;
+}
+
+interface ITransaction {
+  transaction: {
+    id: string;
+    timestamp: number;
+  };
+  type: string;
+}
+
+//load more stuff
+const fetchMore = async (id: string, messages: any[], dispatch: any, setMessages: any, setMoreMessages: any) => {
+  try {
+    const msgs: IMessage[] | any = await fetchMoreMessages(`pid_${id}`, messages);
+    console.log(msgs, 'msgs')
+    dispatch(setChat({ safeAddress: id, messages: msgs }));
+    if (msgs.length < 30) setMoreMessages(false);
+    setMessages([...msgs, ...messages])
+  } catch (e) {
+    console.log(e, 'cant fetch more messages');
   }
+}
 
-  window?.addEventListener('scroll', handleScroll);
-
-
-  const scrollToBottom = useCallback(() => {
-    if (!bottom.current) return
-    const { current: bottomOfChat } = bottom
-    bottomOfChat.scrollIntoView({ behavior: 'smooth' })
-  }, [])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [chatData, messages])
-
-  const handleSetMessages = (msgs: any) => {
-    setMessages(msgs)
-    scrollToBottom()
+// extracted out of the component
+const fetchMessages = async (id: string, setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>, dispatch: any) => {
+  try {
+    const msgs: IMessage[] | any = await getMessages(`pid_${id}`);
+    dispatch(setChat({ safeAddress: id, messages: msgs }));
+    setMessages(msgs);
+  } catch (error) {
+    setMessages([]);
   }
-  useEffect(() => {
-    async function getM() {
-      await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
-          dispatch(setChat({ safeAddress, messages: msgs }))
-          setMessages(msgs)
-        })
-        .catch((error) => {
-          setMessages([])
-        })
+};
 
-      await listenForMessage(`pid_${safeAddress!}`)
-        .then((msg: any) => {
-          setMessages((prevState: any) => [...prevState, msg])
-        })
-        .catch((error) => console.log(error))
-    }
-    getM()
-  }, [safeAddress, user, group])
+const listenToMessages = async (id: string, setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>) => {
+  try {
+    const msg: IMessage | any = await listenForMessage(`pid_${id}`);
+    setMessages((prevState: IMessage[]) => [...prevState, msg]);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-
-  const getChat = useCallback(() => {
-    let allData: any[] = []
-    const historyItems = txHistory.page?.results
-    const queueItems = txQueue?.page?.results
-    historyItems?.forEach((tx: any) => {
-      if (tx.type === 'DATE_LABEL') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-    queueItems?.forEach((tx: any) => {
-      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-    if (!messages?.length) {
-      setChatData(allData)
-      return
-    }
-    messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    })
-    allData.sort(function (a, b) {
-      if (a['timestamp'] > b['timestamp']) {
-        return 1
-      } else if (a['timestamp'] < b['timestamp']) {
-        return -1
-      } else {
-        return 0
-      }
-    })
-    setChatData(allData)
-  }, [messages?.length, txHistory?.page, txQueue?.page, safeAddress])
+export const ChatSection: React.FC<ChatSectionProps> = ({ drawerWidth, drawerOpen }): ReactElement => {
+  // state
+  const dispatch = useDispatch();
+  const group = useSelector(selectGroup);
+  const user = useSelector(selectUserItem);
+  // transactions
+  const txHistory = useTxHistory();
+  const txQueue = useTxQueue();
+  const wallet = useWallet();
+  // chat
+  const [messages, setMessages] = useState<any[]>([]);
+  const [chatData, setChatData] = useState<IDataItem[]>([]);
+  const safeAddress = useSafeAddress();
+  const bottom = useRef<HTMLDivElement>(null);
+  const [moreMessages, setMoreMessages] = useState(true);
 
   useEffect(() => {
-    getChat()
-  }, [messages?.length, txHistory?.page, txQueue?.page, safeAddress])
+    const { current } = bottom;
+    current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatData, messages]);
+
+  useEffect(() => {
+    if (safeAddress) {
+      fetchMessages(`pid_${safeAddress}`, setMessages, dispatch);
+      listenToMessages(`pid_${safeAddress}`, setMessages);
+    }
+  }, [safeAddress, user, group]);
+
+  useEffect(() => {
+    console.log('in here now', messages)
+    const allData: IDataItem[] = [];
+    const historyItems: TransactionListItem[] = txHistory?.page?.results || [];
+    const queueItems: TransactionListItem[] = txQueue?.page?.results || [];
+
+    historyItems.forEach((tx: any) => {
+      if (tx.type !== 'DATE_LABEL') {
+        allData.push({
+          data: tx,
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
+        });
+      }
+    });
+
+    queueItems.forEach((tx: any) => {
+      if (tx.type !== 'LABEL' && tx.type !== 'CONFLICT_HEADER') {
+        allData.push({
+          data: tx,
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
+        });
+      }
+    });
+
+    if (messages?.length) {
+      messages.forEach((message: IMessage) => {
+        allData.push({
+          data: message,
+          timestamp: +message.sentAt * 1000,
+          type: 'message',
+        });
+      });
+    }
+    console.log(allData, 'allData')
+    allData.sort((a, b) => a.timestamp - b.timestamp);
+    setChatData(allData);
+  }, [messages, txHistory?.page, txQueue?.page, safeAddress]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: '100%', overflowY: 'auto' }}  id='chat-window' >
+      <Box sx={{ height: '100%', overflowY: 'auto' }} id="chat-window">
         <Box
           sx={{
             flex: '1 0 auto',
@@ -145,53 +156,36 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           }}
         >
           <List>
-            {chatData &&
-              chatData.map((chat, index) => {
-                if (chat.type === 'message' && chat?.data?.sender) {
-                  return (
-                    <ChatMessage key={index} chat={chat} wallet={wallet} />
-                  )
-                } else if (chat?.type) {
-                  if (matches) {
-                    if (drawerOpen) {
-                      return (
-                        <ListItem
-                          key={index}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <TxListItem key={`${index}-tx`} item={chat?.data} />
-                        </ListItem>
-                      )
-                    } else {
-                      return (
-                        <ListItem
-                          key={index}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <TxListItem key={`${index}-tx`} item={chat?.data} />
-                        </ListItem>
-                      )
-                    }
-                  } else {
-                    return (
-                      <ListItem
-                        key={index}
-                        sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
-                        alignItems="flex-start"
-                        disableGutters
-                      >
-                        <TxListItem key={`${index}-tx`} item={chat?.data} />
-                      </ListItem>
-                    )
-                  }
-                }
-              })}
-            <Box ref={bottom} sx={{ height: 0 }} />
-            {!chatData ? <ListItem>No Chat</ListItem> : ''}
+            {/* @todo: pls make this look/feel better */}
+            {moreMessages ? (
+            <button onClick={
+              () => fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages)
+            }>
+              click to load more
+            </button>
+            ) : (
+              <div>Beginning of conversation.</div>
+            )
+          }
+            {chatData.map((chat: IDataItem) => {
+              if (chat.type === 'message' && chat?.data?.sender) {
+                return <ChatMessage key={chat.data.id} chat={chat} wallet={wallet} />;
+              } else if (chat.type === 'tx') {
+                return (
+                  <ListItem
+                    key={chat.data.transaction.id}
+                    sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
+                    alignItems="flex-start"
+                    disableGutters
+                  >
+                    <TxListItem item={chat?.data} />
+                  </ListItem>
+                );
+              }
+              return null;
+            })}
+            <div ref={bottom} />
+            {!chatData.length && <ListItem>No Chat</ListItem>}
           </List>
         </Box>
       </Box>
@@ -201,13 +195,11 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           position: 'sticky',
           bottom: 0,
           p: '0px 24px 12px 24px',
-          background: 'var(--color-background-lightcolor)'
+          background: 'var(--color-background-lightcolor)',
         }}
       >
-        {user && group &&
-          <ChatTextField currentUser={user} messages={messages} setMessages={handleSetMessages} />
-        }
+        {user && group && <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} />}
       </Box>
     </Box>
-  )
-}
+  );
+};
