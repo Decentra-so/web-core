@@ -94,3 +94,11 @@ export const formatError = (error: Error & { reason?: string }): string => {
   if (!reason.endsWith('.')) reason += '.'
   return ` ${capitalize(reason)}`
 }
+
+export const formatAddress = (address: string): string => {
+  return address?.startsWith('0x') ? address as `0x${string}` : address?.slice(address.lastIndexOf(':') + 1) as `0x${string}`
+}
+
+export const reverseAddressFormatter = (address: string): string => {
+  return !address?.startsWith('0x') ? address?.slice(address.lastIndexOf(':') + 1) : address
+}
