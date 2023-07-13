@@ -41,11 +41,7 @@ const walletConnectV2 = (chain: ChainInfo): WalletInit => {
   })
 }
 
-type MagicInitOptions = {
-  apiKey: string
-  userEmail?: string // optional - if user has already logged in and/or session is still active a login modal will not appear
-}
-
+//magic login
 const magic = magicModule({
   apiKey: process.env.NEXT_PUBLIC_MAGIC_API || ''
 })
