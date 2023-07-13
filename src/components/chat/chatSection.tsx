@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, type ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, List, ListItem, useMediaQuery } from '@mui/material';
 import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
@@ -11,15 +11,6 @@ import ChatMessage from './chatMessage';
 import ChatTextField from './chatTextField';
 import TxListItem from '../transactions/TxListItem';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
-
-export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
-  const matches = useMediaQuery('(min-width:901px)');
-
-// Types
-interface ChatSectionProps {
-  drawerWidth: number;
-  drawerOpen: boolean;
-}
 
 interface IDataItem {
   data: any;
@@ -74,7 +65,8 @@ const listenToMessages = async (id: string, setMessages: React.Dispatch<React.Se
   }
 };
 
-export const ChatSection = () => {
+export const ChatSection: React.FC<ChatSectionProps> = ({ drawerWidth, drawerOpen }): ReactElement => {
+  const matches = useMediaQuery('(min-width:901px)');
   // state
   const dispatch = useDispatch();
   const group = useSelector(selectGroup);
