@@ -91,6 +91,33 @@
   --color-shadow-paper: rgba(0, 0, 0, 0.08) 0px 0.75rem 1.5rem;
   --color-background-mediumcolor: #e8e8e8;
 
+  /* *if not set will fallback to variables with `--onboard` prefix shown above */
+  /* CUSTOMIZE THE COLOR  PALLETTE */
+  --login-modal-white: white;
+  --login-modal-black: black;
+  --login-modal-primary-300: #b1b8f2;
+  --login-modal-primary-500: #6370e5;
+  --login-modal-gray-200: #c2c4c9;
+  --login-modal-gray-500: #33394b;
+  --login-modal-danger-500: #ff4f4f;
+
+  /* FONTS */
+  --login-modal-font-family-normal: Inter, sans-serif;
+  --login-modal-font-size-5: 1rem;
+  --login-modal-font-line-height-1: 24px;
+
+  /* SPACING */
+  --login-modal-margin-4: 1rem;
+  --login-modal-margin-5: 0.5rem;
+
+  /* MAGIC WALLET MODAL POSITIONING */
+
+  --onboard-login-modal-z-index: 100000;
+  --onboard-login-modal-top: 20;
+  --onboard-login-modal-bottom: 20;
+  --onboard-login-modal-right: 20;
+  --onboard-login-modal-left: 20;
+
 }
 
 [data-theme='dark'] {
