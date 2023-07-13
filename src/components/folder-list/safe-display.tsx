@@ -46,6 +46,7 @@ const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index })
 	const handleClick = (safe: string) => {
 		dispatch(setSelectedSafe({ selectedSafe: safe }))
 	}
+	console.log(safe)
 	return (
 		<CustomListItem selected={matchSafe(safe.address)} onMouseOver={(e) => handleMouseEnter(safe.address)} onMouseLeave={handleMouseLeave}>
 			<Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe.address}` } }} key={`${safe.address}-${index}`} passHref>

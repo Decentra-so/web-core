@@ -14,3 +14,7 @@ export const getSafeData = (safe: string) => {
     chainPrefix: data[0]
   }
 }
+
+export const getChainId = (chainPrefix: string) => {
+  return networkMap.get(chainPrefix)
+}
