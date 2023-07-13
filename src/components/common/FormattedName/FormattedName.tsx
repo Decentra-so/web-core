@@ -20,7 +20,7 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 	if (!address) return null
 
 	//get name from address book based on chainId or if no chainId from chain's default address book
-	const name = chainId !== 0 ?
+	const name = chainId !== 0 && allAddressBooks[chainId] ?
 		allAddressBooks[chainId][!address?.startsWith('0x') ? address?.slice(address.lastIndexOf(':') + 1) : address] || ens || ellipsisAddress(`${address}`)
 		: addressBook[!address?.startsWith('0x') ? address?.slice(address.lastIndexOf(':') + 1) : address] || ens || ellipsisAddress(`${address}`)
 
@@ -28,7 +28,7 @@ return <>
 		{address?.startsWith('0x') ? <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography> : <>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>
 				{
-					chainId !== 0 ? allAddressBooks[chainId][!address?.startsWith('0x') ? address?.slice(address.lastIndexOf(':') + 1) : address] || ens || ellipsisAddress(`${address}`)
+					chainId !== 0 && allAddressBooks[chainId] ? allAddressBooks[chainId][!address?.startsWith('0x') ? address?.slice(address.lastIndexOf(':') + 1) : address] || ens || ellipsisAddress(`${address}`)
 					:
 					addressBook[address?.slice(address.lastIndexOf(':') + 1)] || ens
 				}
