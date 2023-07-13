@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, type ReactElement } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, List, ListItem } from '@mui/material';
 import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
@@ -71,7 +71,7 @@ const listenToMessages = async (id: string, setMessages: React.Dispatch<React.Se
   }
 };
 
-export const ChatSection: React.FC<ChatSectionProps> = ({ drawerWidth, drawerOpen }): ReactElement => {
+export const ChatSection = () => {
   // state
   const dispatch = useDispatch();
   const group = useSelector(selectGroup);
