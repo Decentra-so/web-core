@@ -12,12 +12,6 @@ import ChatTextField from './chatTextField';
 import TxListItem from '../transactions/TxListItem';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
 
-// Types
-interface ChatSectionProps {
-  drawerWidth: number;
-  drawerOpen: boolean;
-}
-
 interface IDataItem {
   data: any;
   timestamp: number;
@@ -28,14 +22,6 @@ interface IMessage {
   id: string;
   sentAt: string;
   sender?: any;
-}
-
-interface ITransaction {
-  transaction: {
-    id: string;
-    timestamp: number;
-  };
-  type: string;
 }
 
 //load more stuff

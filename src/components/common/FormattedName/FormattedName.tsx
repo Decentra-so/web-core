@@ -29,12 +29,12 @@ return <>
 		{address?.startsWith('0x') ? <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography> : <>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>
 				{
-					chainId !== 0 && allAddressBooks[chainId] ? allAddressBooks[chainId][reverseAddressFormatter(address) as `0x${string}`] || ens || ellipsisAddress(`${address}`)
+					chainId !== 0 && allAddressBooks[chainId] ? allAddressBooks[chainId][reverseAddressFormatter(address) as `0x${string}`] || ens || ''
 					:
 					addressBook[address?.slice(address.lastIndexOf(':') + 1)] || ens
 				}
 			</Typography>
-			<Typography sx={{ fontWeight: weight, fontSize: size }}>{ellipsisAddress(`${address}`)}</Typography>
+			<Typography sx={{ fontWeight: weight, fontSize: size }}>{ellipsisAddress(`${formatAddress(address)}`)}</Typography>
 		</>}
 	</>
 }
