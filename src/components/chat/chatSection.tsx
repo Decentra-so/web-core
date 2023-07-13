@@ -65,7 +65,7 @@ const listenToMessages = async (id: string, setMessages: React.Dispatch<React.Se
   }
 };
 
-export const ChatSection: React.FC<ChatSectionProps> = ({ drawerWidth, drawerOpen }): ReactElement => {
+export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
   // state
   const dispatch = useDispatch();
