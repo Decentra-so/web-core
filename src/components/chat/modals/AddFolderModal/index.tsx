@@ -1,7 +1,7 @@
 import ModalDialog from '@/components/common/ModalDialog'
 import DeleteIcon from '@/public/images/common/delete.svg'
 import { Box, Button, DialogContent, IconButton, List, ListItem, ListItemText, SvgIcon, TextField, Tooltip, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 export const AddFolderModal: React.FC<{
   open: boolean
