@@ -20,7 +20,8 @@ const Login = () => {
       initCometChat()
       handleSignup().then(handleLogin).catch(handleLogin)
       handleCreateGroup().then(handleJoin).catch(handleGetGroup)
-      handleGetGroup()
+      handleGetGroup().then(handleJoin)
+      handleJoin()
     }
     init()
   }, [user])
