@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux"
 import BadgeAvatar from "../badge-avatar"
 import FormattedName from "../common/FormattedName/FormattedName"
 import FolderListContextMenu from "./folderItemContextItem"
-import { selectAllAddressBooks } from "@/store/addressBookSlice"
 
 const CustomListItem = styled(ListItem)(({ theme }) => ({
 	height: '70px',
@@ -29,8 +28,7 @@ const CustomListItem = styled(ListItem)(({ theme }) => ({
 
 const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index }) => {
 	const dispatch = useDispatch()
-	const allAddressBooks = useAppSelector(selectAllAddressBooks)
-	console.log('allAddressBooks', allAddressBooks)
+
 	const { safeAddress, } = useSafeInfo()
 	const matches = useMediaQuery('(max-width: 600px)')
 	const [activeSafe, setActiveSafe] = useState<string>();

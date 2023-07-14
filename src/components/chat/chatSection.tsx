@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, List, ListItem, useMediaQuery } from '@mui/material';
+import { Box, List, ListItem, useMediaQuery, Button } from '@mui/material';
 import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
 import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice';
 import useSafeAddress from '@/hooks/useSafeAddress';
@@ -87,7 +87,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   }, [safeAddress, user, group]);
 
   useEffect(() => {
-    console.log('in here now', messages)
     const allData: IDataItem[] = [];
     const historyItems: TransactionListItem[] = txHistory?.page?.results || [];
     const queueItems: TransactionListItem[] = txQueue?.page?.results || [];
@@ -121,7 +120,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         });
       });
     }
-    console.log(allData, 'allData')
     allData.sort((a, b) => a.timestamp - b.timestamp);
     setChatData(allData);
   }, [messages, txHistory?.page, txQueue?.page, safeAddress]);
@@ -145,11 +143,11 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           <List>
             {/* @todo: pls make this look/feel better */}
             {moreMessages ? (
-            <button onClick={
+            <Button onClick={
               () => fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages)
             }>
               click to load more
-            </button>
+            </Button>
             ) : (
               <div>Beginning of conversation.</div>
             )

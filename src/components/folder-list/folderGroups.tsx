@@ -2,12 +2,10 @@ import List from '@mui/material/List'
 import { useEffect, useState } from 'react'
 import SafeDisplay from './safe-display'
 import { type Folder } from '@/types/folder'
-import { getChainId } from '@/utils/networkRegistry'
 
 const FolderGroup: React.FC<{
   group: any,
-  currentSafe: string
-}> = ({ group, currentSafe }) => {
+}> = ({ group }) => {
   const [safes, setSafes] = useState<Folder[]>([])
 
   window?.addEventListener('storage', () => {
@@ -20,13 +18,11 @@ const FolderGroup: React.FC<{
   useEffect(() => {
     const activeFolders = async () => {
       const items = JSON.parse(localStorage.getItem(group)!)
-      // const myArray = items.split(",");
       if (items) {
         let foldersWithChain: Folder[] = []
         items.forEach((item: any) => {
-          let folder = item.split(':')
-          console.log(folder, 'folder')
-          foldersWithChain.push({address: item, chainId: getChainId(folder[0]) || 0})
+          let folder = item.address.split(':')
+          foldersWithChain.push({address: item.address, chainId: item.chainId})
         })
         setSafes(foldersWithChain)
       }

@@ -57,7 +57,6 @@ const FolderListContextMenu = ({
     const getFolders = async () => {
       let items
       const folders = localStorage.getItem('folders')
-      console.log({ folders })
       if (folders) items = await JSON.parse(folders)
       if (items) setFolders(items)
     }
