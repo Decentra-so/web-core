@@ -5,7 +5,7 @@ import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
@@ -48,7 +48,7 @@ export const ChatOverview: React.FC<{
       toggleAppsOpen(false)
     }
   }, [router.asPath])
-  
+
   return (
     <>
       {tokenTransfer && (
