@@ -11,7 +11,6 @@ import ChatMessage from './chatMessage';
 import ChatTextField from './chatTextField';
 import TxListItem from '../transactions/TxListItem';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
-import { getTransactionHistory } from '@safe-global/safe-gateway-typescript-sdk'
 
 interface IDataItem {
   data: any;
@@ -39,14 +38,10 @@ const fetchMore = async (
     const msgs: IMessage[] | any = await fetchMoreMessages(`pid_${id}`, messages);
     console.log(msgs, 'msgs')
     dispatch(setChat({ safeAddress: id, messages: msgs }));
-    if (msgs.length < 20) {
-      setMoreMessages(false)
-      setDisplayAmount(1000)
-    }
+    if (msgs.length < 20) setMoreMessages(false);
     setMessages([...msgs, ...messages])
     setDisplayAmount(displayAmount + 20);
   } catch (e) {
-    setDisplayAmount(1000)
     console.log(e, 'cant fetch more messages');
   }
 }
@@ -81,7 +76,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const dispatch = useDispatch();
   const group = useSelector(selectGroup);
   const user = useSelector(selectUserItem);
-  const [next, setNext] = useState('')
   // transactions
   const txHistory = useTxHistory();
   const txQueue = useTxQueue();
@@ -93,45 +87,8 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const bottom = useRef<HTMLDivElement>(null);
   const [moreMessages, setMoreMessages] = useState(true);
   const [displayAmount, setDisplayAmount] = useState(20);
+  const historyItems: TransactionListItem[] = txHistory?.page?.results || [];
   const queueItems: TransactionListItem[] = txQueue?.page?.results || [];
-  const [historyData, setHistoryData] = useState<TransactionListItem[]>([]);
- 
-  const checkIfEnd = () => {
-    if (chatData && chatData[0]) {
-      return chatData[0]?.data?.transaction?.txInfo?.type == "Creation"
-    } else {
-      return false
-    }
-  }
-  const displayedChat = checkIfEnd() ? chatData : chatData.slice(-displayAmount);
-  useEffect(() => {
-    if (checkIfEnd()) { return }
-    if (txHistory?.page?.results && historyData.length === 0) {
-      setHistoryData(txHistory?.page?.results)
-      setNext(txHistory?.page?.next || '')
-    }
-    if (next && historyData.length > 0) {
-      const getNext = async () => {
-        return await getTransactionHistory('137', safeAddress, next)
-      }
-      getNext().then((res) => {
-        const uniqueHistory: any[] = []
-        setNext(res?.next || '')
-        const arr = [...historyData, ...res?.results]
-        arr.forEach((item) => {
-          if (
-            !uniqueHistory.some(
-              (y) => JSON.stringify(y) === JSON.stringify(item),
-            )
-          ) {
-            uniqueHistory.push(item);
-          }
-        })
-        setHistoryData(uniqueHistory)
-      })
-    }
-   
-  }, [messages])
 
   useEffect(() => {
     if (displayAmount > 20) return 
@@ -150,7 +107,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     const allData: IDataItem[] = [];
 
     if (!messages?.length) return;
-    historyData?.forEach((tx: any) => {
+    historyItems?.forEach((tx: any) => {
       if (tx.type !== 'DATE_LABEL') {
         allData.push({
           data: tx,
@@ -181,7 +138,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     }
     allData.sort((a, b) => a.timestamp - b.timestamp);
     setChatData(allData);
-  }, [messages.length, safeAddress, historyData]);
+  }, [messages.length, safeAddress]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -201,11 +158,9 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         >
           <List>
             {/* @todo: pls make this look/feel better */}
-            { moreMessages || !checkIfEnd() ? (
+            {moreMessages ? (
             <Button onClick={
-              () => {
-                fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages, setDisplayAmount, displayAmount)
-              }
+              () => fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages, setDisplayAmount, displayAmount)
             }>
               click to load more
             </Button>
@@ -213,7 +168,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
               <div>Beginning of conversation.</div>
             )
           }
-            {displayedChat.map((chat: IDataItem) => {
+            {chatData.slice(-displayAmount).map((chat: IDataItem) => {
               if (chat.type === 'message' && chat?.data?.sender) {
                 return <ChatMessage key={chat.data.id} chat={chat} wallet={wallet} />;
               } else if (chat.type === 'tx') {
