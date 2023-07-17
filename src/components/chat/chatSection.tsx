@@ -105,7 +105,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   }
   const displayedChat = checkIfEnd() ? chatData : chatData.slice(-displayAmount);
   useEffect(() => {
-    if (moreMessages)
     if (checkIfEnd()) { return }
     if (txHistory?.page?.results && historyData.length === 0) {
       setHistoryData(txHistory?.page?.results)
@@ -116,8 +115,19 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         return await getTransactionHistory('137', safeAddress, next)
       }
       getNext().then((res) => {
+        const uniqueHistory: any[] = []
         setNext(res?.next || '')
-        setHistoryData((prevState) => [...prevState, ...res?.results])
+        const arr = [...historyData, ...res?.results]
+        arr.forEach((item) => {
+          if (
+            !uniqueHistory.some(
+              (y) => JSON.stringify(y) === JSON.stringify(item),
+            )
+          ) {
+            uniqueHistory.push(item);
+          }
+        })
+        setHistoryData(uniqueHistory)
       })
     }
    
