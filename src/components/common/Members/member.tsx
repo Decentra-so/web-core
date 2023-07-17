@@ -3,7 +3,7 @@ import { useCurrentChain } from "@/hooks/useChains"
 import CopyIcon from '@/public/images/common/copy.svg'
 import LinkIcon from '@/public/images/common/link.svg'
 import { getBlockExplorerLink } from "@/utils/chains"
-import { IconButton, ListItem, ListItemAvatar, ListItemText, SvgIcon, Tooltip } from "@mui/material"
+import { IconButton, ListItem, ListItemAvatar, ListItemText, SvgIcon, Tooltip, useMediaQuery } from "@mui/material"
 import { useState } from 'react'
 import FormattedName from "../FormattedName/FormattedName"
 import Identicon from "../Identicon"
@@ -12,6 +12,7 @@ import css from './styles.module.css'
 
 const Member: React.FC<{ member: any }> = ({ member }) => {
 	const chain = useCurrentChain()
+	const matches = useMediaQuery('(max-width: 600px)')
 	const blockExplorerLink = chain ? getBlockExplorerLink(chain, member.value) : undefined
 	const [activeMember, setActiveMember] = useState<string>()
 
@@ -41,7 +42,7 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 						<SvgIcon component={LinkIcon} inheritViewBox fontSize="small" />
 					</IconButton>
 				</Tooltip>
-				{activeMember === member.value && <MemberContextMenu member={member} />}
+				{(activeMember === member.value) || matches && <MemberContextMenu member={member} />}
 			</div>
 		</ListItem>
 	)
