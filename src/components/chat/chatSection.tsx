@@ -201,7 +201,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         >
           <List>
             {/* @todo: pls make this look/feel better */}
-            { !checkIfEnd() ? (
+            { moreMessages || !checkIfEnd() ? (
             <Button onClick={
               () => {
                 fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages, setDisplayAmount, displayAmount)
