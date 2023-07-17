@@ -106,7 +106,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   useEffect(() => {
     const allData: IDataItem[] = [];
 
-    if (!messages?.length) return;
     historyItems?.forEach((tx: any) => {
       if (tx.type !== 'DATE_LABEL') {
         allData.push({
