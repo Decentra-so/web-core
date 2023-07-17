@@ -42,7 +42,7 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 						<SvgIcon component={LinkIcon} inheritViewBox fontSize="small" />
 					</IconButton>
 				</Tooltip>
-				{(activeMember === member.value) || matches && <MemberContextMenu member={member} />}
+				{((activeMember === member.value) || matches) && <MemberContextMenu member={member} />}
 			</div>
 		</ListItem>
 	)
