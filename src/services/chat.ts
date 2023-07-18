@@ -106,7 +106,7 @@ const joinGroup = async (GUID: any) => {
 }
 
 const getMessages = async (UID: any) => {
-  const limit = 3000
+  const limit = 1000
   const messagesRequest = new CometChat.MessagesRequestBuilder().setGUID(UID).setLimit(limit).build()
 
   return new Promise(async (resolve, reject) => {
