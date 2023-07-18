@@ -44,7 +44,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
 
   const getLast5Items = (arr: any) => {
     if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
+      return arr.length > 1000 ? arr.slice(Math.max(arr.length - 1000, 0)) : arr
     }
     return arr
   }
