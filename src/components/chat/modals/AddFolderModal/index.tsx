@@ -32,11 +32,11 @@ export const AddFolderModal: React.FC<{
               sx={{ flex: 1 }}
               size="small"
               variant="outlined"
-              placeholder={'input folder name to add it or delete it'}
+              placeholder={'Input new folder name...'}
               value={folderName}
               onChange={(e) => setFolderName(e.target.value)}
             />
-            <Button size="small" variant="contained" onClick={createFolder}>
+            <Button variant="contained" onClick={createFolder}>
               Create Folder
             </Button>
           </Box>
