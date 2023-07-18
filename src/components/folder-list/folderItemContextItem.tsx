@@ -14,7 +14,6 @@ import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MenuItem from '@mui/material/MenuItem'
-import { isArray } from 'lodash'
 import type { MouseEvent } from 'react'
 import { useEffect, useState, type ReactElement } from 'react'
 import EntryDialog from '../address-book/EntryDialog'
@@ -35,18 +34,24 @@ const FolderListContextMenu = ({
   const safeData = getSafeData(safeInfo.address)
   const allAddressBooks = useAppSelector(selectAllAddressBooks)
   const name = allAddressBooks[safeData?.chainId!]?.[safeInfo.address]
-  const [folders, setFolders] = useState([])
+  const [folders, setFolders] = useState<string[]>([])
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const [open, setOpen] = useState<typeof defaultOpen>(defaultOpen)
-  const [folder, setFolder] = useState<any>()
-  const [safes, setSafes] = useState<any>()
-  const includesAddress = safes && Object.values(safes).some((folders: unknown) =>
-    isArray(folders) ? folders.some((safe: Folder) => safe.address === safeInfo.address) : false
-  );
+  const [folder, setFolder] = useState<string>()
+  const [safes, setSafes] = useState<Map<string, Folder[]>>()
+  const includesAddress = (folderName: string) => {
+    if (safes && safes.size > 0) {
+      const targetSafe = safes.get(folderName)?.find(s => s.address === safeInfo.address)
+      if (targetSafe) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   const handleMoveFolder = async (folderName: string) => {
     if (!safes) return
-    if (safes && safes[folderName] && includesAddress) {
+    if (safes && safes.size > 0 && safes.get(folderName) && includesAddress(folderName)) {
       await deleteSafeFromFolder()
     } else {
       await addSafeToFolder(folderName)
@@ -57,7 +62,6 @@ const FolderListContextMenu = ({
     const getFolders = async () => {
       let items
       const folders = localStorage.getItem('folders')
-      console.log({ folders })
       if (folders) items = await JSON.parse(folders)
       if (items) setFolders(items)
     }
@@ -69,12 +73,12 @@ const FolderListContextMenu = ({
   }, [])
 
   useEffect(() => {
-    const folderMap: any = {}
+    const folderMap: Map<string, Folder[]> = new Map()
     if (!folders) return
     const getSafesFromStorage = () => {
       folders.forEach(async (folderName) => {
         const items = JSON.parse(localStorage.getItem(folderName)!)
-        if (items) folderMap[folderName] = items
+        if (items) folderMap.set(folderName, items)
       })
     }
     getSafesFromStorage()
@@ -97,9 +101,9 @@ const FolderListContextMenu = ({
   }
 
   const deleteSafeFromFolder = async () => {
-    const safes = JSON.parse(localStorage.getItem(folder)!)
+    const safes = JSON.parse(localStorage.getItem(folder!)!)
     const updated = safes.filter((safe: Folder) => safe.address !== safeInfo.address)
-    if (updated) localStorage.setItem(folder, JSON.stringify(updated))
+    if (updated) localStorage.setItem(folder!, JSON.stringify(updated))
     window.dispatchEvent(new Event('storage'))
   }
 
@@ -123,8 +127,8 @@ const FolderListContextMenu = ({
     setOpen(defaultOpen)
   }
 
-  const isInFolder = (folderName: 'string') => {
-    return safes && safes[folderName] && includesAddress
+  const isInFolder = (folderName: string) => {
+    return safes && safes.size > 0 && safes.get(folderName) && includesAddress(folderName)
   }
 
   return (
