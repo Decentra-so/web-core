@@ -26,6 +26,7 @@ const SafeApps: NextPage = () => {
 
   const { addPermissions, getPermissions, getAllowedFeaturesList } = useBrowserPermissions()
   const origin = getOrigin(appUrl)
+
   const {
     isModalVisible,
     isSafeAppInDefaultList,

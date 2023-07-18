@@ -1,21 +1,22 @@
+import ContextMenu from '@/components/common/ContextMenu'
+import SafeListRemoveDialog from '@/components/sidebar/SafeListRemoveDialog'
+import AddIcon from '@/public/images/common/add.svg'
+import CheckIcon from '@/public/images/common/circle-check.svg'
+import EditIcon from '@/public/images/common/edit.svg'
+import { OVERVIEW_EVENTS, trackEvent } from '@/services/analytics'
 import { useAppSelector } from '@/store'
 import { selectAllAddressBooks } from '@/store/addressBookSlice'
+import type { Folder } from '@/types/folder'
 import { getSafeData } from '@/utils/networkRegistry'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { SvgIcon } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MenuItem from '@mui/material/MenuItem'
 import type { MouseEvent } from 'react'
 import { useEffect, useState, type ReactElement } from 'react'
-//import EntryDialog from '@/components/address-book/EntryDialog'
-import SafeListRemoveDialog from '@/components/sidebar/SafeListRemoveDialog'
-//import EditIcon from '@/public/images/common/edit.svg'
-import ContextMenu from '@/components/common/ContextMenu'
-import AddIcon from '@/public/images/common/add.svg'
-import CheckIcon from '@/public/images/common/circle-check.svg'
-//import { trackEvent, OVERVIEW_EVENTS } from '@/services/analytics'
-import { SvgIcon } from '@mui/material'
+import EntryDialog from '../address-book/EntryDialog'
 
 enum ModalType {
   RENAME = 'rename',
@@ -25,23 +26,32 @@ enum ModalType {
 const defaultOpen = { [ModalType.RENAME]: false, [ModalType.REMOVE]: false }
 
 const FolderListContextMenu = ({
-  address,
+  safeInfo,
 }: {
-  address: string
+  safeInfo: Folder
 }): ReactElement => {
   const [folderMenu, setDisplayFolderMenu] = useState<boolean>(false)
+  const safeData = getSafeData(safeInfo.address)
   const allAddressBooks = useAppSelector(selectAllAddressBooks)
-  const safeData = getSafeData(address)
-  /* const name = safeData?.chainId && allAddressBooks[safeData.chainId][safeData.address] || '' */
-  const [folders, setFolders] = useState([])
+  const name = allAddressBooks[safeData?.chainId!]?.[safeInfo.address]
+  const [folders, setFolders] = useState<string[]>([])
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const [open, setOpen] = useState<typeof defaultOpen>(defaultOpen)
-  const [folder, setFolder] = useState<any>()
-  const [safes, setSafes] = useState<any>()
+  const [folder, setFolder] = useState<string>()
+  const [safes, setSafes] = useState<Map<string, Folder[]>>()
+  const includesAddress = (folderName: string) => {
+    if (safes && safes.size > 0) {
+      const targetSafe = safes.get(folderName)?.find(s => s.address === safeInfo.address)
+      if (targetSafe) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   const handleMoveFolder = async (folderName: string) => {
     if (!safes) return
-    if (safes && safes[folderName] && safes[folderName].includes(address)) {
+    if (safes && safes.size > 0 && safes.get(folderName) && includesAddress(folderName)) {
       await deleteSafeFromFolder()
     } else {
       await addSafeToFolder(folderName)
@@ -63,12 +73,12 @@ const FolderListContextMenu = ({
   }, [])
 
   useEffect(() => {
-    const folderMap: any = {}
+    const folderMap: Map<string, Folder[]> = new Map()
     if (!folders) return
     const getSafesFromStorage = () => {
       folders.forEach(async (folderName) => {
         const items = JSON.parse(localStorage.getItem(folderName)!)
-        if (items) folderMap[folderName] = items
+        if (items) folderMap.set(folderName, items)
       })
     }
     getSafesFromStorage()
@@ -80,20 +90,20 @@ const FolderListContextMenu = ({
   }, [folders])
 
   const addSafeToFolder = async (folderName: string) => {
-    if (!address) return
+    if (!safeInfo.address) return
     const safes = JSON.parse(localStorage.getItem(folderName)!)
     if (safes) {
-      localStorage.setItem(folderName, JSON.stringify([...safes, address]))
+      localStorage.setItem(folderName, JSON.stringify([...safes, safeInfo]))
     } else {
-      localStorage.setItem(folderName, JSON.stringify([address]))
+      localStorage.setItem(folderName, JSON.stringify([safeInfo]))
     }
     window.dispatchEvent(new Event('storage'))
   }
 
   const deleteSafeFromFolder = async () => {
-    const safes = JSON.parse(localStorage.getItem(folder)!)
-    const updated = safes.filter((safe: string) => safe !== address)
-    if (updated) localStorage.setItem(folder, JSON.stringify(updated))
+    const safes = JSON.parse(localStorage.getItem(folder!)!)
+    const updated = safes.filter((safe: Folder) => safe.address !== safeInfo.address)
+    if (updated) localStorage.setItem(folder!, JSON.stringify(updated))
     window.dispatchEvent(new Event('storage'))
   }
 
@@ -105,21 +115,20 @@ const FolderListContextMenu = ({
     setAnchorEl(undefined)
   }
 
-  /* const handleOpenModal =
+  const handleOpenModal =
     (type: keyof typeof open, event: typeof OVERVIEW_EVENTS.SIDEBAR_RENAME | typeof OVERVIEW_EVENTS.SIDEBAR_RENAME) =>
-    () => {
-      handleCloseContextMenu()
-      setOpen((prev) => ({ ...prev, [type]: true }))
+      () => {
+        handleCloseContextMenu()
+        setOpen((prev) => ({ ...prev, [type]: true }))
 
-      trackEvent(event)
-    }
- */
+        trackEvent(event)
+      }
   const handleCloseModal = () => {
     setOpen(defaultOpen)
   }
 
-  const isInFolder = (folderName: 'string') => {
-    return safes && safes[folderName] && safes[folderName].includes(address)
+  const isInFolder = (folderName: string) => {
+    return safes && safes.size > 0 && safes.get(folderName) && includesAddress(folderName)
   }
 
   return (
@@ -128,12 +137,6 @@ const FolderListContextMenu = ({
         <MoreVertIcon sx={({ palette }) => ({ color: palette.border.main })} />
       </IconButton>
       <ContextMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseContextMenu}>
-        {/* <MenuItem onClick={handleOpenModal(ModalType.RENAME, OVERVIEW_EVENTS.SIDEBAR_RENAME)}>
-          <ListItemIcon>
-            <SvgIcon component={EditIcon} inheritViewBox fontSize="small" color="success" />
-          </ListItemIcon>
-          <ListItemText>Rename</ListItemText>
-        </MenuItem> */}
         <MenuItem
           onClick={() => setDisplayFolderMenu(true)}
         >
@@ -141,6 +144,14 @@ const FolderListContextMenu = ({
             <SvgIcon component={AddIcon} inheritViewBox fontSize="small" color="success" />
           </ListItemIcon>
           <ListItemText>Add to folder</ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenModal(ModalType.RENAME, OVERVIEW_EVENTS.SIDEBAR_RENAME)}
+        >
+          <ListItemIcon>
+            <SvgIcon component={EditIcon} inheritViewBox fontSize="small" color="success" />
+          </ListItemIcon>
+          <ListItemText>Rename</ListItemText>
         </MenuItem>
       </ContextMenu>
       <ContextMenu
@@ -165,18 +176,18 @@ const FolderListContextMenu = ({
           </MenuItem>
         )}
       </ContextMenu>
-      {/*    
       {open[ModalType.RENAME] && (
         <EntryDialog
           handleClose={handleCloseModal}
-          defaultValues={{ name, address }}
-          chainId={`${safeData.chainId}`}
+          hideChainIndicator={true}
+          defaultValues={{ name, address: safeInfo.address.slice(safeInfo.address.lastIndexOf(':') + 1) }}
+          chainId={safeData?.chainId?.toString()}
           disableAddressInput
         />
-      )} */}
+      )}
 
       {open[ModalType.REMOVE] && (
-        <SafeListRemoveDialog handleClose={handleCloseModal} address={address} chainId={`${safeData.chainId}`} />
+        <SafeListRemoveDialog handleClose={handleCloseModal} address={safeInfo.address} chainId={`${safeData.chainId}`} />
       )}
     </>
   )

@@ -155,7 +155,7 @@ const AppFrame = ({ appUrl, allowedFeaturesList }: AppFrameProps): ReactElement 
       }
     },
   })
-
+  console.log(communicator, 'allowe')
   useEffect(() => {
     if (!remoteApp) return
 

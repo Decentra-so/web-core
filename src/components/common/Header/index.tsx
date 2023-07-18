@@ -6,12 +6,12 @@ import { useDarkMode } from '@/hooks/useDarkMode'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { useAppDispatch } from '@/store'
 import { setDarkMode } from '@/store/settingsSlice'
-import ChatIcon from '@mui/icons-material/Chat'
+import ChatIcon from '@/public/images/chat/chat-bubble-svgrepo-com.svg'
 import MenuIcon from '@mui/icons-material/Menu'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
-import ModeNightIcon from '@mui/icons-material/ModeNight'
-import WalletIcon from '@mui/icons-material/Wallet'
-import WbSunnyIcon from '@mui/icons-material/WbSunny'
+import MenuBookIcon from '@/public/images/chat/book-svgrepo-com.svg'
+import ModeNightIcon from '@/public/images/chat/moon-svgrepo-com.svg'
+import WalletIcon from '@/public/images/chat/wallet-svgrepo-com.svg'
+import WbSunnyIcon from '@/public/images/chat/sun-svgrepo-com.svg'
 import { Box, Button, FormControlLabel, IconButton, Paper } from '@mui/material'
 import classnames from 'classnames'
 import Link from 'next/link'
@@ -79,7 +79,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
           <FormControlLabel
             sx={{ margin: 0 }}
             control={
-              <IconButton onClick={() => dispatch(setDarkMode(!isDarkMode))}>
+              <IconButton color="inherit" onClick={() => dispatch(setDarkMode(!isDarkMode))}>
                 {isDarkMode ? <WbSunnyIcon /> : <ModeNightIcon />}
               </IconButton>
             }
@@ -87,7 +87,7 @@ const Header = ({ onMenuToggle }: HeaderProps): ReactElement => {
           />
         </div>
 
-        <div className={classnames(css.element, css.hideMobile)}>
+        <div className={classnames(css.paddingleftelement, css.element, css.hideMobile)}>
           <NotificationCenter />
         </div>
 

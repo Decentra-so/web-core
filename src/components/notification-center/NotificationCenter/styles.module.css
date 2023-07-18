@@ -4,8 +4,9 @@
   padding: 4px;
 }
 
-.bell svg path {
-  stroke: var(--color-text-primary);
+.bellicon {
+  width: 18px;
+  height: 18px;
 }
 
 .popoverContainer {

@@ -1,7 +1,7 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
-
+import ViewAppModal from '@/components/chat/modals/ViewAppModal'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
@@ -13,8 +13,8 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { ArrowBackIos } from '@mui/icons-material'
-import SettingsIcon from '@mui/icons-material/Settings'
-import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
+import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
+import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import {
   Box, Button, Container,
   Drawer,
@@ -58,15 +58,26 @@ const Chat = () => {
   //user and safe
   const wallet = useWallet()
   const onboard = useOnboard()
-  const { safe, safeAddress } = useSafeInfo()
+  const { safe, safeAddress, safeLoading } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [settings, toggleSettings] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(wallet?.address ? true : false)
+  const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
+  const [app, toggleApp] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log({ safeAddress, safe })
+  }, [safeAddress, safe])
+
+  useEffect(() => {
+    if (router.asPath.includes('app')) {
+      toggleApp(true)
+    }
+  }, [router.asPath])
 
   useEffect(() => {
     if (!onboard || !wallet) return
@@ -95,9 +106,9 @@ const Chat = () => {
   }, [router.asPath])
 
   useEffect(() => {
-    if (!wallet?.address) setOpen(false)
+    if (!wallet?.address || (!safeAddress && !safeLoading)) setOpen(false)
     else setOpen(true)
-  }, [wallet?.address])
+  }, [wallet?.address, safeAddress])
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -110,8 +121,14 @@ const Chat = () => {
     setOpen(open)
   }
 
+  const handleToggleApp = () => {
+    router.asPath.includes('app') ? router.push(router.asPath.split('&')[0]) : ''
+    toggleApp(!app)
+  }
+
   return (
     <>
+      {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
       {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
@@ -143,7 +160,7 @@ const Chat = () => {
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
             <Box flexGrow={1}>
-              {wallet?.address &&
+              {wallet?.address && (safeAddress && !safeLoading) &&
                 <Toolbar
                   sx={{
                     display: 'flex',
@@ -165,19 +182,19 @@ const Chat = () => {
                         </IconButton>
                       </Link>
                     }
-                    {safeAddress && <>
+                    {(safeAddress && !safeLoading) && <>
                       <Identicon address={safeAddress} radius={6} size={32} />
                       <FormattedName address={safeAddress} weight={600} />
                     </>
                     }
                   </Box>
                   <Box>
-                    <IconButton aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <IconButton sx={{ marginRight: '4px' }} color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
                       <SettingsIcon />
                     </IconButton>
                     {matchesDesktop &&
-                      <IconButton onClick={toggleDrawer(!open)}>
-                        {open ? <ViewSidebarIcon sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px' }} aria-label="close sidebar" /> : <ViewSidebarIcon aria-label="show sidebar" />}
+                      <IconButton color="inherit" onClick={toggleDrawer(!open)}>
+                        {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
                       </IconButton>
                     }
                   </Box>
@@ -203,7 +220,7 @@ const Chat = () => {
                     </Box>
                   </Container>
                   :
-                  !wallet?.address ?
+                  !wallet?.address || (!safeAddress && !safeLoading) ?
                     <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
                       <Box
                         sx={{
@@ -222,7 +239,7 @@ const Chat = () => {
                     : wallet?.address && !authToken ?
                       <Button onClick={() => setAuth(true)}>Authenticate</Button>
                       :
-                      <ChatWrapper />
+                      <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>
