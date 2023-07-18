@@ -27,7 +27,7 @@ interface IMessage {
 //load more stuff
 const fetchMore = async (
   id: string,
-  messages: any[],
+  messages: any[] | undefined,
   dispatch: any,
   setMessages: any,
   setMoreMessages: any,
@@ -35,11 +35,11 @@ const fetchMore = async (
   displayAmount: number
 ) => {
   try {
-    const msgs: IMessage[] | any = await fetchMoreMessages(`pid_${id}`, messages);
+    const msgs: IMessage[] | any = await fetchMoreMessages(`pid_${id}`, messages || []);
     console.log(msgs, 'msgs')
     dispatch(setChat({ safeAddress: id, messages: msgs }));
     if (msgs.length < 20) setMoreMessages(false);
-    setMessages([...msgs, ...messages])
+    setMessages([...msgs, ...messages || []])
     setDisplayAmount(displayAmount + 20);
   } catch (e) {
     console.log(e, 'cant fetch more messages');
@@ -49,7 +49,7 @@ const fetchMore = async (
 // extracted out of the component
 const fetchMessages = async (
   id: string,
-  setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>,
+  setMessages: React.Dispatch<React.SetStateAction<IMessage[] | any>>,
   dispatch: any, 
 ) => {
   try {
@@ -61,7 +61,7 @@ const fetchMessages = async (
   }
 };
 
-const listenToMessages = async (id: string, setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>) => {
+const listenToMessages = async (id: string, setMessages: React.Dispatch<React.SetStateAction<IMessage[] | any>>) => {
   try {
     const msg: IMessage | any = await listenForMessage(`pid_${id}`);
     setMessages((prevState: IMessage[]) => [...prevState, msg]);
@@ -81,7 +81,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const txQueue = useTxQueue();
   const wallet = useWallet();
   // chat
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[] | undefined>();
   const [chatData, setChatData] = useState<IDataItem[]>([]);
   const safeAddress = useSafeAddress();
   const bottom = useRef<HTMLDivElement>(null);
@@ -105,7 +105,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
 
   useEffect(() => {
     const allData: IDataItem[] = [];
-
+    if (!messages?.length) return
     historyItems?.forEach((tx: any) => {
       if (tx.type !== 'DATE_LABEL') {
         allData.push({
@@ -137,7 +137,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     }
     allData.sort((a, b) => a.timestamp - b.timestamp);
     setChatData(allData);
-  }, [messages.length, safeAddress]);
+  }, [messages?.length, safeAddress]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -210,7 +210,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                 }
               })}
             <div ref={bottom} />
-            {!chatData.length && <ListItem>Loading..</ListItem>}
+            {!chatData.length && <ListItem>Beginning of Conversation</ListItem>}
           </List>
         </Box>
       </Box>
@@ -223,7 +223,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           background: 'var(--color-background-lightcolor)',
         }}
       >
-        {user && group && <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} />}
+        {user && group && <ChatTextField currentUser={user} messages={messages || []} setMessages={setMessages} />}
       </Box>
     </Box>
   );
