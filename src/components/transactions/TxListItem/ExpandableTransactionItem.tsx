@@ -1,6 +1,5 @@
 import { type Transaction, type TransactionDetails } from '@safe-global/safe-gateway-typescript-sdk'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Skeleton } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import TxSummary from '@/components/transactions/TxSummary'
 import TxDetails from '@/components/transactions/TxDetails'
 import CreateTxInfo from '@/components/transactions/SafeCreationTx'
@@ -38,7 +37,7 @@ export const ExpandableTransactionItem = ({
       className={classNames(css.accordion, { [css.batched]: isBatched })}
       data-testid={testId}
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
+      <AccordionSummary sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
         <TxSummary item={item} isGrouped={isGrouped} />
       </AccordionSummary>
 
