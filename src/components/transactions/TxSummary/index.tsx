@@ -117,16 +117,21 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       <Box className={css.actiontransactionbutton}>
                  <TxFullShareLink id={tx.id} />
       </Box>
-
+      
       {wallet && isQueue && (
-        <Box gridArea="actions" display="flex" justifyContent={{ sm: 'center' }} gap={1}>
+             <Box gridArea="actions" className={css.actiontransactionbutton}>
+                     <Box className={css.actiondirectbox}>
           {awaitingExecution ? (
             <ExecuteTxButton txSummary={item.transaction} compact />
           ) : (
             <SignTxButton txSummary={item.transaction} compact />
           )}
+                       </Box>
+                                    <Box className={css.actiondirectbox}>
           <RejectTxButton txSummary={item.transaction} compact />
+                                      </Box>
         </Box>
+            </Box>
       )}
     </Box>
   )
