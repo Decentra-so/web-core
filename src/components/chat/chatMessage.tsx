@@ -25,7 +25,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		<ListItemText
 			primary={
 				<React.Fragment>
-					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600} />}
+					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600 }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600}  />}
 					<Typography sx={{ display: 'inline' }} component="span" variant="body2">
 						{chat.timeStamp}
 					</Typography>
