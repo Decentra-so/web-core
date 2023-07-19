@@ -85,7 +85,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       )}
       </Box>
 
-      <Box gridArea="date">
+      <Box gridArea="date" className={css.transactiondate}>
         <DateTime value={tx.timestamp} />
       </Box>
 
