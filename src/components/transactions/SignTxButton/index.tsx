@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react'
 import { useState, type ReactElement } from 'react'
 import { type TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, Tooltip } from '@mui/material'
+import { Button, Tooltip, Box } from '@mui/material'
 
 import { isSignableBy } from '@/utils/transaction-guards'
 import useWallet from '@/hooks/wallets/useWallet'
