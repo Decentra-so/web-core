@@ -64,7 +64,8 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       }`}
       id={tx.id}
     >
-      {nonce && !isGrouped && <Box gridArea="nonce">{nonce}</Box>}
+      <Box className={css.coretxbackground}>
+      {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
       <Box gridArea="type" className={css.columnWrap}>
         <TxType tx={tx} />
@@ -72,10 +73,6 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
       <Box gridArea="info" className={css.columnWrap}>
         <TxInfo info={tx.txInfo} />
-      </Box>
-
-      <Box gridArea="date">
-        <DateTime value={tx.timestamp} />
       </Box>
 
       {displayConfirmations && (
@@ -86,6 +83,11 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           />
         </Box>
       )}
+      </Box>
+
+      <Box gridArea="date">
+        <DateTime value={tx.timestamp} />
+      </Box>
 
       {wallet && isQueue && (
         <Box gridArea="actions" display="flex" justifyContent={{ sm: 'center' }} gap={1}>
