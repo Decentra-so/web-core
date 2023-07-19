@@ -37,6 +37,13 @@
     justify-content: space-between;
 }
 
+.actiontransactionbutton {
+    border-top: 2px solid #f4f4f4;
+    width: 100%;
+    height: 38px;
+    justify-content: center;
+}
+
 .columnTemplate {
   grid-template-columns: minmax(50px, 0.25fr) minmax(150px, 2fr) minmax(150px, 2fr) minmax(200px, 2fr) 1fr 1fr minmax(
       170px,
