@@ -40,7 +40,7 @@ const SignTxButton = ({
             {compact ? (
               <Tooltip title="Confirm" arrow placement="top">
                 <span>
-                  <IconButton onClick={onClick} color="primary" disabled={!isOk || isDisabled} size="small">
+                  <IconButton onClick={onClick} gap={'4px'} color="primary" disabled={!isOk || isDisabled} size="small">
                     <CheckIcon fontSize="small" /> Confirm
                   </IconButton>
                 </span>
