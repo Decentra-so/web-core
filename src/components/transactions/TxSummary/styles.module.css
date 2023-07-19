@@ -40,8 +40,12 @@
 .actiontransactionbutton {
     border-top: 2px solid #f4f4f4;
     width: 100%;
-    height: 38px;
+    height: 40px;
     justify-content: center;
+    display: flex;
+    align-items: center;
+    border-width: 2px!important;
+    font-weight: 600;
 }
 
 .columnTemplate {
