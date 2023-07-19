@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import { Link } from '@mui/material'
+import { Box } from '@mui/material'
 import { AppRoutes } from '@/config/routes'
 import { useRouter } from 'next/router'
 import Track from '@/components/common/Track'
@@ -15,7 +15,7 @@ const TxFullShareLink = ({ id }: { id: string }): ReactElement => {
 
   return (
     <Track {...TX_LIST_EVENTS.COPY_DEEPLINK}>
-      <Link href={href}>
+      <Box href={href}>
         View more details
       </Link>
     </Track>
