@@ -3,16 +3,6 @@
    border: none;
 }
 
-.accordion * {
-  border-width: 1px;
-}
-
-.closed:hover,
-.batched {
-  background-color: var(--color-secondary-background);
-  border-color: var(--color-secondary-light);
-}
-
 .expanded {
   border-color: var(--color-secondary-light) !important;
 }
