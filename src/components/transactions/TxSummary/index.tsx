@@ -3,7 +3,7 @@ import { Box, CircularProgress, Typography, Divider } from '@mui/material'
 import type { ReactElement } from 'react'
 import { type Transaction, TransactionStatus } from '@safe-global/safe-gateway-typescript-sdk'
 
-import TxShareLink from '@/components/transactions/TxShareLink'
+import TxFullShareLink from '@/components/transactions/TxFullShareLink'
 
 import DateTime from '@/components/common/DateTime'
 import TxInfo from '@/components/transactions/TxInfo'
