@@ -48,6 +48,14 @@
     font-weight: 600;
 }
 
+.actiondirectbox {
+  width: 100%;
+    justify-content: space-around;
+    border-right: 1px solid #f4f4f4;
+    height: 100%;
+    align-items: center;
+}
+
 .columnTemplate {
   grid-template-columns: minmax(50px, 0.25fr) minmax(150px, 2fr) minmax(150px, 2fr) minmax(200px, 2fr) 1fr 1fr minmax(
       170px,
