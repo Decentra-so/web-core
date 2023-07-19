@@ -53,6 +53,7 @@
     border-right: 1px solid #f4f4f4;
     height: 100%;
     align-items: center;
+    display: flex;
 }
 
 .columnTemplate {
