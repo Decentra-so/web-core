@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react'
 import { useState, type ReactElement, useContext } from 'react'
 import { type TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, Tooltip, SvgIcon } from '@mui/material'
+import { Button, SvgIcon, Box } from '@mui/material'
 
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { isMultisigExecutionInfo } from '@/utils/transaction-guards'
@@ -49,7 +49,6 @@ const ExecuteTxButton = ({
         {(isOk) => (
           <Track {...TX_LIST_EVENTS.EXECUTE}>
             {compact ? (
-              <Tooltip title="Execute" arrow placement="top">
                 <span>
                   <IconButton
                     onClick={onClick}
@@ -63,7 +62,6 @@ const ExecuteTxButton = ({
                     <Box sx={{ fontSize: '16px', marginLeft: '4px', fontweight: '600' }}>Execute</Box>
                   </IconButton>
                 </span>
-              </Tooltip>
             ) : (
               <Button
                 onClick={onClick}
