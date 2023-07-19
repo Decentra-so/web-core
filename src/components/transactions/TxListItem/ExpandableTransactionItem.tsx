@@ -39,7 +39,7 @@ export const ExpandableTransactionItem = ({
       data-testid={testId}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
-        <TxSummary item={item} isGrouped={isGrouped} className={css.nomargintxsummary} />
+        <TxSummary item={item} isGrouped={isGrouped} />
       </AccordionSummary>
 
       <AccordionDetails sx={{ padding: 0 }}>
