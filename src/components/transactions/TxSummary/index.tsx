@@ -68,6 +68,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
     >
       <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
+      {!nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>INCOMING TRANSACTION</Box>}
 
               <Divider sx={{ borderStyle: 'dashed' }} />
       <Box sx={{ padding: '16px 0' }}>
