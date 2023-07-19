@@ -81,23 +81,21 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
               <Divider sx={{ borderStyle: 'dashed', borderWidth: '0px 0px thin!important' }} />
 
       {displayConfirmations && (
+            <Box className={css.infosectiontransaction}>
+        <Box sx={{ fontSize: '15px' }}>Threshold</Box>
         <Box gridArea="confirmations" display="flex" alignItems="center" gap={1}>
           <TxConfirmations
             submittedConfirmations={submittedConfirmations}
             requiredConfirmations={requiredConfirmations}
           />
         </Box>
+              </Box>
       )}
 
       <Box className={css.infosectiontransaction}>
-        <Box>Status</Box>
+        <Box sx={{ fontSize: '15px' }}>Status</Box>
             <Box
         gridArea="status"
-        marginLeft={{ sm: 'auto' }}
-        marginRight={1}
-        display="flex"
-        alignItems="center"
-        gap={1}
         color={({ palette }) => getStatusColor(tx.txStatus, palette)}
       >
         {isPending && <CircularProgress size={14} color="inherit" />}
@@ -112,6 +110,10 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
       <Box gridArea="date" className={css.transactiondate}>
         <DateTime value={tx.timestamp} />
+      </Box>
+
+      <Box className={css.actiontransactionbutton}>
+       View more details
       </Box>
 
       {wallet && isQueue && (
