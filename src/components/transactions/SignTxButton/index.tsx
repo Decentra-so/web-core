@@ -41,7 +41,7 @@ const SignTxButton = ({
               <Tooltip title="Confirm" arrow placement="top">
                 <span>
                   <IconButton onClick={onClick} color="primary" disabled={!isOk || isDisabled} size="small">
-                    <CheckIcon fontSize="small" />
+                    <CheckIcon fontSize="small" /> Confirm
                   </IconButton>
                 </span>
               </Tooltip>
