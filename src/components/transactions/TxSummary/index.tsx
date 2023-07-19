@@ -131,7 +131,6 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           <RejectTxButton txSummary={item.transaction} compact />
                                       </Box>
         </Box>
-            </Box>
       )}
     </Box>
   )
