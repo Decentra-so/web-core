@@ -59,7 +59,7 @@ const ExecuteTxButton = ({
                     disabled={!isOk || isDisabled}
                     size="small"
                   >
-                    <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" />
+                    <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" /> Execute
                   </IconButton>
                 </span>
               </Tooltip>
