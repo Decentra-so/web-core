@@ -1,5 +1,5 @@
 import type { TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, Tooltip, SvgIcon } from '@mui/material'
+import { Button, Tooltip, SvgIcon, Box } from '@mui/material'
 
 import type { SyntheticEvent, ReactElement } from 'react'
 import { useState, Suspense } from 'react'
@@ -39,7 +39,8 @@ const RejectTxButton = ({
               <Tooltip title="Replace" arrow placement="top">
                 <span>
                   <IconButton onClick={onClick} color="error" size="small" disabled={!isOk || isDisabled}>
-                    <SvgIcon component={ErrorIcon} inheritViewBox fontSize="small" /> Replace
+                    <SvgIcon component={ErrorIcon} inheritViewBox fontSize="small" />
+                    <Box sx={{ fontSize: '16px', marginLeft: '4px', fontweight: '600' }}>Replace</Box>
                   </IconButton>
                 </span>
               </Tooltip>
