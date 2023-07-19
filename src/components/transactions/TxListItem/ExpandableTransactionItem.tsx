@@ -59,7 +59,7 @@ export const TransactionSkeleton = () => (
     </Box>
 
     <Accordion disableGutters elevation={0} defaultExpanded className={css.accordion}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
+      <AccordionSummary sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
         <Skeleton width="100%" />
       </AccordionSummary>
 
