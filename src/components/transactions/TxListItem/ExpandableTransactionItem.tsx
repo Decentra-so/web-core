@@ -38,7 +38,7 @@ export const ExpandableTransactionItem = ({
       className={classNames(css.accordion, { [css.batched]: isBatched })}
       data-testid={testId}
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ justifyContent: 'flex-start', overflowX: 'auto' }}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
         <TxSummary item={item} isGrouped={isGrouped} />
       </AccordionSummary>
 
