@@ -65,7 +65,7 @@ const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index })
 					</ListItemAvatar>
 					<ListItemText
 						primary={
-							<FormattedName address={safe.address} weight={500} showAddress />
+							<FormattedName address={safe.address} weight={500} />
 						}
 					/>
 				</ListItemButton>

@@ -23,11 +23,11 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 		setActiveMember(undefined)
 	};
 	return (
-		<ListItem key={member.value} onMouseOver={(e) => handleMouseEnter(member.value)} onMouseLeave={handleMouseLeave}>
+		<ListItem key={member.value} alignItems='center' onMouseOver={(e) => handleMouseEnter(member.value)} onMouseLeave={handleMouseLeave}>
 			<ListItemAvatar sx={{ minWidth: 35, flexShrink: 1 }}>
 				<Identicon address={member.value} size={24} />
 			</ListItemAvatar>
-			<ListItemText sx={{ minWidth: 5 }} primary={<FormattedName address={member.value} weight={500} showAddress />} />
+			<ListItemText sx={{ flexGrow: 0, paddingRight: 1 }} primary={<FormattedName address={member.value} weight={500} />} />
 			<div className={css.iconButtons}>
 				<CopyButton text={member.value} className={css.iconButton}>
 					<SvgIcon component={CopyIcon} inheritViewBox fontSize="small" />
@@ -42,8 +42,8 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 						<SvgIcon component={LinkIcon} inheritViewBox fontSize="small" />
 					</IconButton>
 				</Tooltip>
-				{((activeMember === member.value) || matches) && <MemberContextMenu member={member} />}
 			</div>
+			{((activeMember === member.value) || matches) && <MemberContextMenu member={member} />}
 		</ListItem>
 	)
 }
