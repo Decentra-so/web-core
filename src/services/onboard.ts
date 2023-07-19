@@ -5,6 +5,7 @@ import { getAllWallets, getRecommendedInjectedWallets } from '@/hooks/wallets/wa
 import { getRpcServiceUrl } from '@/hooks/wallets/web3'
 import type { EnvState } from '@/store/settingsSlice'
 
+
 export type ConnectedWallet = {
   label: string
   chainId: string

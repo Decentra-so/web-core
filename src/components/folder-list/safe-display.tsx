@@ -12,7 +12,6 @@ import BadgeAvatar from "../badge-avatar"
 import FormattedName from "../common/FormattedName/FormattedName"
 import FolderListContextMenu from "./folderItemContextItem"
 
-
 const CustomListItem = styled(ListItem)(({ theme }) => ({
 	height: '70px',
 	borderBottom: '1px solid var(--color-border-light)',
@@ -29,6 +28,7 @@ const CustomListItem = styled(ListItem)(({ theme }) => ({
 
 const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index }) => {
 	const dispatch = useDispatch()
+
 	const { safeAddress, } = useSafeInfo()
 	const matches = useMediaQuery('(max-width: 600px)')
 	const [activeSafe, setActiveSafe] = useState<string>();
@@ -46,6 +46,7 @@ const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index })
 	const handleClick = (safe: string) => {
 		dispatch(setSelectedSafe({ selectedSafe: safe }))
 	}
+
 	return (
 		<CustomListItem selected={matchSafe(safe.address)} onMouseOver={(e) => handleMouseEnter(safe.address)} onMouseLeave={handleMouseLeave}>
 			<Link href={{ pathname: AppRoutes.chat, query: { safe: `${safe.address}` } }} key={`${safe.address}-${index}`} passHref>
@@ -65,7 +66,7 @@ const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index })
 					</ListItemAvatar>
 					<ListItemText
 						primary={
-							<FormattedName address={safe.address} weight={500} />
+							<FormattedName address={safe.address} weight={500} showAddress />
 						}
 					/>
 				</ListItemButton>

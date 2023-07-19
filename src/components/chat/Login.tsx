@@ -6,14 +6,13 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { initCometChat, loginWithCometChat, signUpWithCometChat, joinGroup, createNewGroup, getGroup } from '../../services/chat'
 import { useAppSelector } from '@/store'
-import { selectUserItem, selectGroup } from '@/store/chatServiceSlice'
+import { selectUserItem } from '@/store/chatServiceSlice'
 
 const Login = () => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
   const dispatch = useDispatch()
   const user = useAppSelector((state) => selectUserItem(state))
-  const group = useAppSelector((state) => selectGroup(state))
 
   useEffect(() => {
     const init = () => {

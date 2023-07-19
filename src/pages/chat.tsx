@@ -1,8 +1,8 @@
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewAppModal from '@/components/chat/modals/ViewAppModal'
-import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
@@ -12,9 +12,9 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
-import { ArrowBackIos } from '@mui/icons-material'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
+import { ArrowBackIos } from '@mui/icons-material'
 import {
   Box, Button, Container,
   Drawer,
@@ -58,16 +58,20 @@ const Chat = () => {
   //user and safe
   const wallet = useWallet()
   const onboard = useOnboard()
-  const { safe, safeAddress } = useSafeInfo()
+  const { safe, safeAddress, safeLoading } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [settings, toggleSettings] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
   const [app, toggleApp] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log({ safeAddress, safe })
+  }, [safeAddress, safe])
 
   useEffect(() => {
     if (router.asPath.includes('app')) {
@@ -102,7 +106,7 @@ const Chat = () => {
   }, [router.asPath])
 
   useEffect(() => {
-    if (!wallet?.address || !safeAddress) setOpen(false)
+    if (!wallet?.address || (!safeAddress && !safeLoading)) setOpen(false)
     else setOpen(true)
   }, [wallet?.address, safeAddress])
 
@@ -156,7 +160,7 @@ const Chat = () => {
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
           <Box display="flex">
             <Box flexGrow={1}>
-              {wallet?.address && safeAddress &&
+              {wallet?.address && (safeAddress && !safeLoading) &&
                 <Toolbar
                   sx={{
                     display: 'flex',
@@ -178,7 +182,7 @@ const Chat = () => {
                         </IconButton>
                       </Link>
                     }
-                    {safeAddress && <>
+                    {(safeAddress && !safeLoading) && <>
                       <Identicon address={safeAddress} radius={6} size={32} />
                       <FormattedName address={safeAddress} weight={600} />
                     </>
@@ -216,7 +220,7 @@ const Chat = () => {
                     </Box>
                   </Container>
                   :
-                  !wallet?.address || !safeAddress ?
+                  !wallet?.address || (!safeAddress && !safeLoading) ?
                     <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
                       <Box
                         sx={{

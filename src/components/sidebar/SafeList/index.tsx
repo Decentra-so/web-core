@@ -165,7 +165,7 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
           const addedSafesOnChain = addedSafes[chain.chainId] ?? {}
           const isCurrentChain = chain.chainId === chainId
           const addedSafeEntriesOnChain = Object.entries(addedSafesOnChain)
-
+          console.log(addedSafeEntriesOnChain)
           if (!isCurrentChain && !ownedSafesOnChain.length && !addedSafeEntriesOnChain.length) {
             return null
           }
