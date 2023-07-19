@@ -17,7 +17,7 @@ const TxFullShareLink = ({ id }: { id: string }): ReactElement => {
     <Track {...TX_LIST_EVENTS.COPY_DEEPLINK}>
       <Box href={href}>
         View more details
-      </Link>
+      </Box>
     </Track>
   )
 }
