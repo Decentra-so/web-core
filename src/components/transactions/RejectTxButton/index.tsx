@@ -39,7 +39,7 @@ const RejectTxButton = ({
               <Tooltip title="Replace" arrow placement="top">
                 <span>
                   <IconButton onClick={onClick} color="error" size="small" disabled={!isOk || isDisabled}>
-                    <SvgIcon component={ErrorIcon} inheritViewBox fontSize="small" />
+                    <SvgIcon component={ErrorIcon} inheritViewBox fontSize="small" /> Replace
                   </IconButton>
                 </span>
               </Tooltip>
