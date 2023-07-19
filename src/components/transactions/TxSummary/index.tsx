@@ -3,6 +3,8 @@ import { Box, CircularProgress, Typography, Divider } from '@mui/material'
 import type { ReactElement } from 'react'
 import { type Transaction, TransactionStatus } from '@safe-global/safe-gateway-typescript-sdk'
 
+import TxShareLink from '@/components/transactions/TxShareLink'
+
 import DateTime from '@/components/common/DateTime'
 import TxInfo from '@/components/transactions/TxInfo'
 import SignTxButton from '@/components/transactions/SignTxButton'
@@ -113,7 +115,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       </Box>
 
       <Box className={css.actiontransactionbutton}>
-       View more details
+                 <TxShareLink id={tx.id}>View more details</TxShareLink>
       </Box>
 
       {wallet && isQueue && (
