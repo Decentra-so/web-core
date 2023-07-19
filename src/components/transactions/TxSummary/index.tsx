@@ -67,7 +67,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
-              <Divider sx={{ borderStyle: 'dashed', borderWidth: '0px 0px thin' }} />
+              <Divider sx={{ borderStyle: 'dashed', borderWidth: '0px 0px thin!important' }} />
       <Box sx={{ padding: '16px 0' }}>
       <Box gridArea="type" className={css.columnWrap}>
         <TxType tx={tx} />
@@ -78,7 +78,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       </Box>
       </Box>
 
-              <Divider sx={{ borderStyle: 'dashed', borderWidth: '0px 0px thin' }} />
+              <Divider sx={{ borderStyle: 'dashed', borderWidth: '0px 0px thin!important' }} />
 
       {displayConfirmations && (
         <Box gridArea="confirmations" display="flex" alignItems="center" gap={1}>
@@ -88,6 +88,26 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           />
         </Box>
       )}
+
+      <Box className={css.infosectiontransaction}>
+        <Box>Status</Box>
+            <Box
+        gridArea="status"
+        marginLeft={{ sm: 'auto' }}
+        marginRight={1}
+        display="flex"
+        alignItems="center"
+        gap={1}
+        color={({ palette }) => getStatusColor(tx.txStatus, palette)}
+      >
+        {isPending && <CircularProgress size={14} color="inherit" />}
+
+        <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
+          {txStatusLabel}
+        </Typography>
+      </Box>
+      </Box>
+        
       </Box>
 
       <Box gridArea="date" className={css.transactiondate}>
@@ -104,22 +124,6 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           <RejectTxButton txSummary={item.transaction} compact />
         </Box>
       )}
-
-      <Box
-        gridArea="status"
-        marginLeft={{ sm: 'auto' }}
-        marginRight={1}
-        display="flex"
-        alignItems="center"
-        gap={1}
-        color={({ palette }) => getStatusColor(tx.txStatus, palette)}
-      >
-        {isPending && <CircularProgress size={14} color="inherit" />}
-
-        <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
-          {txStatusLabel}
-        </Typography>
-      </Box>
     </Box>
   )
 }
