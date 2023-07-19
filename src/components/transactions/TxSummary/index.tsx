@@ -1,5 +1,5 @@
 import type { Palette } from '@mui/material'
-import { Box, CircularProgress, Typography } from '@mui/material'
+import { Box, CircularProgress, Typography, Divider } from '@mui/material'
 import type { ReactElement } from 'react'
 import { type Transaction, TransactionStatus } from '@safe-global/safe-gateway-typescript-sdk'
 
@@ -67,6 +67,8 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
+              <Divider />
+
       <Box gridArea="type" className={css.columnWrap}>
         <TxType tx={tx} />
       </Box>
@@ -74,6 +76,8 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       <Box gridArea="info" className={css.columnWrap}>
         <TxInfo info={tx.txInfo} />
       </Box>
+
+              <Divider />
 
       {displayConfirmations && (
         <Box gridArea="confirmations" display="flex" alignItems="center" gap={1}>
