@@ -115,7 +115,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       </Box>
 
       <Box className={css.actiontransactionbutton}>
-                 <TxShareLink id={tx.id}>View more details</TxShareLink>
+                 <TxFullShareLink id={tx.id} />
       </Box>
 
       {wallet && isQueue && (
