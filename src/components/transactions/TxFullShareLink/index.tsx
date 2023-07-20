@@ -2,7 +2,6 @@ import type { ReactElement } from 'react'
 import { Link } from '@mui/material'
 import { AppRoutes } from '@/config/routes'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
 
 const TxFullShareLink = ({ id }: { id: string }): ReactElement => {
 
