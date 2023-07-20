@@ -55,7 +55,13 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
   return (
     <Box
-      className={css.gridContainer}
+      className={`${css.gridContainer} ${
+        isQueue
+          ? nonce && !isGrouped
+            ? css.columnTemplate
+            : css.columnTemplateWithoutNonce
+          : css.columnTemplateTxHistory
+      }`}
       id={tx.id}
     >
       {nonce && !isGrouped && <Box gridArea="nonce">{nonce}</Box>}
