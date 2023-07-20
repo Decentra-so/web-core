@@ -182,7 +182,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     disableGutters
                   >
                     		<ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
-						<SvgIcon component={ActualSafeLogoGreen} inheritViewBox width={32} height={32} />
+						<SvgIcon component={ActualSafeLogoGreen} sx={{ width: '32px', height: '32px' }} />
 		</ListItemAvatar>
                     <TxListItemChat item={chat?.data} />
                   </ListItem>
