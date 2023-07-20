@@ -9,7 +9,7 @@ import useTxQueue from '@/hooks/useTxQueue';
 import useWallet from '@/hooks/wallets/useWallet';
 import ChatMessage from './chatMessage';
 import ChatTextField from './chatTextField';
-import TxListItem from '../transactions/TxListItem';
+import TxListItemChat from '../transactions/TxListItemChat';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
 
 interface IDataItem {
@@ -180,7 +180,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     alignItems="flex-start"
                     disableGutters
                   >
-                    <TxListItem item={chat?.data} />
+                    <TxListItemChat item={chat?.data} />
                   </ListItem>
                 )
               } else {
@@ -191,7 +191,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     alignItems="flex-start"
                     disableGutters
                   >
-                    <TxListItem item={chat?.data} />
+                    <TxListItemChat item={chat?.data} />
                   </ListItem>
                 )
               }
@@ -203,7 +203,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     alignItems="flex-start"
                     disableGutters
                   >
-                    <TxListItem item={chat?.data} />
+                    <TxListItemChat item={chat?.data} />
                     </ListItem>
                     )
                   }
