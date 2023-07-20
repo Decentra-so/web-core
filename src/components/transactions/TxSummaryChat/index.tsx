@@ -57,13 +57,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
   return (
     <Box
-      className={`${css.gridContainer} ${
-        isQueue
-          ? nonce && !isGrouped
-            ? css.columnTemplate
-            : css.columnTemplateWithoutNonce
-          : css.columnTemplateTxHistory
-      }`}
+      className={css.gridContainer}
       id={tx.id}
     >
       <Box className={css.coretxbackground}>
