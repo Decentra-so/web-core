@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react'
 import { useState, type ReactElement, useContext } from 'react'
 import { type TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, SvgIcon, Box } from '@mui/material'
+import { Button, Tooltip, SvgIcon, Box } from '@mui/material'
 
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { isMultisigExecutionInfo } from '@/utils/transaction-guards'
@@ -51,6 +51,7 @@ const ExecuteTxButton = ({
         {(isOk) => (
           <Track {...TX_LIST_EVENTS.EXECUTE}>
             {compact ? (
+              <Tooltip title="Execute" arrow placement="top">
                 <span>
                   <IconButton
                     onClick={onClick}
@@ -63,8 +64,8 @@ const ExecuteTxButton = ({
                     <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" />
                   </IconButton>
                 </span>
+              </Tooltip>
             ) : compactnew? (
-                <span>
                   <IconButton
                     onClick={onClick}
                     onMouseEnter={onMouseEnter}
@@ -72,11 +73,11 @@ const ExecuteTxButton = ({
                     color="primary"
                     disabled={!isOk || isDisabled}
                     size="small"
+                    sx={{ width: '100%', height: '100%', borderRadius: '0' }}
                   >
                     <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" />
-                    <Box sx={{ fontSize: '16px', marginLeft: '4px', fontWeight: '600' }}>Execute</Box>
+                    <Box sx={{ fontSize: '16px', marginLeft: '6px', fontWeight: '600' }}>Execute</Box>
                   </IconButton>
-                </span>
             ) : (
               <Button
                 onClick={onClick}
