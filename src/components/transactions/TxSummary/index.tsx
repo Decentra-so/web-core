@@ -85,7 +85,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
       {displayConfirmations && (
             <Box className={css.infosectiontransaction}>
-        <Box sx={{ fontSize: '15px' }}>Threshold</Box>
+        <Box sx={{ fontSize: '15px', color: '#757575' }}>Threshold</Box>
         <Box gridArea="confirmations" display="flex" alignItems="center" gap={1}>
           <TxConfirmations
             submittedConfirmations={submittedConfirmations}
@@ -96,9 +96,12 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       )}
 
       <Box className={css.infosectiontransaction}>
-        <Box sx={{ fontSize: '15px' }}>Status</Box>
+        <Box sx={{ fontSize: '15px', color: '#757575' }}>Status</Box>
             <Box
         gridArea="status"
+        display="flex"
+        alignItems="center"
+        gap={1}
         color={({ palette }) => getStatusColor(tx.txStatus, palette)}
       >
         {isPending && <CircularProgress size={14} color="inherit" />}
