@@ -60,7 +60,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       className={css.gridContainer}
       id={tx.id}
     >
-      <Box className={css.txfullgridview}
+      <Box className={css.txfullgridview}>
       <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
