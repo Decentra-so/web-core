@@ -72,8 +72,8 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
 
   const getChat = useCallback(() => {
     let allData: any[] = []
-    const historyItems = getLast5Items(txHistory.page?.results)
-    const queueItems = getLast5Items(txQueue?.page?.results)
+    const historyItems = txHistory.page?.results
+    const queueItems = txQueue?.page?.results
     historyItems?.forEach((tx: any) => {
       if (tx.type === 'DATE_LABEL') {
         return
