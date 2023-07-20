@@ -7,14 +7,13 @@
 }
 
 .txfullgridview {
-    border-radius: 12px;
+    border-radius: 0 12px 12px;
     background: var(--color-background-papercolor);
-    border-top-left-radius: 0px;
 }
 
 .coretxbackground {
    background: var(--color-background-lightcolor);
-    border-radius: 0px 10px 10px 10px;
+    border-radius: 0px 10px 10px;
     padding: 10px;
     padding-top: 1px;
     padding-bottom: 8px;
