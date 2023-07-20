@@ -52,7 +52,7 @@ const RejectTxButton = ({
                     sx={{ width: '100%', height: '100%', borderRadius: '12px' }}
                   >
                     <SvgIcon component={ErrorIcon} inheritViewBox fontSize="small" />
-                    <Box sx={{ fontSize: '16px', marginLeft: '6px', fontWeight: '600' }}>Replace</Box>
+                    <Box sx={{ fontSize: '15px', marginLeft: '6px', fontWeight: '600' }}>Replace</Box>
                   </IconButton>
             ) : (
               <Button onClick={onClick} variant="danger" disabled={!isOk || isDisabled} size="stretched">
