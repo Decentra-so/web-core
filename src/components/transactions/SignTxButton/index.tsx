@@ -54,7 +54,7 @@ const SignTxButton = ({
                     sx={{ width: '100%', height: '100%', borderRadius: '0 0 0 12px' }}
                   >
                     <CheckIcon fontSize="small" />
-                    <Box sx={{ fontSize: '16px', marginLeft: '6px', fontWeight: '600' }}>Confirm</Box>
+                    <Box sx={{ fontSize: '15px', marginLeft: '6px', fontWeight: '600' }}>Confirm</Box>
                   </IconButton>
             ) : (
               <Button onClick={onClick} variant="contained" disabled={!isOk || isDisabled} size="stretched">
