@@ -1,6 +1,6 @@
 import { type Transaction, type TransactionDetails } from '@safe-global/safe-gateway-typescript-sdk'
 import { Box, Skeleton } from '@mui/material'
-import TxSummary from '@/components/transactions/TxSummary'
+import TxSummaryChat from '@/components/transactions/TxSummaryChat'
 import { useContext } from 'react'
 import { BatchExecuteHoverContext } from '@/components/transactions/BatchExecuteButton/BatchExecuteHoverProvider'
 import css from './styles.module.css'
@@ -27,7 +27,7 @@ export const ExpandableTransactionItem = ({
       data-testid={testId}
     >
       <Box sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
-        <TxSummary item={item} isGrouped={isGrouped} />
+        <TxSummaryChat item={item} isGrouped={isGrouped} />
       </Box>
     </Box>
   )
