@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, List, ListItem, useMediaQuery, Button, ListItemAvatar, SvgIcon } from '@mui/material';
+import { Box, List, ListItem, useMediaQuery, Button, ListItemAvatar } from '@mui/material';
 import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
 import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice';
 import useSafeAddress from '@/hooks/useSafeAddress';
@@ -11,7 +11,6 @@ import ChatMessage from './chatMessage';
 import ChatTextField from './chatTextField';
 import TxListItemChat from '../transactions/TxListItemChat';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
-import ActualSafeLogoGreen from '@/public/images/actual-safe-logo-green.png'
 
 interface IDataItem {
   data: any;
@@ -182,7 +181,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     disableGutters
                   >
                     		<ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
-						<SvgIcon component={ActualSafeLogoGreen} sx={{ width: '32px', height: '32px' }} />
+						<svg height="32px" width="32px"><image href="/images/actual-safe-logo-green.png" /></svg>
 		</ListItemAvatar>
                     <TxListItemChat item={chat?.data} />
                   </ListItem>
