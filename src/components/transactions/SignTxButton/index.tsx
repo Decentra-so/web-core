@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react'
 import { useState, type ReactElement } from 'react'
 import { type TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, Box } from '@mui/material'
+import { Button, Tooltip, Box } from '@mui/material'
 
 import { isSignableBy } from '@/utils/transaction-guards'
 import useWallet from '@/hooks/wallets/useWallet'
@@ -9,16 +9,16 @@ import ConfirmTxModal from '@/components/tx/modals/ConfirmTxModal'
 import useIsPending from '@/hooks/useIsPending'
 import IconButton from '@mui/material/IconButton'
 import CheckIcon from '@mui/icons-material/Check'
-import Track from '@/components/common/Track'
-import { TX_LIST_EVENTS } from '@/services/analytics/events/txList'
 import CheckWallet from '@/components/common/CheckWallet'
 
 const SignTxButton = ({
   txSummary,
   compact = false,
+  compactnew = false,
 }: {
   txSummary: TransactionSummary
   compact?: boolean
+  compactnew?: boolean
 }): ReactElement => {
   const [open, setOpen] = useState<boolean>(false)
   const wallet = useWallet()
@@ -36,20 +36,32 @@ const SignTxButton = ({
     <>
       <CheckWallet>
         {(isOk) => (
-          <Track {...TX_LIST_EVENTS.CONFIRM}>
+          <Box height={1} width={1}>
             {compact ? (
+              <Tooltip title="Confirm" arrow placement="top">
                 <span>
                   <IconButton onClick={onClick} color="primary" disabled={!isOk || isDisabled} size="small">
                     <CheckIcon fontSize="small" />
-                    <Box sx={{ fontSize: '16px', marginLeft: '4px', fontWeight: '600' }}>Confirm</Box>
                   </IconButton>
                 </span>
+              </Tooltip>
+             ) : compactnew? (
+                  <IconButton
+                    onClick={onClick}
+                    color="primary"
+                    disabled={!isOk || isDisabled}
+                    size="small"
+                    sx={{ width: '100%', height: '100%', borderRadius: '0 0 0 16px' }}
+                  >
+                    <CheckIcon fontSize="small" />
+                    <Box sx={{ fontSize: '16px', marginLeft: '6px', fontWeight: '600' }}>Confirm</Box>
+                  </IconButton>
             ) : (
               <Button onClick={onClick} variant="contained" disabled={!isOk || isDisabled} size="stretched">
                 Confirm
               </Button>
             )}
-          </Track>
+          </Box>
         )}
       </CheckWallet>
 
