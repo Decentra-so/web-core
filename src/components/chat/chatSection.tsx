@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, List, ListItem, useMediaQuery, Button } from '@mui/material';
+import { Box, List, ListItem, useMediaQuery, Button, ListItemAvatar } from '@mui/material';
 import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat';
 import { setChat, selectGroup, selectUserItem } from '@/store/chatServiceSlice';
 import useSafeAddress from '@/hooks/useSafeAddress';
@@ -180,6 +180,9 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     alignItems="flex-start"
                     disableGutters
                   >
+                    		<ListItemAvatar sx={{ minWidth: 32, pr: '16px' }}>
+						<svg height="100%"><image href="/images/safe-logo-green.png" height="100%" /></svg>
+		</ListItemAvatar>
                     <TxListItemChat item={chat?.data} />
                   </ListItem>
                 )
@@ -191,6 +194,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     alignItems="flex-start"
                     disableGutters
                   >
+                    
                     <TxListItemChat item={chat?.data} />
                   </ListItem>
                 )
@@ -203,6 +207,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     alignItems="flex-start"
                     disableGutters
                   >
+                    
                     <TxListItemChat item={chat?.data} />
                     </ListItem>
                     )
