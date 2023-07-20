@@ -6,7 +6,7 @@
 }
 
 .coretxbackground {
-   background: #8080801a;
+   background: var(--color-background-lightcolor);
     border-radius: 14px;
     padding: 10px;
     padding-top: 1px;
