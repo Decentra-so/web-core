@@ -74,7 +74,7 @@ const ExecuteTxButton = ({
                     sx={{ width: '100%', height: '100%', borderRadius: '12px' }}
                   >
                     <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" />
-                    <Box sx={{ fontSize: '16px', marginLeft: '6px', fontWeight: '600' }}>Execute</Box>
+                    <Box sx={{ fontSize: '15px', marginLeft: '6px', fontWeight: '600' }}>Execute</Box>
                   </IconButton>
             ) : (
               <Button
