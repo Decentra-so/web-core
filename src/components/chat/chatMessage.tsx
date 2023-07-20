@@ -34,7 +34,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 			primary={
 				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
 					<FormattedName address={chat?.data?.sender.uid} weight={600} size={'15px'} />
-					<Typography sx={{ display: 'inline', color: 'gray', ml: '10px' }} component="span" variant="body2">
+					<Typography sx={{ display: 'inline', color: 'gray', ml: '10px', fontSize: '12px' }} component="span">
 						{getDateFromTimestamp(chat.data.sentAt)}
 					</Typography>
 				</Box>
