@@ -1,0 +1,131 @@
+.gridContainer {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  white-space: nowrap;
+}
+
+.coretxbackground {
+   background: #8080801a;
+    border-radius: 14px;
+    padding: 10px;
+    padding-top: 1px;
+    padding-bottom: 8px;
+    margin: 3px 3px 0px 3px;
+}
+
+.transactionnonce {
+  font-size: 11px;
+    color: #757575;
+    font-weight: normal;
+    letter-spacing: 1.5px;
+    padding: 4px 0;
+}
+
+.transactiondate {
+  text-align: end;
+    font-size: 12px;
+    color: #757575;
+    padding: 5px 7px;
+}
+
+.infosectiontransaction {
+      padding-top: 6px;
+    min-width: 300px;
+    gap: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.actiontransactionbutton {
+    border-top: 2px solid #f4f4f4;
+    width: 100%;
+    height: 42px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.actiondirectleftbox {
+  width: 100%;
+    justify-content: space-around;
+    border-right: 1px solid #f4f4f4;
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.actiondirectrightbox {
+  width: 100%;
+    justify-content: space-around;
+    border-left: 1px solid #f4f4f4;
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.columnTemplate {
+  grid-template-columns: minmax(50px, 0.25fr) minmax(150px, 2fr) minmax(150px, 2fr) minmax(200px, 2fr) 1fr 1fr minmax(
+      170px,
+      1fr
+    );
+  grid-template-areas: 'nonce type info date confirmations actions status';
+}
+
+.columnTemplateWithoutNonce {
+  grid-template-columns: minmax(50px, 0.25fr) minmax(150px, 2fr) minmax(150px, 2fr) minmax(200px, 2fr) 1fr 1fr minmax(
+      170px,
+      1fr
+    );
+  grid-template-areas: 'nonce type info date confirmations actions status';
+}
+
+.columnTemplateTxHistory {
+  grid-template-columns: minmax(50px, 0.25fr) minmax(150px, 2fr) minmax(150px, 2fr) minmax(100px, 1fr) minmax(
+      170px,
+      1fr
+    );
+  grid-template-areas: 'nonce type info date status';
+}
+
+.columnWrap {
+  white-space: normal;
+}
+
+@media (max-width: 600px) {
+  .columnWrap {
+    word-break: break-word;
+  }
+  
+  .columnTemplate {
+    grid-template-columns: repeat(12, auto);
+    grid-template-areas:
+      'nonce type type type type type type type type type type type'
+      'empty info info info info info info info info info info info'
+      'empty date date date date date date date date date date date'
+      'empty confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations'
+      'empty status status status status status status status status status status status'
+      'empty actions actions actions actions actions actions actions actions actions actions actions';
+  }
+
+  .columnTemplateWithoutNonce {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas:
+      'nonce type type type type type type type type type type type'
+      'empty info info info info info info info info info info info'
+      'empty date date date date date date date date date date date'
+      'empty confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations confirmations'
+      'empty status status status status status status status status status status status'
+      'empty actions actions actions actions actions actions actions actions actions actions actions';
+  }
+
+  .columnTemplateTxHistory {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas:
+      'nonce type type type type type type type type type type type'
+      'empty info info info info info info info info info info info'
+      'empty date date date date date date date date date date date'
+      'empty status status status status status status status status status status status';
+  }
+}
