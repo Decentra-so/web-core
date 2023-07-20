@@ -4,6 +4,7 @@
   flex-flow: column;
   white-space: nowrap;
   gap: 5px;
+  background: var(--color-background-lightcolor);
 }
 
 .txfullgridview {
