@@ -31,8 +31,8 @@
 
 .infosectiontransaction {
       padding-top: 6px;
-    min-width: 300px;
-    gap: 40px;
+    min-width: 200px;
+    gap: 20px;
     display: flex;
     justify-content: space-between;
 }
