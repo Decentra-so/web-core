@@ -23,7 +23,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		alignItems="flex-start"
 	>
 		<ListItemAvatar sx={{ minWidth: 32, pr: '16px', borderRadius: '12px' }}>
-			<svg height="100%"><image href="/images/safe-logo-green.png" height="100%" /></svg>
+			<Identicon address={chat?.data?.sender.uid || data} size={32} />
 		</ListItemAvatar>
 		<ListItemText
 			sx={{
