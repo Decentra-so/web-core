@@ -60,6 +60,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       className={css.gridContainer}
       id={tx.id}
     >
+      <Box className={css.txfullgridview}
       <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
@@ -112,20 +113,22 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
         <DateTime value={tx.timestamp} />
       </Box>
 
+      </Box>
+
       <Box className={css.actiontransactionbutton}>
                  <TxFullShareLink id={tx.id} />
       </Box>
       
       {wallet && isQueue && (
-             <Box gridArea="actions" className={css.actiontransactionbutton}>
-                     <Box className={css.actiondirectleftbox}>
+             <Box gridArea="actions" className={css.twoactiontransactionbutton}>
+                     <Box className={css.actiondirectbox}>
           {awaitingExecution ? (
             <ExecuteTxButton txSummary={item.transaction} compactnew />
           ) : (
             <SignTxButton txSummary={item.transaction} compactnew />
           )}
                        </Box>
-                                    <Box className={css.actiondirectrightbox}>
+                                    <Box className={css.actiondirectbox}>
           <RejectTxButton txSummary={item.transaction} compactnew />
                                       </Box>
         </Box>
