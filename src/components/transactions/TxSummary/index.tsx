@@ -123,7 +123,7 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
              <Box gridArea="actions" className={css.actiontransactionbutton}>
                      <Box className={css.actiondirectbox}>
           {awaitingExecution ? (
-            <ExecuteTxButton txSummary={item.transaction} compact />
+            <ExecuteTxButton txSummary={item.transaction} compactnew />
           ) : (
             <SignTxButton txSummary={item.transaction} compact />
           )}
