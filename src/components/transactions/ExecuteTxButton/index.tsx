@@ -9,8 +9,6 @@ import ExecuteTxModal from '@/components/tx/modals/ExecuteTxModal'
 import useIsPending from '@/hooks/useIsPending'
 import RocketIcon from '@/public/images/transactions/rocket.svg'
 import IconButton from '@mui/material/IconButton'
-import Track from '@/components/common/Track'
-import { TX_LIST_EVENTS } from '@/services/analytics/events/txList'
 import { ReplaceTxHoverContext } from '../GroupedTxListItems/ReplaceTxHoverProvider'
 import CheckWallet from '@/components/common/CheckWallet'
 
@@ -49,7 +47,6 @@ const ExecuteTxButton = ({
     <>
       <CheckWallet allowNonOwner>
         {(isOk) => (
-          <Track {...TX_LIST_EVENTS.EXECUTE}>
             {compact ? (
               <Tooltip title="Execute" arrow placement="top">
                 <span>
@@ -90,7 +87,6 @@ const ExecuteTxButton = ({
                 Execute
               </Button>
             )}
-          </Track>
         )}
       </CheckWallet>
 
