@@ -38,7 +38,7 @@ type TxSummaryProps = {
   item: Transaction
 }
 
-const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
+const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
   const tx = item.transaction
   const wallet = useWallet()
   const txStatusLabel = useTransactionStatus(tx)
@@ -140,4 +140,4 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
   )
 }
 
-export default TxSummary
+export default TxSummaryChat
