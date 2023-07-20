@@ -121,14 +121,14 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       
       {wallet && isQueue && (
              <Box gridArea="actions" className={css.actiontransactionbutton}>
-                     <Box className={css.actiondirectbox}>
+                     <Box className={css.actiondirectleftbox}>
           {awaitingExecution ? (
             <ExecuteTxButton txSummary={item.transaction} compactnew />
           ) : (
             <SignTxButton txSummary={item.transaction} compact />
           )}
                        </Box>
-                                    <Box className={css.actiondirectbox}>
+                                    <Box className={css.actiondirectrightbox}>
           <RejectTxButton txSummary={item.transaction} compact />
                                       </Box>
         </Box>
