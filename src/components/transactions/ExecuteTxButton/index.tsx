@@ -47,7 +47,7 @@ const ExecuteTxButton = ({
     <>
       <CheckWallet allowNonOwner>
         {(isOk) => (
-          <Box height={100%} width={100%}>
+          <Box height={1} width={1}>
             {compact ? (
               <Tooltip title="Execute" arrow placement="top">
                 <span>
