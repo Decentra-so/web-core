@@ -1,6 +1,6 @@
 .accordion {
    border-radius: 16px!important;
-   background: white;
+   background: var(--color-background-papercolor);
    border: none;
 }
 
