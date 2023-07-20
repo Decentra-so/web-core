@@ -26,6 +26,11 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 			<Identicon address={chat?.data?.sender.uid || data} size={32} />
 		</ListItemAvatar>
 		<ListItemText
+			sx={{
+			background: 'white',
+                        padding: '8px 16px',
+                        borderRadius: '16px',
+		}}
 			primary={
 				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '5px'}}>
 					<FormattedName address={chat?.data?.sender.uid} weight={600} size={'18px'} />
