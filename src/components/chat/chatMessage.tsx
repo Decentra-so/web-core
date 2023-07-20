@@ -28,13 +28,13 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		<ListItemText
 			sx={{
 			background: 'var(--color-background-papercolor)',
-                        padding: '12px 16px',
+                        padding: '8px 12px',
                         borderRadius: '16px',
 		}}
 			primary={
-				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '5px'}}>
-					<FormattedName address={chat?.data?.sender.uid} weight={600} />
-					<Typography sx={{ display: 'inline', color: 'gray', ml: '10px', mt: '4px' }} component="span" variant="body2">
+				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+					<FormattedName address={chat?.data?.sender.uid} weight={600} size={'15px'} />
+					<Typography sx={{ display: 'inline', color: 'gray', ml: '10px' }} component="span" variant="body2">
 						{getDateFromTimestamp(chat.data.sentAt)}
 					</Typography>
 				</Box>
