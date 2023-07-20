@@ -88,11 +88,7 @@
   .columnWrap {
     word-break: break-word;
   }
-
-  .gridContainer {
-    gap: var(--space-1);
-  }
-
+  
   .columnTemplate {
     grid-template-columns: repeat(12, auto);
     grid-template-areas:
