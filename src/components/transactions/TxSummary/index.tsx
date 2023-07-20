@@ -1,9 +1,7 @@
 import type { Palette } from '@mui/material'
-import { Box, CircularProgress, Typography, Divider } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import type { ReactElement } from 'react'
 import { type Transaction, TransactionStatus } from '@safe-global/safe-gateway-typescript-sdk'
-
-import TxFullShareLink from '@/components/transactions/TxFullShareLink'
 
 import DateTime from '@/components/common/DateTime'
 import TxInfo from '@/components/transactions/TxInfo'
@@ -66,12 +64,8 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       }`}
       id={tx.id}
     >
-      <Box className={css.coretxbackground}>
-      {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
+      {nonce && !isGrouped && <Box gridArea="nonce">{nonce}</Box>}
 
-              <Divider sx={{ borderStyle: 'dashed' }} />
-        
-      <Box sx={{ padding: '16px 0' }}>
       <Box gridArea="type" className={css.columnWrap}>
         <TxType tx={tx} />
       </Box>
@@ -79,26 +73,35 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       <Box gridArea="info" className={css.columnWrap}>
         <TxInfo info={tx.txInfo} />
       </Box>
+
+      <Box gridArea="date">
+        <DateTime value={tx.timestamp} />
       </Box>
 
-              <Divider sx={{ borderStyle: 'dashed' }} />
-
       {displayConfirmations && (
-            <Box className={css.infosectiontransaction}>
-        <Box sx={{ fontSize: '13px', color: '#757575' }}>Confirmations collected</Box>
         <Box gridArea="confirmations" display="flex" alignItems="center" gap={1}>
           <TxConfirmations
             submittedConfirmations={submittedConfirmations}
             requiredConfirmations={requiredConfirmations}
           />
         </Box>
-              </Box>
       )}
 
-      <Box className={css.infosectiontransaction}>
-        <Box sx={{ fontSize: '13px', color: '#757575' }}>Status</Box>
-            <Box
+      {wallet && isQueue && (
+        <Box gridArea="actions" display="flex" justifyContent={{ sm: 'center' }} gap={1}>
+          {awaitingExecution ? (
+            <ExecuteTxButton txSummary={item.transaction} compact />
+          ) : (
+            <SignTxButton txSummary={item.transaction} compact />
+          )}
+          <RejectTxButton txSummary={item.transaction} compact />
+        </Box>
+      )}
+
+      <Box
         gridArea="status"
+        marginLeft={{ sm: 'auto' }}
+        marginRight={1}
         display="flex"
         alignItems="center"
         gap={1}
@@ -110,32 +113,6 @@ const TxSummary = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           {txStatusLabel}
         </Typography>
       </Box>
-      </Box>
-        
-      </Box>
-
-      <Box gridArea="date" className={css.transactiondate}>
-        <DateTime value={tx.timestamp} />
-      </Box>
-
-      <Box className={css.actiontransactionbutton}>
-                 <TxFullShareLink id={tx.id} />
-      </Box>
-      
-      {wallet && isQueue && (
-             <Box gridArea="actions" className={css.actiontransactionbutton}>
-                     <Box className={css.actiondirectleftbox}>
-          {awaitingExecution ? (
-            <ExecuteTxButton txSummary={item.transaction} compactnew />
-          ) : (
-            <SignTxButton txSummary={item.transaction} compactnew />
-          )}
-                       </Box>
-                                    <Box className={css.actiondirectrightbox}>
-          <RejectTxButton txSummary={item.transaction} compactnew />
-                                      </Box>
-        </Box>
-      )}
     </Box>
   )
 }
