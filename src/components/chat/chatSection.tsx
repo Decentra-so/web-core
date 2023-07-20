@@ -137,7 +137,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     }
     allData.sort((a, b) => a.timestamp - b.timestamp);
     setChatData(allData);
-  }, [messages?.length, safeAddress]);
+  }, [messages?.length, safeAddress, txHistory, txQueue]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
