@@ -17,9 +17,11 @@ import CheckWallet from '@/components/common/CheckWallet'
 const ExecuteTxButton = ({
   txSummary,
   compact = false,
+  compactnew = false,
 }: {
   txSummary: TransactionSummary
   compact?: boolean
+  compactnew?: boolean
 }): ReactElement => {
   const [open, setOpen] = useState<boolean>(false)
   const { safe } = useSafeInfo()
@@ -49,6 +51,19 @@ const ExecuteTxButton = ({
         {(isOk) => (
           <Track {...TX_LIST_EVENTS.EXECUTE}>
             {compact ? (
+                <span>
+                  <IconButton
+                    onClick={onClick}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                    color="primary"
+                    disabled={!isOk || isDisabled}
+                    size="small"
+                  >
+                    <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" />
+                  </IconButton>
+                </span>
+            ) : compactnew? (
                 <span>
                   <IconButton
                     onClick={onClick}
