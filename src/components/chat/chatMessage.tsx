@@ -27,7 +27,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		</ListItemAvatar>
 		<ListItemText
 			sx={{
-			background: 'white',
+			background: 'var(--color-background-papercolor)',
                         padding: '8px 16px',
                         borderRadius: '16px',
 		}}
