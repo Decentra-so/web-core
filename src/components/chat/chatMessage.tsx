@@ -4,7 +4,7 @@ import React from 'react'
 import { useEnsName } from "wagmi"
 import FormattedName from "../common/FormattedName/FormattedName"
 import Identicon from "../common/Identicon"
-import { getDateFromTimestamp } from "@/utils/time"
+import DateTime from '@/components/common/DateTime'
 
 const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ chat, wallet }) => {
 	const { data, isError, isLoading } = useEnsName({
@@ -35,7 +35,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
 					<FormattedName address={chat?.data?.sender.uid} weight={600} size={'15px'} />
 					<Typography sx={{ display: 'inline', color: 'gray', ml: '10px', fontSize: '12px' }} component="span">
-						{getDateFromTimestamp(chat.data.sentAt)}
+						<DateTime value={chat.data.sentAt} />
 					</Typography>
 				</Box>
 			}
