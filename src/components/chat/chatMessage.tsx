@@ -29,7 +29,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 			sx={{
 			background: 'var(--color-background-papercolor)',
                         padding: '8px 12px',
-                        borderRadius: '0px 16px 16px 16px',
+                        borderRadius: '0 16px 16px 16px',
 		}}
 			primary={
 				<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
