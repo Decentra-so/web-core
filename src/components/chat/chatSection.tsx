@@ -12,7 +12,7 @@ import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
 
-export const ChatSection: React.FC => {
+export const ChatSection: React.FC = () => {
   //state
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
