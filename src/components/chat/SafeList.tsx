@@ -48,7 +48,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	//user and safe
 	const wallet = useWallet()
 	const safeAddress = useSafeAddress()
-	const [value, setValue] = useState(+localStorage.getItem('tabIndex')!)
+	const [value, setValue] = useState(0)
 	const handleConnect = useConnectWallet()
 	const allOwnedSafes = useAllOwnedSafes()
 	const [folders, setFolders] = useState([])
@@ -67,6 +67,10 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 		}
 		return true;
 	}
+
+	useEffect(() => {
+		setValue(+localStorage?.getItem('tabIndex')!)
+	}, [value])
 
 	useEffect(() => {
 		const activeFolders = async () => {
