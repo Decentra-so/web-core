@@ -4,7 +4,6 @@ import CopyIcon from '@/public/images/common/copy.svg'
 import LinkIcon from '@/public/images/common/link.svg'
 import { getBlockExplorerLink } from "@/utils/chains"
 import { IconButton, ListItem, ListItemAvatar, ListItemText, SvgIcon, Tooltip, useMediaQuery } from "@mui/material"
-import { useState } from 'react'
 import FormattedName from "../FormattedName/FormattedName"
 import Identicon from "../Identicon"
 import MemberContextMenu from './ContextMenu/memberContextMenu'
@@ -14,16 +13,10 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 	const chain = useCurrentChain()
 	const matches = useMediaQuery('(max-width: 600px)')
 	const blockExplorerLink = chain ? getBlockExplorerLink(chain, member.value) : undefined
-	const [activeMember, setActiveMember] = useState<string>()
 
-	const handleMouseEnter = (member: string) => {
-		setActiveMember(member)
-	};
-	const handleMouseLeave = () => {
-		setActiveMember(undefined)
-	};
+
 	return (
-		<ListItem key={member.value} alignItems='center' onMouseOver={(e) => handleMouseEnter(member.value)} onMouseLeave={handleMouseLeave}>
+		<ListItem key={member.value} alignItems='center'>
 			<ListItemAvatar sx={{ minWidth: 35, flexShrink: 1 }}>
 				<Identicon address={member.value} size={24} />
 			</ListItemAvatar>
@@ -42,8 +35,8 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 						<SvgIcon component={LinkIcon} inheritViewBox fontSize="small" />
 					</IconButton>
 				</Tooltip>
+				<MemberContextMenu member={member} />
 			</div>
-			{((activeMember === member.value) || matches) && <MemberContextMenu member={member} />}
 		</ListItem>
 	)
 }
