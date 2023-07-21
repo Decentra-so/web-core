@@ -1,7 +1,7 @@
 import useSafeAddress from "@/hooks/useSafeAddress";
 import { getMessages, listenForMessage, sendMessage } from "@/services/chat";
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Button, Divider, InputBase, Paper, Box } from "@mui/material";
+import { Box, Button, Divider, InputBase, Paper } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from "react";
 import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
@@ -60,7 +60,7 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 			onSubmit={handleSubmit}
 		>
 			<Box sx={{ margin: '0 6px' }}>
-			        <AddNewTxLightningIconButton />
+				<AddNewTxLightningIconButton />
 			</Box>
 			<Divider orientation="vertical" variant="middle" flexItem />
 			<CustomInput
