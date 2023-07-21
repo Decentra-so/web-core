@@ -60,8 +60,10 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       className={css.gridContainer}
       id={tx.id}
     >
-      <Box className={css.txfullgridview}>
-      <Box className={css.coretxbackground}>
+      <Box sx={{ display: 'flex', filter: 'drop-shadow(0px 1px 1px #00000010)' }}>
+      	<Box sx={{ borderTop: '11px solid var(--color-background-papercolor)', borderLeft: '7px solid transparent', borderRadius: '3px 0px 0px 0px' }} />	  
+        <Box className={css.txfullgridview}>
+          <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
               <Divider sx={{ borderStyle: 'dashed' }} />
@@ -113,6 +115,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
         <DateTime value={tx.timestamp} />
       </Box>
 
+      </Box>
       </Box>
 
       <Box className={css.actiontransactionbutton}>
