@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react'
 import { useState, type ReactElement, useContext } from 'react'
 import { type TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, Tooltip, SvgIcon } from '@mui/material'
+import { Button, Tooltip, SvgIcon, Box } from '@mui/material'
 
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { isMultisigExecutionInfo } from '@/utils/transaction-guards'
@@ -9,17 +9,17 @@ import ExecuteTxModal from '@/components/tx/modals/ExecuteTxModal'
 import useIsPending from '@/hooks/useIsPending'
 import RocketIcon from '@/public/images/transactions/rocket.svg'
 import IconButton from '@mui/material/IconButton'
-import Track from '@/components/common/Track'
-import { TX_LIST_EVENTS } from '@/services/analytics/events/txList'
 import { ReplaceTxHoverContext } from '../GroupedTxListItems/ReplaceTxHoverProvider'
 import CheckWallet from '@/components/common/CheckWallet'
 
 const ExecuteTxButton = ({
   txSummary,
   compact = false,
+  compactnew = false,
 }: {
   txSummary: TransactionSummary
   compact?: boolean
+  compactnew?: boolean
 }): ReactElement => {
   const [open, setOpen] = useState<boolean>(false)
   const { safe } = useSafeInfo()
@@ -47,7 +47,7 @@ const ExecuteTxButton = ({
     <>
       <CheckWallet allowNonOwner>
         {(isOk) => (
-          <Track {...TX_LIST_EVENTS.EXECUTE}>
+          <Box height={1} width={1}>
             {compact ? (
               <Tooltip title="Execute" arrow placement="top">
                 <span>
@@ -63,6 +63,19 @@ const ExecuteTxButton = ({
                   </IconButton>
                 </span>
               </Tooltip>
+            ) : compactnew? (
+                  <IconButton
+                    onClick={onClick}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                    color="primary"
+                    disabled={!isOk || isDisabled}
+                    size="small"
+                    sx={{ width: '100%', height: '100%', borderRadius: '12px' }}
+                  >
+                    <SvgIcon component={RocketIcon} inheritViewBox fontSize="small" />
+                    <Box sx={{ fontSize: '15px', marginLeft: '6px', fontWeight: '600' }}>Execute</Box>
+                  </IconButton>
             ) : (
               <Button
                 onClick={onClick}
@@ -75,7 +88,7 @@ const ExecuteTxButton = ({
                 Execute
               </Button>
             )}
-          </Track>
+          </Box>
         )}
       </CheckWallet>
 
