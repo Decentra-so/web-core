@@ -9,7 +9,7 @@ import { MobileChat } from './mobileChat'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
+const ChatWrapper: React.FC => {
   const safeAddress = useSafeAddress()
 
   const user = useAppSelector((state) => selectUserItem(state))
@@ -26,7 +26,7 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ d
         <>
           {
             safeAddress ? (
-              <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />
+              <ChatSection />
             ) : (
               <Box
                 sx={{
