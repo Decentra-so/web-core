@@ -9,8 +9,6 @@ import ConfirmTxModal from '@/components/tx/modals/ConfirmTxModal'
 import useIsPending from '@/hooks/useIsPending'
 import IconButton from '@mui/material/IconButton'
 import CheckIcon from '@mui/icons-material/Check'
-import Track from '@/components/common/Track'
-import { TX_LIST_EVENTS } from '@/services/analytics/events/txList'
 import CheckWallet from '@/components/common/CheckWallet'
 
 const SignTxButton = ({
