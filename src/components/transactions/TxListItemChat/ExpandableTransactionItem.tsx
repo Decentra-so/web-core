@@ -26,7 +26,7 @@ export const ExpandableTransactionItem = ({
       className={classNames(css.accordion, { [css.batched]: isBatched })}
       data-testid={testId}
     >
-      <Box sx={{ justifyContent: 'flex-start', overflowX: 'auto', padding: '0' }}>
+      <Box sx={{ justifyContent: 'flex-start', padding: '0' }}>
         <TxSummaryChat item={item} isGrouped={isGrouped} />
       </Box>
     </Box>
