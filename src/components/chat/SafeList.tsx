@@ -48,12 +48,13 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	//user and safe
 	const wallet = useWallet()
 	const safeAddress = useSafeAddress()
-	const [value, setValue] = useState(0)
+	const [value, setValue] = useState(+localStorage.getItem('tabIndex')!)
 	const handleConnect = useConnectWallet()
 	const allOwnedSafes = useAllOwnedSafes()
 	const [folders, setFolders] = useState([])
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue)
+		localStorage.setItem('tabIndex', newValue.toString())
 	}
 
 	function areAllValuesEmptyArrays(map: Map<number, any[]>): boolean {
