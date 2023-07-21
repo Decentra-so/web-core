@@ -8,8 +8,6 @@ import dynamic from 'next/dynamic'
 import useIsPending from '@/hooks/useIsPending'
 import IconButton from '@mui/material/IconButton'
 import ErrorIcon from '@/public/images/notifications/error.svg'
-import Track from '@/components/common/Track'
-import { TX_LIST_EVENTS } from '@/services/analytics/events/txList'
 import CheckWallet from '@/components/common/CheckWallet'
 
 const NewTxModal = dynamic(() => import('@/components/tx/modals/NewTxModal'))
