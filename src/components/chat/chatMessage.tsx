@@ -25,6 +25,8 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		<ListItemAvatar sx={{ minWidth: 32, pr: '16px', borderRadius: '12px' }}>
 			<Identicon address={chat?.data?.sender.uid || data} size={32} />
 		</ListItemAvatar>
+		<Box sx={{ display: 'flex', filter: 'drop-shadow(0px 1px 1px #00000010)' }}>
+		<Box sx={{ borderTop: '11px solid var(--color-background-papercolor)', borderLeft: '7px solid transparent', marginTop: '6px', borderRadius: '3px 0px 0px 0px' }} />	
 		<ListItemText
 			sx={{
 			background: 'var(--color-background-papercolor)',
@@ -45,6 +47,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 				</Typography>
 			}
 		/>
+		</Box>	
 	</ListItem>
 }
 
