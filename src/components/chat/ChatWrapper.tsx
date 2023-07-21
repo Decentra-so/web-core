@@ -9,7 +9,7 @@ import { MobileChat } from './mobileChat'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-const ChatWrapper: React.FC => {
+const ChatWrapper: React.FC = () => {
   const safeAddress = useSafeAddress()
 
   const user = useAppSelector((state) => selectUserItem(state))
