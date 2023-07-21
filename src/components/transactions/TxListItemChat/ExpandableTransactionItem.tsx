@@ -1,4 +1,4 @@
-port { type Transaction, type TransactionDetails } from '@safe-global/safe-gateway-typescript-sdk'
+import { type Transaction, type TransactionDetails } from '@safe-global/safe-gateway-typescript-sdk'
 import { Box, Skeleton } from '@mui/material'
 import TxSummaryChat from '@/components/transactions/TxSummaryChat'
 import { useContext } from 'react'
