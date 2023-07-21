@@ -156,7 +156,7 @@ export const ChatSection: React.FC = () => {
                           <TxListItemChat key={`${index}-tx`} item={chat?.data} />
                         </ListItem>
                       )
-              }}
+              })}
             <Box ref={bottom} sx={{ height: 0 }} />
             {!chatData ? <ListItem>No Chat</ListItem> : ''}
           </List>
