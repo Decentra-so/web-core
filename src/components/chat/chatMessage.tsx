@@ -1,5 +1,5 @@
 import type { ConnectedWallet } from "@/services/onboard"
-import { ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
+import { ListItem, ListItemAvatar, ListItemText, Typography, Box } from "@mui/material"
 import React from 'react'
 import { useEnsName } from "wagmi"
 import FormattedName from "../common/FormattedName/FormattedName"
