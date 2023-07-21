@@ -1,0 +1,13 @@
+.accordion {
+   border-radius: 0 16px 16px 16px;
+   background: var(--color-background-papercolor);
+   border: none;
+}
+
+.expanded {
+  border-color: var(--color-secondary-light) !important;
+}
+
+.expanded :global .MuiAccordionSummary-root {
+  background-color: var(--color-secondary-background);
+}

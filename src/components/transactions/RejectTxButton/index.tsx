@@ -1,5 +1,5 @@
 import type { TransactionSummary } from '@safe-global/safe-gateway-typescript-sdk'
-import { Button, Tooltip, SvgIcon } from '@mui/material'
+import { Button, Tooltip, SvgIcon, Box } from '@mui/material'
 
 import type { SyntheticEvent, ReactElement } from 'react'
 import { useState, Suspense } from 'react'
@@ -8,8 +8,6 @@ import dynamic from 'next/dynamic'
 import useIsPending from '@/hooks/useIsPending'
 import IconButton from '@mui/material/IconButton'
 import ErrorIcon from '@/public/images/notifications/error.svg'
-import Track from '@/components/common/Track'
-import { TX_LIST_EVENTS } from '@/services/analytics/events/txList'
 import CheckWallet from '@/components/common/CheckWallet'
 
 const NewTxModal = dynamic(() => import('@/components/tx/modals/NewTxModal'))
@@ -17,9 +15,11 @@ const NewTxModal = dynamic(() => import('@/components/tx/modals/NewTxModal'))
 const RejectTxButton = ({
   txSummary,
   compact = false,
+  compactnew = false,
 }: {
   txSummary: TransactionSummary
   compact?: boolean
+  compactnew?: boolean
 }): ReactElement | null => {
   const [open, setOpen] = useState<boolean>(false)
   const txNonce = isMultisigExecutionInfo(txSummary.executionInfo) ? txSummary.executionInfo.nonce : undefined
@@ -34,7 +34,7 @@ const RejectTxButton = ({
     <>
       <CheckWallet>
         {(isOk) => (
-          <Track {...TX_LIST_EVENTS.REJECT}>
+          <Box height={1} width={1}>
             {compact ? (
               <Tooltip title="Replace" arrow placement="top">
                 <span>
@@ -43,12 +43,23 @@ const RejectTxButton = ({
                   </IconButton>
                 </span>
               </Tooltip>
+            ) : compactnew? (
+                  <IconButton
+                    onClick={onClick}
+                    color="error"
+                    disabled={!isOk || isDisabled}
+                    size="small"
+                    sx={{ width: '100%', height: '100%', borderRadius: '12px' }}
+                  >
+                    <SvgIcon component={ErrorIcon} inheritViewBox fontSize="small" />
+                    <Box sx={{ fontSize: '15px', marginLeft: '6px', fontWeight: '600' }}>Replace</Box>
+                  </IconButton>
             ) : (
               <Button onClick={onClick} variant="danger" disabled={!isOk || isDisabled} size="stretched">
                 Replace
               </Button>
             )}
-          </Track>
+          </Box>
         )}
       </CheckWallet>
 
