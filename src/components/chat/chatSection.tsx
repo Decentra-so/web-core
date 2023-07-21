@@ -42,13 +42,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     scrollToBottom()
   }, [chatData, messages])
 
-  const getLast5Items = (arr: any) => {
-    if (arr) {
-      return arr.length > 5 ? arr.slice(Math.max(arr.length - 5, 0)) : arr
-    }
-    return arr
-  }
-
   useEffect(() => {
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
