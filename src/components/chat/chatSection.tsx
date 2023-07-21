@@ -12,8 +12,7 @@ import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
 
-export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
-  const matches = useMediaQuery('(min-width:901px)');
+export const ChatSection: React.FC => {
   //state
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
@@ -144,8 +143,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     <ChatMessage key={index} chat={chat} wallet={wallet} />
                   )
                 } else if (chat?.type) {
-                  if (matches) {
-                    if (drawerOpen) {
                       return (
                         <ListItem
                           key={index}
@@ -159,38 +156,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                           <TxListItemChat key={`${index}-tx`} item={chat?.data} />
                         </ListItem>
                       )
-                    } else {
-                      return (
-                        <ListItem
-                          key={index}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						<svg height="32px" width="32px"><image href="/images/actual-safe-logo-green.png" height="32px" width="32px" /></svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                        
-                        </ListItem>
-                      )
-                    }
-                  } else {
-                    return (
-                      <ListItem
-                        key={index}
-                        sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
-                        alignItems="flex-start"
-                        disableGutters
-                      >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						<svg height="32px" width="32px"><image href="/images/actual-safe-logo-green.png" height="32px" width="32px" /></svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                      
-                      </ListItem>
-                    )
-                  }
-                }
-              })}
+              }
             <Box ref={bottom} sx={{ height: 0 }} />
             {!chatData ? <ListItem>No Chat</ListItem> : ''}
           </List>
