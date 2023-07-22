@@ -16,17 +16,23 @@ import useChainId from '@/hooks/useChainId'
 import { AppRoutes } from '@/config/routes'
 import { getOrigin } from '@/components/safe-apps/utils'
 
-const SafeApps: NextPage = () => {
+interface Props {
+   safeAppUrl?: string
+ }
+
+const SafeApps: NextPage<Props> = ({ safeAppUrl }) => {
   const chainId = useChainId()
   const router = useRouter()
   const appUrl = useSafeAppUrl()
-  const { safeApp, isLoading } = useSafeAppFromManifest(appUrl || '', chainId)
+  const activeUrl = safeAppUrl || appUrl
+  
+  const { safeApp, isLoading } = useSafeAppFromManifest(activeUrl || '', chainId)
 
   const { remoteSafeApps, remoteSafeAppsLoading } = useSafeApps()
 
   const { addPermissions, getPermissions, getAllowedFeaturesList } = useBrowserPermissions()
-  const origin = getOrigin(appUrl)
-
+  const origin = getOrigin(activeUrl)
+  
   const {
     isModalVisible,
     isSafeAppInDefaultList,
@@ -36,7 +42,7 @@ const SafeApps: NextPage = () => {
     onComplete,
   } = useSafeAppsInfoModal({
     url: origin,
-    safeApp: remoteSafeApps.find((app) => app.url === appUrl),
+    safeApp: remoteSafeApps.find((app) => app.url === activeUrl),
     permissions: safeApp?.safeAppsPermissions || [],
     addPermissions,
     getPermissions,
@@ -51,8 +57,8 @@ const SafeApps: NextPage = () => {
   }, [router])
 
   // appUrl is required to be present
-  if (!appUrl || !router.isReady) return null
-
+  if (!activeUrl || !router.isReady) return null
+  
   if (isModalVisible) {
     return (
       <SafeAppsInfoModal
@@ -79,7 +85,7 @@ const SafeApps: NextPage = () => {
 
   return (
     <SafeAppsErrorBoundary render={() => <SafeAppsLoadError onBackToApps={() => router.back()} />}>
-      <AppFrame appUrl={appUrl} allowedFeaturesList={getAllowedFeaturesList(origin)} />
+      <AppFrame appUrl={activeUrl} allowedFeaturesList={getAllowedFeaturesList(origin)} />
     </SafeAppsErrorBoundary>
   )
 }
