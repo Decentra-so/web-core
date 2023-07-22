@@ -141,6 +141,7 @@
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--color-border-light);
   justify-content: space-around;
+  z-index: 1;
 }
 
 @media (min-width: 901px) {
