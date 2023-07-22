@@ -54,6 +54,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	const [folders, setFolders] = useState([])
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue)
+		localStorage.setItem('tabIndex', newValue.toString())
 	}
 
 	function areAllValuesEmptyArrays(map: Map<number, any[]>): boolean {
@@ -67,6 +68,10 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 		return true;
 	}
 
+	useEffect(() => {
+ 		setValue(+localStorage?.getItem('tabIndex')!)
+ 	}, [value])
+	
 	useEffect(() => {
 		const activeFolders = async () => {
 			const items = JSON.parse(localStorage.getItem('folders')!)
