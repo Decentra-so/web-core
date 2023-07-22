@@ -70,10 +70,6 @@ const Chat = () => {
   const [app, toggleApp] = useState<boolean>(false)
 
   useEffect(() => {
-    console.log({ safeAddress, safe })
-  }, [safeAddress, safe])
-
-  useEffect(() => {
     if (router.asPath.includes('app')) {
       toggleApp(true)
     }
@@ -92,11 +88,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (!onboard || !wallet) return
-    if (!authToken) {
-      setAuth(true)
-    } else {
-      setAuth(false)
-    }
+    authToken ? setAuth(false) : setAuth(true)
   }, [authToken, onboard, wallet])
 
   useEffect(() => {
