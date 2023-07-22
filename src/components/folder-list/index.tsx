@@ -4,6 +4,7 @@ import type { Folder } from '@/types/folder';
 import List from '@mui/material/List';
 import { memo, useEffect, useState } from 'react';
 import SafeDisplay from './safe-display';
+import css from './styles.module.css';
 
 const FolderList: React.FC = () => {
   const addressBook = useAddressBook()
@@ -42,7 +43,7 @@ const FolderList: React.FC = () => {
   }, [safeFolder])
 
   return (
-    <List sx={{ padding: '0px' }}>
+    <List sx={{ padding: '0px' }} className={css.marginbottomlistmobile}>
       {sortedFolders?.map((folder, index) => (
         <SafeDisplay key={`${folder.address}-${index}`} safe={folder} index={index} />
       ))

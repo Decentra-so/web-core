@@ -31,7 +31,7 @@ const TransactionQueue = () => {
         <Typography sx={{ fontWeight: 600 }}>Transaction queue</Typography>
         <AddNewTxIconButton />
       </Box>
-      <List sx={{ p: 3, pt: 2 }}>
+      <List sx={{ p: 3, pt: 2, gap: '16px', display: 'flex', flexFlow: 'column' }}>
         {queue ? (
           queue.map((transaction: any, i: number) => {
             if (!transaction.transaction) return

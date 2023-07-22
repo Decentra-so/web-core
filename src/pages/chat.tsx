@@ -1,8 +1,8 @@
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewAppModal from '@/components/chat/modals/ViewAppModal'
-import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
@@ -12,9 +12,9 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
-import { ArrowBackIos } from '@mui/icons-material'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
+import { ArrowBackIos } from '@mui/icons-material'
 import {
   Box, Button, Container,
   Drawer,
