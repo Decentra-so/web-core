@@ -1,31 +1,36 @@
+import { Box, CircularProgress } from '@mui/material'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
-import { Box, CircularProgress } from '@mui/material'
 
-import { useSafeAppUrl } from '@/hooks/safe-apps/useSafeAppUrl'
-import { useSafeApps } from '@/hooks/safe-apps/useSafeApps'
-import SafeAppsInfoModal from '@/components/safe-apps/SafeAppsInfoModal'
-import useSafeAppsInfoModal from '@/components/safe-apps/SafeAppsInfoModal/useSafeAppsInfoModal'
+import AppFrame from '@/components/safe-apps/AppFrame'
 import SafeAppsErrorBoundary from '@/components/safe-apps/SafeAppsErrorBoundary'
 import SafeAppsLoadError from '@/components/safe-apps/SafeAppsErrorBoundary/SafeAppsLoadError'
-import AppFrame from '@/components/safe-apps/AppFrame'
-import { useSafeAppFromManifest } from '@/hooks/safe-apps/useSafeAppFromManifest'
-import { useBrowserPermissions } from '@/hooks/safe-apps/permissions'
-import useChainId from '@/hooks/useChainId'
-import { AppRoutes } from '@/config/routes'
+import SafeAppsInfoModal from '@/components/safe-apps/SafeAppsInfoModal'
+import useSafeAppsInfoModal from '@/components/safe-apps/SafeAppsInfoModal/useSafeAppsInfoModal'
 import { getOrigin } from '@/components/safe-apps/utils'
+import { AppRoutes } from '@/config/routes'
+import { useBrowserPermissions } from '@/hooks/safe-apps/permissions'
+import { useSafeAppFromManifest } from '@/hooks/safe-apps/useSafeAppFromManifest'
+import { useSafeApps } from '@/hooks/safe-apps/useSafeApps'
+import { useSafeAppUrl } from '@/hooks/safe-apps/useSafeAppUrl'
+import useChainId from '@/hooks/useChainId'
 
-const SafeApps: NextPage = () => {
+interface Props {
+  safeAppUrl?: string
+}
+
+const SafeApps: NextPage<Props> = ({ safeAppUrl }) => {
   const chainId = useChainId()
   const router = useRouter()
   const appUrl = useSafeAppUrl()
-  const { safeApp, isLoading } = useSafeAppFromManifest(appUrl || '', chainId)
+  const activeUrl = safeAppUrl || appUrl
+  const { safeApp, isLoading } = useSafeAppFromManifest(activeUrl || '', chainId)
 
   const { remoteSafeApps, remoteSafeAppsLoading } = useSafeApps()
 
   const { addPermissions, getPermissions, getAllowedFeaturesList } = useBrowserPermissions()
-  const origin = getOrigin(appUrl)
+  const origin = getOrigin(activeUrl)
 
   const {
     isModalVisible,
@@ -36,7 +41,7 @@ const SafeApps: NextPage = () => {
     onComplete,
   } = useSafeAppsInfoModal({
     url: origin,
-    safeApp: remoteSafeApps.find((app) => app.url === appUrl),
+    safeApp: remoteSafeApps.find((app) => app.url === activeUrl),
     permissions: safeApp?.safeAppsPermissions || [],
     addPermissions,
     getPermissions,
@@ -51,7 +56,7 @@ const SafeApps: NextPage = () => {
   }, [router])
 
   // appUrl is required to be present
-  if (!appUrl || !router.isReady) return null
+  if (!activeUrl || !router.isReady) return null
 
   if (isModalVisible) {
     return (
@@ -79,7 +84,7 @@ const SafeApps: NextPage = () => {
 
   return (
     <SafeAppsErrorBoundary render={() => <SafeAppsLoadError onBackToApps={() => router.back()} />}>
-      <AppFrame appUrl={appUrl} allowedFeaturesList={getAllowedFeaturesList(origin)} />
+      <AppFrame appUrl={activeUrl} allowedFeaturesList={getAllowedFeaturesList(origin)} />
     </SafeAppsErrorBoundary>
   )
 }
