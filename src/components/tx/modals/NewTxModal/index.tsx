@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import type { ReactElement } from 'react'
 import { useRouter } from 'next/router'
+import type { ReactElement } from 'react'
+import { useEffect, useState } from 'react';
 
-import TokenTransferModal from '../TokenTransferModal'
-import RejectTxModal from '../RejectTxModal'
-import { trackEvent, MODALS_EVENTS } from '@/services/analytics'
-import { SendAssetsField } from '../TokenTransferModal/SendAssetsForm'
-import CreationModal from './CreationModal'
-import ReplacementModal from './ReplacementModal'
-import { AppRoutes } from '@/config/routes'
+import ViewAppModal from '@/components/chat/modals/ViewAppModal';
+import ViewAssetsModal from '@/components/chat/modals/ViewAssetsModal';
+import { AppRoutes } from '@/config/routes';
+import { useTxBuilderApp } from '@/hooks/safe-apps/useTxBuilderApp';
+import { MODALS_EVENTS, trackEvent } from '@/services/analytics';
+import RejectTxModal from '../RejectTxModal';
+import TokenTransferModal from '../TokenTransferModal';
+import { SendAssetsField } from '../TokenTransferModal/SendAssetsForm';
+import CreationModal from './CreationModal';
+import ReplacementModal from './ReplacementModal';
 
 const NewTxModal = ({
   onClose,
@@ -21,9 +24,17 @@ const NewTxModal = ({
 }): ReactElement => {
   const router = useRouter()
   const [tokenModalOpen, setTokenModalOpen] = useState<boolean>(false)
+  const [nftModalOpen, setNftModalOpen] = useState<boolean>(false)
+  const [appModalOpen, setAppModalOpen] = useState<boolean>(false)
+  const [appUrl, setAppUrl] = useState<string>()
   const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false)
   const isReplacement = txNonce !== undefined
   const showNftButton = router.pathname !== AppRoutes.balances.nfts
+  const txBuilder = useTxBuilderApp()
+
+  useEffect(() => {
+    if (txBuilder && txBuilder.app) setAppUrl(txBuilder.app.url)
+  }, [txBuilder])
 
   // These cannot be Track components as they intefere with styling
   const onTokenModalOpen = () => {
@@ -33,11 +44,7 @@ const NewTxModal = ({
 
   const onNFTModalOpen = () => {
     trackEvent(MODALS_EVENTS.SEND_COLLECTIBLE)
-    router.push({
-      pathname: AppRoutes.balances.nfts,
-      query: { safe: router.query.safe },
-    })
-    onClose()
+    setNftModalOpen(true)
   }
 
   const onRejectModalOpen = () => {
@@ -47,7 +54,7 @@ const NewTxModal = ({
 
   const onContractInteraction = () => {
     trackEvent(MODALS_EVENTS.CONTRACT_INTERACTION)
-    onClose()
+    setAppModalOpen(true)
   }
 
   const sharedProps = {
@@ -67,6 +74,10 @@ const NewTxModal = ({
           onContractInteraction={onContractInteraction}
           {...sharedProps}
         />
+      )}
+      {appModalOpen && (<ViewAppModal open={appModalOpen} onClose={onClose} url={appUrl} />)}
+      {nftModalOpen && (
+        <ViewAssetsModal open={nftModalOpen} onClose={onClose} nfts={true} />
       )}
 
       {tokenModalOpen && (
