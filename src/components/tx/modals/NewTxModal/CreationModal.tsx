@@ -1,5 +1,4 @@
 import { Box, DialogContent } from '@mui/material'
-import Link from 'next/link'
 
 import ModalDialog from '@/components/common/ModalDialog'
 import { useTxBuilderApp } from '@/hooks/safe-apps/useTxBuilderApp'
