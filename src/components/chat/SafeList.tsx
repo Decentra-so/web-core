@@ -111,7 +111,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 				{
 					folders?.map((folder, i) => {
 						return (
-							<TabPanel value={value} index={i + 1} key={`tab-${folder}-${i}`}>
+							<TabPanel value={value} index={i + 1} key={`tab-${folder}-${i}`} className={css.tabpanelmarginbototm}>
 								<FolderGroup group={folder} currentSafe={safeAddress} />
 							</TabPanel>
 						)
