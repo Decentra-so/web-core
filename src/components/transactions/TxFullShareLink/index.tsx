@@ -4,6 +4,7 @@ import { AppRoutes } from '@/config/routes'
 import { useRouter } from 'next/router'
 import { useAppDispatch } from '@/store'
 import { openModal } from '@/store/modalServiceSlice'
+import { modalTypes } from '@/components/chat/modals'
 
 const TxFullShareLink = ({ id }: { id: string }): ReactElement => {
   const dispatch = useAppDispatch()
@@ -13,7 +14,7 @@ const TxFullShareLink = ({ id }: { id: string }): ReactElement => {
 
   const openTX = () => {
     router.push(href)
-    dispatch(openModal({ modalName: 'viewSingleTransaction', modalProps: '' }))
+    dispatch(openModal({ modalName: modalTypes.viewSingleTransaction, modalProps: '' }))
   }
 
   return (

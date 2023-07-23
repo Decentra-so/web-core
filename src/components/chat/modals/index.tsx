@@ -13,7 +13,7 @@ import ViewAssetsModal from "./ViewAssetsModal";
 import ViewSettings from "./ViewSettingsModal";
 
 export const modalTypes = {
-  viewSingleTransaction: 'viewSingleTransactionModal',
+  viewSingleTransaction: 'viewSingleTransaction',
   viewTransactions: 'viewTransactionsModal',
   auth: 'auth',
   createSafe: 'createSafe',
