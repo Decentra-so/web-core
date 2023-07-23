@@ -108,11 +108,11 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
       }
     })
     setChatData(allData)
-  }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
+  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
   useEffect(() => {
     getChat()
-  }, [messages.length, txHistory?.page, txQueue?.page, safeAddress])
+  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -132,6 +132,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           <List>
             {chatData &&
               chatData.map((chat, index) => {
+                console.log(chatData)
                 if (chat.type === 'message' && !chat.data.text) return
                 if (chat.type === 'message' && chat?.data?.sender) {
                   return (
