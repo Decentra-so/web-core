@@ -17,8 +17,8 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 
 	return (
 		<ListItem key={member.value} alignItems='center'>
-			<ListItemAvatar sx={{ minWidth: 35, flexShrink: 1 }}>
-				<Identicon address={member.value} size={24} />
+			<ListItemAvatar sx={{ minWidth: 44, flexShrink: 1 }}>
+				<Identicon address={member.value} size={32} />
 			</ListItemAvatar>
 			<ListItemText sx={{ flexGrow: 0, paddingRight: 1 }} primary={<FormattedName address={member.value} weight={500} showAddress />} />
 			<div className={css.iconButtons}>
