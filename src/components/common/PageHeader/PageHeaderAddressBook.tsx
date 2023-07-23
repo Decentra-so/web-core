@@ -6,7 +6,7 @@ import type { ReactElement } from 'react'
 
 import css from './styles.module.css'
 
-const PageHeader = ({
+const PageHeaderAddressBook = ({
   title,
   action,
   noBorder,
@@ -28,4 +28,4 @@ const PageHeader = ({
   )
 }
 
-export default PageHeader
+export default PageHeaderAddressBook
