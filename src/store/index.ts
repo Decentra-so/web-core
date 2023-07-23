@@ -26,8 +26,10 @@ import { spendingLimitSlice } from './spendingLimitsSlice'
 import { safeAppsSlice } from './safeAppsSlice'
 import { safeMessagesMiddleware, safeMessagesSlice } from './safeMessagesSlice'
 import { pendingSafeMessagesSlice } from './pendingSafeMessagesSlice'
+import { modalSlice } from './modalServiceSlice'
 
 const rootReducer = combineReducers({
+  [modalSlice.name]: modalSlice.reducer,
   [chatServiceSlice.name]: chatServiceSlice.reducer,
   [chainsSlice.name]: chainsSlice.reducer,
   [safeInfoSlice.name]: safeInfoSlice.reducer,

@@ -3,7 +3,6 @@ import { ChatOverview } from '@/components/chat/chatOverview'
 import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewAppModal from '@/components/chat/modals/ViewAppModal'
-import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
@@ -15,6 +14,7 @@ import { createWeb3 } from '@/hooks/wallets/web3'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import { ArrowBackIos } from '@mui/icons-material'
+import { useAppDispatch } from '@/store'
 import {
   Box, Button, Container,
   Drawer,
@@ -28,6 +28,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { openModal } from '@/store/modalServiceSlice'
+import { modalTypes } from '@/components/chat/modals'
+
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -63,17 +66,11 @@ const Chat = () => {
   const ownerArray = owners.map((owner) => owner.value)
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
-  const [settings, toggleSettings] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
   const [auth, setAuth] = useState<boolean>(false)
   const [authToken, setAuthToken] = useState<string | null>('1')
   const [app, toggleApp] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (router.asPath.includes('app')) {
-      toggleApp(true)
-    }
-  }, [router.asPath])
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (!onboard || !wallet) return
@@ -89,13 +86,13 @@ const Chat = () => {
   useEffect(() => {
     if (!onboard || !wallet) return
     authToken ? setAuth(false) : setAuth(true)
-  }, [authToken, onboard, wallet])
-
-  useEffect(() => {
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
     }
-  }, [router.asPath])
+    if (router.asPath.includes('app')) {
+      toggleApp(true)
+    }
+  }, [router.asPath, authToken, onboard, wallet])
 
   useEffect(() => {
     if (!wallet?.address || (!safeAddress && !safeLoading)) setOpen(false)
@@ -122,7 +119,6 @@ const Chat = () => {
     <>
       {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
       {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
-      {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
         <title>Decentra &mdash; Chat</title>
@@ -181,7 +177,10 @@ const Chat = () => {
                     }
                   </Box>
                   <Box>
-                    <IconButton sx={{ marginRight: '4px' }} color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <IconButton
+                      sx={{ marginRight: '4px' }}
+                      color="inherit" aria-label="settings"
+                      onClick={() => dispatch(openModal({ modalName: modalTypes.settingsModal, modalProps: '' }))}>
                       <SettingsIcon />
                     </IconButton>
                     {matchesDesktop &&

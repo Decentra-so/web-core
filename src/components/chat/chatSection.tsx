@@ -132,6 +132,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           <List>
             {chatData &&
               chatData.map((chat, index) => {
+                if (chat.type === 'message' && !chat.data.text) return
                 if (chat.type === 'message' && chat?.data?.sender) {
                   return (
                     <ChatMessage key={index} chat={chat} wallet={wallet} />
@@ -147,7 +148,9 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                           disableGutters
                         >
                           <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						<svg height="32px" width="32px"><image href="/images/actual-safe-logo-green.png" height="32px" width="32px" /></svg>
+						                <svg height="32px" width="32px">
+                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
+                            </svg>
 		                      </ListItemAvatar>
                           <TxListItemChat key={`${index}-tx`} item={chat?.data} />
                         </ListItem>
@@ -161,7 +164,9 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                           disableGutters
                         >
                           <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						<svg height="32px" width="32px"><image href="/images/actual-safe-logo-green.png" height="32px" width="32px" /></svg>
+						                <svg height="32px" width="32px">
+                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
+                            </svg>
 		                      </ListItemAvatar>
                           <TxListItemChat key={`${index}-tx`} item={chat?.data} />                        
                         </ListItem>
@@ -176,7 +181,9 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                         disableGutters
                       >
                           <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						<svg height="32px" width="32px"><image href="/images/actual-safe-logo-green.png" height="32px" width="32px" /></svg>
+						                <svg height="32px" width="32px">
+                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
+                            </svg>
 		                      </ListItemAvatar>
                           <TxListItemChat key={`${index}-tx`} item={chat?.data} />                      
                       </ListItem>
