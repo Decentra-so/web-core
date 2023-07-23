@@ -1,5 +1,5 @@
 .dialog :global .MuiDialog-paper {
-  var(--color-background-lightcolor)
+  background: var(--color-background-lightcolor);
 }
 
 .dialog :global .MuiDialogActions-root {
