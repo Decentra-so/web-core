@@ -40,7 +40,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 			secondary={
 				<Typography sx={{ display: 'inline', pt: '10px' }} component="span">
 					{chat.data.text}
-					<Typography sx={{ display: 'inline', color: 'gray', ml: '20px', fontSize: '12px' }} component="span">
+					<Typography sx={{ display: 'inline', color: '#757575', ml: '20px', fontSize: '12px' }} component="span">
 						{getDateFromTimestamp(chat.data.sentAt)}
 					</Typography>
 				</Typography>
