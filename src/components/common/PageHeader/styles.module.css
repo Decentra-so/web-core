@@ -15,6 +15,16 @@
   margin-bottom: var(--space-3);
 }
 
+.titleaddressbook {
+  font-weight: 700;
+}
+
+.titlebox {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
 .border {
   border-bottom: 1px solid var(--color-border-light);
 }
