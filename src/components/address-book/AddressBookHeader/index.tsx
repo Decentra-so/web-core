@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField'
 
 import Track from '@/components/common/Track'
 import { ADDRESS_BOOK_EVENTS } from '@/services/analytics/events/addressBook'
-import PageHeader from '@/components/common/PageHeader'
+import PageHeaderAddressBook from '@/components/common/PageHeader/PageHeaderAddressBook'
 import { ModalType } from '../AddressBookTable'
 import { useAppSelector } from '@/store'
 import { selectAllAddressBooks } from '@/store/addressBookSlice'
@@ -45,7 +45,7 @@ const AddressBookHeader = ({ handleOpenModal, searchQuery, onSearchQueryChange }
   const canExport = Object.values(allAddressBooks).some((addressBook) => Object.keys(addressBook || {}).length > 0)
 
   return (
-    <PageHeader
+    <PageHeaderAddressBook
       title="Address book"
       noBorder
       action={
