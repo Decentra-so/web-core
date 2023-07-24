@@ -247,7 +247,7 @@ const Chat = () => {
                 height: 'calc(100vh - var(--header-height) - 24px)',
                 top: 'var(--header-height)',
                 margin: '12px 0',
-                boxShadow: 'var(--color-shadow-paper)',
+                filter: 'drop-shadow(0 3px 6px #00000010)',
                 borderRadius: '10px 0 0 10px',
                 border: '0px',
               },
