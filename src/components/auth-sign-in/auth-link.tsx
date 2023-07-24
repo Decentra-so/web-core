@@ -21,7 +21,7 @@ export const SignInLink: React.FC<{
   }
 
   return (
-    <Link onClick={handleAuthenticate}>Sign A Message</Link>
+    <Link onClick={handleAuthenticate}>Verify here</Link>
   )
 }
 
