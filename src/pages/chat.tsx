@@ -1,6 +1,4 @@
-import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import { ChatOverview } from '@/components/chat/chatOverview'
-import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewAppModal from '@/components/chat/modals/ViewAppModal'
 import { SafeList } from '@/components/chat/SafeList'
@@ -8,15 +6,13 @@ import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
-import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
-import { createWeb3 } from '@/hooks/wallets/web3'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
 import {
-  Box, Button, Container,
+  Box, Container,
   Drawer,
   IconButton, Toolbar,
   Typography,
@@ -60,39 +56,23 @@ const Chat = () => {
   const router = useRouter()
   //user and safe
   const wallet = useWallet()
-  const onboard = useOnboard()
   const { safe, safeAddress, safeLoading } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
-  const [auth, setAuth] = useState<boolean>(false)
-  const [authToken, setAuthToken] = useState<string | null>('1')
   const [app, toggleApp] = useState<boolean>(false)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!onboard || !wallet) return
-    const provider = createWeb3(wallet?.provider)
-    const getToken = async () => {
-      await getExistingAuth(provider, wallet?.address).then((res) => {
-        setAuthToken(res)
-      })
-    }
-    getToken()
-  }, [onboard, wallet?.address, wallet?.provider])
-
-  useEffect(() => {
-    if (!onboard || !wallet) return
-    authToken ? setAuth(false) : setAuth(true)
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
     }
     if (router.asPath.includes('app')) {
       toggleApp(true)
     }
-  }, [router.asPath, authToken, onboard, wallet])
+  }, [router.asPath])
 
   useEffect(() => {
     if (!wallet?.address || (!safeAddress && !safeLoading)) setOpen(false)
@@ -118,7 +98,6 @@ const Chat = () => {
   return (
     <>
       {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
-      {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
         <title>Decentra &mdash; Chat</title>
@@ -227,10 +206,7 @@ const Chat = () => {
                         <Typography variant='h5' p={3}>Please add or select a chat from the sidebar</Typography>
                       </Box>
                     </Container>
-                    : wallet?.address && !authToken ?
-                      <Button onClick={() => setAuth(true)}>Authenticate</Button>
-                      :
-                      <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
+                    : wallet?.address && <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>
