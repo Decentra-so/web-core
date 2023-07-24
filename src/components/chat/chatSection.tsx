@@ -120,7 +120,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         .catch((error) => console.log(error))
     }
     getM()
-  }, [safeAddress, user, group])
+  }, [safeAddress, user, group, authToken])
 
   useEffect(() => {
     getChat()
