@@ -11,7 +11,6 @@ import ChatMessage from './chatMessage';
 import ChatTextField from './chatTextField';
 import TxListItem from '../transactions/TxListItem';
 import { type TransactionListItem } from '@safe-global/safe-gateway-typescript-sdk';
-import { useAllTXHistory } from '@/hooks/useAllTXHistory';
 
 interface IDataItem {
   data: any;
@@ -51,10 +50,12 @@ const fetchMore = async (
 const fetchMessages = async (
   id: string,
   setMessages: React.Dispatch<React.SetStateAction<IMessage[] | any>>,
+  dispatch: any, 
 ) => {
   try {
     const msgs: IMessage[] | any = await getMessages(`pid_${id}`);
-    return msgs
+    dispatch(setChat({ safeAddress: id, messages: msgs }));
+    setMessages(msgs || ['']);
   } catch (error) {
     setMessages([]);
   }
@@ -71,8 +72,6 @@ const listenToMessages = async (id: string, setMessages: React.Dispatch<React.Se
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
-  const txHistoryStuff = useAllTXHistory()
-  console.log(txHistoryStuff, 'txHistoryStuff')
   // state
   const dispatch = useDispatch();
   const group = useSelector(selectGroup);
@@ -98,8 +97,8 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   }, [chatData, messages]);
 
   useEffect(() => {
-    if (safeAddress && txHistoryStuff) {
-      fetchMessages(`pid_${safeAddress}`, setMessages);
+    if (safeAddress) {
+      fetchMessages(`pid_${safeAddress}`, setMessages, dispatch);
       listenToMessages(`pid_${safeAddress}`, setMessages);
     }
   }, [safeAddress, user, group]);
@@ -107,12 +106,12 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   useEffect(() => {
     const allData: IDataItem[] = [];
     if (!messages?.length) return
-    txHistoryStuff?.forEach((tx: any) => {
+    historyItems?.forEach((tx: any) => {
       if (tx.type !== 'DATE_LABEL') {
         allData.push({
           data: tx,
-          timestamp: (new Date(tx.executionDate || tx.submissionDate)).getTime(),
-          type: 'tx-history',
+          timestamp: tx.transaction.timestamp,
+          type: 'tx',
         });
       }
     });
@@ -122,7 +121,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         allData.push({
           data: tx,
           timestamp: tx.transaction.timestamp,
-          type: 'tx-queue',
+          type: 'tx',
         });
       }
     });
@@ -136,9 +135,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         });
       });
     }
-
     allData.sort((a, b) => a.timestamp - b.timestamp);
-    console.log(allData, 'allData', txHistory)
     setChatData(allData);
   }, [messages?.length, safeAddress]);
 
@@ -173,7 +170,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
             {chatData.slice(-displayAmount).map((chat: IDataItem) => {
               if (chat.type === 'message' && chat?.data?.sender) {
                 return <ChatMessage key={chat.data.id} chat={chat} wallet={wallet} />;
-              } else if (chat.type === 'tx-queue') {
+              } else if (chat.type === 'tx') {
                 if (matches) {
                   if (drawerOpen) {
                 return (
