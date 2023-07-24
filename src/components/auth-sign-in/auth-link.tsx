@@ -21,7 +21,7 @@ export const SignInLink: React.FC<{
   }
 
   return (
-    <Link onClick={handleAuthenticate}>Verify here</Link>
+    <Link sx={{ cursor: 'pointer' }} onClick={handleAuthenticate}>Verify here</Link>
   )
 }
 
