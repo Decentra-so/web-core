@@ -61,7 +61,7 @@ const ChatTextField: React.FC<{
 	return (
 		<Paper
 			component="form"
-			sx={{ p: '4px 8.5px 4px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', borderRadius: '8px', background: authToken ? 'var(--color-background-papercolor)' : 'var(--color-background-lightcolor)' }}
+			sx={{ p: '4px 8.5px 4px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', borderRadius: '8px', background: authToken ? 'var(--color-background-papercolor)' : 'var(--color-background-lightcolor)', border: authToken ? 'none' : '1px solid var(--color-border-light)' }}
 			onSubmit={handleSubmit}
 		>
 			<Box sx={{ margin: '0 6px' }}>
