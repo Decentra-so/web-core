@@ -61,9 +61,7 @@ const ChatTextField: React.FC<{
 	return (
 		<Paper
 			component="form"
-			sx={{
-				p: '4px 8.5px 4px 4px', display: 'flex', alignItems: 'center', width: '100%', boxShadow: 'rgba(0, 0, 0, .05) 0px 0.5rem 1.5rem', borderRadius: '8px', background: 'var(--color-background-papercolor)'
-			}}
+			sx={{ p: '4px 8.5px 4px 4px', display: 'flex', alignItems: 'center', width: '100%', filter: 'drop-shadow(0 3px 6px #00000010)', borderRadius: '8px', background: authToken ? 'var(--color-background-papercolor)' : 'var(--color-background-lightcolor)', border: authToken ? 'none' : '1px solid var(--color-border-light)' }}
 			onSubmit={handleSubmit}
 		>
 			<Box sx={{ margin: '0 6px' }}>
@@ -85,8 +83,8 @@ const ChatTextField: React.FC<{
 						</Button>
 					</>
 				) : (
-					<Typography sx={{ textAlign: 'center', width: '100%' }}>
-						To view and send messages you need to authenticate with your account. <SignInLink setAuth={setAuth}/>
+					<Typography sx={{ textAlign: 'center', width: '100%', padding: '10px 16px' }}>
+						To view and send messages you need to authenticate your account: <SignInLink setAuth={setAuth}/>
 					</Typography>
 				)
 			}
