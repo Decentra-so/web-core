@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Link } from '@mui/material'
 import { useState } from 'react'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
@@ -21,7 +21,7 @@ export const SignInLink: React.FC<{
   }
 
   return (
-    <Button onClick={handleAuthenticate}>Sign A Message</Button>
+    <Link onClick={handleAuthenticate}>Sign A Message</Link>
   )
 }
 
