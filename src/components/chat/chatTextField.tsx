@@ -83,8 +83,8 @@ const ChatTextField: React.FC<{
 						</Button>
 					</>
 				) : (
-					<Typography sx={{ textAlign: 'center', width: '100%' }}>
-						To view and send messages you need to authenticate with your account. <SignInLink setAuth={setAuth}/>
+					<Typography sx={{ textAlign: 'center', width: '100%', padding: '10px 16px' }}>
+						To view and send messages you need to authenticate your account. <SignInLink setAuth={setAuth}/>
 					</Typography>
 				)
 			}
