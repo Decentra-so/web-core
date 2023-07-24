@@ -1,10 +1,11 @@
 import useSafeAddress from "@/hooks/useSafeAddress";
 import { getMessages, listenForMessage, sendMessage } from "@/services/chat";
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Button, Divider, InputBase, Paper, Box } from "@mui/material";
+import { Button, Divider, InputBase, Paper, Box, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from "react";
 import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
+import SignInLink from "../auth-sign-in/auth-link";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -14,7 +15,13 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessages: any }> = ({ currentUser, messages, setMessages }) => {
+const ChatTextField: React.FC<{
+	currentUser: any,
+	messages: string[],
+	setMessages: any,
+	authToken: string
+	setAuth: any
+}> = ({ currentUser, messages, setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
 
@@ -63,16 +70,27 @@ const ChatTextField: React.FC<{ currentUser: any, messages: string[], setMessage
 			  <AddNewTxLightningIconButton />
 			</Box>
 			<Divider orientation="vertical" variant="middle" flexItem />
-			<CustomInput
-				sx={{ flex: 1 }}
-				value={message}
-				placeholder="Type something..."
-				inputProps={{ 'aria-label': 'chat message' }}
-				onChange={(e) => setMessage(e.target.value)}
-			/>
-			<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, borderRadius: '8px', color: 'white', backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
-				<SendOutlinedIcon />
-			</Button>
+			{
+				authToken ? (
+					<>
+						<CustomInput
+							sx={{ flex: 1 }}
+							value={message}
+							placeholder="Type something..."
+							inputProps={{ 'aria-label': 'chat message' }}
+							onChange={(e) => setMessage(e.target.value)}
+						/>
+						<Button variant="contained" type="submit" sx={{ p: '5px', minWidth: 0, borderRadius: '8px', color: 'white', backgroundColor: '#FE7E51', '&:hover': { backgroundColor: '#e57049' } }} aria-label="send">
+							<SendOutlinedIcon />
+						</Button>
+					</>
+				) : (
+					<Typography sx={{ textAlign: 'center', width: '100%', p: '0.5em' }}>
+						To view and send messages you need to authenticate with your account. <SignInLink setAuth={setAuth}/>
+					</Typography>
+				)
+			}
+
 		</Paper >
 	)
 }

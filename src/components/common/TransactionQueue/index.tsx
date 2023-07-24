@@ -24,6 +24,7 @@ const TransactionQueue = () => {
   const router = useRouter()
   const { safe = '' } = router.query
   const href = `${AppRoutes.chat}?safe=${safe}&id=`
+  console.log(queue, 'queue')
 
   useEffect(() => {
     if (txQueue?.page?.results) {
@@ -44,7 +45,7 @@ const TransactionQueue = () => {
         <AddNewTxIconButton />
       </Box>
       <List sx={{ p: 3, pt: 2, gap: '16px', display: 'flex', flexFlow: 'column' }}>
-        {queue ? (
+        {queue?.length ? (
           queue.map((transaction: any, i: number) => {
             if (!transaction.transaction) return
             return <Box className={classNames(css.gridContainer, css.columnTemplate)} key={`queue-${i}`} onClick={() => openTX(transaction.transaction.id)}>

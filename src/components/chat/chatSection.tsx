@@ -10,18 +10,25 @@ import { useDispatch } from 'react-redux'
 import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
+import useOnboard from '@/hooks/wallets/useOnboard'
+import { createWeb3 } from '@/hooks/wallets/web3'
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
+
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
   //state
+  const [auth, setAuth] = useState<boolean>(false)
+  const wallet = useWallet()
+  const onboard = useOnboard()
+  const [authToken, setAuthToken] = useState<string | any>('')
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
   const user = useAppSelector((state) => selectUserItem(state))
   //transactions
   const txHistory = useTxHistory()
   const txQueue = useTxQueue()
-  const wallet = useWallet()
   //chat
   const [messages, setMessages] = useState([''])
   const [chatData, setChatData] = useState<any[]>([''])
@@ -37,31 +44,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     }
     bottomOfChat.scrollIntoView({ behavior: 'smooth' })
   }, [])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [chatData, messages])
-
-  useEffect(() => {
-    async function getM() {
-      await getMessages(`pid_${safeAddress!}`)
-        .then((msgs: any) => {
-          dispatch(setChat({ safeAddress, messages: msgs }))
-          setMessages(msgs)
-        })
-        .catch((error) => {
-          setMessages([])
-        })
-
-      await listenForMessage(`pid_${safeAddress!}`)
-        .then((msg: any) => {
-          setMessages((prevState: any) => [...prevState, msg])
-        })
-        .catch((error) => console.log(error))
-    }
-    getM()
-  }, [safeAddress, user, group])
-
 
   const getChat = useCallback(() => {
     let allData: any[] = []
@@ -87,11 +69,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         type: 'tx',
       })
     })
-    if (!messages.length) {
-      setChatData(allData)
-      return
-    }
-    messages?.forEach((message: any) => {
+    authToken && messages?.forEach((message: any) => {
       allData.push({
         data: message,
         timestamp: +message.sentAt * 1000,
@@ -109,6 +87,40 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     })
     setChatData(allData)
   }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+
+  useEffect(() => {
+    if (!onboard || !wallet) return
+    const provider = createWeb3(wallet?.provider)
+    const getToken = async () => {
+      await getExistingAuth(provider, wallet?.address).then(setAuthToken)
+    }
+    getToken()
+  }, [onboard, wallet?.address, wallet?.provider, auth])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [chatData, messages])
+
+  useEffect(() => {
+    if (!authToken) return
+    async function getM() {
+      await getMessages(`pid_${safeAddress!}`)
+        .then((msgs: any) => {
+          dispatch(setChat({ safeAddress, messages: msgs }))
+          setMessages(msgs)
+        })
+        .catch((error) => {
+          setMessages([])
+        })
+
+      await listenForMessage(`pid_${safeAddress!}`)
+        .then((msg: any) => {
+          setMessages((prevState: any) => [...prevState, msg])
+        })
+        .catch((error) => console.log(error))
+    }
+    getM()
+  }, [safeAddress, user, group])
 
   useEffect(() => {
     getChat()
@@ -207,7 +219,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         }}
       >
         {user && group &&
-          <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} />
+          <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} authToken={authToken} setAuth={setAuth} />
         }
       </Box>
     </Box>
