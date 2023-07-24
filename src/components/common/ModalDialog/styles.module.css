@@ -1,3 +1,7 @@
+.dialog :global .MuiDialog-paper {
+  background: var(--color-background-lightcolor);
+}
+
 .dialog :global .MuiDialogActions-root {
   border-top: 2px solid var(--color-border-light);
   padding: var(--space-3);

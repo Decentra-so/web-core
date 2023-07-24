@@ -12,6 +12,5 @@ export const getDateFromTimestamp = (timestamp: number) => {
   }
   return isToday ? 
   `Today at ${hours}:${minutes} ${+hours > 12 ? 'PM' : 'AM'}`
-  : `${time.getDate().toString()}/${time.getMonth().toString()}/${time.getFullYear().toString()}
-  at ${hours}:${minutes} ${+hours > 12 ? 'PM' : 'AM'}`
+  : `${time.getDate().toString()}/${time.getMonth().toString()}/${time.getFullYear().toString()} ${hours}:${minutes} ${+hours > 12 ? 'PM' : 'AM'}`
 }

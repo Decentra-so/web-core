@@ -64,7 +64,7 @@ const SafeDisplay: React.FC<{ safe: Folder, index: number }> = ({ safe, index })
 						<BadgeAvatar safe={safe.address} chainId={safe.chainId} />
 					</ListItemAvatar>
 					<ListItemText
-						sx={{ overflow: 'auto', whiteSpace: 'nowrap' }}
+						sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
 						primary={
 							<FormattedName address={safe.address} weight={500} />
 						}

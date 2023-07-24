@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--color-background-main);
   z-index: 1;
   width: 100%;
   position: sticky !important;
@@ -12,6 +11,16 @@
 
 .title {
   font-weight: 700;
+  margin-bottom: var(--space-3);
+}
+
+.titleaddressbook {
+  font-weight: 700;
+}
+
+.titlebox {
+  display: flex;
+  align-items: center;
   margin-bottom: var(--space-3);
 }
 
