@@ -42,7 +42,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 				</React.Fragment>
 			}
 			secondary={
-				<Typography sx={{ display: 'inline', pt: '10px' }} component="span">
+				<Typography sx={{ display: 'inline' }} component="span">
 					{chat.data.text}
 				</Typography>
 			}
