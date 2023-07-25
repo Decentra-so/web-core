@@ -11,6 +11,7 @@ import tahoModule from '@web3-onboard/taho'
 import pairingModule from '@/services/pairing/module'
 import e2eWalletModule from '@/tests/e2e-wallet'
 import { CGW_NAMES, WALLET_KEYS } from './consts'
+import torusModule from '@web3-onboard/torus'
 
 // We need to modify the module name as onboard dedupes modules with the same label and the WC v1 and v2 modules have the same
 // @see https://github.com/blocknative/web3-onboard/blob/d399e0b76daf7b363d6a74b100b2c96ccb14536c/packages/core/src/store/actions.ts#L419
@@ -41,6 +42,7 @@ const walletConnectV2 = (chain: ChainInfo): WalletInit => {
 }
 
 const WALLET_MODULES: { [key in WALLET_KEYS]: (chain: ChainInfo) => WalletInit } = {
+  [WALLET_KEYS.TORUS]: () => torusModule(),
   [WALLET_KEYS.INJECTED]: () => injectedWalletModule(),
   [WALLET_KEYS.PAIRING]: () => pairingModule(),
   [WALLET_KEYS.WALLETCONNECT]: () => walletConnectV1(),

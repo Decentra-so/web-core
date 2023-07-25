@@ -1,4 +1,5 @@
 export const enum WALLET_KEYS {
+  TORUS = 'TORUS',
   COINBASE = 'COINBASE',
   INJECTED = 'INJECTED',
   KEYSTONE = 'KEYSTONE',
@@ -11,6 +12,7 @@ export const enum WALLET_KEYS {
 }
 
 export const CGW_NAMES: { [key in WALLET_KEYS]: string | undefined } = {
+  [WALLET_KEYS.TORUS]: 'torus',
   [WALLET_KEYS.COINBASE]: 'coinbase',
   [WALLET_KEYS.INJECTED]: 'detectedwallet',
   [WALLET_KEYS.KEYSTONE]: 'keystone',

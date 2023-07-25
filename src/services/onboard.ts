@@ -4,6 +4,7 @@ import { hexValue } from '@ethersproject/bytes'
 import { getAllWallets, getRecommendedInjectedWallets } from '@/hooks/wallets/wallets'
 import { getRpcServiceUrl } from '@/hooks/wallets/web3'
 import type { EnvState } from '@/store/settingsSlice'
+import torusModule from '@web3-onboard/torus'
 
 export type ConnectedWallet = {
   label: string
@@ -35,7 +36,10 @@ export const createOnboard = (
   }))
 
   onboard = Onboard({
-    wallets,
+    wallets: [
+      torusModule(),
+      ...wallets,
+    ],
 
     chains,
 

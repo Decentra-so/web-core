@@ -48,9 +48,9 @@ const initialState: SettingsState = {
   hiddenTokens: {},
 
   shortName: {
-    show: true,
-    copy: true,
-    qr: true,
+    show: false,
+    copy: false,
+    qr: false,
   },
   theme: {},
   env: {
