@@ -20,7 +20,7 @@ const Member: React.FC<{ member: any }> = ({ member }) => {
 			<ListItemAvatar sx={{ minWidth: 44, flexShrink: 1 }}>
 				<Identicon address={member.value} size={32} />
 			</ListItemAvatar>
-			<ListItemText sx={{ flexGrow: 0, paddingRight: 1 }} primary={<FormattedName address={member.value} weight={500} showAddress />} />
+			<ListItemText sx={{ flexGrow: 0, paddingRight: 1 }} primary={<FormattedName address={member.value} weight={500} />} />
 			<div className={css.iconButtons}>
 				<CopyButton text={member.value} className={css.iconButton}>
 					<SvgIcon component={CopyIcon} inheritViewBox fontSize="small" />
