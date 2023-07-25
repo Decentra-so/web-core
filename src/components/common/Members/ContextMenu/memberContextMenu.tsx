@@ -31,7 +31,7 @@ const MemberContextMenu = ({
 	return (
 		<>
 			<IconButton edge="end" size="small" onClick={handleOpenContextMenu}>
-				<MoreHorizIcon sx={({ palette }) => ({ color: palette.border.main })} />
+				<MoreHorizIcon sx={({ palette }) => ({ color: palette.border.main })} fontSize="small" />
 			</IconButton>
 			<ContextMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseContextMenu}>
 				<ReplaceOwnerDialog address={member.value} />
