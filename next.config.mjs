@@ -13,6 +13,7 @@ const withPWA = NextPwa({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
   reactStrictMode: false,
   productionBrowserSourceMaps: true,
   eslint: {
