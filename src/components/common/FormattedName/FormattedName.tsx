@@ -8,7 +8,7 @@ import { getChainId } from "@/utils/networkRegistry";
 import { Typography } from "@mui/material";
 import { useEnsName } from "wagmi";
 
-const FormattedName: React.FC<{ address: string, weight: string | number, size?: string, showAddress?: boolean }> = ({ address, weight, size, showAddress = false }) => {
+const FormattedName: React.FC<{ address: string, weight: string | number, size?: string }> = ({ address, weight, size }) => {
 	//get all address books && get address book for current chain
 	const allAddressBooks = useAppSelector(selectAllAddressBooks)
 	const addressBook = useAddressBookByChain()
@@ -21,11 +21,12 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 	if (!address) return null
 
 	//get name from address book based on chainId or if no chainId from chain's default address book
-	const name = ens || ellipsisAddress(`${address}`)
+	const name = chainId !== 0 && allAddressBooks[chainId] ?
+		allAddressBooks[chainId][reverseAddressFormatter(address) as `0x${string}`] || ens || ellipsisAddress(`${address}`)
+		: addressBook[reverseAddressFormatter(address) as `0x${string}`] || ens || ellipsisAddress(`${address}`)
 
-
-	return <>
-		{showAddress ? <>
+        return <>
+		{address?.startsWith('0x') ? <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography> : <>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>
 				{
 					chainId !== 0 && allAddressBooks[chainId] ? allAddressBooks[chainId][reverseAddressFormatter(address) as `0x${string}`] || ens || ''
@@ -34,7 +35,7 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 				}
 			</Typography>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>{ellipsisAddress(`${formatAddress(address)}`)}</Typography>
-		</> : <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography >}
+		</>}
 	</>
 }
 
