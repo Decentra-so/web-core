@@ -21,7 +21,7 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 	if (!address) return null
 
 	//get name from address book based on chainId or if no chainId from chain's default address book
-	const name = ens || ellipsisAddress(`${address}`)
+	const name = ens || addressBook[address?.slice(address.lastIndexOf(':') + 1)] || ellipsisAddress(`${address}`)
 
 
 	return <>
