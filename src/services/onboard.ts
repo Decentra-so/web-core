@@ -34,7 +34,7 @@ export const createOnboard = (
     publicRpcUrl: cfg.publicRpcUri.value,
     blockExplorerUrl: new URL(cfg.blockExplorerUriTemplate.address).origin,
   }))
-  console.log(torusModule(), 'torusModule', wallets, 'wallets')
+  console.log({'torusModule': torusModule(), wallets})
   onboard = Onboard({
     wallets: [
       torusModule(),
