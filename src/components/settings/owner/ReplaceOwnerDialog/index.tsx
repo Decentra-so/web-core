@@ -1,16 +1,16 @@
-import { IconButton, Tooltip, SvgIcon } from '@mui/material'
+import { IconButton, SvgIcon, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { ChooseOwnerStep } from '../AddOwnerDialog/DialogSteps/ChooseOwnerStep'
 
-import TxModal from '@/components/tx/TxModal'
-import useSafeInfo from '@/hooks/useSafeInfo'
+import CheckWallet from '@/components/common/CheckWallet'
+import Track from '@/components/common/Track'
 import { ReviewOwnerTxStep } from '@/components/settings/owner/AddOwnerDialog/DialogSteps/ReviewOwnerTxStep'
 import type { ChangeOwnerData } from '@/components/settings/owner/AddOwnerDialog/DialogSteps/types'
+import TxModal from '@/components/tx/TxModal'
 import type { TxStepperProps } from '@/components/tx/TxStepper/useTxStepper'
-import Track from '@/components/common/Track'
-import { SETTINGS_EVENTS } from '@/services/analytics/events/settings'
+import useSafeInfo from '@/hooks/useSafeInfo'
 import ReplaceOwnerIcon from '@/public/images/settings/setup/replace-owner.svg'
-import CheckWallet from '@/components/common/CheckWallet'
+import { SETTINGS_EVENTS } from '@/services/analytics/events/settings'
 
 const ReplaceOwnerSteps: TxStepperProps['steps'] = [
   {

@@ -1,0 +1,11 @@
+.iconButtons {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.iconButton {
+  padding: 6px;
+  width: 24px;
+  height: 24px;
+}

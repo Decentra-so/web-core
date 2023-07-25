@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react'
-import React, { type ReactElement, type SyntheticEvent, useCallback, useState } from 'react'
 import CopyIcon from '@/public/images/common/copy.svg'
 import { IconButton, SvgIcon, Tooltip } from '@mui/material'
+import type { ReactNode } from 'react'
+import { useCallback, useState, type ReactElement, type SyntheticEvent } from 'react'
 
 const CopyButton = ({
   text,
@@ -51,6 +51,7 @@ const CopyButton = ({
         size="small"
         className={className}
         disabled={!isCopyEnabled}
+        sx={({ palette }) => ({ color: palette.border.main })}
       >
         {children ?? <SvgIcon component={CopyIcon} inheritViewBox color="border" fontSize="small" />}
       </IconButton>
