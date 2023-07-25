@@ -69,9 +69,9 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	}
 
 	useEffect(() => {
- 		setValue(+localStorage?.getItem('tabIndex')!)
- 	}, [value])
-	
+		setValue(+localStorage?.getItem('tabIndex')!)
+	}, [value])
+
 	useEffect(() => {
 		const activeFolders = async () => {
 			const items = JSON.parse(localStorage.getItem('folders')!)
