@@ -1,13 +1,14 @@
+
 import useAddressBookByChain from "@/hooks/useAddressBookByChain";
+import { useAppSelector } from "@/store";
+import { selectAllAddressBooks } from "@/store/addressBookSlice";
 import ellipsisAddress from "@/utils/ellipsisAddress";
+import { formatAddress, reverseAddressFormatter } from "@/utils/formatters";
+import { getChainId } from "@/utils/networkRegistry";
 import { Typography } from "@mui/material";
 import { useEnsName } from "wagmi";
-import { selectAllAddressBooks } from "@/store/addressBookSlice"
-import { useAppSelector } from "@/store";
-import { getChainId } from "@/utils/networkRegistry";
-import { formatAddress, reverseAddressFormatter } from "@/utils/formatters";
 
-const FormattedName: React.FC<{ address: string, weight: string | number, size?: string }> = ({ address, weight, size }) => {
+const FormattedName: React.FC<{ address: string, weight: string | number, size?: string, showAddress?: boolean }> = ({ address, weight, size, showAddress = false }) => {
 	//get all address books && get address book for current chain
 	const allAddressBooks = useAppSelector(selectAllAddressBooks)
 	const addressBook = useAddressBookByChain()
@@ -19,23 +20,21 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 	})
 	if (!address) return null
 
-	//get name from address book based on chainId or if no chainId from chain's default address book
-	const name = chainId !== 0 && allAddressBooks[chainId] ?
-		allAddressBooks[chainId][reverseAddressFormatter(address) as `0x${string}`] || ens || ellipsisAddress(`${address}`)
-		: addressBook[reverseAddressFormatter(address) as `0x${string}`] || ens || ellipsisAddress(`${address}`)
+	const name = ens || ellipsisAddress(`${address}`)
 
-return <>
-		{address?.startsWith('0x') ? <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography> : <>
+
+	return <>
+		{showAddress ? <>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>
 				{
 					chainId !== 0 && allAddressBooks[chainId] ? allAddressBooks[chainId][reverseAddressFormatter(address) as `0x${string}`] || ens || ''
-					:
-					addressBook[address?.slice(address.lastIndexOf(':') + 1)] || ens
+						:
+						addressBook[address?.slice(address.lastIndexOf(':') + 1)] || ens
 				}
 			</Typography>
 			<Typography sx={{ fontWeight: weight, fontSize: size }}>{ellipsisAddress(`${formatAddress(address)}`)}</Typography>
-		</>}
+		</> : <Typography sx={{ fontWeight: weight, fontSize: size }}>{name}</Typography >}
 	</>
 }
 
-export default FormattedName;
+export default FormattedName

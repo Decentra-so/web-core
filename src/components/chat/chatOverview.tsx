@@ -5,7 +5,7 @@ import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
@@ -48,7 +48,7 @@ export const ChatOverview: React.FC<{
       toggleAppsOpen(false)
     }
   }, [router.asPath])
-  
+
   return (
     <>
       {tokenTransfer && (
@@ -75,7 +75,7 @@ export const ChatOverview: React.FC<{
             <div className={css.iconButtons}>
               <QrCodeButton>
                 <Tooltip title="Open QR code" placement="top">
-                  <IconButton className={css.iconButton}>
+                  <IconButton className={css.iconButton} sx={({ palette }) => ({ color: palette.border.main })}>
                     <SvgIcon component={AppsIcon} inheritViewBox fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -91,6 +91,7 @@ export const ChatOverview: React.FC<{
                   target="_blank"
                   rel="noreferrer"
                   href={blockExplorerLink?.href || ''}
+                  sx={({ palette }) => ({ color: palette.border.main })}
                 >
                   <SvgIcon component={LinkIcon} inheritViewBox fontSize="small" />
                 </IconButton>
