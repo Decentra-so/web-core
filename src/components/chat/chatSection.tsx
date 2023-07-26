@@ -99,7 +99,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
 
   useEffect(() => {
     scrollToBottom()
-  }, [chatData, messages])
+  }, [messages])
 
   useEffect(() => {
     if (!authToken) return
