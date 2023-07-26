@@ -84,10 +84,6 @@
   font-size: 16px;
 }
 
-.tab:first-child {
-  margin-left: 24px;
-}
-
 /* styling various buttons wip*/
 .buttonstyled {
   border: 1px solid var(--color-border-light);

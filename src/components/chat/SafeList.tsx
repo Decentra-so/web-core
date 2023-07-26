@@ -1,14 +1,16 @@
-import { useAllOwnedSafes } from "@/hooks/useAllOwnedSafes"
-import useSafeAddress from "@/hooks/useSafeAddress"
-import useWallet from "@/hooks/wallets/useWallet"
-import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
-import useConnectWallet from "../common/ConnectWallet/useConnectWallet"
-import FormattedName from "../common/FormattedName/FormattedName"
-import FolderList from "../folder-list"
-import FolderGroup from "../folder-list/folderGroups"
-import ModalListContextMenu from "./ModalListContextMenu"
-import css from './styles.module.css'
+import { useAllOwnedSafes } from "@/hooks/useAllOwnedSafes";
+import useSafeAddress from "@/hooks/useSafeAddress";
+import useWallet from "@/hooks/wallets/useWallet";
+import { Box, Button, Toolbar, Typography } from "@mui/material";
+import Tab from '@mui/material/Tab';
+import Tabs, { tabsClasses } from '@mui/material/Tabs';
+import { useEffect, useState } from "react";
+import useConnectWallet from "../common/ConnectWallet/useConnectWallet";
+import FormattedName from "../common/FormattedName/FormattedName";
+import FolderList from "../folder-list";
+import FolderGroup from "../folder-list/folderGroups";
+import ModalListContextMenu from "./ModalListContextMenu";
+import css from './styles.module.css';
 
 interface TabPanelProps {
 	children?: React.ReactNode
@@ -101,11 +103,15 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 					scrollButtons='auto'
 					allowScrollButtonsMobile
 					TabScrollButtonProps={{ sx: { margin: 0, padding: 0, width: '20px' } }}
-					sx={{ padding: 0, borderBottom: '1px solid var(--color-border-light)' }}
+					sx={{
+						padding: 0, borderBottom: '1px solid var(--color-border-light)', [`& .${tabsClasses.scrollButtons}`]: {
+							'&.Mui-disabled': { opacity: 0.3 },
+						},
+					}}
 					value={value}
 					onChange={handleChange}
 					aria-label="folder tabs">
-					<Tab className={css.tab} label="All" {...a11yProps(0)} />
+					<Tab className={css.tab} sx={{ ":first-child": { marginLeft: folders.length < 4 ? '24px' : '8px' } }} label="All" {...a11yProps(0)} />
 					{folders.map((folder, i) => {
 						return <Tab className={css.tab} label={folder} key={`${folder}-${i}`} />
 					})}
