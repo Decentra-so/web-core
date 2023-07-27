@@ -1,11 +1,12 @@
 import useSafeAddress from "@/hooks/useSafeAddress";
-import { getMessages, listenForMessage, sendMessage } from "@/services/chat";
+import { sendMessage } from "@/services/chat";
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Button, Divider, InputBase, Paper, Box, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 import SignInLink from "../auth-sign-in/auth-link";
+import { publish } from "@/services/events";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -16,37 +17,19 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const ChatTextField: React.FC<{
-	currentUser: any,
 	messages: string[],
 	setMessages: any,
 	authToken: string
 	setAuth: any
-}> = ({ currentUser, messages, setMessages, authToken, setAuth }) => {
+}> = ({ messages, setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
 
 	//get and listen for message updates
-	useEffect(() => {
-		async function getM() {
-			await getMessages(`pid_${safeAddress!}`)
-				.then((msgs: any) => {
-					setMessages(msgs)
-				})
-				.catch((error) => {
-					setMessages([])
-				})
-
-			await listenForMessage(`pid_${safeAddress!}`)
-				.then((msg: any) => {
-					setMessages((prevState: any) => [...prevState, msg])
-				})
-				.catch((error) => console.log(error))
-		}
-		getM()
-	}, [safeAddress, currentUser])
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
+		publish('sendChatMessage', { message, safeAddress })
 		if (!message) return
 		await sendMessage(`pid_${safeAddress}`, message)
 			.then(async (msg: any) => {
