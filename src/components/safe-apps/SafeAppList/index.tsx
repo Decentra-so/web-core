@@ -21,6 +21,14 @@ type SafeAppListProps = {
   removeCustomApp?: (safeApp: SafeAppData) => void
 }
 
+const unusableApps = [
+  '1inch Network', 'Alkemi Earn', 'Bulla Banker', 'Bunni', 'Cask Protocol', 'Centrifuge', 'dHEDGE', 'DODO',
+  'dump.services', 'ETH Staking by P2P.org', 'ENS - Ethereum Name Service', 'Exactly', 'Furucombo', 'Harvest Finance',
+  'Hop Protocol', 'Index', 'Instadapp', 'Integral', 'Migratooor', 'Morpho-Aave', 'Morpho-Compound', 'NFTMigratooor', 'Oasis',
+  'OpenOcean', 'OtoCo', 'OtoCo', 'Pirex', 'Request Finance', 'Rocket Pool', 'Silo Finance', 'Snapshot', 'StakeDAO',  'Squid',
+  'Timeless Finance', 'Yearn', 'Zerion',
+]
+
 const VIEW_MODE_KEY = 'SafeApps_viewMode'
 
 const SafeAppList = ({
@@ -87,7 +95,7 @@ const SafeAppList = ({
           ))}
 
         {/* Flat list filtered by search query */}
-        {filteredApps.map((safeApp) => (
+        {filteredApps.filter((app) => !unusableApps.includes(app.name)).map((safeApp) => (
           <li key={safeApp.id}>
             <SafeAppCard
               safeApp={safeApp}

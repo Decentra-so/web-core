@@ -4,6 +4,7 @@ import React from 'react'
 import { useEnsName } from "wagmi"
 import FormattedName from "../common/FormattedName/FormattedName"
 import Identicon from "../common/Identicon"
+import { getDateFromTimestamp } from "@/utils/time"
 
 const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ chat, wallet }) => {
 	const { data, isError, isLoading } = useEnsName({
@@ -32,10 +33,12 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		        }}
 			primary={
 				<React.Fragment>
-					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', pr: '12px', fontWeight: 600, fontSize: '15px' }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600} />}
-					<Typography sx={{ display: 'inline' }} component="span" variant="body2">
-						{chat.timeStamp}
+					<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', fontWeight: 600, fontSize: '15px' }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600} size={'15px'} />}
+					<Typography sx={{ display: 'inline', color: '#757575', ml: '10px', fontSize: '12px' }} component="span">
+						{getDateFromTimestamp(chat.data.sentAt)}
 					</Typography>
+					</Box>	
 				</React.Fragment>
 			}
 			secondary={

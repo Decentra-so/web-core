@@ -117,23 +117,26 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
       </Box>
       </Box>
-
-      <Box className={css.actiontransactionbutton}>
-                 <TxFullShareLink id={tx.id} />
-      </Box>
+      
+      {tx.txInfo.type !== 'Creation' && (
+        <Box className={css.actiontransactionbutton}>
+          <TxFullShareLink id={tx.id} />
+        </Box>
+      )}
+      
 
       {wallet && isQueue && (
-             <Box gridArea="actions" className={css.twoactiontransactionbutton}>
-                     <Box className={css.actiondirectbox}>
+        <Box gridArea="actions" className={css.twoactiontransactionbutton}>
+          <Box className={css.actiondirectbox}>
           {awaitingExecution ? (
             <ExecuteTxButton txSummary={item.transaction} compactnew />
           ) : (
             <SignTxButton txSummary={item.transaction} compactnew />
           )}
-                       </Box>
-                                    <Box className={css.actiondirectbox}>
-          <RejectTxButton txSummary={item.transaction} compactnew />
-                                      </Box>
+            </Box>
+            <Box className={css.actiondirectbox}>
+              <RejectTxButton txSummary={item.transaction} compactnew />
+            </Box>
         </Box>
       )}
     </Box>

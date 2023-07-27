@@ -9,33 +9,46 @@ import TxType from '@/components/transactions/TxType'
 import OwnersIcon from '@/public/images/common/owners.svg'
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import { isMultisigExecutionInfo } from '@/utils/transaction-guards'
-import ViewTransactionsModal from '@/components/chat/modals/ViewTransactionsModal'
+import useTxHistory from '@/hooks/useTxHistory'
+import { useRouter } from 'next/router'
+import { useAppDispatch } from '@/store'
+import { openModal } from '@/store/modalServiceSlice'
+import { modalTypes } from '@/components/chat/modals'
+import { AppRoutes } from '@/config/routes'
 
 const TransactionQueue = () => {
   const txQueue = useTxQueue()
+  const txHistory = useTxHistory()
   const [queue, setQueue] = useState<any>()
-  const [transactionsOpen, toggleTransactionsOpen] = useState<boolean>(false)
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const { safe = '' } = router.query
+  const href = `${AppRoutes.chat}?safe=${safe}&id=`
+  console.log(queue, 'queue')
 
   useEffect(() => {
-    if (txQueue?.page?.results && txQueue?.page?.results?.length > 0) {
+    if (txQueue?.page?.results) {
       setQueue(txQueue?.page?.results.filter((tx) => tx.type !== 'LABEL'))
     }
-  }, [txQueue?.page?.results])
+  }, [txQueue?.page?.results, txHistory?.page?.results])
+
+  const openTX = (id: string) => {
+    router.push(href + id)
+    dispatch(openModal({ modalName: modalTypes.viewSingleTransaction, modalProps: '' }))
+  }
+
 
   return (
     <>
-      {transactionsOpen && (
-        <ViewTransactionsModal open={transactionsOpen} onClose={() => toggleTransactionsOpen(!transactionsOpen)} />
-      )}
       <Box sx={{ pt: 2, pl: 3, pr: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 600 }}>Transaction queue</Typography>
         <AddNewTxIconButton />
       </Box>
       <List sx={{ p: 3, pt: 2, gap: '16px', display: 'flex', flexFlow: 'column' }}>
-        {queue ? (
+        {queue?.length ? (
           queue.map((transaction: any, i: number) => {
             if (!transaction.transaction) return
-            return <Box className={classNames(css.gridContainer, css.columnTemplate)} key={`queue-${i}`} onClick={() => toggleTransactionsOpen(true)}>
+            return <Box className={classNames(css.gridContainer, css.columnTemplate)} key={`queue-${i}`} onClick={() => openTX(transaction.transaction.id)}>
                     <Box gridArea="nonce">
                       {isMultisigExecutionInfo(transaction.transaction.executionInfo) && transaction.transaction.executionInfo.nonce}
                     </Box>

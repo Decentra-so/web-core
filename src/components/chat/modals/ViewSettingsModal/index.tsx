@@ -42,7 +42,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 
-const ViewCreateSafe: React.FC<{
+const ViewSettings: React.FC<{
   open: boolean
   onClose: () => void
 }> = ({ open, onClose }) => {
@@ -91,4 +91,4 @@ const ViewCreateSafe: React.FC<{
   )
 }
 
-export default ViewCreateSafe
+export default ViewSettings

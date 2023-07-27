@@ -35,6 +35,7 @@ import { type ReactElement } from 'react'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
+import { Modals } from '@/components/chat/modals'
 
 const { provider, webSocketProvider } = configureChains([mainnet], [publicProvider()])
 
@@ -113,6 +114,7 @@ const WebCoreApp = ({
               <InitApp />
               <PageLayout pathname={router.pathname}>
                 <>
+                  <Modals />
                   <Component {...pageProps} key={router.query.safe?.toString()} />
                   <Analytics />
                 </>

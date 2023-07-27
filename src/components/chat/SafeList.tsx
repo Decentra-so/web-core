@@ -69,9 +69,9 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	}
 
 	useEffect(() => {
- 		setValue(+localStorage?.getItem('tabIndex')!)
- 	}, [value])
-	
+		setValue(+localStorage?.getItem('tabIndex')!)
+	}, [value])
+
 	useEffect(() => {
 		const activeFolders = async () => {
 			const items = JSON.parse(localStorage.getItem('folders')!)
@@ -126,12 +126,12 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 					wallet?.address && !areAllValuesEmptyArrays(allOwnedSafes) ?
 						<></>
 						: wallet?.address && areAllValuesEmptyArrays(allOwnedSafes) ?
-							<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={css.safelistactionbutton}>
 								<Button onClick={() => setCreateSafe(!createSafe)} variant="contained" disableElevation>
 									Create Safe
 								</Button>
 							</Box> :
-							<Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={css.safelistactionbutton}>
 								<Button onClick={handleConnect} variant="contained" disableElevation>
 									Connect wallet
 								</Button>

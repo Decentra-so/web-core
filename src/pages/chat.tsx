@@ -1,22 +1,18 @@
-import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import { ChatOverview } from '@/components/chat/chatOverview'
-import { AuthModal } from '@/components/chat/modals/AuthModal'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewAppModal from '@/components/chat/modals/ViewAppModal'
-import ViewSettingsModal from '@/components/chat/modals/ViewSettingsModal'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
 import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
-import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
-import { createWeb3 } from '@/hooks/wallets/web3'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import { ArrowBackIos } from '@mui/icons-material'
+import { useAppDispatch } from '@/store'
 import {
-  Box, Button, Container,
+  Box, Container,
   Drawer,
   IconButton, Toolbar,
   Typography,
@@ -28,6 +24,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { openModal } from '@/store/modalServiceSlice'
+import { modalTypes } from '@/components/chat/modals'
+
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
 const drawerWidth = 360
@@ -57,43 +56,21 @@ const Chat = () => {
   const router = useRouter()
   //user and safe
   const wallet = useWallet()
-  const onboard = useOnboard()
   const { safe, safeAddress, safeLoading } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
-  const [settings, toggleSettings] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
-  const [auth, setAuth] = useState<boolean>(false)
-  const [authToken, setAuthToken] = useState<string | null>('1')
   const [app, toggleApp] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (router.asPath.includes('app')) {
-      toggleApp(true)
-    }
-  }, [router.asPath])
-
-  useEffect(() => {
-    if (!onboard || !wallet) return
-    const provider = createWeb3(wallet?.provider)
-    const getToken = async () => {
-      await getExistingAuth(provider, wallet?.address).then((res) => {
-        setAuthToken(res)
-      })
-    }
-    getToken()
-  }, [onboard, wallet?.address, wallet?.provider])
-
-  useEffect(() => {
-    if (!onboard || !wallet) return
-    authToken ? setAuth(false) : setAuth(true)
-  }, [authToken, onboard, wallet])
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (router.asPath.includes('chain')) {
       setCreateSafe(true)
+    }
+    if (router.asPath.includes('app')) {
+      toggleApp(true)
     }
   }, [router.asPath])
 
@@ -121,8 +98,6 @@ const Chat = () => {
   return (
     <>
       {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
-      {auth && <AuthModal open={auth} onClose={() => setAuth(!auth)} setAuthToken={setAuthToken} />}
-      {settings && <ViewSettingsModal open={settings} onClose={() => toggleSettings(!settings)} />}
       {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
         <title>Decentra &mdash; Chat</title>
@@ -181,7 +156,10 @@ const Chat = () => {
                     }
                   </Box>
                   <Box>
-                    <IconButton sx={{ marginRight: '4px' }} color="inherit" aria-label="settings" onClick={() => toggleSettings(!settings)}>
+                    <IconButton
+                      sx={{ marginRight: '4px' }}
+                      color="inherit" aria-label="settings"
+                      onClick={() => dispatch(openModal({ modalName: modalTypes.settingsModal, modalProps: '' }))}>
                       <SettingsIcon />
                     </IconButton>
                     {matchesDesktop &&
@@ -228,10 +206,7 @@ const Chat = () => {
                         <Typography variant='h5' p={3}>Please add or select a chat from the sidebar</Typography>
                       </Box>
                     </Container>
-                    : wallet?.address && !authToken ?
-                      <Button onClick={() => setAuth(true)}>Authenticate</Button>
-                      :
-                      <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
+                    : wallet?.address && <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>
@@ -248,7 +223,7 @@ const Chat = () => {
                 height: 'calc(100vh - var(--header-height) - 24px)',
                 top: 'var(--header-height)',
                 margin: '12px 0',
-                boxShadow: 'var(--color-shadow-paper)',
+                filter: 'drop-shadow(0 3px 6px #00000010)',
                 borderRadius: '10px 0 0 10px',
                 border: '0px',
               },
