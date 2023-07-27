@@ -1,8 +1,8 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material'
-import React from 'react'
-import { ChatOverview } from './chatOverview'
-import { ChatSection } from './chatSection'
-import useSafeInfo from '@/hooks/useSafeInfo'
+import useSafeInfo from '@/hooks/useSafeInfo';
+import { Box, Tab, Tabs, Typography, useScrollTrigger } from '@mui/material';
+import React from 'react';
+import { ChatOverview } from './chatOverview';
+import { ChatSection } from './chatSection';
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -37,9 +37,15 @@ function a11yProps(index: number) {
   }
 }
 
+
+
 export const MobileChat = () => {
   const [mobileValue, setMobileValue] = React.useState(0)
-
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 10,
+    target: window,
+  });
   const { safe } = useSafeInfo()
   const owners = safe?.owners || ['']
 
@@ -48,19 +54,24 @@ export const MobileChat = () => {
   }
 
   return (
-      <Box sx={{ width: '100%', height: '100%' }}>
-        <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs">
-          <Tab label="Timeline" {...a11yProps(0)} />
-          <Tab label="Overview" {...a11yProps(1)} />
-        </Tabs>
-        <TabPanel value={mobileValue} index={0}>
-          <ChatSection />
-        </TabPanel>
-        <TabPanel value={mobileValue} index={1}>
-          <Box height="100%">
-            <ChatOverview owners={owners} />
-          </Box>
-        </TabPanel>
-      </Box>
+    <>
+      <Tabs variant="fullWidth" value={mobileValue} onChange={handleMobileChange} aria-label="responsive tabs" sx={({ palette }) => ({
+        position: 'sticky',
+        zIndex: 1,
+        top: 'calc(var(--header-height) + 50px)',
+        background: trigger ? palette.background.default : 'transparent'
+      })}>
+        <Tab label="Timeline" {...a11yProps(0)} />
+        <Tab label="Overview" {...a11yProps(1)} />
+      </Tabs>
+      <TabPanel value={mobileValue} index={0}>
+        <ChatSection />
+      </TabPanel>
+      <TabPanel value={mobileValue} index={1}>
+        <Box height="100%">
+          <ChatOverview owners={owners} />
+        </Box>
+      </TabPanel>
+    </>
   )
 }

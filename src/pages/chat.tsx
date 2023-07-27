@@ -1,4 +1,5 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
+import { modalTypes } from '@/components/chat/modals'
 import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
 import ViewAppModal from '@/components/chat/modals/ViewAppModal'
 import { SafeList } from '@/components/chat/SafeList'
@@ -9,8 +10,9 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
-import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
+import { openModal } from '@/store/modalServiceSlice'
+import { ArrowBackIos } from '@mui/icons-material'
 import {
   Box, Container,
   Drawer,
@@ -24,8 +26,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { openModal } from '@/store/modalServiceSlice'
-import { modalTypes } from '@/components/chat/modals'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
