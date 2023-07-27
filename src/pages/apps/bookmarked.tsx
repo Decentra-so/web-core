@@ -2,9 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 
 import { useSafeApps } from '@/hooks/safe-apps/useSafeApps'
-import SafeAppsHeader from '@/components/safe-apps/SafeAppsHeader'
 import SafeAppList from '@/components/safe-apps/SafeAppList'
-import SafeAppsSDKLink from '@/components/safe-apps/SafeAppsSDKLink'
 
 const BookmarkedSafeApps: NextPage = () => {
   const {
@@ -16,12 +14,8 @@ const BookmarkedSafeApps: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{'Bookmarked Safe Apps'}</title>
+        <title>{'Bookmarked Decentra Apps'}</title>
       </Head>
-
-      <SafeAppsSDKLink />
-
-      <SafeAppsHeader />
 
       <main>
         <SafeAppList

@@ -4,7 +4,6 @@ import { closeModal } from "@/store/modalServiceSlice";
 import { ViewSingleTransactionModal } from "./ViewSingleTransaction";
 import ViewTransactionsModal from "./ViewTransactionsModal";
 import React from 'react'
-import { AuthModal } from "./AuthModal";
 import ViewCreateSafe from "./CreateSafe";
 import { AddFolderModal } from "./AddFolderModal";
 import ViewAppModal from "./ViewAppModal";
@@ -15,7 +14,6 @@ import ViewSettings from "./ViewSettingsModal";
 export const modalTypes = {
   viewSingleTransaction: 'viewSingleTransaction',
   viewTransactions: 'viewTransactionsModal',
-  auth: 'auth',
   createSafe: 'createSafe',
   addFolderModal: 'addFolderModal',
   appModal: 'appModal',
@@ -40,13 +38,6 @@ export const Modals = () => {
         <ViewTransactionsModal
           open={activeModalState?.activeModal === modalTypes.viewTransactions}
           onClose={() => dispatch(closeModal())}
-        />
-      )}
-      {activeModalState?.activeModal === modalTypes.auth && (
-        <AuthModal
-          open={activeModalState?.activeModal === modalTypes.auth}
-          onClose={() => dispatch(closeModal())}
-          setAuthToken={activeModalState?.modalProps?.setAuthToken}
         />
       )}
       {activeModalState?.activeModal === modalTypes.createSafe && (
