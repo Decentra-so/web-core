@@ -15,7 +15,6 @@ import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
 
-
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
   //state
@@ -46,6 +45,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   }, [])
 
   const getChat = useCallback(() => {
+
     let allData: any[] = []
     const historyItems = txHistory.page?.results
     const queueItems = txQueue?.page?.results
@@ -85,7 +85,8 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         return 0
       }
     })
-    setChatData(allData)
+    if (JSON.stringify(allData) !== JSON.stringify(chatData))     setChatData(allData)
+
   }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
   useEffect(() => {
@@ -99,7 +100,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  }, [chatData])
 
   useEffect(() => {
     if (!authToken) return
@@ -144,7 +145,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           <List>
             {chatData &&
               chatData.map((chat, index) => {
-                console.log(chatData)
+
                 if (chat.type === 'message' && !chat.data.text) return
                 if (chat.type === 'message' && chat?.data?.sender) {
                   return (
@@ -219,7 +220,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         }}
       >
         {user && group &&
-          <ChatTextField currentUser={user} messages={messages} setMessages={setMessages} authToken={authToken} setAuth={setAuth} />
+          <ChatTextField messages={messages} setMessages={setMessages} authToken={authToken} setAuth={setAuth} />
         }
       </Box>
     </Box>

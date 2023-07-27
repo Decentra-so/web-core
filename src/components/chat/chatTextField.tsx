@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import React, { useState } from "react";
 import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 import SignInLink from "../auth-sign-in/auth-link";
+import { publish } from "@/services/events";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -16,12 +17,11 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const ChatTextField: React.FC<{
-	currentUser: any,
 	messages: string[],
 	setMessages: any,
 	authToken: string
 	setAuth: any
-}> = ({ currentUser, messages, setMessages, authToken, setAuth }) => {
+}> = ({ messages, setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
 
@@ -29,6 +29,7 @@ const ChatTextField: React.FC<{
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
+		publish('sendChatMessage', { message, safeAddress })
 		if (!message) return
 		await sendMessage(`pid_${safeAddress}`, message)
 			.then(async (msg: any) => {
