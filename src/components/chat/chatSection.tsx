@@ -145,7 +145,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           <List>
             {chatData &&
               chatData.map((chat, index) => {
-
+                if (chat.type === 'message' && chat?.data?.receiverId !== `pid_${safeAddress!.toLocaleLowerCase()}`) return
                 if (chat.type === 'message' && !chat.data.text) return
                 if (chat.type === 'message' && chat?.data?.sender) {
                   return (
