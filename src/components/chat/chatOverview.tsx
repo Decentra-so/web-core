@@ -5,12 +5,12 @@ import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
 import TokenTransferModal from '../tx/modals/TokenTransferModal'
-import ViewAppsModal from './modals/ViewAppsModal'
+import { modalTypes } from './modals'
 import ViewAssetsModal from './modals/ViewAssetsModal'
 
 import CopyButton from '@/components/common/CopyButton'
@@ -25,7 +25,8 @@ import { getBlockExplorerLink } from '@/utils/chains'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import { useRouter } from 'next/router'
+import { useAppDispatch } from '@/store'
+import { openModal } from '@/store/modalServiceSlice'
 
 export const ChatOverview: React.FC<{
   owners: any[]
@@ -36,18 +37,12 @@ export const ChatOverview: React.FC<{
   const [tokenTransfer, toggleTokenTransfer] = useState<boolean>(false)
   const [assetsOpen, toggleAssetsOpen] = useState<boolean>(false)
   const [nftsOpen, setNftsOpen] = useState<boolean>(false)
-  const [appsOpen, toggleAppsOpen] = useState<boolean>(false)
+  const dispatch = useAppDispatch()
   const settings = useAppSelector(selectSettings)
   const chain = useCurrentChain()
   const addressCopyText = settings.shortName.copy && chain ? `${chain.shortName}:${safeAddress}` : safeAddress
   const blockExplorerLink = chain ? getBlockExplorerLink(chain, safeAddress) : undefined
-  const router = useRouter()
-
-  useEffect(() => {
-    if (router.asPath.includes('app')) {
-      toggleAppsOpen(false)
-    }
-  }, [router.asPath])
+  
 
   return (
     <>
@@ -58,7 +53,6 @@ export const ChatOverview: React.FC<{
         />
       )}
       {assetsOpen && <ViewAssetsModal open={assetsOpen} onClose={() => toggleAssetsOpen(!assetsOpen)} nfts={nftsOpen} />}
-      {appsOpen && <ViewAppsModal open={appsOpen} onClose={() => toggleAppsOpen(!appsOpen)} />}
       <Box sx={{ p: 3 }}>
         <Typography sx={{ fontWeight: 600, mb: 3 }}>
           Overview
@@ -157,7 +151,7 @@ export const ChatOverview: React.FC<{
           securely and efficiently
         </Typography>
         {/* <Link href={{ pathname: AppRoutes.apps.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref> */}
-        <Button variant="outlined" className={css.buttonstyled} size="small" onClick={() => toggleAppsOpen(!appsOpen)}>
+        <Button variant="outlined" className={css.buttonstyled} size="small" onClick={() => dispatch(openModal({ modalName: modalTypes.appsModal, modalProps: '' }))}>
           Explore Apps
         </Button>
         {/* </Link> */}

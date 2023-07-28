@@ -205,7 +205,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                   }
                 }
               })}
-            <Box ref={bottom} sx={{ height: 0 }} />
+            <Box ref={bottom} sx={{ height: 35 }} />
             {!chatData ? <ListItem>No Chat</ListItem> : ''}
           </List>
         </Box>
