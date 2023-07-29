@@ -102,3 +102,7 @@ export const formatAddress = (address: string): string => {
 export const reverseAddressFormatter = (address: string): string => {
   return !address?.startsWith('0x') ? address?.slice(address.lastIndexOf(':') + 1) : address
 }
+
+export const formatSafeHistoryData = () => {
+  
+}

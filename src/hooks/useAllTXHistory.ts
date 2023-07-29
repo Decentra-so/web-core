@@ -29,8 +29,19 @@ export const useAllTXHistory = (): any => {
       const apiUrl = `${route}/api/v1/safes/${safeAddress}/all-transactions/?limit=1000&offset=0&executed=false&queued=true&trusted=true`;
 
       try {
+        const formattedData = []
         const response = await fetch(apiUrl);
         const data = await response.json();
+        if (data.results.length > 0) {
+          data.results.forEach((tx: any) => {
+            if(tx.txType === 'MULTISIG_TRANSACTION') {
+              const id = `multisig_${tx.safe}_${tx.safeTxHash}`
+              const type = tx?.dataDecoded?.method
+              console.log(id)
+            }
+            console.log(tx)
+          })
+        }
         return data;
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -47,7 +58,7 @@ export const useAllTXHistory = (): any => {
     return () => {
       isCurrent = false
     }
-  }, [wallet?.address, wallet?.provider, setHistoryCache])
+  }, [wallet?.address, wallet?.provider, safeAddress, setHistoryCache])
 
   return historyCache
 }
