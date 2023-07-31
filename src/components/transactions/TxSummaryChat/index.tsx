@@ -1,5 +1,5 @@
 import type { Palette } from '@mui/material'
-import { Box, CircularProgress, Typography, Divider } from '@mui/material'
+import { Box, CircularProgress, Typography, Divider, Button } from '@mui/material'
 import type { ReactElement } from 'react'
 import { type Transaction, TransactionStatus } from '@safe-global/safe-gateway-typescript-sdk'
 
@@ -17,6 +17,7 @@ import useTransactionStatus from '@/hooks/useTransactionStatus'
 import TxType from '@/components/transactions/TxType'
 import TxConfirmations from '../TxConfirmations'
 import useIsPending from '@/hooks/useIsPending'
+import { insertDescription } from '@/services/supabase'
 
 const getStatusColor = (value: TransactionStatus, palette: Palette) => {
   switch (value) {
@@ -94,21 +95,22 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
       <Box className={css.infosectiontransaction}>
         <Box sx={{ fontSize: '13px', color: '#757575' }}>Status</Box>
-            <Box
-        gridArea="status"
-        display="flex"
-        alignItems="center"
-        gap={1}
-        color={({ palette }) => getStatusColor(tx.txStatus, palette)}
-      >
-        {isPending && <CircularProgress size={14} color="inherit" />}
+          <Box
+            gridArea="status"
+            display="flex"
+            alignItems="center"
+            gap={1}
+            color={({ palette }) => getStatusColor(tx.txStatus, palette)}
+          >
+            {isPending && <CircularProgress size={14} color="inherit" />}
 
-        <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
-          {txStatusLabel}
-        </Typography>
-      </Box>
-      </Box>
-
+            <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
+              {txStatusLabel}
+            </Typography>
+      
+          </Box>
+        </Box>
+        <Button onClick={insertDescription}> Add description</Button>
       </Box>
 
       <Box gridArea="date" className={css.transactiondate}>

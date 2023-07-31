@@ -55,6 +55,7 @@
     "@safe-global/safe-react-components": "^2.0.5",
     "@sentry/react": "^7.28.1",
     "@sentry/tracing": "^7.28.1",
+    "@supabase/supabase-js": "^2.31.0",
     "@truffle/hdwallet-provider": "^2.1.4",
     "@vercel/analytics": "^1.0.1",
     "@web3-onboard/coinbase": "^2.2.4",
