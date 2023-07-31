@@ -13,6 +13,7 @@ import TokenTransferModal from '../tx/modals/TokenTransferModal'
 import { modalTypes } from './modals'
 import ViewAssetsModal from './modals/ViewAssetsModal'
 
+import Identicon from '@/components/common/Identicon'
 import CopyButton from '@/components/common/CopyButton'
 import QrCodeButton from '@/components/sidebar/QrCodeButton'
 import { useCurrentChain } from '@/hooks/useChains'
@@ -53,15 +54,13 @@ export const ChatOverview: React.FC<{
         />
       )}
       {assetsOpen && <ViewAssetsModal open={assetsOpen} onClose={() => toggleAssetsOpen(!assetsOpen)} nfts={nftsOpen} />}
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 3, pt: 2 }}>
         <Typography sx={{ fontWeight: 600, mb: 3 }}>
           Overview
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '40px' }}>
-          <Typography sx={{ color: grey[600] }}>
-            Address
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <Box>
+          <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', gap: '14px' }}>
+            <Identicon address={safeAddress} radius={12} size={64} />
             <Typography noWrap>
               {ellipsisAddress(`${safeAddress}`)}
             </Typography>
@@ -69,7 +68,7 @@ export const ChatOverview: React.FC<{
             <div className={css.iconButtons}>
               <QrCodeButton>
                 <Tooltip title="Open QR code" placement="top">
-                  <IconButton className={css.iconButton} sx={({ palette }) => ({ color: palette.border.main })}>
+                  <IconButton className={css.iconButton}>
                     <SvgIcon component={AppsIcon} inheritViewBox fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -85,7 +84,6 @@ export const ChatOverview: React.FC<{
                   target="_blank"
                   rel="noreferrer"
                   href={blockExplorerLink?.href || ''}
-                  sx={({ palette }) => ({ color: palette.border.main })}
                 >
                   <SvgIcon component={LinkIcon} inheritViewBox fontSize="small" />
                 </IconButton>
