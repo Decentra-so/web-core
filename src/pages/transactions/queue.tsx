@@ -32,6 +32,8 @@ const Queue: NextPage<{ showTabs: boolean }> = ({ showTabs = true }) => {
 
             {/* The main queue of signed transactions */}
             <PaginatedTxns useTxns={useTxQueue} />
+
+            <PaginatedTxns useTxns={useTxHistory} />
           </Box>
         </main>
       </BatchExecuteHoverProvider>
