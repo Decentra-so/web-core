@@ -34,7 +34,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const [chatData, setChatData] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const allHistory = useAllTXHistory()
-  console.log({allHistory: allHistory, txHistory: txHistory})
+  console.log({allHistory: { ...allHistory }, txHistory: txHistory})
   const bottom = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = useCallback(() => {
