@@ -54,7 +54,7 @@ export const ChatOverview: React.FC<{
         />
       )}
       {assetsOpen && <ViewAssetsModal open={assetsOpen} onClose={() => toggleAssetsOpen(!assetsOpen)} nfts={nftsOpen} />}
-      <Box sx={{ p: 3, pt: 2, display: 'flex', flexFlow: 'column', gap: 2 }}>
+      <Box sx={{ p: 3, pt: 2, display: 'flex', flexFlow: 'column', gap: 3 }}>
         <Typography sx={{ fontWeight: 600 }}>
           Overview
         </Typography>
@@ -97,10 +97,9 @@ export const ChatOverview: React.FC<{
             </div>
           </Box>
         </Box>
-        
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '40px', pt: '17px' }}>
-          <Typography sx={{ color: grey[600] }}>Network</Typography>
-          <Typography>
+        <Box sx={{ display: 'flex', gap: '4px' }}>
+          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', textTransform: 'uppercase', fontWeight: '600', color: '#517ac6', background: '#dce5f5' }}>
+           <Typography>
             {safe?.chainId === '137'
               ? 'Polygon'
               : safe?.chainId === '1'
@@ -114,13 +113,11 @@ export const ChatOverview: React.FC<{
                       : safe?.chainId === '100'
                         ? 'Gnosis Chain'
                         : ''}
-          </Typography>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '40px', pt: '20px' }}>
-          <Typography sx={{ color: grey[600] }}>
-            Threshold
-          </Typography>
-          <ThresholdOverview threshold={threshold} owners={ownerLength} />
+           </Typography>
+          </Box>
+          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', textTransform: 'uppercase', fontWeight: '600', color: '#7b5aa9', background: '#e4e0ed' }}>
+           <ThresholdOverview threshold={threshold} owners={ownerLength} /> Threshold
+          </Box>
         </Box>
       </Box>
       <Divider />
