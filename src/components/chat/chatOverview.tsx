@@ -63,7 +63,7 @@ export const ChatOverview: React.FC<{
             <Identicon address={safeAddress} radius={12} size={64} />
             <Box sx={{ textAlign: 'center' }}>
             {/* Make this functional by showing address book name (if existing), and always an edit icon to change the address book name */}
-            <Typography fontWeight={bold}>
+            <Typography fontWeight={600}>
               Unlabeled
             </Typography>  
             <Typography noWrap>
