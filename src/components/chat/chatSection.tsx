@@ -99,7 +99,10 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         return 0
       }
     })
-    if (JSON.stringify(allData) !== JSON.stringify(chatData))     setChatData(allData)
+    if (JSON.stringify(allData) !== JSON.stringify(chatData))  {
+      dispatch(setChat({ safeAddress, messages: chatData }))
+      setChatData(allData)
+    }
 
   }, [messages, allPaginatedHistory, txQueue?.page, safeAddress])
 
@@ -121,7 +124,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
         .then((msgs: any) => {
-          dispatch(setChat({ safeAddress, messages: msgs }))
           setMessages(msgs)
         })
         .catch((error) => {
