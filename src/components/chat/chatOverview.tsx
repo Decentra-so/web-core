@@ -97,8 +97,7 @@ export const ChatOverview: React.FC<{
           </Box>
         </Box>
         <Box sx={{ display: 'flex', gap: '4px' }}>
-          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', textTransform: 'uppercase', fontWeight: '600', color: '#517ac6', background: '#dce5f5' }}>
-           <Typography>
+          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#517ac6', background: '#dce5f5' }}>
             {safe?.chainId === '137'
               ? 'Polygon'
               : safe?.chainId === '1'
@@ -112,10 +111,9 @@ export const ChatOverview: React.FC<{
                       : safe?.chainId === '100'
                         ? 'Gnosis Chain'
                         : ''}
-           </Typography>
           </Box>
-          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', textTransform: 'uppercase', fontWeight: '600', color: '#7b5aa9', background: '#e4e0ed' }}>
-           <ThresholdOverview threshold={threshold} owners={ownerLength} /> Threshold
+          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#7b5aa9', background: '#e4e0ed' }}>
+           <ThresholdOverview threshold={threshold} owners={ownerLength} />
           </Box>
         </Box>
       </Box>
