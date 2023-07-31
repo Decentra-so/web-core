@@ -14,7 +14,7 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
-import { useAllTXHistory } from '@/hooks/useAllTXHistory'
+import { recursivelyFetchPaginatedResults } from '@/types/txHistory'
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
@@ -33,9 +33,20 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const [messages, setMessages] = useState([''])
   const [chatData, setChatData] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
-  const allHistory = useAllTXHistory()
-  console.log({allHistory: { ...allHistory }, txHistory: txHistory})
   const bottom = useRef<HTMLDivElement>(null)
+  const [allPaginatedHistory, setAllPaginatedHistory] = useState<any[]>([])
+
+  useEffect(() => {
+    // Replace this with your actual API endpoint
+    const apiUrl = txHistory?.page?.next
+    recursivelyFetchPaginatedResults(apiUrl!, txHistory?.page?.results)
+      .then((data: any) => {
+        setAllPaginatedHistory(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [txHistory?.page]);
 
   const scrollToBottom = useCallback(() => {
     if (!bottom.current) return
@@ -50,7 +61,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const getChat = useCallback(() => {
 
     let allData: any[] = []
-    const historyItems = txHistory.page?.results
+    const historyItems = allPaginatedHistory
     const queueItems = txQueue?.page?.results
     historyItems?.forEach((tx: any) => {
       if (tx.type === 'DATE_LABEL') {
@@ -90,7 +101,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     })
     if (JSON.stringify(allData) !== JSON.stringify(chatData))     setChatData(allData)
 
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
+  }, [messages, allPaginatedHistory, txQueue?.page, safeAddress])
 
   useEffect(() => {
     if (!onboard || !wallet) return
