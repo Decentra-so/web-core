@@ -54,16 +54,22 @@ export const ChatOverview: React.FC<{
         />
       )}
       {assetsOpen && <ViewAssetsModal open={assetsOpen} onClose={() => toggleAssetsOpen(!assetsOpen)} nfts={nftsOpen} />}
-      <Box sx={{ p: 3, pt: 2 }}>
-        <Typography sx={{ fontWeight: 600, mb: 3 }}>
+      <Box sx={{ p: 3, pt: 2, display: 'flex', flexFlow: 'column', gap: 2 }}>
+        <Typography sx={{ fontWeight: 600 }}>
           Overview
         </Typography>
         <Box>
           <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', gap: '14px' }}>
             <Identicon address={safeAddress} radius={12} size={64} />
+            <Box sx={{ textAlign: 'center' }}>
+            {/* Make this functional by showing address book name (if existing), and always an edit icon to change the address book name */}
+            <Typography fontWeight={bold}>
+              Unlabeled
+            </Typography>  
             <Typography noWrap>
               {ellipsisAddress(`${safeAddress}`)}
             </Typography>
+            </Box>
             {/* <PrefixedEthHashInfo address={safeAddress} showAvatar={false} /> */}
             <div className={css.iconButtons}>
               <QrCodeButton>
@@ -91,6 +97,7 @@ export const ChatOverview: React.FC<{
             </div>
           </Box>
         </Box>
+        
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '40px', pt: '17px' }}>
           <Typography sx={{ color: grey[600] }}>Network</Typography>
           <Typography>
