@@ -4,6 +4,7 @@ import { BatchExecuteHoverProvider } from '@/components/transactions/BatchExecut
 import TxHeader from '@/components/transactions/TxHeader'
 import { useHasPendingTxs, usePendingTxsQueue } from '@/hooks/usePendingTxs'
 import useTxQueue from '@/hooks/useTxQueue'
+import useTxHistory from '@/hooks/useTxHistory'
 import { Box } from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
