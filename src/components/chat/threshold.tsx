@@ -1,5 +1,5 @@
 import { ChangeThresholdDialogEditIcon } from '@/components/settings/owner/ChangeThresholdDialog'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 
 export const ThresholdOverview = ({ threshold, owners }: { threshold: number; owners: number }) => {
   return (
