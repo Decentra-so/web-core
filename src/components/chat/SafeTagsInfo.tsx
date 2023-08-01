@@ -14,7 +14,6 @@ const SafeTagsInfo = (): ReactElement => {
   const { safe } = useSafeInfo()
   const { threshold, owners } = safe
   const chain = useCurrentChain()
-  const settings = useAppSelector(selectSettings)
 
   const fiatTotal = useMemo(
     () => (balances.fiatTotal ? formatCurrency(balances.fiatTotal, currency) : ''),
