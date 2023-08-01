@@ -44,7 +44,7 @@ export const SafeTagsInfo = ({ threshold, owners }: { threshold: number; owners:
           </Box>
           <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#2a8053', background: '#d8e9e1' }}>
              <Box sx={{ display: 'flex', gap: '6px' }}>
-            {threshold}/{owners} {matches && THRESHOLD}
+            {threshold}/{owners} {matches && <a>Threshold</a>}
           {owners > 1 && <ChangeThresholdDialogEditIcon />}
              </Box>
           </Box>
