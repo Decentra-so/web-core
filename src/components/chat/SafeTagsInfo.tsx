@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import { type ReactElement, useMemo } from 'react'
 import { Box } from '@mui/material'
 
-import { ThresholdOverview } from '@/components/chat/threshold'
+import { ChangeThresholdDialogEditIcon } from '@/components/settings/owner/ChangeThresholdDialog'
 
 import { formatCurrency } from '@/utils/formatNumber'
 import useSafeInfo from '@/hooks/useSafeInfo'
@@ -10,14 +10,10 @@ import { selectCurrency } from '@/store/settingsSlice'
 
 import { useVisibleBalances } from '@/hooks/useVisibleBalances'
 
-export const SafeTagsInfo: React.FC<{
-  owners: any[]
-}> = ({ owners }) => {
+export const SafeTagsInfo = ({ threshold, owners }: { threshold: number; owners: number }): ReactElement => {
   const currency = useAppSelector(selectCurrency)
   const { balances } = useVisibleBalances()
   const { safe } = useSafeInfo()
-  const ownerLength = safe?.owners?.length || 0
-  const threshold = safe.threshold
   
   const fiatTotal = useMemo(
     () => (balances.fiatTotal ? formatCurrency(balances.fiatTotal, currency) : ''),
@@ -45,7 +41,10 @@ export const SafeTagsInfo: React.FC<{
             {fiatTotal}
           </Box>
           <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#2a8053', background: '#d8e9e1' }}>
-           <ThresholdOverview threshold={threshold} owners={ownerLength} />
+             <Box sx={{ display: 'flex', gap: '6px' }}>
+            {threshold}/{owners} THRESHOLD
+          {owners > 1 && <ChangeThresholdDialogEditIcon />}
+             </Box>
           </Box>
       </Box>
   )
