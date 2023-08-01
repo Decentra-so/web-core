@@ -1,4 +1,5 @@
 import { type ReactElement, useMemo } from 'react'
+import { Box } from '@mui/material'
 
 import { formatCurrency } from '@/utils/formatNumber'
 import useSafeInfo from '@/hooks/useSafeInfo'
