@@ -142,6 +142,7 @@ const Chat = () => {
                     alignItems: 'center',
                     bgcolor: 'var(--color-background-lightcolor)',
                     borderBottom: '1px solid var(--color-border-light)',
+                    height: '70px',
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '14px' }}>
@@ -154,8 +155,8 @@ const Chat = () => {
                     }
                     {(safeAddress && !safeLoading) && <>
                       <Box sx={{ display: 'flex', flexFlow: 'column', gap: '5px'}}>
-                        <SafeTagsInfo threshold={threshold} owners={ownerLength} />
                         <FormattedName address={safeAddress} weight={600} />
+                        <SafeTagsInfo threshold={threshold} owners={ownerLength} />
                       </Box>
                     </>
                     }
