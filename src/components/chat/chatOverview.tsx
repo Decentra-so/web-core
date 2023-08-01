@@ -1,5 +1,4 @@
 import css from '@/components/chat/styles.module.css'
-import { ThresholdOverview } from '@/components/chat/threshold'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
