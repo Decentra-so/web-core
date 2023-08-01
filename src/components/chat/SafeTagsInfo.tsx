@@ -1,4 +1,4 @@
-import { type ReactElement, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Box } from '@mui/material'
 
 import { ThresholdOverview } from '@/components/chat/threshold'
@@ -10,12 +10,15 @@ import { selectCurrency } from '@/store/settingsSlice'
 
 import { useVisibleBalances } from '@/hooks/useVisibleBalances'
 
-const SafeTagsInfo = (): ReactElement => {
+export const SafeTagsInfo: React.FC<{
+  owners: any[]
+}> = ({ owners }) => {
   const currency = useAppSelector(selectCurrency)
   const { balances } = useVisibleBalances()
   const { safe } = useSafeInfo()
-  const { threshold, owners } = safe
-
+  const ownerLength = safe?.owners?.length || 0
+  const threshold = safe.threshold
+  
   const fiatTotal = useMemo(
     () => (balances.fiatTotal ? formatCurrency(balances.fiatTotal, currency) : ''),
     [currency, balances.fiatTotal],
