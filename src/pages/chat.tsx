@@ -26,6 +26,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
+import SafeTagsInfo from '@/components/chat/SafeTagsInfo'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
@@ -59,6 +60,9 @@ const Chat = () => {
   const { safe, safeAddress, safeLoading } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
+  //safetags
+  const ownerLength = safe?.owners?.length || 0
+  const threshold = safe.threshold
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
@@ -150,8 +154,10 @@ const Chat = () => {
                       </Link>
                     }
                     {(safeAddress && !safeLoading) && <>
-                      <Identicon address={safeAddress} radius={6} size={32} />
-                      <FormattedName address={safeAddress} weight={600} />
+                      <Box sx={{ display: 'flex', flexFlow: 'column', gap: '5px'}}>
+                        <SafeTagsInfo threshold={threshold} owners={ownerLength} />
+                        <FormattedName address={safeAddress} weight={600} />
+                      </Box>
                     </>
                     }
                   </Box>
