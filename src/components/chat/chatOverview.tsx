@@ -4,7 +4,7 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import NftIcon from '@/public/images/common/nft.svg'
 import AssetsIcon from '@/public/images/sidebar/assets.svg'
 import { Box, Button, Divider, SvgIcon, Typography } from '@mui/material'
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import Members from '../common/Members'
 import TransactionHistory from '../common/TransactionHistory'
 import TransactionQueue from '../common/TransactionQueue'
@@ -30,10 +30,6 @@ import Tooltip from '@mui/material/Tooltip'
 import { useAppDispatch } from '@/store'
 import { openModal } from '@/store/modalServiceSlice'
 
-import { formatCurrency } from '@/utils/formatNumber'
-import { selectCurrency } from '@/store/settingsSlice'
-import { useVisibleBalances } from '@/hooks/useVisibleBalances'
-
 export const ChatOverview: React.FC<{
   owners: any[]
 }> = ({ owners }) => {
@@ -48,13 +44,6 @@ export const ChatOverview: React.FC<{
   const chain = useCurrentChain()
   const addressCopyText = settings.shortName.copy && chain ? `${chain.shortName}:${safeAddress}` : safeAddress
   const blockExplorerLink = chain ? getBlockExplorerLink(chain, safeAddress) : undefined
-  const currency = useAppSelector(selectCurrency)
-  const { balances } = useVisibleBalances()
-  const fiatTotal = useMemo(
-    () => (balances.fiatTotal ? formatCurrency(balances.fiatTotal, currency) : ''),
-    [currency, balances.fiatTotal],
-  )
-  
 
   return (
     <>
@@ -109,29 +98,6 @@ export const ChatOverview: React.FC<{
           </Box>
         </Box>
         <SafeTagsInfo threshold={threshold} owners={ownerLength} />
-        <Box sx={{ display: 'flex', gap: '4px' }}>
-          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#517ac6', background: '#dce5f5' }}>
-            {safe?.chainId === '137'
-              ? 'Polygon'
-              : safe?.chainId === '1'
-                ? 'Ethereum'
-                : safe?.chainId === '10'
-                  ? 'Optimism'
-                  : safe?.chainId === '42161'
-                    ? 'Arbitrum'
-                    : safe?.chainId === '56'
-                      ? 'BNB Smart Chain'
-                      : safe?.chainId === '100'
-                        ? 'Gnosis Chain'
-                        : ''}
-          </Box>
-          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#7b5aa9', background: '#e4e0ed' }}>
-            {fiatTotal}
-          </Box>
-          <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#2a8053', background: '#d8e9e1' }}>
-           <ThresholdOverview threshold={threshold} owners={ownerLength} />
-          </Box>
-        </Box>
       </Box>
       <Divider />
       <Members members={owners} />
