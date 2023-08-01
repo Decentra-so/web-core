@@ -1,6 +1,8 @@
 import { type ReactElement, useMemo } from 'react'
 import { Box } from '@mui/material'
 
+import { ThresholdOverview } from '@/components/chat/threshold'
+
 import { formatCurrency } from '@/utils/formatNumber'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import { useAppSelector } from '@/store'
