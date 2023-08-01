@@ -1,7 +1,8 @@
 import { type ReactElement, useMemo } from 'react'
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 
 import { ChangeThresholdDialogEditIcon } from '@/components/settings/owner/ChangeThresholdDialog'
+
 
 import { formatCurrency } from '@/utils/formatNumber'
 import useSafeInfo from '@/hooks/useSafeInfo'
@@ -11,6 +12,7 @@ import { selectCurrency } from '@/store/settingsSlice'
 import { useVisibleBalances } from '@/hooks/useVisibleBalances'
 
 export const SafeTagsInfo = ({ threshold, owners }: { threshold: number; owners: number }): ReactElement => {
+  const matches = useMediaQuery('(min-width: 601px)')
   const currency = useAppSelector(selectCurrency)
   const { balances } = useVisibleBalances()
   const { safe } = useSafeInfo()
@@ -42,7 +44,7 @@ export const SafeTagsInfo = ({ threshold, owners }: { threshold: number; owners:
           </Box>
           <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#2a8053', background: '#d8e9e1' }}>
              <Box sx={{ display: 'flex', gap: '6px' }}>
-            {threshold}/{owners} THRESHOLD
+            {threshold}/{owners} {matches && THRESHOLD}
           {owners > 1 && <ChangeThresholdDialogEditIcon />}
              </Box>
           </Box>
