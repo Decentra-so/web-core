@@ -12,6 +12,8 @@ import TokenTransferModal from '../tx/modals/TokenTransferModal'
 import { modalTypes } from './modals'
 import ViewAssetsModal from './modals/ViewAssetsModal'
 
+import SafeTagsInfo from '@/components/chat/SafeTagsInfo'
+
 import Identicon from '@/components/common/Identicon'
 import CopyButton from '@/components/common/CopyButton'
 import QrCodeButton from '@/components/sidebar/QrCodeButton'
@@ -106,6 +108,7 @@ export const ChatOverview: React.FC<{
             </div>
           </Box>
         </Box>
+        <SafeTagsInfo />
         <Box sx={{ display: 'flex', gap: '4px' }}>
           <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#517ac6', background: '#dce5f5' }}>
             {safe?.chainId === '137'
