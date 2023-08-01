@@ -108,7 +108,7 @@ export const ChatOverview: React.FC<{
             </div>
           </Box>
         </Box>
-        <SafeTagsInfo />
+        <SafeTagsInfo owners={owners} />
         <Box sx={{ display: 'flex', gap: '4px' }}>
           <Box sx={{ width: 'auto', height: '20px', borderRadius: '4px', fontSize: '12px', padding: '6px', alignItems: 'center', display: 'flex', textTransform: 'uppercase', fontWeight: '600', color: '#517ac6', background: '#dce5f5' }}>
             {safe?.chainId === '137'
