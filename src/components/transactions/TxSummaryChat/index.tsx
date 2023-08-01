@@ -1,10 +1,9 @@
 import type { Palette } from '@mui/material'
 import { Box, CircularProgress, Typography, Divider, Button } from '@mui/material'
 import type { ReactElement } from 'react'
+import { useState, useEffect } from 'react'
 import { type Transaction, TransactionStatus } from '@safe-global/safe-gateway-typescript-sdk'
-
 import TxFullShareLink from '@/components/transactions/TxFullShareLink'
-
 import DateTime from '@/components/common/DateTime'
 import TxInfo from '@/components/transactions/TxInfo'
 import SignTxButton from '@/components/transactions/SignTxButton'
@@ -17,7 +16,11 @@ import useTransactionStatus from '@/hooks/useTransactionStatus'
 import TxType from '@/components/transactions/TxType'
 import TxConfirmations from '../TxConfirmations'
 import useIsPending from '@/hooks/useIsPending'
-import { insertDescription } from '@/services/supabase'
+import { useAppDispatch } from '@/store'
+import { openModal } from '@/store/modalServiceSlice'
+import { modalTypes } from '@/components/chat/modals'
+import { readDescription } from '@/services/supabase'
+
 
 const getStatusColor = (value: TransactionStatus, palette: Palette) => {
   switch (value) {
@@ -40,6 +43,8 @@ type TxSummaryProps = {
 }
 
 const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
+  const [description, setDescription] = useState<{ description: string, owner: string } | null>()
+  const dispatch = useAppDispatch()
   const tx = item.transaction
   const wallet = useWallet()
   const txStatusLabel = useTransactionStatus(tx)
@@ -55,6 +60,15 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
     : undefined
 
   const displayConfirmations = isQueue && !!submittedConfirmations && !!requiredConfirmations
+
+  useEffect(() => {
+    const read = async () => {
+      const des = readDescription(tx.id)
+      console.log(des)
+      return des
+    }
+    read().then((res) => res?.length && setDescription(res[0]))
+  }, [tx?.id])
 
   return (
     <Box
@@ -110,7 +124,26 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       
           </Box>
         </Box>
-        <Button onClick={insertDescription}> Add description</Button>
+        
+        {
+          description && <Box className={css.infosectiontransaction}>
+            <Box sx={{ fontSize: '13px', color: '#757575' }}>Description</Box>
+            <Box gridArea="description" display="flex" alignItems="center" gap={1}>
+              <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
+                {description.description}
+              </Typography>
+            </Box>
+          </Box>
+        }
+        {
+          !description && <Button
+          onClick={() => dispatch(
+            openModal({ modalName: modalTypes.addTransactionDescription, modalProps: { id: tx.id, owner: wallet?.address! } }
+          ))}>
+            Add description
+          </Button>
+        }
+        
       </Box>
 
       <Box gridArea="date" className={css.transactiondate}>
