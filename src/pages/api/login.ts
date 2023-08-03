@@ -79,7 +79,7 @@ const handler = async (req: any, res: any) => {
       address: address, // this will be read by RLS policy
       sub: authUser?.id,
       aud: 'authenticated'
-    }, process.env.NEXT_PUBLIC_SUPABASE_JWT!, { expiresIn: 60*2 } )
+    }, process.env.NEXT_PUBLIC_SUPABASE_JWT! )
 
     return res.status(200).json({ token });
   } catch (err: any) {

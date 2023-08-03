@@ -13,9 +13,7 @@ export const AddTxDescription: React.FC<{
   const [description, setDescription] = useState<string>('')
   const auth = getCookie('me')
   const addDescription = async () => {
-    console.log(id, owner, description, 'description')
     const tx = await insertDescription(id, description, owner, auth!)
-    console.log(tx)
     setDescription('')
     onClose()
   }

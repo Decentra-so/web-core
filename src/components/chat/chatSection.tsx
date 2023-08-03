@@ -14,8 +14,6 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
-import { getCookie } from 'typescript-cookie'
-
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
@@ -35,9 +33,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const [chatData, setChatData] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const bottom = useRef<HTMLDivElement>(null)
-
-  const cookie = getCookie('me')
-console.log('cookie', cookie)
 
   const scrollToBottom = useCallback(() => {
     if (!bottom.current) return
@@ -155,14 +150,14 @@ console.log('cookie', cookie)
                 if (chat.type === 'message' && !chat.data.text) return
                 if (chat.type === 'message' && chat?.data?.sender) {
                   return (
-                    <ChatMessage key={index} chat={chat} wallet={wallet} />
+                    <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
                   )
                 } else if (chat?.type) {
                   if (matches) {
                     if (drawerOpen) {
                       return (
                         <ListItem
-                          key={index}
+                          key={`d-p${index}`}
                           sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
                           alignItems="flex-start"
                           disableGutters
@@ -178,7 +173,7 @@ console.log('cookie', cookie)
                     } else {
                       return (
                         <ListItem
-                          key={index}
+                          key={`msg-${index}`}
                           sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
                           alignItems="flex-start"
                           disableGutters
@@ -195,7 +190,7 @@ console.log('cookie', cookie)
                   } else {
                     return (
                       <ListItem
-                        key={index}
+                        key={`txi-${index}`}
                         sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
                         alignItems="flex-start"
                         disableGutters

@@ -21,6 +21,7 @@ import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
 import { readDescription } from '@/services/supabase'
 import { getCookie } from 'typescript-cookie'
+import useSafeInfo from '@/hooks/useSafeInfo'
 
 const getStatusColor = (value: TransactionStatus, palette: Palette) => {
   switch (value) {
@@ -53,12 +54,15 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
   const isQueue = isTxQueued(tx.txStatus)
   const awaitingExecution = isAwaitingExecution(tx.txStatus)
   const nonce = isMultisigExecutionInfo(tx.executionInfo) ? tx.executionInfo.nonce : undefined
+  const { safe } = useSafeInfo()
   const requiredConfirmations = isMultisigExecutionInfo(tx.executionInfo)
     ? tx.executionInfo.confirmationsRequired
     : undefined
   const submittedConfirmations = isMultisigExecutionInfo(tx.executionInfo)
     ? tx.executionInfo.confirmationsSubmitted
     : undefined
+    const owners = safe?.owners || ['']
+    const ownerArray = owners.map((owner) => owner.value)
 
   const displayConfirmations = isQueue && !!submittedConfirmations && !!requiredConfirmations
 
@@ -127,7 +131,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
         </Box>
         
         {
-          description && <Box className={css.infosectiontransaction}>
+          description && ownerArray.includes(wallet?.address || '') && <Box className={css.infosectiontransaction}>
             <Box sx={{ fontSize: '13px', color: '#757575' }}>Description</Box>
             <Box gridArea="description" display="flex" alignItems="center" gap={1}>
               <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
@@ -137,7 +141,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           </Box>
         }
         {
-          !description && <Button
+          !description && ownerArray.includes(wallet?.address || '') && <Button
           onClick={() => dispatch(
             openModal({ modalName: modalTypes.addTransactionDescription, modalProps: { id: tx.id, owner: wallet?.address! } }
           ))}>

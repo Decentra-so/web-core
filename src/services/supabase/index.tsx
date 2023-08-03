@@ -27,14 +27,11 @@ export const insertDescription = async (id: string, description: string, owner: 
   );
   supabaseAuthenticated.realtime.accessToken = auth
   if (!supabaseAuthenticated) {
-    console.log('here 1')
     throw new Error('Supabase is not initialized')
   }
   if (!id || !description || !owner) {
-    console.log('here 2')
     throw new Error('Invalid arguments')
   }
-  console.log(supabaseAuthenticated, 'supabaseAuthenticated')
   try {
     const { data, error } = await supabaseAuthenticated
     .from('descriptions')
@@ -46,7 +43,6 @@ export const insertDescription = async (id: string, description: string, owner: 
       },
     ])
     .select()
-    console.log(data, 'data')
   } catch (error) {
     console.log(error, 'error')
   }
