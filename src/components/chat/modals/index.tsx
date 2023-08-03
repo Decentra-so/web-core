@@ -10,8 +10,10 @@ import ViewAppModal from "./ViewAppModal";
 import ViewAppsModal from "./ViewAppsModal";
 import ViewAssetsModal from "./ViewAssetsModal";
 import ViewSettings from "./ViewSettingsModal";
+import { ViewTxMessages } from "./TxMessages";
 
 export const modalTypes = {
+  transactionMessages: 'transactionMessages',
   viewSingleTransaction: 'viewSingleTransaction',
   viewTransactions: 'viewTransactionsModal',
   createSafe: 'createSafe',
@@ -74,6 +76,12 @@ export const Modals = () => {
       {activeModalState?.activeModal === modalTypes.settingsModal && (
         <ViewSettings
           open={activeModalState?.activeModal === modalTypes.settingsModal}
+          onClose={() => dispatch(closeModal())}
+        />
+      )}
+      {activeModalState?.activeModal === modalTypes.transactionMessages && (
+        <ViewTxMessages
+          open={activeModalState?.activeModal === modalTypes.transactionMessages}
           onClose={() => dispatch(closeModal())}
         />
       )}
