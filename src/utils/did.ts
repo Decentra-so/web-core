@@ -3,8 +3,6 @@ import { Base64 } from 'js-base64';
 
 import { getSignature, verifySignature } from './ethereumHelpers';
 
-const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
-
 const WELCOME_MESSAGE = `Welcome to Decentra!
 
 Please sign this message to prove that you own this address. 
@@ -38,9 +36,10 @@ export async function createToken(
 
   const serializedClaim = JSON.stringify(claim);
   const msgToSign = `${WELCOME_MESSAGE}${serializedClaim}`;
+
   const proof = await getSignature(provider, msgToSign);
 
-  return Base64.encode(JSON.stringify([proof, msg]));
+  return Base64.encode(JSON.stringify([proof, serializedClaim]));
 }
 
 export async function verifyToken(
@@ -48,12 +47,18 @@ export async function verifyToken(
   provider: providers.JsonRpcProvider,
   connectedAddress?: string,
 ): Promise<Claim> {
+
   const rawToken = Base64.decode(token);
+
   const [proof, rawClaim] = JSON.parse(rawToken);
+ 
   const claim: Claim = JSON.parse(rawClaim);
+
   const claimant = claim.walletaddress;
+  console.log('claimant', claimant, claim)
 
   if (connectedAddress != null && claimant !== connectedAddress) {
+    console.log('Connected address ≠ claim issuer', claimant, connectedAddress)
     throw new Error(
       `Connected address (${connectedAddress}) ≠ claim issuer (${claimant}).`,
     );
@@ -63,6 +68,7 @@ export async function verifyToken(
   const valid = await verifySignature(claimant, msgToVerify, proof, provider);
 
   if (!valid) {
+    console.log('Invalid Signature')
     throw new Error('Invalid Signature');
   }
 

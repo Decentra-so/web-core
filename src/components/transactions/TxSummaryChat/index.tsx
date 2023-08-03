@@ -20,7 +20,7 @@ import { useAppDispatch } from '@/store'
 import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
 import { readDescription } from '@/services/supabase'
-
+import { getCookie } from 'typescript-cookie'
 
 const getStatusColor = (value: TransactionStatus, palette: Palette) => {
   switch (value) {
@@ -43,6 +43,7 @@ type TxSummaryProps = {
 }
 
 const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
+  const auth = getCookie('me')
   const [description, setDescription] = useState<{ description: string, owner: string } | null>()
   const dispatch = useAppDispatch()
   const tx = item.transaction
@@ -63,7 +64,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
 
   useEffect(() => {
     const read = async () => {
-      const des = readDescription(tx.id)
+      const des = readDescription(tx.id, auth!)
       console.log(des)
       return des
     }

@@ -3,15 +3,15 @@ import { useState, useEffect   } from 'react'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { authenticateWallet } from './helpers'
-
+import { setCookie, getCookie } from 'typescript-cookie';
 export const SignInLink: React.FC<{
   setAuth: any
 }> = ({ setAuth }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [nonce, setNonce] = useState<string>('')
-  const [token, setToken] = useState<string>('')
+
   const wallet = useWallet()
-  console.log('nonce', nonce)
+
   useEffect(() =>  {
     const handleNonce = async() => {
       await handleGetNonce()
@@ -50,6 +50,7 @@ export const SignInLink: React.FC<{
     const address = wallet?.address
     const provider = createWeb3(wallet?.provider)
     const token = await authenticateWallet(provider, nonce)
+
     const loginResponse = await fetch('/api/login', {
       method: 'POST',
       headers: {
@@ -57,8 +58,11 @@ export const SignInLink: React.FC<{
       },
       body: JSON.stringify({ address, token, nonce }),
     });
-    const { t } = await loginResponse.json();
-    setToken(t);
+
+    const data = await loginResponse.json();
+    console.log(data, 'data')
+    setCookie('me', data.token, { path: '/' });
+    console.log('token', token, getCookie('me'))
     if (token.length) {
       setAuth(true)
       setLoading(false)

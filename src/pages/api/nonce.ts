@@ -14,32 +14,24 @@ const nonceHandler = async (req: any, res: any) => {
 
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-/*     await supabase
-      .from(SUPABASE_TABLE_USER)
-      .insert({
+    const response = await supabase.from(SUPABASE_TABLE_USER).upsert(
+    [
+      {
+        address: address,
         auth: {
           genNonce: nonce,
           lastAuth: new Date().toISOString(),
-          lastAuthStatus: "pending"
-        }
-      })
-      .eq('address', address); */
-    const { data, error } = await supabase
-      .from(SUPABASE_TABLE_USER)
-      .update({
-        auth: {
-          genNonce: nonce,
-          lastAuth: new Date().toISOString(),
-          lastAuthStatus: "pending"
-        }
-      })
-      .eq('address', address);
-
-    if (error) {
-      return res.status(500).json({ error: 'Database update failed' });
+          lastAuthStatus: "pending",
+        },
+      },
+    ],
+    {
+      onConflict: "address",
     }
+  );
 
-    return res.status(200).json({ nonce });
+
+    return res.status(200).json({ nonce, response });
   } catch (err: any) {
     console.error('Supabase request error:', err.message);
     return res.status(500).json({ error: 'Something went wrong' });

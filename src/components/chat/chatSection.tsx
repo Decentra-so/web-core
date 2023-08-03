@@ -14,6 +14,8 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
+import { getCookie } from 'typescript-cookie'
+
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
@@ -33,6 +35,9 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const [chatData, setChatData] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const bottom = useRef<HTMLDivElement>(null)
+
+  const cookie = getCookie('me')
+console.log('cookie', cookie)
 
   const scrollToBottom = useCallback(() => {
     if (!bottom.current) return
@@ -93,6 +98,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     if (!onboard || !wallet) return
     const provider = createWeb3(wallet?.provider)
     const getToken = async () => {
+      console.log('get token')
       await getExistingAuth(provider, wallet?.address).then(setAuthToken)
     }
     getToken()
