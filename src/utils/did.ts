@@ -1,6 +1,5 @@
 import type { providers } from 'ethers';
 import { Base64 } from 'js-base64';
-import { v4 as uuidv4 } from 'uuid';
 
 import { getSignature, verifySignature } from './ethereumHelpers';
 
@@ -25,23 +24,23 @@ type Claim = {
 
 export async function createToken(
   provider: providers.Web3Provider,
+  msg: string,
 ): Promise<string> {
   const signer = provider.getSigner();
   const address = await signer.getAddress();
-  const timestamp = +new Date();
+ const timestamp = +new Date();
 
   const claim = {
     timestamp,
-    authexpiration: timestamp + tokenDuration,
     walletaddress: address,
-    nonce: uuidv4(),
+    nonce: msg,
   };
 
   const serializedClaim = JSON.stringify(claim);
   const msgToSign = `${WELCOME_MESSAGE}${serializedClaim}`;
   const proof = await getSignature(provider, msgToSign);
 
-  return Base64.encode(JSON.stringify([proof, serializedClaim]));
+  return Base64.encode(JSON.stringify([proof, msg]));
 }
 
 export async function verifyToken(
