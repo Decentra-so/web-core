@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import TokenTransferModal from '../tx/modals/TokenTransferModal'
 import ViewAssetsModal from './modals/ViewAssetsModal'
 
-export const ChatOverview = () => {
+export const QuickActionButtonsChat = () => {
   const [tokenTransfer, toggleTokenTransfer] = useState<boolean>(false)
   const [assetsOpen, toggleAssetsOpen] = useState<boolean>(false)
   const [nftsOpen, setNftsOpen] = useState<boolean>(false)
