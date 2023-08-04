@@ -74,7 +74,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       return des
     }
     read().then((res) => res?.length && setDescription(res[0]))
-  }, [tx?.id, update])
+  }, [tx?.id, update, auth])
 
   return (
     <Box
@@ -84,7 +84,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       <Box sx={{ display: 'flex', filter: 'drop-shadow(0px 1px 1px #00000010)' }}>
       	<Box sx={{ borderTop: '11px solid var(--color-background-papercolor)', borderLeft: '7px solid transparent', borderRadius: '3px 0px 0px 0px' }} />	  
         <Box className={css.txfullgridview}>
-          <Box className={css.coretxbackground}>
+        <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
       <Divider sx={{ borderStyle: 'dashed' }} />
@@ -132,7 +132,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
         </Box>
         
           {
-            description && ownerArray.includes(wallet?.address || '') && <Box className={css.infosectiontransaction}>
+            auth && description && ownerArray.includes(wallet?.address || '') && <Box className={css.infosectiontransaction}>
               <Box sx={{ fontSize: '13px', color: '#757575' }}>Description</Box>
               <Box gridArea="description" display="flex" alignItems="center" gap={1}>
                 <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
@@ -142,7 +142,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
             </Box>
           }
           {
-            !description && ownerArray.includes(wallet?.address || '') && <Button
+            auth && !description && ownerArray.includes(wallet?.address || '') && <Button
             onClick={() => dispatch(
               openModal({
                 modalName: modalTypes.addTransactionDescription,
