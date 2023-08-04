@@ -44,7 +44,7 @@ type TxSummaryProps = {
 }
 
 const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
-  const auth = getCookie('me')
+
   const [description, setDescription] = useState<{ description: string, owner: string } | null>()
   const [update, setUpdate] = useState(false)
   const dispatch = useAppDispatch()
@@ -64,13 +64,12 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
     : undefined
     const owners = safe?.owners || ['']
     const ownerArray = owners.map((owner) => owner.value)
-
+  const auth = getCookie(wallet?.address || '')
   const displayConfirmations = isQueue && !!submittedConfirmations && !!requiredConfirmations
 
   useEffect(() => {
     const read = async () => {
       const des = readDescription(tx.id, auth!)
-      console.log(des)
       return des
     }
     read().then((res) => res?.length && setDescription(res[0]))

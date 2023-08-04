@@ -8,6 +8,7 @@ import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 import SignInLink from "../auth-sign-in/auth-link";
 import { publish } from "@/services/events";
 import { getCookie } from "typescript-cookie";
+import useWallet from "@/hooks/wallets/useWallet";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -25,7 +26,8 @@ const ChatTextField: React.FC<{
 }> = ({ messages, setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
-  const authCookie = getCookie('me')
+	const wallet = useWallet()
+  const authCookie = getCookie(wallet?.address || '')
 	//get and listen for message updates
 
 	const handleSubmit = async (e: any) => {

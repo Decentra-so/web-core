@@ -3,7 +3,7 @@ import { useState, useEffect   } from 'react'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { authenticateWallet } from './helpers'
-import { setCookie, getCookie } from 'typescript-cookie';
+import { setCookie } from 'typescript-cookie';
 
 export const SignInLink: React.FC<{
   setAuth: any
@@ -60,9 +60,7 @@ export const SignInLink: React.FC<{
     });
 
     const data = await loginResponse.json();
-    console.log(data, 'data')
-    setCookie('me', data.token, { path: '/' });
-    console.log('token', token, getCookie('me'))
+    setCookie(address, data.token, { path: '/' });
     if (token.length) {
       setAuth(true)
       setLoading(false)

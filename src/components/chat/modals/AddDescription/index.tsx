@@ -3,6 +3,7 @@ import { Box, Button, DialogContent, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { insertDescription } from '@/services/supabase'
 import { getCookie } from 'typescript-cookie'
+import useWallet from '@/hooks/wallets/useWallet'
 
 export const AddTxDescription: React.FC<{
   open: boolean
@@ -12,7 +13,8 @@ export const AddTxDescription: React.FC<{
   updateDescription: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ open, onClose, id, owner, updateDescription }) => {
   const [description, setDescription] = useState<string>('')
-  const auth = getCookie('me')
+  const wallet = useWallet()
+  const auth = getCookie(wallet?.address || '')
 
   const addDescription = async () => {
     await insertDescription(id, description, owner, auth!).then(() => updateDescription(true))
