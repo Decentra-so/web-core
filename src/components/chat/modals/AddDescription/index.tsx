@@ -9,11 +9,13 @@ export const AddTxDescription: React.FC<{
   onClose: () => void
   id: string
   owner: string
-}> = ({ open, onClose, id, owner }) => {
+  updateDescription: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ open, onClose, id, owner, updateDescription }) => {
   const [description, setDescription] = useState<string>('')
   const auth = getCookie('me')
+
   const addDescription = async () => {
-    const tx = await insertDescription(id, description, owner, auth!)
+    await insertDescription(id, description, owner, auth!).then(() => updateDescription(true))
     setDescription('')
     onClose()
   }

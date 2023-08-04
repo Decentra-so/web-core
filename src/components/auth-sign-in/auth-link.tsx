@@ -4,6 +4,7 @@ import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { authenticateWallet } from './helpers'
 import { setCookie, getCookie } from 'typescript-cookie';
+
 export const SignInLink: React.FC<{
   setAuth: any
 }> = ({ setAuth }) => {
@@ -18,7 +19,6 @@ export const SignInLink: React.FC<{
     }
     if (wallet?.address) {
       handleNonce()
-  
     }
   }, [wallet?.address])
 
@@ -70,7 +70,10 @@ export const SignInLink: React.FC<{
   }
 
   return (
-    <Link sx={{ cursor: 'pointer' }} onClick={handleAuthenticate}>Verify here</Link>
+    <>
+      { nonce ? <Link sx={{ cursor: 'pointer' }} onClick={handleAuthenticate}>Verify here</Link> : 'loading...' }
+    </>
+
   )
 }
 

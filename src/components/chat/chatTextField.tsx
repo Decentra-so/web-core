@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 import SignInLink from "../auth-sign-in/auth-link";
 import { publish } from "@/services/events";
+import { getCookie } from "typescript-cookie";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -24,7 +25,7 @@ const ChatTextField: React.FC<{
 }> = ({ messages, setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
-
+  const authCookie = getCookie('me')
 	//get and listen for message updates
 
 	const handleSubmit = async (e: any) => {
@@ -52,7 +53,7 @@ const ChatTextField: React.FC<{
 			</Box>
 			<Divider orientation="vertical" variant="middle" flexItem />
 			{
-				authToken ? (
+				authToken && authCookie ? (
 					<>
 						<CustomInput
 							sx={{ flex: 1 }}

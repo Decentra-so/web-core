@@ -79,6 +79,7 @@ export const Modals = () => {
           onClose={() => dispatch(closeModal())}
           id={activeModalState?.modalProps?.id}
           owner={activeModalState?.modalProps?.owner}
+          updateDescription={activeModalState?.modalProps?.updateDescription}
         />
       )}
       {activeModalState?.activeModal === modalTypes.settingsModal && (

@@ -3,11 +3,11 @@ import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { useAppSelector } from '@/store'
-import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
+import { selectGroup, selectUserItem } from '@/store/chatServiceSlice'
 import { Box, List, ListItem, useMediaQuery, ListItemAvatar } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getMessages, listenForMessage } from '../../services/chat'
+//import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
 import useOnboard from '@/hooks/wallets/useOnboard'
@@ -69,13 +69,13 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         type: 'tx',
       })
     })
-    authToken && messages?.forEach((message: any) => {
+/*     authToken && messages?.forEach((message: any) => {
       allData.push({
         data: message,
         timestamp: +message.sentAt * 1000,
         type: 'message',
       })
-    })
+    }) */
     allData.sort(function (a, b) {
       if (a['timestamp'] > b['timestamp']) {
         return 1
@@ -103,7 +103,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     scrollToBottom()
   }, [chatData])
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!authToken) return
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
@@ -122,7 +122,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         .catch((error) => console.log(error))
     }
     getM()
-  }, [safeAddress, user, group, authToken])
+  }, [safeAddress, user, group, authToken]) */
 
   useEffect(() => {
     getChat()

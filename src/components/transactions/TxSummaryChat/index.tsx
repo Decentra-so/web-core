@@ -46,6 +46,7 @@ type TxSummaryProps = {
 const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
   const auth = getCookie('me')
   const [description, setDescription] = useState<{ description: string, owner: string } | null>()
+  const [update, setUpdate] = useState(false)
   const dispatch = useAppDispatch()
   const tx = item.transaction
   const wallet = useWallet()
@@ -73,7 +74,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       return des
     }
     read().then((res) => res?.length && setDescription(res[0]))
-  }, [tx?.id])
+  }, [tx?.id, update])
 
   return (
     <Box
@@ -86,7 +87,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           <Box className={css.coretxbackground}>
       {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
-              <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: 'dashed' }} />
 
       <Box sx={{ padding: '16px 0' }}>
       <Box gridArea="type" className={css.columnWrap}>
@@ -98,10 +99,10 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
       </Box>
       </Box>
 
-              <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: 'dashed' }} />
 
       {displayConfirmations && (
-            <Box className={css.infosectiontransaction}>
+      <Box className={css.infosectiontransaction}>
         <Box sx={{ fontSize: '13px', color: '#757575' }}>Confirmations</Box>
         <Box gridArea="confirmations" display="flex" alignItems="center" gap={1}>
           <TxConfirmations
@@ -109,7 +110,7 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
             requiredConfirmations={requiredConfirmations}
           />
         </Box>
-              </Box>
+      </Box>
       )}
 
       <Box className={css.infosectiontransaction}>
@@ -130,32 +131,38 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
           </Box>
         </Box>
         
-        {
-          description && ownerArray.includes(wallet?.address || '') && <Box className={css.infosectiontransaction}>
-            <Box sx={{ fontSize: '13px', color: '#757575' }}>Description</Box>
-            <Box gridArea="description" display="flex" alignItems="center" gap={1}>
-              <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
-                {description.description}
-              </Typography>
+          {
+            description && ownerArray.includes(wallet?.address || '') && <Box className={css.infosectiontransaction}>
+              <Box sx={{ fontSize: '13px', color: '#757575' }}>Description</Box>
+              <Box gridArea="description" display="flex" alignItems="center" gap={1}>
+                <Typography variant="caption" fontWeight="bold" color={({ palette }) => getStatusColor(tx.txStatus, palette)}>
+                  {description.description}
+                </Typography>
+              </Box>
             </Box>
+          }
+          {
+            !description && ownerArray.includes(wallet?.address || '') && <Button
+            onClick={() => dispatch(
+              openModal({
+                modalName: modalTypes.addTransactionDescription,
+                modalProps: {
+                  id: tx.id,
+                  owner: wallet?.address!,
+                  updateDescription: setUpdate
+                }
+              }
+            ))}>
+              Add description
+            </Button>
+          }
           </Box>
-        }
-        {
-          !description && ownerArray.includes(wallet?.address || '') && <Button
-          onClick={() => dispatch(
-            openModal({ modalName: modalTypes.addTransactionDescription, modalProps: { id: tx.id, owner: wallet?.address! } }
-          ))}>
-            Add description
-          </Button>
-        }
-        
-      </Box>
 
-      <Box gridArea="date" className={css.transactiondate}>
-        <DateTime value={tx.timestamp} />
-      </Box>
+          <Box gridArea="date" className={css.transactiondate}>
+            <DateTime value={tx.timestamp} />
+          </Box>
 
-      </Box>
+        </Box>
       </Box>
       
       {tx.txInfo.type !== 'Creation' && (
