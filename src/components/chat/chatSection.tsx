@@ -14,7 +14,7 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
-import QuickActionButtonsChat from './QuickActionButtonsChat'
+import { QuickActionButtonsChat } from './QuickActionButtonsChat'
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
