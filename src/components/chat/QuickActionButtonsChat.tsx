@@ -23,7 +23,7 @@ export const QuickActionButtonsChat = () => {
       <Box
         sx={{
           position: 'sticky',
-          justifyConent: 'center',
+          justifyContent: 'center',
           bottom: 0,
           display: 'flex',
           flexDirection: 'row',
