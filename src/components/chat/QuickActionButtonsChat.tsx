@@ -23,21 +23,17 @@ export const QuickActionButtonsChat = () => {
       <Box
         sx={{
           position: 'sticky',
+          justifyConent: 'center',
           bottom: 0,
-          p: 2,
-          pl: 3,
-          pr: 3,
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           gap: 2,
-          bgcolor: 'var(--color-background-papercolor)',
-          borderTop: '1px solid var(--color-border-light)',
         }}
       >
         {/* <Link href={{ pathname: AppRoutes.balances.index, query: { safe: `${safeAddress}` } }} key={`${safe}`} passHref> */}
         <Button
           variant="outlined"
-          className={css.buttonstyled}
+          className={css.quickactionstyled}
           onClick={() => toggleTokenTransfer(!tokenTransfer)}
           startIcon={<SvgIcon component={AssetsIcon} inheritViewBox />}
           fullWidth
@@ -47,7 +43,7 @@ export const QuickActionButtonsChat = () => {
         {/* </Link> */}
         <Button
           variant="outlined"
-          className={css.buttonstyled}
+          className={css.quickactionstyled}
           startIcon={<SvgIcon component={NftIcon} inheritViewBox />}
           onClick={() => { toggleAssetsOpen(!assetsOpen); setNftsOpen(true) }}
           fullWidth
