@@ -105,6 +105,7 @@
   width: auto;
   gap: 12px;
   flex-flow: column;
+  border: none;
 }
 
 .quickactionstyled:hover {
