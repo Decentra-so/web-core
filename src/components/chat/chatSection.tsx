@@ -216,7 +216,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
           flexShrink: 0,
           position: 'sticky',
           bottom: 0,
-          p: '0px 24px 12px 24px',
+          p: '24px',
           background: 'var(--color-background-lightcolor)'
         }}
       >
