@@ -51,8 +51,7 @@ const ViewTransactionsModal: React.FC<{
         </Select>
       </FormControl>
     </Box>
-          
-
+          </Stack>
       </DialogContent>
     </ModalDialog>
   )
