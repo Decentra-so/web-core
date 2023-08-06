@@ -9,7 +9,10 @@ import Queue from '@/pages/transactions/queue'
 import { useTxFilter } from '@/utils/tx-history-filter'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, Button, DialogContent, Stack, Tab, Tabs, Typography } from '@mui/material'
+import { Box, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack, Typography } from '@mui/material'
+
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 import React, { useState } from 'react'
 
 interface TabPanelProps {
@@ -58,11 +61,24 @@ const ViewTransactionsModal: React.FC<{
     <ModalDialog open={open} dialogTitle="View Transactions" onClose={onClose} maxWidth="md">
       <DialogContent sx={{ maxHeight: '90vh', overflow: 'auto' }}>
         <Stack spacing={{ xs: 1, sm: 2 }} direction="row" justifyContent='space-between' alignItems='center' paddingTop={2}>
-          <Tabs value={tabIndex} onChange={handleChange} aria-label="folder tabs">
-            <Tab label="Queue" />
-            <Tab label="History" />
-            <Tab label="Messages" />
-          </Tabs>
+          
+              <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={tabIndex}
+          label="View"
+          onChange={handleChange}
+        >
+          <MenuItem value={0}>Ten</MenuItem>
+          <MenuItem value={1}>Twenty</MenuItem>
+          <MenuItem value={2}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+          
           {tabIndex === 0 &&
             <BatchExecuteButton />
           }
@@ -75,21 +91,22 @@ const ViewTransactionsModal: React.FC<{
             <SignedMessagesHelpLink />
           }
         </Stack>
-        <TabPanel value={tabIndex} index={0}>
+                  {tabIndex === 0 &&
           <Queue showTabs={false} />
-        </TabPanel>
-        <TabPanel value={tabIndex} index={1}>
+          }
+
+                          {tabIndex === 1 &&
           <main>
             {showFilter && <TxFilterForm modal={true} toggleFilter={toggleFilter} />}
 
             <Box mb={4}>
               <PaginatedTxns useTxns={useTxHistory} />
             </Box>
-          </main>
-        </TabPanel>
-        <TabPanel value={tabIndex} index={2}>
+          </main>          }
+
+                          {tabIndex === 2 &&
           <Messages showTabs={false} />
-        </TabPanel>
+          }
       </DialogContent>
     </ModalDialog>
   )
