@@ -9,11 +9,35 @@ import Queue from '@/pages/transactions/queue'
 import { useTxFilter } from '@/utils/tx-history-filter'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, Select, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack } from '@mui/material'
-
-import type { SelectChangeEvent } from '@mui/material/Select';
-
+import { Box, Button, DialogContent, Stack, Tab, Tabs, Typography } from '@mui/material'
 import React, { useState } from 'react'
+
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 1.5 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  )
+}
+
 
 const ViewTransactionsModal: React.FC<{
   open: boolean
@@ -22,8 +46,8 @@ const ViewTransactionsModal: React.FC<{
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [filter] = useTxFilter()
   const [showFilter, setShowFilter] = useState(false)
-  const handleChange = (event: SelectChangeEvent) => {
-    setTabIndex(event.target.value as number);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue)
   }
   const toggleFilter = () => {
     setShowFilter((prev) => !prev)
@@ -34,23 +58,11 @@ const ViewTransactionsModal: React.FC<{
     <ModalDialog open={open} dialogTitle="View Transactions" onClose={onClose} maxWidth="md">
       <DialogContent sx={{ maxHeight: '90vh', overflow: 'auto' }}>
         <Stack spacing={{ xs: 1, sm: 2 }} direction="row" justifyContent='space-between' alignItems='center' paddingTop={2}>
-          
-              <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={tabIndex}
-          label="View"
-          onChange={handleChange}
-        >
-          <MenuItem value={0}>Ten</MenuItem>
-          <MenuItem value={1}>Twenty</MenuItem>
-          <MenuItem value={2}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
+          <Tabs value={tabIndex} onChange={handleChange} aria-label="folder tabs">
+            <Tab label="Queue" />
+            <Tab label="History" />
+            <Tab label="Messages" />
+          </Tabs>
           {tabIndex === 0 &&
             <BatchExecuteButton />
           }
@@ -63,22 +75,21 @@ const ViewTransactionsModal: React.FC<{
             <SignedMessagesHelpLink />
           }
         </Stack>
-                  {tabIndex === 0 &&
+        <TabPanel value={tabIndex} index={0}>
           <Queue showTabs={false} />
-          }
-
-                          {tabIndex === 1 &&
+        </TabPanel>
+        <TabPanel value={tabIndex} index={1}>
           <main>
             {showFilter && <TxFilterForm modal={true} toggleFilter={toggleFilter} />}
 
             <Box mb={4}>
               <PaginatedTxns useTxns={useTxHistory} />
             </Box>
-          </main>          }
-
-                          {tabIndex === 2 &&
+          </main>
+        </TabPanel>
+        <TabPanel value={tabIndex} index={2}>
           <Messages showTabs={false} />
-          }
+        </TabPanel>
       </DialogContent>
     </ModalDialog>
   )
