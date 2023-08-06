@@ -52,34 +52,7 @@ const ViewTransactionsModal: React.FC<{
       </FormControl>
     </Box>
           
-          {tabIndex === 0 &&
-            <BatchExecuteButton />
-          }
-          {tabIndex === 1 &&
-            <Button variant="outlined" onClick={toggleFilter} size="small" endIcon={<ExpandIcon />}>
-              {filter?.type ?? 'Filter'}
-            </Button>
-          }
-          {tabIndex === 2 &&
-            <SignedMessagesHelpLink />
-          }
-        </Stack>
-                  {tabIndex === 0 &&
-          <Queue showTabs={false} />
-          }
 
-                          {tabIndex === 1 &&
-          <main>
-            {showFilter && <TxFilterForm modal={true} toggleFilter={toggleFilter} />}
-
-            <Box mb={4}>
-              <PaginatedTxns useTxns={useTxHistory} />
-            </Box>
-          </main>          }
-
-                          {tabIndex === 2 &&
-          <Messages showTabs={false} />
-          }
       </DialogContent>
     </ModalDialog>
   )
