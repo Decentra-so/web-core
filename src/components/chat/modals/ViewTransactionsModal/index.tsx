@@ -19,11 +19,11 @@ const ViewTransactionsModal: React.FC<{
   open: boolean
   onClose: () => void
 }> = ({ open, onClose }) => {
-  const [tabIndex, setTabIndex] = useState('');
+  const [tabIndex, setTabIndex] = useState<number>(0);
   const [filter] = useTxFilter()
   const [showFilter, setShowFilter] = useState(false)
   const handleChange = (event: SelectChangeEvent) => {
-    setTabIndex(event.target.value as string);
+    setTabIndex(event.target.value as number);
   }
   const toggleFilter = () => {
     setShowFilter((prev) => !prev)
