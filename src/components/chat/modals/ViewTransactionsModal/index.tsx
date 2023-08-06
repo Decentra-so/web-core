@@ -9,7 +9,7 @@ import Queue from '@/pages/transactions/queue'
 import { useTxFilter } from '@/utils/tx-history-filter'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, Select, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack, Typography } from '@mui/material'
+import { Box, Select, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack } from '@mui/material'
 
 import React, { useState } from 'react'
 
