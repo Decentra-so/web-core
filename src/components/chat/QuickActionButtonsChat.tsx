@@ -45,7 +45,7 @@ export const QuickActionButtonsChat = () => {
           onClick={() => { toggleAssetsOpen(!assetsOpen); setNftsOpen(true) }}
           fullWidth
         >
-          <SvgIcon component={AssetsIcon} inheritViewBox sx={{ borderRadius: '100px', background: '#ff5076', margin: '0', width: '72px', height: '52px', justifyContent: 'center', alignItems: 'center', padding: '6px', color: 'white' }} />
+          <SvgIcon component={NftIcon} inheritViewBox sx={{ borderRadius: '100px', background: '#ff5076', margin: '0', width: '72px', height: '52px', justifyContent: 'center', alignItems: 'center', padding: '6px', color: 'white' }} />
           Send NFTs
         </Button>
       </Box>
