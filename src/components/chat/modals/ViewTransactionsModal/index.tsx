@@ -9,38 +9,9 @@ import Queue from '@/pages/transactions/queue'
 import { useTxFilter } from '@/utils/tx-history-filter'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack, Typography } from '@mui/material'
-
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Box, Select, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack, Typography } from '@mui/material'
 
 import React, { useState } from 'react'
-
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 1.5 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  )
-}
-
 
 const ViewTransactionsModal: React.FC<{
   open: boolean
