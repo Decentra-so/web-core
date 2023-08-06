@@ -9,7 +9,9 @@ import Queue from '@/pages/transactions/queue'
 import { useTxFilter } from '@/utils/tx-history-filter'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, Select, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack } from '@mui/material'
+import { Box, InputLabel, MenuItem, FormControl, Button, DialogContent, Stack } from '@mui/material'
+
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import React, { useState } from 'react'
 
@@ -17,11 +19,11 @@ const ViewTransactionsModal: React.FC<{
   open: boolean
   onClose: () => void
 }> = ({ open, onClose }) => {
-  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [tabIndex, setTabIndex] = useState('');
   const [filter] = useTxFilter()
   const [showFilter, setShowFilter] = useState(false)
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue)
+  const handleChange = (event: SelectChangeEvent) => {
+    setTabIndex(event.target.value as string);
   }
   const toggleFilter = () => {
     setShowFilter((prev) => !prev)
