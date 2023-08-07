@@ -1,6 +1,5 @@
-import { ChatOverview } from '@/components/chat/chatOverview'
-import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
-import ViewAppModal from '@/components/chat/modals/ViewAppModal'
+import { modalTypes } from '@/components/chat/modals'
+import OverviewDrawer from '@/components/chat/OverviewDrawer'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
@@ -8,9 +7,9 @@ import { AppRoutes } from '@/config/routes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
-import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
-import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
+import { openModal } from '@/store/modalServiceSlice'
+import { ArrowBackIos } from '@mui/icons-material'
 import {
   Box, Container,
   Drawer,
@@ -24,12 +23,10 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { openModal } from '@/store/modalServiceSlice'
-import { modalTypes } from '@/components/chat/modals'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
-const drawerWidth = 360
+const drawerWidth = 450
 
 const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean
@@ -97,8 +94,6 @@ const Chat = () => {
 
   return (
     <>
-      {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
-      {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
@@ -121,7 +116,7 @@ const Chat = () => {
             variant="permanent"
             anchor="left"
           >
-            <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
+            <SafeList />
           </Drawer>
         }
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
@@ -162,11 +157,11 @@ const Chat = () => {
                       onClick={() => dispatch(openModal({ modalName: modalTypes.settingsModal, modalProps: '' }))}>
                       <SettingsIcon />
                     </IconButton>
-                    {matchesDesktop &&
+                    {/* {matchesDesktop &&
                       <IconButton color="inherit" onClick={toggleDrawer(!open)}>
                         {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
                       </IconButton>
-                    }
+                    } */}
                   </Box>
                 </Toolbar>
               }
@@ -212,28 +207,29 @@ const Chat = () => {
           </Box>
         </Main>
         {matchesDesktop &&
-          <Drawer
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              '& .MuiDrawer-paper': {
-                width: drawerWidth,
-                bgcolor: 'var(--color-background-papercolor)',
-                boxSizing: 'border-box',
-                height: 'calc(100vh - var(--header-height) - 24px)',
-                top: 'var(--header-height)',
-                margin: '12px 0',
-                filter: 'drop-shadow(0 3px 6px #00000010)',
-                borderRadius: '10px 0 0 10px',
-                border: '0px',
-              },
-            }}
-            variant="persistent"
-            anchor="right"
-            open={open}
-          >
-            <ChatOverview owners={owners} />
-          </Drawer>
+          <OverviewDrawer owners={owners} />
+          // <Drawer
+          //   sx={{
+          //     width: drawerWidth,
+          //     flexShrink: 0,
+          //     '& .MuiDrawer-paper': {
+          //       width: drawerWidth,
+          //       bgcolor: 'var(--color-background-papercolor)',
+          //       boxSizing: 'border-box',
+          //       height: 'calc(100vh - var(--header-height) - 24px)',
+          //       top: 'var(--header-height)',
+          //       margin: '12px 0',
+          //       filter: 'drop-shadow(0 3px 6px #00000010)',
+          //       borderRadius: '10px 0 0 10px',
+          //       border: '0px',
+          //     },
+          //   }}
+          //   variant="persistent"
+          //   anchor="right"
+          //   open={open}
+          // >
+          //   <ChatOverview owners={owners} />
+          // </Drawer>
         }
       </Box>
     </>

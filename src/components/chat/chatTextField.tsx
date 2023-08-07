@@ -1,12 +1,12 @@
 import useSafeAddress from "@/hooks/useSafeAddress";
 import { sendMessage } from "@/services/chat";
+import { publish } from "@/services/events";
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Button, Divider, InputBase, Paper, Box, Typography } from "@mui/material";
+import { Box, Button, Divider, InputBase, Paper, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import React, { useState } from "react";
-import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 import SignInLink from "../auth-sign-in/auth-link";
-import { publish } from "@/services/events";
+import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -48,7 +48,7 @@ const ChatTextField: React.FC<{
 			onSubmit={handleSubmit}
 		>
 			<Box sx={{ margin: '0 6px' }}>
-			  <AddNewTxLightningIconButton />
+				<AddNewTxLightningIconButton />
 			</Box>
 			<Divider orientation="vertical" variant="middle" flexItem />
 			{
@@ -67,7 +67,7 @@ const ChatTextField: React.FC<{
 					</>
 				) : (
 					<Typography sx={{ textAlign: 'center', width: '100%', padding: '10px 16px' }}>
-						To view and send messages you need to authenticate your account: <SignInLink setAuth={setAuth}/>
+						To view and send messages you need to authenticate your account: <SignInLink setAuth={setAuth} />
 					</Typography>
 				)
 			}

@@ -1,6 +1,8 @@
 import { useAllOwnedSafes } from "@/hooks/useAllOwnedSafes"
 import useSafeAddress from "@/hooks/useSafeAddress"
 import useWallet from "@/hooks/wallets/useWallet"
+import { useAppDispatch } from "@/store"
+import { openModal } from "@/store/modalServiceSlice"
 import { Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import useConnectWallet from "../common/ConnectWallet/useConnectWallet"
@@ -8,6 +10,7 @@ import FormattedName from "../common/FormattedName/FormattedName"
 import FolderList from "../folder-list"
 import FolderGroup from "../folder-list/folderGroups"
 import ModalListContextMenu from "./ModalListContextMenu"
+import { modalTypes } from "./modals"
 import css from './styles.module.css'
 
 interface TabPanelProps {
@@ -44,7 +47,7 @@ function a11yProps(index: number) {
 	}
 }
 
-export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = ({ createSafe, setCreateSafe }) => {
+export const SafeList = () => {
 	//user and safe
 	const wallet = useWallet()
 	const safeAddress = useSafeAddress()
@@ -52,6 +55,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 	const handleConnect = useConnectWallet()
 	const allOwnedSafes = useAllOwnedSafes()
 	const [folders, setFolders] = useState([])
+	const dispatch = useAppDispatch()
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue)
 		localStorage.setItem('tabIndex', newValue.toString())
@@ -93,7 +97,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 					<Typography sx={{ color: '#757575', fontSize: 12, fontWeight: 600 }}>VIEW AS:</Typography>
 					{wallet?.address ? <FormattedName address={wallet?.address} weight={600} /> : <Typography fontWeight={600}>Not connected</Typography>}
 				</Box>
-				<ModalListContextMenu createSafe={createSafe} setCreateSafe={setCreateSafe} />
+				<ModalListContextMenu />
 			</Toolbar>
 			<Box sx={{ width: '100%', height: '100%' }}>
 				<Tabs
@@ -127,7 +131,7 @@ export const SafeList: React.FC<{ createSafe: boolean, setCreateSafe: any }> = (
 						<></>
 						: wallet?.address && areAllValuesEmptyArrays(allOwnedSafes) ?
 							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={css.safelistactionbutton}>
-								<Button onClick={() => setCreateSafe(!createSafe)} variant="contained" disableElevation>
+								<Button onClick={() => dispatch(openModal({ modalName: modalTypes.createSafe, modalProps: '' }))} variant="contained" disableElevation>
 									Create Safe
 								</Button>
 							</Box> :
