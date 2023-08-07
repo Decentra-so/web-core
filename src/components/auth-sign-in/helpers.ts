@@ -24,8 +24,11 @@ export async function getExistingAuth(
 
 export async function authenticateWallet(
   ethersProvider: Web3Provider,
+  msg: string,
 ): Promise<string> {
-  const token = await createToken(ethersProvider);
+  console.log(msg, 'msg')
+  const token = await createToken(ethersProvider, msg);
+  console.log('token', token)
   setTokenInStore(token);
   return token;
 }
