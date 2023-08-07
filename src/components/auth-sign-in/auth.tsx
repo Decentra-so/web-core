@@ -31,7 +31,7 @@ export const SignIn: React.FC<{
   const handleAuthenticate = async () => {
     if (!wallet) return
     const provider = createWeb3(wallet?.provider)
-    const token = await authenticateWallet(provider)
+    const token = await authenticateWallet(provider, '')
     if (token.length) {
       setAuthToken(token)
       setLoading(false)

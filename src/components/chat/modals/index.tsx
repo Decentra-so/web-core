@@ -1,6 +1,7 @@
 import TokenTransferModal from "@/components/tx/modals/TokenTransferModal";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { closeModal, selectModalState } from "@/store/modalServiceSlice";
+import { AddTxDescription } from "./AddDescription";
 import { AddFolderModal } from "./AddFolderModal";
 import ViewCreateSafe from "./CreateSafe";
 import ViewAppModal from "./ViewAppModal";
@@ -11,6 +12,7 @@ import { ViewSingleTransactionModal } from "./ViewSingleTransaction";
 import ViewTransactionsModal from "./ViewTransactionsModal";
 
 export const modalTypes = {
+  addTransactionDescription: 'addTransactionDescription',
   viewSingleTransaction: 'viewSingleTransaction',
   viewTransactions: 'viewTransactionsModal',
   createSafe: 'createSafe',
@@ -69,6 +71,15 @@ export const Modals = () => {
           open={activeModalState?.activeModal === modalTypes.assetsModals}
           onClose={() => dispatch(closeModal())}
           nfts={activeModalState?.modalProps?.nfts}
+        />
+      )}
+      {activeModalState?.activeModal === modalTypes.addTransactionDescription && (
+        <AddTxDescription
+          open={activeModalState?.activeModal === modalTypes.addTransactionDescription}
+          onClose={() => dispatch(closeModal())}
+          id={activeModalState?.modalProps?.id}
+          owner={activeModalState?.modalProps?.owner}
+          updateDescription={activeModalState?.modalProps?.updateDescription}
         />
       )}
       {activeModalState?.activeModal === modalTypes.settingsModal && (

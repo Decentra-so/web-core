@@ -7,6 +7,8 @@ import { styled } from '@mui/material/styles';
 import React, { useState } from "react";
 import SignInLink from "../auth-sign-in/auth-link";
 import AddNewTxLightningIconButton from "./AddNewTxLightningIconButton";
+import { getCookie } from "typescript-cookie";
+import useWallet from "@/hooks/wallets/useWallet";
 
 const CustomInput = styled(InputBase)(({ theme }) => ({
 	'& .MuiInputBase-input': {
@@ -24,7 +26,8 @@ const ChatTextField: React.FC<{
 }> = ({ messages, setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
-
+	const wallet = useWallet()
+  const authCookie = getCookie(wallet?.address || '')
 	//get and listen for message updates
 
 	const handleSubmit = async (e: any) => {
@@ -52,7 +55,7 @@ const ChatTextField: React.FC<{
 			</Box>
 			<Divider orientation="vertical" variant="middle" flexItem />
 			{
-				authToken ? (
+				authToken && authCookie ? (
 					<>
 						<CustomInput
 							sx={{ flex: 1 }}

@@ -6,11 +6,11 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { useAppSelector } from '@/store'
-import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
+import { selectGroup, selectUserItem } from '@/store/chatServiceSlice'
 import { Box, List, ListItem, ListItemAvatar, useMediaQuery } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getMessages, listenForMessage } from '../../services/chat'
+//import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
 import ChatTextField from './chatTextField'
@@ -69,13 +69,13 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         type: 'tx',
       })
     })
-    authToken && messages?.forEach((message: any) => {
+/*     authToken && messages?.forEach((message: any) => {
       allData.push({
         data: message,
         timestamp: +message.sentAt * 1000,
         type: 'message',
       })
-    })
+    }) */
     allData.sort(function (a, b) {
       if (a['timestamp'] > b['timestamp']) {
         return 1
@@ -93,6 +93,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     if (!onboard || !wallet) return
     const provider = createWeb3(wallet?.provider)
     const getToken = async () => {
+      console.log('get token')
       await getExistingAuth(provider, wallet?.address).then(setAuthToken)
     }
     getToken()
@@ -102,7 +103,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     scrollToBottom()
   }, [chatData])
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!authToken) return
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
@@ -121,7 +122,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         .catch((error) => console.log(error))
     }
     getM()
-  }, [safeAddress, user, group, authToken])
+  }, [safeAddress, user, group, authToken]) */
 
   useEffect(() => {
     getChat()
@@ -149,14 +150,14 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                 if (chat.type === 'message' && !chat.data.text) return
                 if (chat.type === 'message' && chat?.data?.sender) {
                   return (
-                    <ChatMessage key={index} chat={chat} wallet={wallet} />
+                    <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
                   )
                 } else if (chat?.type) {
                   if (matches) {
                     if (drawerOpen) {
                       return (
                         <ListItem
-                          key={index}
+                          key={`d-p${index}`}
                           sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
                           alignItems="flex-start"
                           disableGutters
@@ -172,7 +173,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                     } else {
                       return (
                         <ListItem
-                          key={index}
+                          key={`msg-${index}`}
                           sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
                           alignItems="flex-start"
                           disableGutters
@@ -189,7 +190,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                   } else {
                     return (
                       <ListItem
-                        key={index}
+                        key={`txi-${index}`}
                         sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
                         alignItems="flex-start"
                         disableGutters
