@@ -47,7 +47,6 @@ export const ChatOverview: React.FC<{
     <>
       {tokenTransfer && (
         <TokenTransferModal
-          open={tokenTransfer}
           onClose={() => toggleTokenTransfer(!tokenTransfer)}
           initialData={[{ disableSpendingLimit: false }]}
         />

@@ -79,7 +79,6 @@ export const Modals = () => {
       )}
       {activeModalState?.activeModal === modalTypes.tokenTransferModal && (
         <TokenTransferModal
-          open={activeModalState?.activeModal === modalTypes.tokenTransferModal}
           onClose={() => dispatch(closeModal())}
           initialData={[{ disableSpendingLimit: false }]}
         />
