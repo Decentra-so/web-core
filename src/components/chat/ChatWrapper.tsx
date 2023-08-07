@@ -10,10 +10,11 @@ import { useDispatch } from 'react-redux'
 import { MobileChat } from './mobileChat'
 import useWallet from '@/hooks/wallets/useWallet'
 import { logOutWithCometChat } from '@/services/chat'
+import { HistorySection } from './historySection'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
+const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?: string }> = ({ drawerWidth, drawerOpen, display }) => {
   const safeAddress = useSafeAddress()
   const wallet = useWallet()
   const user = useAppSelector((state) => selectUserItem(state))
@@ -36,7 +37,7 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ d
         <>
           {
             safeAddress ? (
-              <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />
+              <MainView role={display || 'chat'} drawerOpen={drawerOpen} drawerWidth={drawerWidth} />
             ) : (
               <Box
                 sx={{
@@ -66,5 +67,22 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ d
     </>
   )
 }
+
+const MainView: React.FC<{
+  role: string,
+  drawerWidth: number,
+  drawerOpen: boolean,
+}> = ({ role, drawerOpen, drawerWidth }) => {
+  const currentView = {
+    chat: <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />,
+    history: <HistorySection />,
+    queue: <Box>Queue</Box>,
+    messages: <Box>Messages</Box>,
+  }[role]
+
+  return <>{currentView}</>
+}
+
+
 
 export default ChatWrapper

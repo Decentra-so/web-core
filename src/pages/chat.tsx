@@ -1,6 +1,4 @@
 import { ChatOverview } from '@/components/chat/chatOverview'
-import ViewCreateSafe from '@/components/chat/modals/CreateSafe'
-import ViewAppModal from '@/components/chat/modals/ViewAppModal'
 import { SafeList } from '@/components/chat/SafeList'
 import FormattedName from '@/components/common/FormattedName/FormattedName'
 import Identicon from '@/components/common/Identicon'
@@ -11,6 +9,7 @@ import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
+import Dropdown from '@/components/common/DropDown'
 import {
   Box, Container,
   Drawer,
@@ -50,6 +49,7 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }))
 
 const Chat = () => {
+  //media queries
   const matches = useMediaQuery('(max-width: 900px)')
   const matchesDesktop = useMediaQuery('(min-width: 901px)')
   //routing
@@ -60,17 +60,18 @@ const Chat = () => {
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
   //modals and modal control
-  const [createSafe, setCreateSafe] = useState<boolean>(false)
+  const [createSafe] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
-  const [app, toggleApp] = useState<boolean>(false)
   const dispatch = useAppDispatch()
+  //dropdown
+  const [selectedValue, setSelectedValue] = useState<string>('chat')
 
   useEffect(() => {
     if (router.asPath.includes('chain')) {
-      setCreateSafe(true)
+      dispatch(openModal({ modalName: modalTypes.createSafe, modalProps: '' }))
     }
     if (router.asPath.includes('app')) {
-      toggleApp(true)
+      dispatch(openModal({ modalName: modalTypes.appModal, modalProps: '' }))
     }
   }, [router.asPath])
 
@@ -90,15 +91,16 @@ const Chat = () => {
     setOpen(open)
   }
 
-  const handleToggleApp = () => {
-    router.asPath.includes('app') ? router.push(router.asPath.split('&')[0]) : ''
-    toggleApp(!app)
+  const handleCreateSafe = () => {
+    dispatch(openModal({ modalName: modalTypes.createSafe, modalProps: '' }))
+  }
+
+  const handleSetDisplay = (displayType: string) => {
+    setSelectedValue(displayType)
   }
 
   return (
     <>
-      {app && <ViewAppModal open={app} onClose={() => handleToggleApp()} />}
-      {createSafe && <ViewCreateSafe open={createSafe} onClose={() => setCreateSafe(!createSafe)} />}
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
@@ -121,7 +123,7 @@ const Chat = () => {
             variant="permanent"
             anchor="left"
           >
-            <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
+            <SafeList createSafe={createSafe} setCreateSafe={handleCreateSafe} />
           </Drawer>
         }
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
@@ -156,6 +158,9 @@ const Chat = () => {
                     }
                   </Box>
                   <Box>
+                    <IconButton sx={{ width: '150px' }}>
+                      <Dropdown onChange={handleSetDisplay} display={selectedValue} />
+                    </IconButton>
                     <IconButton
                       sx={{ marginRight: '4px' }}
                       color="inherit" aria-label="settings"
@@ -164,7 +169,11 @@ const Chat = () => {
                     </IconButton>
                     {matchesDesktop &&
                       <IconButton color="inherit" onClick={toggleDrawer(!open)}>
-                        {open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}><ViewSidebarIcon aria-label="close sidebar" /></Box> : <ViewSidebarIcon aria-label="show sidebar" />}
+                        {
+                        open ? <Box sx={{ background: 'var(--color-background-mediumcolor)', borderRadius: '6px', width: '32px', height: '32px', px: '6px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+                            <ViewSidebarIcon aria-label="close sidebar" />
+                          </Box> : <ViewSidebarIcon aria-label="show sidebar" />
+                        }
                       </IconButton>
                     }
                   </Box>
@@ -206,7 +215,7 @@ const Chat = () => {
                         <Typography variant='h5' p={3}>Please add or select a chat from the sidebar</Typography>
                       </Box>
                     </Container>
-                    : wallet?.address && <ChatWrapper drawerWidth={drawerWidth} drawerOpen={open} />
+                    : wallet?.address && <ChatWrapper display={selectedValue} drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>

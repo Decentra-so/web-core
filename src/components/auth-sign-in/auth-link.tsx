@@ -38,7 +38,6 @@ export const SignInLink: React.FC<{
       }
 
       const data = await response.json();
-      console.log(data, 'data')
       setNonce(data.nonce);
     } catch (error: any) {
       console.error('Error fetching nonce:', error.message);
