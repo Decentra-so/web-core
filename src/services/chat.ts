@@ -106,7 +106,7 @@ const joinGroup = async (GUID: any) => {
 }
 
 const getMessages = async (UID: any) => {
-  const limit = 100
+  const limit = 20
   const messagesRequest = new CometChat.MessagesRequestBuilder().setGUID(UID).setLimit(limit).build()
 
   return new Promise(async (resolve, reject) => {
@@ -114,6 +114,29 @@ const getMessages = async (UID: any) => {
       .fetchPrevious()
       .then((messages: any) => resolve(messages.filter((msg: any) => msg.type == 'text')))
       .catch((error) => reject(error))
+  })
+}
+
+const fetchMoreMessages = async (UID: any, currentMessages: any[]) => {
+  const limit = 20; // Number of messages to fetch
+  const currentlyDisplayedMessages: any[] = currentMessages; // Replace with the array holding the currently displayed messages
+
+  const messageRequest = await new CometChat.MessagesRequestBuilder()
+  .setGUID(UID) // Replace 'group_guid' with the actual group ID
+  .setLimit(limit)
+  .setMessageId(currentlyDisplayedMessages[0]?.id) // The ID of the oldest currently displayed message
+  .build();
+  
+  return new Promise(async (resolve, reject) => {
+    await messageRequest.fetchPrevious().then(
+      (messages) => {
+        resolve([...messages])
+      },
+    (error) => {
+      // Handle the error
+      console.log('error', ErrorEvent)
+    }
+  );
   })
 }
 
@@ -151,4 +174,5 @@ export {
   joinGroup,
   listenForMessage,
   checkUserExists,
+  fetchMoreMessages,
 }

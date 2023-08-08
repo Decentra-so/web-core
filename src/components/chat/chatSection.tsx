@@ -1,14 +1,11 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
-import useTxHistory from '@/hooks/useTxHistory'
-import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { useAppSelector } from '@/store'
 import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
-import { Box, List, ListItem, useMediaQuery, ListItemAvatar } from '@mui/material'
+import { Box, List, ListItem } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getMessages, listenForMessage } from '../../services/chat'
-import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
 import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
@@ -16,7 +13,6 @@ import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
-  const matches = useMediaQuery('(min-width:901px)');
   //state
   const [auth, setAuth] = useState<boolean>(false)
   const wallet = useWallet()
@@ -25,9 +21,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
   const user = useAppSelector((state) => selectUserItem(state))
-  //transactions
-  const txHistory = useTxHistory()
-  const txQueue = useTxQueue()
   //chat
   const [messages, setMessages] = useState([''])
   const [chatData, setChatData] = useState<any[]>([''])
@@ -45,30 +38,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   }, [])
 
   const getChat = useCallback(() => {
-
     let allData: any[] = []
-  /*   const historyItems = txHistory.page?.results
-    const queueItems = txQueue?.page?.results
-    historyItems?.forEach((tx: any) => {
-      if (tx.type === 'DATE_LABEL') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-    queueItems?.forEach((tx: any) => {
-      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    }) */
     authToken && messages?.forEach((message: any) => {
       allData.push({
         data: message,
@@ -142,60 +112,8 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                   return (
                     <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
                   )
-                } else if (chat?.type) {
-                  if (matches) {
-                    if (drawerOpen) {
-                      return (
-                        <ListItem
-                          key={`d-p${index}`}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />
-                        </ListItem>
-                      )
-                    } else {
-                      return (
-                        <ListItem
-                          key={`msg-${index}`}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                        
-                        </ListItem>
-                      )
-                    }
-                  } else {
-                    return (
-                      <ListItem
-                        key={`txi-${index}`}
-                        sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
-                        alignItems="flex-start"
-                        disableGutters
-                      >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                      
-                      </ListItem>
-                    )
-                  }
                 }
-              })}
+            })}
             <Box ref={bottom} sx={{ height: 35 }} />
             {!chatData ? <ListItem>No Chat</ListItem> : ''}
           </List>

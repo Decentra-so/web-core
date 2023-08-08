@@ -24,6 +24,9 @@ const Dropdown: React.FC<Props> = ({ label = "", display, onChange }) => {
           onChange={handleChange}
           label={label}
           sx={{
+            '& .MuiSelect-select': {
+
+            },
             '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
                 borderRadius: '0px',

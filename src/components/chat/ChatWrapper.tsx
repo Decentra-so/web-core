@@ -11,6 +11,8 @@ import { MobileChat } from './mobileChat'
 import useWallet from '@/hooks/wallets/useWallet'
 import { logOutWithCometChat } from '@/services/chat'
 import { HistorySection } from './historySection'
+import { QueueSection } from './queueSection'
+import { MessagesSection } from './messageSection'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
@@ -76,8 +78,8 @@ const MainView: React.FC<{
   const currentView = {
     chat: <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />,
     history: <HistorySection />,
-    queue: <Box>Queue</Box>,
-    messages: <Box>Messages</Box>,
+    queue: <QueueSection />,
+    messages: <MessagesSection />,
   }[role]
 
   return <>{currentView}</>
