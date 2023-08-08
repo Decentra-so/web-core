@@ -200,22 +200,23 @@ const Chat = () => {
                   </Container>
                   :
                   !wallet?.address || (!safeAddress && !safeLoading) ?
-                    <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
-                      <Box
-                        sx={{
-                          height: '100%',
-                          width: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: 3,
-                        }}
-                      >
-                        <Typography variant='h5' p={3}>Please add or select a chat from the sidebar</Typography>
-                      </Box>
-                    </Container>
-                    : wallet?.address && <ChatWrapper display={selectedValue} drawerWidth={drawerWidth} drawerOpen={open} />
+                  <Container fixed sx={{ height: 'calc(100vh - var(--header-height))' }}>
+                    <Box
+                      sx={{
+                        height: '100%',
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 3,
+                      }}
+                    >
+                      <Typography variant='h5' p={3}>Please add or select a chat from the sidebar</Typography>
+                    </Box>
+                  </Container>
+                :
+                wallet?.address && <ChatWrapper display={selectedValue} drawerWidth={drawerWidth} drawerOpen={open} />
               }
             </Box>
           </Box>

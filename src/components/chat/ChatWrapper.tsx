@@ -16,7 +16,7 @@ import { MessagesSection } from './messageSection'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?: string }> = ({ drawerWidth, drawerOpen, display }) => {
+const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?: string }> = ({ display }) => {
   const safeAddress = useSafeAddress()
   const wallet = useWallet()
   const user = useAppSelector((state) => selectUserItem(state))
@@ -35,35 +35,29 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?
 
   return (
     <>
-      {!matches &&
-        <>
-          {
-            safeAddress ? (
-              <MainView role={display || 'chat'} />
-            ) : (
-              <Box
-                sx={{
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 3,
-                }}
-              >
-                <title>No Chat Selected</title>
-                <Typography>
-                  Please add, or select a chat from the sidebar.
-                </Typography>
-              </Box>
-            )
-          }
-        </>
-      }
       {
-        matches &&
-        <MobileChat />
+        <>{
+          safeAddress ? (
+            <MainView role={display || 'chat'} matches={matches} />
+          ) : (
+            <Box
+              sx={{
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 3,
+              }}
+            >
+              <title>No Chat Selected</title>
+              <Typography>
+                Please add, or select a chat from the sidebar.
+              </Typography>
+            </Box>
+          )
+        }</>
       }
       {(!user || !group || matchGroup()) && <Login />}
     </>
@@ -72,9 +66,10 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?
 
 const MainView: React.FC<{
   role: string,
-}> = ({ role }) => {
+  matches?: boolean,
+}> = ({ role, matches }) => {
   const currentView = {
-    chat: <ChatSection />,
+    chat: matches ? <MobileChat /> : <ChatSection />,
     history: <HistorySection />,
     queue: <QueueSection />,
     messages: <MessagesSection />,
