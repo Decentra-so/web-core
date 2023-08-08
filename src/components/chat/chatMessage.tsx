@@ -8,7 +8,7 @@ import { getDateFromTimestamp } from "@/utils/time"
 
 const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ chat, wallet }) => {
 	const { data, isError, isLoading } = useEnsName({
-		address: chat?.data?.sender.uid,
+		address: chat?.sender.uid,
 	})
 	return <ListItem
 		sx={{
@@ -21,7 +21,7 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 		alignItems="flex-start"
 	>
 		<ListItemAvatar sx={{ minWidth: 32, pr: '16px', borderRadius: '12px' }}>
-			<Identicon address={chat?.data?.sender.uid || data} size={32} />
+			<Identicon address={chat?.sender.uid || data} size={32} />
 		</ListItemAvatar>
 		<Box sx={{ display: 'flex', filter: 'drop-shadow(0px 1px 1px #00000010)' }}>
 		<Box sx={{ borderTop: '11px solid var(--color-background-papercolor)', borderLeft: '7px solid transparent', marginTop: '6px', borderRadius: '3px 0px 0px 0px' }} />	
@@ -34,16 +34,16 @@ const ChatMessage: React.FC<{ chat: any, wallet: ConnectedWallet | null }> = ({ 
 			primary={
 				<React.Fragment>
 					<Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-					{chat.data.sender.name === wallet?.address ? <Typography sx={{ display: 'inline', fontWeight: 600, fontSize: '15px' }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender.uid} weight={600} size={'15px'} />}
+					{chat?.sender?.name === wallet?.address ? <Typography sx={{ display: 'inline', fontWeight: 600, fontSize: '15px' }} component="span">You</Typography> : <FormattedName address={chat?.data?.sender?.uid} weight={600} size={'15px'} />}
 					<Typography sx={{ display: 'inline', color: '#757575', ml: '10px', fontSize: '12px' }} component="span">
-						{getDateFromTimestamp(chat.data.sentAt)}
+						{getDateFromTimestamp(chat.sentAt)}
 					</Typography>
 					</Box>	
 				</React.Fragment>
 			}
 			secondary={
 				<Typography sx={{ display: 'inline' }} component="span">
-					{chat.data.text}
+					{chat.text}
 				</Typography>
 			}
 		/>

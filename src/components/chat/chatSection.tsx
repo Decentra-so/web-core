@@ -2,15 +2,35 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import useWallet from '@/hooks/wallets/useWallet'
 import { useAppSelector } from '@/store'
 import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
-import { Box, List, ListItem } from '@mui/material'
+import { Box, List, ListItem, Button } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getMessages, listenForMessage } from '../../services/chat'
+import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat'
 import ChatMessage from './chatMessage'
 import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
+
+
+const fetchMore = async (
+  id: string,
+  messages: any[] | undefined,
+  dispatch: any,
+  setMessages: any,
+  setMoreMessages: any,
+) => {
+  console.log('fetch more')
+  try {
+    const msgs: any = await fetchMoreMessages(`pid_${id}`, messages || []);
+    console.log(msgs, 'msgs')
+    dispatch(setChat({ safeAddress: id, messages: msgs }));
+    if (msgs.length < 20) setMoreMessages(false);
+    setMessages([...msgs, ...messages || []])
+  } catch (e) {
+    console.log(e, 'cant fetch more messages');
+  }
+}
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   //state
@@ -22,10 +42,10 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const group = useAppSelector((state) => selectGroup(state))
   const user = useAppSelector((state) => selectUserItem(state))
   //chat
-  const [messages, setMessages] = useState([''])
-  const [chatData, setChatData] = useState<any[]>([''])
+  const [messages, setMessages] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const bottom = useRef<HTMLDivElement>(null)
+  const [moreMessages, setMoreMessages] = useState(true);
 
   const scrollToBottom = useCallback(() => {
     if (!bottom.current) return
@@ -37,19 +57,6 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     bottomOfChat.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  const getChat = useCallback(() => {
-    let allData: any[] = []
-    authToken && messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    })
-    if (JSON.stringify(allData) !== JSON.stringify(chatData)) setChatData(allData)
-
-  }, [messages])
-
   useEffect(() => {
     if (!onboard || !wallet) return
     const provider = createWeb3(wallet?.provider)
@@ -60,16 +67,13 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   }, [onboard, wallet?.address, wallet?.provider, auth])
 
   useEffect(() => {
-    scrollToBottom()
-  }, [chatData])
-
-  useEffect(() => {
     if (!authToken) return
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
         .then((msgs: any) => {
           dispatch(setChat({ safeAddress, messages: msgs }))
           setMessages(msgs)
+          scrollToBottom()
         })
         .catch((error) => {
           setMessages([])
@@ -78,44 +82,59 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
       await listenForMessage(`pid_${safeAddress!}`)
         .then((msg: any) => {
           setMessages((prevState: any) => [...prevState, msg])
+          scrollToBottom()
         })
         .catch((error) => console.log(error))
     }
     getM()
   }, [safeAddress, user, group, authToken])
 
-  useEffect(() => {
-    getChat()
-  }, [messages, safeAddress])
+  const handleSendMessage = async (message: string) => {
+    setMessages((prevState: any) => [...prevState, message])
+    scrollToBottom()
+  }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: '100%', overflowY: 'auto' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }} >
+      <Box sx={{ height: '100%'}}>
         <Box
           sx={{
             flex: '1 0 auto',
             display: 'flex',
-            minHeight: '100vh',
             flexDirection: 'column',
             justifyContent: 'start',
             alignItems: 'start',
+            overflowY: 'auto',
             gap: '16px',
             p: '0 24px',
           }}
         >
-          <List>
-            {chatData &&
-              chatData.map((chat, index) => {
-                if (chat.type === 'message' && chat?.data?.receiverId !== `pid_${safeAddress!.toLocaleLowerCase()}`) return
-                if (chat.type === 'message' && !chat.data.text) return
-                if (chat.type === 'message' && chat?.data?.sender) {
-                  return (
-                    <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
-                  )
+          <List sx={{ height: '100%'}}>
+            {moreMessages ? (
+              <Button
+                onClick={
+                  () => fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages)
                 }
-            })}
-            <Box ref={bottom} sx={{ height: 35 }} />
-            {!chatData ? <ListItem>No Chat</ListItem> : ''}
+              >
+                load more
+              </Button>
+              ) : (
+                <div>Beginning of conversation.</div>
+              )
+            }
+              {messages &&
+                messages.map((chat, index) => {
+                  if (chat?.receiverId !== `pid_${safeAddress!.toLocaleLowerCase()}`) return
+                  if (!chat.text) return
+                  if (chat?.sender) {
+                    return (
+                      <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
+                    )
+                  }
+                },
+              )}
+              <Box ref={bottom} sx={{ height: 35 }} />
+              {!messages ? <ListItem>No Chat</ListItem> : ''}
           </List>
         </Box>
       </Box>
@@ -129,7 +148,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         }}
       >
         {user && group &&
-          <ChatTextField messages={messages} setMessages={setMessages} authToken={authToken} setAuth={setAuth} />
+          <ChatTextField setMessages={handleSendMessage} authToken={authToken} setAuth={setAuth} />
         }
       </Box>
     </Box>
