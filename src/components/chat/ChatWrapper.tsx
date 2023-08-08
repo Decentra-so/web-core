@@ -39,7 +39,7 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?
         <>
           {
             safeAddress ? (
-              <MainView role={display || 'chat'} drawerOpen={drawerOpen} drawerWidth={drawerWidth} />
+              <MainView role={display || 'chat'} />
             ) : (
               <Box
                 sx={{
@@ -72,11 +72,9 @@ const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean, display?
 
 const MainView: React.FC<{
   role: string,
-  drawerWidth: number,
-  drawerOpen: boolean,
-}> = ({ role, drawerOpen, drawerWidth }) => {
+}> = ({ role }) => {
   const currentView = {
-    chat: <ChatSection drawerWidth={drawerWidth} drawerOpen={drawerOpen} />,
+    chat: <ChatSection />,
     history: <HistorySection />,
     queue: <QueueSection />,
     messages: <MessagesSection />,

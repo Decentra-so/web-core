@@ -32,7 +32,7 @@ const fetchMore = async (
   }
 }
 
-export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
+export const ChatSection = () => {
   //state
   const [auth, setAuth] = useState<boolean>(false)
   const wallet = useWallet()
