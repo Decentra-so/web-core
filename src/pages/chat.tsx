@@ -7,6 +7,7 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
 import SettingsIcon from '@/public/images/chat/settings-svgrepo-com.svg'
 import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
 import Dropdown from '@/components/common/DropDown'
@@ -25,6 +26,8 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
+import { useTxFilter } from '@/utils/tx-history-filter'
+import TxFilterForm from '@/components/transactions/TxFilterForm'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
@@ -65,6 +68,13 @@ const Chat = () => {
   const dispatch = useAppDispatch()
   //dropdown
   const [selectedValue, setSelectedValue] = useState<string>('chat')
+  //tx filters
+  const [showFilter, setShowFilter] = useState(false)
+  const [filter] = useTxFilter()
+
+  const toggleFilter = () => {
+    setShowFilter((prev) => !prev)
+  }
 
   useEffect(() => {
     if (router.asPath.includes('chain')) {
@@ -104,6 +114,12 @@ const Chat = () => {
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
+      {showFilter && (
+        //@to-do: DANIEL pls help make this look good on mobile and all
+        <Box sx={{ position: 'absolute', top: '20vh', zIndex: '100', left: '20vw', width: '30vw' }}>
+          <TxFilterForm modal={true} toggleFilter={toggleFilter} />
+        </Box>
+      )}
       <Box sx={{ display: 'flex' }}>
         {matchesDesktop &&
           <Drawer
@@ -161,6 +177,11 @@ const Chat = () => {
                     <IconButton sx={{ width: '150px' }}>
                       <Dropdown onChange={handleSetDisplay} display={selectedValue} />
                     </IconButton>
+                    {
+                      selectedValue === 'history' && <IconButton onClick={toggleFilter} aria-label="filter">
+                        <FilterAltOutlinedIcon />
+                      </IconButton>  
+                    }
                     <IconButton
                       sx={{ marginRight: '4px' }}
                       color="inherit" aria-label="settings"
@@ -218,7 +239,9 @@ const Chat = () => {
                 :
                 wallet?.address && <ChatWrapper display={selectedValue} drawerWidth={drawerWidth} drawerOpen={open} />
               }
+          
             </Box>
+          
           </Box>
         </Main>
         {matchesDesktop &&

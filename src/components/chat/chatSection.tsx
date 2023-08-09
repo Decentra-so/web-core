@@ -11,7 +11,7 @@ import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
-
+import { getCookie } from "typescript-cookie";
 
 const fetchMore = async (
   id: string,
@@ -33,7 +33,7 @@ const fetchMore = async (
 }
 
 export const ChatSection = () => {
-  //state
+  //state auth
   const [auth, setAuth] = useState<boolean>(false)
   const wallet = useWallet()
   const onboard = useOnboard()
@@ -41,6 +41,7 @@ export const ChatSection = () => {
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
   const user = useAppSelector((state) => selectUserItem(state))
+  const authCookie = getCookie(wallet?.address || '')
   //chat
   const [messages, setMessages] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
@@ -93,7 +94,7 @@ export const ChatSection = () => {
     setMessages((prevState: any) => [...prevState, message])
     scrollToBottom()
   }
-
+  console.log(auth, authToken, 'auth')
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }} >
       <Box sx={{ height: '100%'}}>
@@ -110,7 +111,7 @@ export const ChatSection = () => {
           }}
         >
           <List sx={{ height: '100%'}}>
-            {moreMessages ? (
+            {authToken && authCookie && moreMessages ? (
               <Button
                 onClick={
                   () => fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages)
@@ -122,7 +123,7 @@ export const ChatSection = () => {
                 <div>Beginning of conversation.</div>
               )
             }
-              {messages &&
+              {authToken && authCookie && messages &&
                 messages.map((chat, index) => {
                   if (chat?.receiverId !== `pid_${safeAddress!.toLocaleLowerCase()}`) return
                   if (!chat.text) return

@@ -42,6 +42,7 @@ const ChatTextField: React.FC<{
 				console.log(error)
 			})
 	}
+	console.log(authToken, authCookie, 'authToken')
 
 	return (
 		<Paper
