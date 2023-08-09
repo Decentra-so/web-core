@@ -26,6 +26,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
+import { useMonerium } from '@/hooks/useMonerium'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
@@ -50,6 +51,8 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }))
 
 const Chat = () => {
+  const monerium = useMonerium()
+  console.log(monerium, 'monerium')
   const matches = useMediaQuery('(max-width: 900px)')
   const matchesDesktop = useMediaQuery('(min-width: 901px)')
   //routing
