@@ -206,9 +206,8 @@ const Chat = () => {
             </Box>
           </Box>
         </Main>
-        {matchesDesktop &&
-          <OverviewDrawer owners={owners} />
-          // <Drawer
+        <OverviewDrawer owners={owners} />
+        {/* // <Drawer
           //   sx={{
           //     width: drawerWidth,
           //     flexShrink: 0,
@@ -229,8 +228,7 @@ const Chat = () => {
           //   open={open}
           // >
           //   <ChatOverview owners={owners} />
-          // </Drawer>
-        }
+          // </Drawer> */}
       </Box>
     </>
   )

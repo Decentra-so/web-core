@@ -11,7 +11,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import ListIcon from '@mui/icons-material/List';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import PeopleIcon from '@mui/icons-material/People';
-import { Box, Button, Divider, List, ListItem, ListItemButton, ListItemIcon, Stack, SvgIcon } from '@mui/material';
+import { Box, Button, Divider, List, ListItem, ListItemButton, ListItemIcon, Stack, SvgIcon, useMediaQuery } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import type { CSSObject, Theme } from '@mui/material/styles';
@@ -109,6 +109,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const OverviewDrawer: React.FC<{
 	owners: any[]
 }> = ({ owners }) => {
+	const matches = useMediaQuery('(max-width: 900px)')
 	const [open, setOpen] = React.useState(false)
 	const [selectedPage, setSelectedPage] = React.useState(Pages.Overview)
 	const dispatch = useAppDispatch()
@@ -127,7 +128,7 @@ const OverviewDrawer: React.FC<{
 
 	return (
 		<Drawer
-			variant="permanent"
+			variant='permanent'
 			open={open}
 			anchor='right'
 			sx={{
