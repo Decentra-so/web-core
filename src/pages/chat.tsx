@@ -12,7 +12,9 @@ import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
 import {
-  Box, Container,
+  Box,
+  Container,
+  Button,
   Drawer,
   IconButton, Toolbar,
   Typography,
@@ -53,8 +55,6 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 
 const Chat = () => {
   const monerium = useMonerium()
-  console.log(monerium, 'monerium')
-
   const matches = useMediaQuery('(max-width: 900px)')
   const matchesDesktop = useMediaQuery('(min-width: 901px)')
   //routing
@@ -71,7 +71,12 @@ const Chat = () => {
   const dispatch = useAppDispatch()
 
   const handleOpen = async () => {
-    await moneriumPack.open({ redirectUrl: 'https://dev.decentra.so' })
+
+    if (safe?.chainId === wallet?.chainId) {
+      await moneriumPack.open({ redirectUrl: 'https://dev.decentra.so' })
+    } else {
+      window.alert('Please connect to the correct network')
+    }
   }
 
   useEffect(() => {
@@ -111,7 +116,6 @@ const Chat = () => {
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
-      <button onClick={handleOpen}>jjjj</button>
       <Box sx={{ display: 'flex' }}>
         {matchesDesktop &&
           <Drawer
@@ -132,6 +136,7 @@ const Chat = () => {
             anchor="left"
           >
             <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
+            <Button onClick={handleOpen}>Link Monerium</Button>
           </Drawer>
         }
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
