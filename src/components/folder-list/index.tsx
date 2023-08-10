@@ -23,6 +23,7 @@ const FolderList: React.FC = () => {
       allOwnedSafes.get(137)?.forEach((safe: string) => folderList.push({ chainId: 137, address: `matic:${safe}` }))
       allOwnedSafes.get(10)?.forEach((safe: string) => folderList.push({ chainId: 10, address: `oeth:${safe}` }))
       allOwnedSafes.get(1)?.forEach((safe: string) => folderList.push({ chainId: 1, address: `eth:${safe}` }))
+      allOwnedSafes.get(5)?.forEach((safe: string) => folderList.push({ chainId: 5, address: `gor:${safe}` }))
       if (!folderList) {
         return
       }

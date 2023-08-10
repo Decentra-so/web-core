@@ -27,6 +27,7 @@ import React, { useEffect, useState } from 'react'
 import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
 import { useMonerium } from '@/hooks/useMonerium'
+import { moneriumPack } from '@/services/monerium'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
@@ -53,6 +54,7 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 const Chat = () => {
   const monerium = useMonerium()
   console.log(monerium, 'monerium')
+
   const matches = useMediaQuery('(max-width: 900px)')
   const matchesDesktop = useMediaQuery('(min-width: 901px)')
   //routing
@@ -67,6 +69,10 @@ const Chat = () => {
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
   const [app, toggleApp] = useState<boolean>(false)
   const dispatch = useAppDispatch()
+
+  const handleOpen = async () => {
+    await moneriumPack.open({ redirectUrl: 'https://dev.decentra.so' })
+  }
 
   useEffect(() => {
     if (router.asPath.includes('chain')) {
@@ -105,6 +111,7 @@ const Chat = () => {
       <Head>
         <title>Decentra &mdash; Chat</title>
       </Head>
+      <button onClick={handleOpen}>jjjj</button>
       <Box sx={{ display: 'flex' }}>
         {matchesDesktop &&
           <Drawer

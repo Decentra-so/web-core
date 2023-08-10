@@ -40,6 +40,14 @@ export const useAllOwnedSafes = (): any => {
           })
         },
         {
+          chainId: 5,
+          service: new SafeApiKit({
+            txServiceUrl: 'https://safe-transaction-goerli.safe.global/',
+            //@ts-ignore
+            ethAdapter: ethAdapter as unknown as EthAdapter
+          })
+        },
+        {
           chainId: 137,
           service: new SafeApiKit({
             txServiceUrl: 'https://safe-transaction-polygon.safe.global/',
