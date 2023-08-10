@@ -158,7 +158,7 @@ export const ChatSection: React.FC<{ drawerWidth?: string, drawerOpen?: boolean 
                       return (
                         <ListItem
                           key={index}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
+                          sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(61vw - 287px)' }}
                           alignItems="flex-start"
                           disableGutters
                         >
@@ -174,7 +174,7 @@ export const ChatSection: React.FC<{ drawerWidth?: string, drawerOpen?: boolean 
                       return (
                         <ListItem
                           key={index}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
+                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - 287px))` }}
                           alignItems="flex-start"
                           disableGutters
                         >
