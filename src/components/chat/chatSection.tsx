@@ -16,7 +16,7 @@ import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
 import { QuickActionButtonsChat } from './QuickActionButtonsChat'
 
-export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
+export const ChatSection: React.FC<{ drawerWidth?: string, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const matches = useMediaQuery('(min-width:901px)');
   //state
   const [auth, setAuth] = useState<boolean>(false)
