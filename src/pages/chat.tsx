@@ -73,7 +73,7 @@ const Chat = () => {
   const handleOpen = async () => {
 
     if (safe?.chainId === wallet?.chainId) {
-      await moneriumPack.open({ redirectUrl: 'web-core-git-monerium-integration-decentra-hq.vercel.app' })
+      await moneriumPack.open({ redirectUrl: 'https://web-core-git-monerium-integration-decentra-hq.vercel.app' })
     } else {
       window.alert('Please connect to the correct network')
     }
