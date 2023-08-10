@@ -29,7 +29,7 @@ import SafeTagsInfo from '@/components/chat/SafeTagsInfo'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
-const drawerWidth = '39vw'
+const drawerWidth = "39vw"
 
 const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean
