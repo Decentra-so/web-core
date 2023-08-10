@@ -13,7 +13,7 @@ import { logOutWithCometChat } from '@/services/chat'
 
 const Login = dynamic(() => import('@/components/chat/Login'), { ssr: false })
 
-const ChatWrapper: React.FC<{ drawerWidth: number, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
+const ChatWrapper: React.FC<{ drawerWidth: string, drawerOpen: boolean }> = ({ drawerWidth, drawerOpen }) => {
   const safeAddress = useSafeAddress()
   const wallet = useWallet()
   const user = useAppSelector((state) => selectUserItem(state))
