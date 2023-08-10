@@ -27,8 +27,10 @@ import { safeAppsSlice } from './safeAppsSlice'
 import { safeMessagesMiddleware, safeMessagesSlice } from './safeMessagesSlice'
 import { pendingSafeMessagesSlice } from './pendingSafeMessagesSlice'
 import { modalSlice } from './modalServiceSlice'
+import { moneriumSlice } from './moneriumCodeSlice'
 
 const rootReducer = combineReducers({
+  [moneriumSlice.name]: moneriumSlice.reducer,
   [modalSlice.name]: modalSlice.reducer,
   [chatServiceSlice.name]: chatServiceSlice.reducer,
   [chainsSlice.name]: chainsSlice.reducer,

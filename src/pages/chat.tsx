@@ -12,7 +12,9 @@ import ViewSidebarIcon from '@/public/images/chat/sidebar-right-svgrepo-com.svg'
 import { ArrowBackIos } from '@mui/icons-material'
 import { useAppDispatch } from '@/store'
 import {
-  Box, Container,
+  Box,
+  Container,
+  Button,
   Drawer,
   IconButton, Toolbar,
   Typography,
@@ -26,6 +28,10 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { openModal } from '@/store/modalServiceSlice'
 import { modalTypes } from '@/components/chat/modals'
+import { useMonerium } from '@/hooks/useMonerium'
+import { moneriumPack } from '@/services/monerium'
+import { selectAuthCode } from '@/store/moneriumCodeSlice'
+import { useAppSelector } from '@/store'
 
 const ChatWrapper = dynamic(() => import('@/components/chat/ChatWrapper'), { ssr: false })
 
@@ -50,6 +56,7 @@ const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }))
 
 const Chat = () => {
+  const monerium = useMonerium()
   const matches = useMediaQuery('(max-width: 900px)')
   const matchesDesktop = useMediaQuery('(min-width: 901px)')
   //routing
@@ -59,11 +66,29 @@ const Chat = () => {
   const { safe, safeAddress, safeLoading } = useSafeInfo()
   const owners = safe?.owners || ['']
   const ownerArray = owners.map((owner) => owner.value)
+  const authCode = useAppSelector((state) => selectAuthCode(state))
   //modals and modal control
   const [createSafe, setCreateSafe] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>((safeAddress && !safeLoading) ? true : false)
   const [app, toggleApp] = useState<boolean>(false)
   const dispatch = useAppDispatch()
+
+/*   useEffect(() => {
+    const getMoneriumClient = async () => {
+      console.log('authCode', authCode.slice(7))
+      const safeMoneriumClient = await moneriumPack.open({ authCode: 'Q-tTKVGhRXaZRihKHiYRWw' })
+      console.log('safeMoneriumClient', safeMoneriumClient)
+    }
+    getMoneriumClient()
+  }, [authCode, monerium]) */
+
+  const handleOpen = async () => {
+    if (safe?.chainId === wallet?.chainId) {
+      await moneriumPack.open({ redirectUrl: 'https://web-core-git-monerium-integration-decentra-hq.vercel.app' })
+    } else {
+      window.alert('Please connect to the correct network')
+    }
+  }
 
   useEffect(() => {
     if (router.asPath.includes('chain')) {
@@ -122,6 +147,7 @@ const Chat = () => {
             anchor="left"
           >
             <SafeList createSafe={createSafe} setCreateSafe={setCreateSafe} />
+            <Button onClick={handleOpen}>Link Monerium</Button>
           </Drawer>
         }
         <Main open={open} sx={{ flexGrow: 1, bgcolor: 'var(--color-background-lightcolor)' }}>
