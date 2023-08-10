@@ -4,6 +4,8 @@ import useLastSafe from '@/hooks/useLastSafe'
 import { Box, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect } from 'react'
+import { useAppDispatch } from '@/store'
+import { addAuthCode } from '@/store/moneriumCodeSlice'
 
 const useIsomorphicEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
@@ -13,10 +15,14 @@ const IndexPage = () => {
   const lastSafe = useLastSafe()
   const safeAddress = safe || lastSafe
   const matches = useMediaQuery('(max-width: 900px)')
+  const dispatch = useAppDispatch()
 
   useIsomorphicEffect(() => {
     if (router.pathname !== AppRoutes.index) {
       return
+    }
+    if (router.asPath.includes('?code=')) {
+      dispatch(addAuthCode({ authCode: router.asPath }))
     }
     console.log(matches)
     router.replace(
