@@ -1,16 +1,15 @@
+import TokenTransferModal from "@/components/tx/modals/TokenTransferModal";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { selectModalState } from "@/store/modalServiceSlice";
-import { closeModal } from "@/store/modalServiceSlice";
-import { ViewSingleTransactionModal } from "./ViewSingleTransaction";
-import ViewTransactionsModal from "./ViewTransactionsModal";
-import React from 'react'
-import ViewCreateSafe from "./CreateSafe";
+import { closeModal, selectModalState } from "@/store/modalServiceSlice";
+import { AddTxDescription } from "./AddDescription";
 import { AddFolderModal } from "./AddFolderModal";
+import ViewCreateSafe from "./CreateSafe";
 import ViewAppModal from "./ViewAppModal";
 import ViewAppsModal from "./ViewAppsModal";
 import ViewAssetsModal from "./ViewAssetsModal";
 import ViewSettings from "./ViewSettingsModal";
-import { AddTxDescription } from "./AddDescription";
+import { ViewSingleTransactionModal } from "./ViewSingleTransaction";
+import ViewTransactionsModal from "./ViewTransactionsModal";
 
 export const modalTypes = {
   addTransactionDescription: 'addTransactionDescription',
@@ -22,6 +21,7 @@ export const modalTypes = {
   appsModal: 'appsModal',
   assetsModals: 'assetsModals',
   settingsModal: 'settingsModal',
+  tokenTransferModal: 'tokenTransferModal'
 }
 
 export const Modals = () => {
@@ -86,6 +86,12 @@ export const Modals = () => {
         <ViewSettings
           open={activeModalState?.activeModal === modalTypes.settingsModal}
           onClose={() => dispatch(closeModal())}
+        />
+      )}
+      {activeModalState?.activeModal === modalTypes.tokenTransferModal && (
+        <TokenTransferModal
+          onClose={() => dispatch(closeModal())}
+          initialData={[{ disableSpendingLimit: false }]}
         />
       )}
     </>

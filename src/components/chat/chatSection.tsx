@@ -1,18 +1,18 @@
+import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import useSafeAddress from '@/hooks/useSafeAddress'
 import useTxHistory from '@/hooks/useTxHistory'
 import useTxQueue from '@/hooks/useTxQueue'
+import useOnboard from '@/hooks/wallets/useOnboard'
 import useWallet from '@/hooks/wallets/useWallet'
+import { createWeb3 } from '@/hooks/wallets/web3'
 import { useAppSelector } from '@/store'
 import { selectGroup, selectUserItem } from '@/store/chatServiceSlice'
-import { Box, List, ListItem, useMediaQuery, ListItemAvatar } from '@mui/material'
+import { Box, List, ListItem, ListItemAvatar, useMediaQuery } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 //import { getMessages, listenForMessage } from '../../services/chat'
 import TxListItemChat from '../transactions/TxListItemChat'
 import ChatMessage from './chatMessage'
-import useOnboard from '@/hooks/wallets/useOnboard'
-import { createWeb3 } from '@/hooks/wallets/web3'
-import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
 
 export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
@@ -85,7 +85,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         return 0
       }
     })
-    if (JSON.stringify(allData) !== JSON.stringify(chatData))     setChatData(allData)
+    if (JSON.stringify(allData) !== JSON.stringify(chatData)) setChatData(allData)
 
   }, [messages, txHistory?.page, txQueue?.page, safeAddress])
 
@@ -163,10 +163,10 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                           disableGutters
                         >
                           <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
+                            <svg height="32px" width="32px">
                               <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
                             </svg>
-		                      </ListItemAvatar>
+                          </ListItemAvatar>
                           <TxListItemChat key={`${index}-tx`} item={chat?.data} />
                         </ListItem>
                       )
@@ -179,11 +179,11 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                           disableGutters
                         >
                           <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
+                            <svg height="32px" width="32px">
                               <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
                             </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                        
+                          </ListItemAvatar>
+                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />
                         </ListItem>
                       )
                     }
@@ -195,12 +195,12 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
                         alignItems="flex-start"
                         disableGutters
                       >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                      
+                        <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
+                          <svg height="32px" width="32px">
+                            <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
+                          </svg>
+                        </ListItemAvatar>
+                        <TxListItemChat key={`${index}-tx`} item={chat?.data} />
                       </ListItem>
                     )
                   }

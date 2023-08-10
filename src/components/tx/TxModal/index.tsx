@@ -1,7 +1,7 @@
+import ModalDialog from '@/components/common/ModalDialog'
+import type { TxStepperProps } from '@/components/tx/TxStepper/useTxStepper'
 import type { ReactElement } from 'react'
 import TxStepper from '../TxStepper'
-import type { TxStepperProps } from '@/components/tx/TxStepper/useTxStepper'
-import ModalDialog from '@/components/common/ModalDialog'
 
 export type TxModalProps = {
   onClose: () => void

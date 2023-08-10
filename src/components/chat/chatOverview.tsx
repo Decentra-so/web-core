@@ -19,14 +19,13 @@ import { useCurrentChain } from '@/hooks/useChains'
 import AppsIcon from '@/public/images/apps/apps-icon.svg'
 import CopyIcon from '@/public/images/common/copy.svg'
 import LinkIcon from '@/public/images/common/link.svg'
-import { useAppSelector } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { openModal } from '@/store/modalServiceSlice'
 import { selectSettings } from '@/store/settingsSlice'
 import { getBlockExplorerLink } from '@/utils/chains'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import { useAppDispatch } from '@/store'
-import { openModal } from '@/store/modalServiceSlice'
 
 export const ChatOverview: React.FC<{
   owners: any[]
@@ -42,7 +41,7 @@ export const ChatOverview: React.FC<{
   const chain = useCurrentChain()
   const addressCopyText = settings.shortName.copy && chain ? `${chain.shortName}:${safeAddress}` : safeAddress
   const blockExplorerLink = chain ? getBlockExplorerLink(chain, safeAddress) : undefined
-  
+
 
   return (
     <>
@@ -146,7 +145,7 @@ export const ChatOverview: React.FC<{
         <Typography sx={{ fontWeight: 600 }} paragraph>
           Apps
         </Typography>
-        <Typography paragraph>
+        <Typography paragraph whiteSpace="pre-line">
           Explore the Safe Apps ecosystem &mdash; connect to your favourite web3 applications with your Safe wallet,
           securely and efficiently
         </Typography>
