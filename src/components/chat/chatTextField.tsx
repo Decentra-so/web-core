@@ -19,11 +19,10 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const ChatTextField: React.FC<{
-	messages: string[],
 	setMessages: any,
 	authToken: string
 	setAuth: any
-}> = ({ messages, setMessages, authToken, setAuth }) => {
+}> = ({ setMessages, authToken, setAuth }) => {
 	const safeAddress = useSafeAddress()
 	const [message, setMessage] = useState<string>('')
 	const wallet = useWallet()
@@ -36,13 +35,14 @@ const ChatTextField: React.FC<{
 		if (!message) return
 		await sendMessage(`pid_${safeAddress}`, message)
 			.then(async (msg: any) => {
-				setMessages(() => [...messages, msg])
+				setMessages(msg)
 				setMessage('')
 			})
 			.catch((error: any) => {
 				console.log(error)
 			})
 	}
+	console.log(authToken, authCookie, 'authToken')
 
 	return (
 		<Paper

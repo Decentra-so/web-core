@@ -82,9 +82,9 @@ const TxSummaryChat = ({ item, isGrouped }: TxSummaryProps): ReactElement => {
     >
       <Box sx={{ display: 'flex', filter: 'drop-shadow(0px 1px 1px #00000010)' }}>
       	<Box sx={{ borderTop: '11px solid var(--color-background-papercolor)', borderLeft: '7px solid transparent', borderRadius: '3px 0px 0px 0px' }} />	  
-        <Box className={css.txfullgridview}>
+        <Box className={css.txfullgridview}  sx={{ width: '100%' }}>
         <Box className={css.coretxbackground}>
-      {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
+        {nonce && !isGrouped && <Box gridArea="nonce" className={css.transactionnonce}>TRANSACTION #{nonce}</Box>}
 
       <Divider sx={{ borderStyle: 'dashed' }} />
 

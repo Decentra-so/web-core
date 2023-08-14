@@ -14,7 +14,7 @@ const FormattedName: React.FC<{ address: string, weight: string | number, size?:
 	const addressBook = useAddressBookByChain()
 
 	//get chainid from address if it contains chain prefix. Otherwise, get chainId from current chain
-	const chainId: number = getChainId(!address?.startsWith('0x') && address.split(':')[0] as any) || 0
+	const chainId: number = address && getChainId(!address?.startsWith('0x') && address.split(':')[0] as any) || 0
 	const { data: ens, isError, isLoading } = useEnsName({
 		address: formatAddress(address) as `0x${string}`
 	})

@@ -1,23 +1,39 @@
 import useSafeAddress from '@/hooks/useSafeAddress'
-import useTxHistory from '@/hooks/useTxHistory'
-import useTxQueue from '@/hooks/useTxQueue'
 import useWallet from '@/hooks/wallets/useWallet'
 import { useAppSelector } from '@/store'
-import { selectGroup, selectUserItem } from '@/store/chatServiceSlice'
-import { Box, List, ListItem, useMediaQuery, ListItemAvatar } from '@mui/material'
+import { selectGroup, selectUserItem, setChat } from '@/store/chatServiceSlice'
+import { Box, List, ListItem, Button } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-//import { getMessages, listenForMessage } from '../../services/chat'
-import TxListItemChat from '../transactions/TxListItemChat'
+import { getMessages, listenForMessage, fetchMoreMessages } from '../../services/chat'
 import ChatMessage from './chatMessage'
 import useOnboard from '@/hooks/wallets/useOnboard'
 import { createWeb3 } from '@/hooks/wallets/web3'
 import { getExistingAuth } from '@/components/auth-sign-in/helpers'
 import ChatTextField from './chatTextField'
+import { getCookie } from "typescript-cookie";
 
-export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean }> = ({ drawerWidth, drawerOpen }) => {
-  const matches = useMediaQuery('(min-width:901px)');
-  //state
+const fetchMore = async (
+  id: string,
+  messages: any[] | undefined,
+  dispatch: any,
+  setMessages: any,
+  setMoreMessages: any,
+) => {
+  console.log('fetch more')
+  try {
+    const msgs: any = await fetchMoreMessages(`pid_${id}`, messages || []);
+    console.log(msgs, 'msgs')
+    dispatch(setChat({ safeAddress: id, messages: msgs }));
+    if (msgs.length < 20) setMoreMessages(false);
+    setMessages([...msgs, ...messages || []])
+  } catch (e) {
+    console.log(e, 'cant fetch more messages');
+  }
+}
+
+export const ChatSection = () => {
+  //state auth
   const [auth, setAuth] = useState<boolean>(false)
   const wallet = useWallet()
   const onboard = useOnboard()
@@ -25,14 +41,12 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
   const dispatch = useDispatch()
   const group = useAppSelector((state) => selectGroup(state))
   const user = useAppSelector((state) => selectUserItem(state))
-  //transactions
-  const txHistory = useTxHistory()
-  const txQueue = useTxQueue()
+  const authCookie = getCookie(wallet?.address || '')
   //chat
-  const [messages, setMessages] = useState([''])
-  const [chatData, setChatData] = useState<any[]>([''])
+  const [messages, setMessages] = useState<any[]>([''])
   const safeAddress = useSafeAddress()
   const bottom = useRef<HTMLDivElement>(null)
+  const [moreMessages, setMoreMessages] = useState(true);
 
   const scrollToBottom = useCallback(() => {
     if (!bottom.current) return
@@ -44,72 +58,23 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
     bottomOfChat.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  const getChat = useCallback(() => {
-
-    let allData: any[] = []
-    const historyItems = txHistory.page?.results
-    const queueItems = txQueue?.page?.results
-    historyItems?.forEach((tx: any) => {
-      if (tx.type === 'DATE_LABEL') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-    queueItems?.forEach((tx: any) => {
-      if (tx.type === 'LABEL' || tx.type === 'CONFLICT_HEADER') {
-        return
-      }
-      allData.push({
-        data: tx,
-        timestamp: tx.transaction.timestamp,
-        type: 'tx',
-      })
-    })
-/*     authToken && messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    }) */
-    allData.sort(function (a, b) {
-      if (a['timestamp'] > b['timestamp']) {
-        return 1
-      } else if (a['timestamp'] < b['timestamp']) {
-        return -1
-      } else {
-        return 0
-      }
-    })
-    if (JSON.stringify(allData) !== JSON.stringify(chatData))     setChatData(allData)
-
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
-
   useEffect(() => {
     if (!onboard || !wallet) return
     const provider = createWeb3(wallet?.provider)
     const getToken = async () => {
-      console.log('get token')
       await getExistingAuth(provider, wallet?.address).then(setAuthToken)
     }
     getToken()
   }, [onboard, wallet?.address, wallet?.provider, auth])
 
   useEffect(() => {
-    scrollToBottom()
-  }, [chatData])
-
-  /* useEffect(() => {
     if (!authToken) return
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
         .then((msgs: any) => {
           dispatch(setChat({ safeAddress, messages: msgs }))
           setMessages(msgs)
+          scrollToBottom()
         })
         .catch((error) => {
           setMessages([])
@@ -118,96 +83,59 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
       await listenForMessage(`pid_${safeAddress!}`)
         .then((msg: any) => {
           setMessages((prevState: any) => [...prevState, msg])
+          scrollToBottom()
         })
         .catch((error) => console.log(error))
     }
     getM()
-  }, [safeAddress, user, group, authToken]) */
+  }, [safeAddress, user, group, authToken])
 
-  useEffect(() => {
-    getChat()
-  }, [messages, txHistory?.page, txQueue?.page, safeAddress])
-
+  const handleSendMessage = async (message: string) => {
+    setMessages((prevState: any) => [...prevState, message])
+    scrollToBottom()
+  }
+  console.log(auth, authToken, 'auth')
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: '100%', overflowY: 'auto' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }} >
+      <Box sx={{ height: '100%'}}>
         <Box
           sx={{
             flex: '1 0 auto',
             display: 'flex',
-            minHeight: '100vh',
             flexDirection: 'column',
             justifyContent: 'start',
             alignItems: 'start',
+            overflowY: 'auto',
             gap: '16px',
             p: '0 24px',
           }}
         >
-          <List>
-            {chatData &&
-              chatData.map((chat, index) => {
-                if (chat.type === 'message' && chat?.data?.receiverId !== `pid_${safeAddress!.toLocaleLowerCase()}`) return
-                if (chat.type === 'message' && !chat.data.text) return
-                if (chat.type === 'message' && chat?.data?.sender) {
-                  return (
-                    <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
-                  )
-                } else if (chat?.type) {
-                  if (matches) {
-                    if (drawerOpen) {
-                      return (
-                        <ListItem
-                          key={`d-p${index}`}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 695px)' }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />
-                        </ListItem>
-                      )
-                    } else {
-                      return (
-                        <ListItem
-                          key={`msg-${index}`}
-                          sx={{ margin: '8px 0px', padding: '6px 0px', width: `calc(100vw - (695px - ${drawerWidth}px))` }}
-                          alignItems="flex-start"
-                          disableGutters
-                        >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                        
-                        </ListItem>
-                      )
-                    }
-                  } else {
+          <List sx={{ height: '100%'}}>
+            {authToken && authCookie && moreMessages ? (
+              <Button
+                onClick={
+                  () => fetchMore(safeAddress, messages, dispatch, setMessages, setMoreMessages)
+                }
+              >
+                load more
+              </Button>
+              ) : (
+                <div>Beginning of conversation.</div>
+              )
+            }
+              {authToken && authCookie && messages &&
+                messages.map((chat, index) => {
+                  if (chat?.receiverId !== `pid_${safeAddress!.toLocaleLowerCase()}`) return
+                  if (!chat.text) return
+                  if (chat?.sender) {
                     return (
-                      <ListItem
-                        key={`txi-${index}`}
-                        sx={{ margin: '8px 0px', padding: '6px 0px', width: 'calc(100vw - 48px)' }}
-                        alignItems="flex-start"
-                        disableGutters
-                      >
-                          <ListItemAvatar sx={{ minWidth: 32, pr: '16px', mt: '0' }}>
-						                <svg height="32px" width="32px">
-                              <image href="/images/actual-safe-logo-green.png" height="32px" width="32px" />
-                            </svg>
-		                      </ListItemAvatar>
-                          <TxListItemChat key={`${index}-tx`} item={chat?.data} />                      
-                      </ListItem>
+                      <ChatMessage key={`msg-${index}`} chat={chat} wallet={wallet} />
                     )
                   }
-                }
-              })}
-            <Box ref={bottom} sx={{ height: 35 }} />
-            {!chatData ? <ListItem>No Chat</ListItem> : ''}
+                },
+              )}
+              <Box ref={bottom} sx={{ height: 35 }} />
+              {!messages ? <ListItem>No Chat</ListItem> : ''}
           </List>
         </Box>
       </Box>
@@ -221,7 +149,7 @@ export const ChatSection: React.FC<{ drawerWidth?: number, drawerOpen?: boolean 
         }}
       >
         {user && group &&
-          <ChatTextField messages={messages} setMessages={setMessages} authToken={authToken} setAuth={setAuth} />
+          <ChatTextField setMessages={handleSendMessage} authToken={authToken} setAuth={setAuth} />
         }
       </Box>
     </Box>
